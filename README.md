@@ -10,5 +10,11 @@ Todo:
  
 ## Technical Process
 
-1. Determine how to do these things in ExtendScript:
-  1. 
+### Determine how to do these things in ExtendScript:
+1. Access Fonts
+2. Iterate and display each fonts
+
+### Pretty sure I can do:
+- Add folder Groupings using UIScript or w/e
+- Add "Add" and "Remove" actions using UIScript
+  
