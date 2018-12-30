@@ -1,0 +1,129 @@
+
+html,
+body {
+  font-size: 10px;
+  line-height: 1.6em;
+  font-family: "Tahoma", sans-serif;
+}
+
+body {
+  background-color: #323232;
+  color: #f0f0f0;
+  padding: 0.5rem 0.5rem;
+}
+
+.loading {
+  display: none;
+}
+
+.--loading .loading {
+  display: block;
+}
+
+.--loading:not(.loading) {
+  display: none;
+}
+
+.font-list {
+  padding: 1rem 0rem;
+}
+
+.font-list__list {
+  list-style: none;
+  padding: 0rem 0;
+  margin: 0.5rem 0;
+  max-height: 350px;
+  overflow-y: scroll;
+  border: 1px solid #224;
+}
+
+.font-list__list li {
+  margin: 0 0;
+}
+
+
+.font {
+  padding: 0.25rem 1rem 0.25rem 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  align-items: center;
+  flex: 0 1 auto;
+  background-color: transparent;
+  border-bottom: 1px solid #224;
+}
+
+.font:hover {
+  background-color: rgba(0,0,0,0.2);
+}
+
+.font .font__name  {
+  font-size: 1.2rem;
+}
+
+.font .font__style-count {
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  margin: 0 1rem;
+  color: #69b0a6;
+}
+
+.font .font__preview {
+  font-size: 1.8rem;
+  line-height: 1.4em;
+  font-feature-settings: normal;
+  padding: 0 0.5rem;
+  align-self: self-end;
+  justify-self: flex-end;
+  flex-grow: 2;
+  text-align: right;
+}
+
+/*  TODO
+https://developer.mozilla.org/en-US/docs/Web/CSS/::-webkit-scrollbar#CSS_Scrollbar_Selectors */
+/* 
+
+*/
+
+.font-list__inputs {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+  flex: 0 1 auto;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 100%;
+  background-color: #2a2a2a;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #555;
+}
+/* 
+::-webkit-scrollbar-button  {}
+::-webkit-scrollbar-track {}
+::-webkit-scrollbar-track-piece {} */
+
+button {
+  font-size: 1.2rem;
+  background: #088;
+  border: 1px solid rgba(0,0,0,0.25);
+  border-bottom: 2px solid #077;
+  border-radius: 3px;
+  color: #fff;
+  box-shadow: none;
+  padding: 0.5em 1em;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+}
+
+input[type="text"] {
+  background-color: #111;
+  color: #eee;
+  border: 1px solid transparent;
+  padding: 0.25rem 0.5rem;
+}
