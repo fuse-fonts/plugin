@@ -31,10 +31,10 @@ body {
 .font-list__list {
   list-style: none;
   padding: 0rem 0;
-  margin: 0.5rem 0;
+  margin: 0rem 0;
   max-height: 350px;
   overflow-y: scroll;
-  border: 1px solid #224;
+  border-top: 1px solid #224;
 }
 
 .font-list__list li {
@@ -81,12 +81,6 @@ body {
   text-align: right;
 }
 
-/*  TODO
-https://developer.mozilla.org/en-US/docs/Web/CSS/::-webkit-scrollbar#CSS_Scrollbar_Selectors */
-/* 
-
-*/
-
 .font-list__inputs {
   display: flex;
   justify-content: space-between;
@@ -95,13 +89,37 @@ https://developer.mozilla.org/en-US/docs/Web/CSS/::-webkit-scrollbar#CSS_Scrollb
   flex: 0 1 auto;
 }
 
+.group {
+  border: 1px solid #224;
+  border-radius: 3px;
+  margin-bottom: 1rem;
+  padding: 0 0;
+  margin: 0.5rem 0;
+}
+
+.group .group__title {
+  font-size: 1rem;
+  background-color: #444;
+  margin: 0 0;
+  padding: 0.5rem 0.5rem;
+}
+
+.group .group__list {
+  display: none;
+}
+
+.group.--active .group__list {
+  display: block;
+}
+
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 100%;
   background-color: #2a2a2a;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: #555;
+  background-color: #444;
 }
 /* 
 ::-webkit-scrollbar-button  {}

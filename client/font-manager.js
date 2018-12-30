@@ -109,7 +109,7 @@ const fontStyleHelper = new class FontStyle {
 class TypeFace {
 
   constructor(family) {
-    console.log(`Creating TypeFace for %c${family}`, "color: #b0b;")
+    // console.log(`Creating TypeFace for %c${family}`, "color: #b0b;")
     this.family = family;
     this.variants = [];
 
@@ -165,6 +165,62 @@ class TypeFace {
 }
 
 
+class CustomGroup {
+  
+  constructor(name) {
+    this.name = name;
+    this.typefaces = new TypeFaceLibrary();
+    this.isActive = true;
+  }
+
+  updateTypeFaces(typefaces) {
+    this.typefaces = typefaces;
+  }
+
+  saveChanges() {
+    // todo
+    // persist
+  }
+}
+
+/**
+ * Helper for handling typefaces
+ */
+class TypeFaceLibrary {
+
+  /**
+   * 
+   * @param {TextFont} font 
+   */
+  from(font) {
+
+    if (!this[font.family]) {
+      this[font.family] = new TypeFace(font.family);
+    }
+
+    this[font.family].addVariant(font);
+  }
+
+  /**
+  * Adds the parameter typeface to the library.
+  * @param {TypeFace} typeface
+  */
+  add(typeface) {
+    if (!this[typeface.family]) {
+      this[typeface.family] = typeface;
+    }
+  }
+
+  /**
+   * Removes the parameter typeface from the library
+   * @param {TypeFace} typeface 
+   */
+  remove(typeface) {
+    if (typeface && typeface.family) {
+      this[typeface.family] = void 0;
+    }
+  }
+}
 
 class FontManager {
 
@@ -176,16 +232,8 @@ class FontManager {
     this.text = "AaBbCc";
     this.defaultText = "AaBbCc";
     // typefaces is the family-grouping of fonts
-    this.typefaces = new (class TypeFaceLibrary {
-      add(font) {
-
-        if (!this[font.family]) {
-          this[font.family] = new TypeFace(font.family);
-        }
-
-        this[font.family].addVariant(font);
-      }
-    });
+    this.typefaces = new TypeFaceLibrary();
+    this.customGroups = [];
 
     // fonts is our raw data
     this.fonts = null;
@@ -221,9 +269,11 @@ class FontManager {
 
   //
   update(fonts) {
-    console.log(fonts);
+
+    console.log(this);
+
     this.fonts = fonts;
-    fonts.forEach((font) => this.typefaces.add(font));
+    fonts.forEach((font) => this.typefaces.from(font));
   }
 
   updateText(text) {
@@ -234,32 +284,65 @@ class FontManager {
     this.render();
   }
 
+  hasGroup(name) {
+    return this.customGroups.findIndex(g => g.name === name) !== -1;
+  }
+
+  createGroup(name) {
+    let group = new CustomGroup(name);
+    Object.values(this.typefaces).slice(0, 4).forEach(t => group.typefaces.add(t));
+    this.customGroups.push(group);
+    this.render();
+  }
+
   /**
    * Not currently used
    * @param {TypeFace} typeface 
    */
-  renderVarianceList(typeface) {
+  getVariancesHTML(typeface) {
     return typeface.variants.reduce((p, variant) => {
       let template = (`<div class="font__variant font__preview" style="${variant.style}">${variant.description}</div>`);
       return p + template;
     }, "");
   }
+  
+  refreshEventListeners() {
 
-  /**
-   * 
-   */
-  render() {
+    const that = this;
+    const toggleGroup = (e) => {
+      let groupName = e.target.dataset.groupName
+      let customGroup = that.customGroups.find(g => g.name === groupName);
+      if (customGroup) {
+        customGroup.isActive = !customGroup.isActive;
+      }
+      e.target.parentNode.classList.toggle("--active");
+    }
 
-    const { typefaces, $list, text } = this;
-    const typeFaceList = Object.keys(this.typefaces);
+    document.body.querySelectorAll(".group .group__title").forEach((el) => {
+      el.removeEventListener("click", toggleGroup);
+      el.addEventListener("click", toggleGroup, { capture: true, passive: true, });
+    })
+  }
 
-    if (typeFaceList.length > 0) {
+  getCustomGroupHTML(group, typefaces, text) {
+    
+    const entries = this.getListHTML(typefaces, text);
+    let isActive = group.isActive ? "--active" : "";
 
-      $list.innerHTML = typeFaceList.reduce((p, family) => {
+    return (`
+      <article class="group ${isActive}">
+        <h2 class="group__title" data-group-name="${group.name}">${group.name}</h2>
+        <ol class="group__list font-list__list">${entries}</ol>
+      </article>
+    `);
+  }
 
-        let typeface = typefaces[family];
 
-        let template = (`
+getListHTML(typefaces, text) {
+  if (typefaces.length > 0) {
+    return typefaces.reduce((p, typeface) => {
+      let family = typeface.family;
+      let entry = (`
           <li class="font">
             <div class="font__name">${typeface.family}</div>
             <div class="font__style-count">${typeface.variants.length} style${typeface.variants.length == 1 ? "" : "s"}</div>
@@ -267,12 +350,39 @@ class FontManager {
           </li>
         `);
 
-        return p + template;
-      }, "");
-    }
-    else {
-      $list.innerHTML = `<li class="empty">No fonts found.</li>`;
-    }
+      return p + entry;
+    }, "");
+  }
+  else {
+    return `<li class="empty">No fonts found.</li>`;
+  }
+}
+
+  /**
+   * 
+   */
+  render() {
+
+    const that = this;
+    const { typefaces, text } = this;
+
+    //
+    // render our custom groups — if any
+    //
+    const $customGroups = document.querySelector(".font-list__groups");
+
+    $customGroups.innerHTML = this.customGroups.reduce((p, group) => {
+      return p + that.getCustomGroupHTML(group, Object.values(group.typefaces), text);
+    }, "");
+    
+    //
+    // render the "All Fonts" section — not a real category
+    //
+    const $allFonts = document.querySelector(".all-fonts .font-list__list");
+
+    $allFonts.innerHTML = this.getListHTML(Object.values(typefaces), text);
+
+    this.refreshEventListeners();
   }
 
 

@@ -15,9 +15,22 @@ let fonts = [];
 let $loadFonts = document.querySelector(".load-fonts");
 $loadFonts.addEventListener("click", (r) => fm.refresh.call(fm, r));
 
-$text = document.querySelector(".font-list__text");
+let $addGroup = document.querySelector(".add-group");
+$addGroup.addEventListener("click", (r) => {
+  
+  let name = prompt("Enter a name.");
+
+  if (name !== null) {
+    name = name.trim();
+    if (name.length > 0 && !fm.hasGroup(name)) {
+      fm.createGroup(name);
+    }
+
+  }
+});
 
 // TODO: debounce
+$text = document.querySelector(".font-list__text");
 $text.addEventListener("keyup", (e) => {
   fm.updateText($text.value || "");
 });
