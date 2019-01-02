@@ -242,6 +242,7 @@ class FontManager {
 
     // fonts is our raw data
     this.fonts = null;
+    this.toggleGroupHandler = this.toggleGroupHandler.bind(this);
   }
 
   refresh() {
@@ -324,22 +325,24 @@ class FontManager {
       return p + template;
     }, "");
   }
-  
+
+  toggleGroupHandler (e) {
+    let groupName = e.target.dataset.groupName;
+    let customGroup = this.customGroups.find(g => g.name === groupName);
+    if (customGroup) {
+      customGroup.isActive = !customGroup.isActive;
+    }
+    e.target.parentNode.classList.toggle("--active");
+  }
+
   refreshEventListeners() {
 
     const that = this;
-    const toggleGroup = (e) => {
-      let groupName = e.target.dataset.groupName
-      let customGroup = that.customGroups.find(g => g.name === groupName);
-      if (customGroup) {
-        customGroup.isActive = !customGroup.isActive;
-      }
-      e.target.parentNode.classList.toggle("--active");
-    }
+    const options = { capture: true, passive: true, };
 
     document.body.querySelectorAll(".group .group__title").forEach((el) => {
-      el.removeEventListener("click", toggleGroup);
-      el.addEventListener("click", toggleGroup, { capture: true, passive: true, });
+      el.removeEventListener("click", that.toggleGroupHandler, options);
+      el.addEventListener("click", that.toggleGroupHandler, options);
     })
   }
 
