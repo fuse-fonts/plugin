@@ -6,11 +6,39 @@ body {
   font-family: "Tahoma", sans-serif;
 }
 
+i.material-icons {
+  font-size: 1.65rem;
+}
+
 body {
   background-color: #323232;
   color: #f0f0f0;
-  padding: 0.5rem 0.5rem;
+  padding: 0rem 0rem;
   margin: 0 0;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.actions {
+  position: fixed;
+  bottom: 0rem;
+  left: 0rem;
+  right: 0rem;
+  padding: 0rem 1rem;
+  border-top: 1px solid rgba(0,0,0,0.25);
+  text-align: right;
+  background-color: #3a3a3a;
+}
+
+.actions__selection-actions {
+  display: inline-block;
+  margin-right: 0.5rem;
+  border-right: 1px solid rgba(0,0,0,0.2);
+  padding: 0.25rem 0.5rem 0.25rem 0.25rem;
+}
+
+.actions button + button {
+  margin-left: 0.25rem;
 }
 
 .loading {
@@ -26,16 +54,16 @@ body {
 }
 
 .font-list {
-  padding: 1rem 0rem;
+  padding: 1rem 1rem;
+  overflow-y: scroll;
+  height: calc(100vh - 6rem);
 }
 
 .font-list__list {
   list-style: none;
   padding: 0rem 0;
   margin: 0rem 0;
-  max-height: 350px;
-  overflow-y: scroll;
-  border-top: 1px solid #224;
+  border-top: 1px solid rgba(0,0,0,0.25);
 }
 
 .font-list__list li {
@@ -45,20 +73,20 @@ body {
 
 .font {
   padding: 0.25rem 1rem 0.25rem 0.5rem;
+  background-color: transparent;
+  border-bottom: 1px solid #000;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   align-items: center;
   flex: 0 1 auto;
-  background-color: transparent;
-  border-bottom: 1px solid #000;
+  height: 2.75rem;
 }
 
 .font:hover {
   background-color: rgba(0,0,0,0.2);
 }
 
-.font
 
 .font .font__name  {
   font-size: 1.2rem;
@@ -75,8 +103,8 @@ body {
 }
 
 .font .font__preview {
-  font-size: 1.8rem;
-  line-height: 1.4em;
+  font-size: 2rem;
+  line-height: 1.5em;
   font-feature-settings: normal;
   padding: 0 0.5rem;
   align-self: self-end;
@@ -90,8 +118,8 @@ body {
   display: flex;
   justify-content: space-between;
   align-content: center;
-  align-items: center;
   flex: 0 1 auto;
+  margin-bottom: 1rem;
 }
 
 /* .font-list__inputs input {
@@ -112,7 +140,7 @@ body {
 } */
 
 .group {
-  border: 1px solid #000;
+  border: 1px solid rgba(0,0,0,0.25);
   border-radius: 3px;
   margin-bottom: 1rem;
   padding: 0 0;
@@ -121,7 +149,7 @@ body {
 
 .group .group__title {
   font-size: 1rem;
-  background-color: #895858;
+  background-color: #444;
   margin: 0 0;
   padding: 0.5rem 0.5rem;
   user-select: none;
@@ -135,8 +163,21 @@ body {
   display: block;
 }
 
+.group .group__title::before {
+  font-family: "Material Icons";
+  content: "keyboard_arrow_right";
+  font-size: 1.4rem;
+  line-height: 1rem;
+  vertical-align: middle;
+  margin-right: 0.25rem;
+}
+
+.group.--active .group__title::before {
+  content: "keyboard_arrow_down";
+}
+
 .group.--static .group__title {
-  background-color: #666;
+  /* background-color: #666; */
 }
 
 ::-webkit-scrollbar {
@@ -155,11 +196,11 @@ body {
 button {
     font-size: 1rem;
     font-weight: 600;
-    background: #444;
-    border: 1px solid rgba(0,0,0,0.25);
+    background: transparent;
+    border: 1px solid transparent;
     color: #fff;
     box-shadow: none;
-    padding: 0.5em 1em;
+    padding: 0.25em 0.5em;
     margin-bottom: 0.5rem;
     margin: 0 0;
     display: inline-block;
@@ -167,7 +208,8 @@ button {
 }
 
 button:hover {
-  background-color: #555;
+  background-color: rgba(0,0,0,0.1);
+  border: 1px solid #444;
 }
 
 input[type="text"] {

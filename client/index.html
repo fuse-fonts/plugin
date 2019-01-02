@@ -4,18 +4,13 @@
   <meta charset="UTF-8">
   <title>Document</title>
   <link href="style.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
 
   <section class="loading">
     Loading...
   </section>
-
-  <section class="actions">
-    <button class="load-fonts">Refresh</button>
-    <button class="add-group">Add Group</button>
-  </section>
-  
 
   <section class="font-list">
 
@@ -28,11 +23,33 @@
       
     </section>
 
-    <footer class="all-fonts group --static --active">
+    <section class="all-fonts group --static --active">
       <h2 class="group__title">All Fonts</h2>
       <ol class="group__list font-list__list"></ol>
-    </footer>
+    </section>
+
+    
   </section>
+
+  <footer class="actions">
+    <div class="actions__selection-actions disabled">
+      <button class="apply-font" title="Apply Selected Typeface to Text Tool">
+        <i class="material-icons">text_format</i>
+      </button>
+      <button class="add-font-to-group" title="Add Selected Typeface to Group...">
+        <i class="material-icons">playlist_add</i>
+      </button>
+    </div>
+    <button class="load-fonts"  title="Reload All Fonts">
+      <i class="material-icons">cached</i>
+    </button>
+    <button class="add-group" title="Create new custom group">
+      <i class="material-icons">folder</i>
+    </button>
+    <button  class="delete-group" title="Delete a custom group">
+      <i class="material-icons">delete</i>
+    </button>
+  </footer>
   
   <script type="text/javascript" src="CSInterface.js"></script>
   <script type="text/javascript" src="font-manager.js"></script>
