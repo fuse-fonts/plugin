@@ -112,6 +112,7 @@ class TypeFace {
     // console.log(`Creating TypeFace for %c${family}`, "color: #b0b;")
     this.family = family;
     this.variants = [];
+    this.isVisible = true;
 
     this.renderFontFace = this.renderFontFace.bind(this);
     this.addVariant = this.addVariant.bind(this);
@@ -220,6 +221,10 @@ class TypeFaceLibrary {
       this[typeface.family] = void 0;
     }
   }
+
+  toList() {
+    return Object.values(this);
+  }
 }
 
 class FontManager {
@@ -267,6 +272,20 @@ class FontManager {
 
   }
 
+  clearFilter() {
+    this.typefaces.toList().forEach( t => t.isVisible = true );
+    this.render();
+  }
+
+  filter(text) {
+
+    if (text.length <= 1) return this.clearFilter();
+
+    this.typefaces.toList().forEach(typeface => typeface.isVisible = typeface.family.toLowerCase().includes(text));
+    this.render();
+
+  }
+
   //
   update(fonts) {
 
@@ -290,7 +309,7 @@ class FontManager {
 
   createGroup(name) {
     let group = new CustomGroup(name);
-    Object.values(this.typefaces).slice(0, 4).forEach(t => group.typefaces.add(t));
+    this.typefaces.toList().slice(0, 4).forEach(t => group.typefaces.add(t));
     this.customGroups.push(group);
     this.render();
   }
@@ -343,7 +362,7 @@ getListHTML(typefaces, text) {
     return typefaces.reduce((p, typeface) => {
       let family = typeface.family;
       let entry = (`
-          <li class="font">
+          <li class="font" style="${typeface.isVisible ? null : "display: none;"}">
             <div class="font__name">${typeface.family}</div>
             <div class="font__style-count">${typeface.variants.length} style${typeface.variants.length == 1 ? "" : "s"}</div>
             <div class="font__preview" style="font-family: '${family}'">${text}</div>
@@ -380,7 +399,7 @@ getListHTML(typefaces, text) {
     //
     const $allFonts = document.querySelector(".all-fonts .font-list__list");
 
-    $allFonts.innerHTML = this.getListHTML(Object.values(typefaces), text);
+    $allFonts.innerHTML = this.getListHTML(typefaces.toList(), text);
 
     this.refreshEventListeners();
   }

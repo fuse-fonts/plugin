@@ -7,18 +7,19 @@ const $list = document.querySelector(".font-list__list");
 // our font manager instance
 let fm = new FontManager(csInterface, $list);
 
-
-// csInterface.setWindowTitle("Hello, Erik!");
-
-let fonts = [];
-
+/**
+ * Button for refreshing fonts
+ */
 let $loadFonts = document.querySelector(".load-fonts");
 $loadFonts.addEventListener("click", (r) => fm.refresh.call(fm, r));
 
+/**
+ * Button for creating a new group
+ */
 let $addGroup = document.querySelector(".add-group");
 $addGroup.addEventListener("click", (r) => {
-  
-  let name = prompt("Enter a name.");
+
+  let name = prompt("Enter a name.", "", "Create Group");
 
   if (name !== null) {
     name = name.trim();
@@ -29,10 +30,23 @@ $addGroup.addEventListener("click", (r) => {
   }
 });
 
+/**
+ * input for changing the preview font text
+ */
 // TODO: debounce
 $text = document.querySelector(".font-list__text");
 $text.addEventListener("keyup", (e) => {
   fm.updateText($text.value || "");
+});
+
+/**
+ * input for filtering the list of ALL FONTS
+ */
+// TODO: debounce
+$filter = document.querySelector(".font-list__filter");
+$filter.addEventListener("keyup", (e) => {
+  let text = ($filter.value || "").trim().toLowerCase();
+  fm.filter(text);
 });
 
 // csInterface.addEventListener(CSInterface.THEME_COLOR_CHANGED_EVENT, (e) => {
