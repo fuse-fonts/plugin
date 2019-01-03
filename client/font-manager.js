@@ -264,16 +264,13 @@ class FontManager {
         const family = e.currentTarget.dataset.family;
         const typeface = this.typefaces[family];
         
-        console.log("selected:", family, e.currentTarget);
-        
         if (typeface) {
           const state = !typeface.isSelected;
           that.toggleSelect(typeface, state);
-          e.currentTarget.classList.toggle(selectedClassName, state);
         }
         else {
           // unknown situation, just remove selection
-          e.currentTarget.classList.remove(selectedClassName);
+          e.currentTarget.classList.remove("--selected");
         }
       },
     };
@@ -333,16 +330,20 @@ class FontManager {
    */
   toggleSelect(typeface, state = false) {
 
+    const selectedClassName = "--selected";
+
     // clear previous selection
     if (state && this.selected !== null && this.selected !== typeface) {
       this.selected.isSelected = false;
-      document.querySelector(".--selected").classList.remove("--selected");
+      document.querySelectorAll(`.${selectedClassName}`).forEach(el => el.classList.remove(selectedClassName));
     }
 
     // set the typeface
     typeface.isSelected = state;
-
     this.selected = state ? typeface : null;
+
+    // propagate all changes to all elements
+    document.querySelectorAll(`.font[data-family="${typeface.family}"]`).forEach(el => el.classList.toggle(selectedClassName, state));
 
     // toggle the visual state of the actions bar
     Array.from(document.querySelectorAll(".actions__selection-actions .action")).forEach(el => el.classList.toggle("--disabled", !state));
