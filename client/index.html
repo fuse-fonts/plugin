@@ -28,27 +28,36 @@
       <ol class="group__list font-list__list"></ol>
     </section>
 
-    
   </section>
 
-  <footer class="actions">
-    <div class="actions__selection-actions">
-      <button class="action --disabled apply-font" title="Apply Selected Typeface to Text Tool">
-        <i class="material-icons">text_format</i>
+  <footer class="overlay">
+    <section class="groups-tray --open">
+      <h3 class="groups-tray__title">Groups</h3>
+      <ul>
+        <li>test 1 test 1 test 1 test 1 test 1 test 1 test 1</li>
+        <li class="--active">test 2</li>
+        <li>test 3</li>
+      </ul>
+    </section>
+    <section class="actions">
+      <div class="actions__selection-actions">
+        <button class="action --disabled apply-font" title="Apply Selected Typeface to Text Tool">
+          <i class="material-icons">text_format</i>
+        </button>
+        <button class="action --disabled add-font-to-group" title="Add Selected Typeface to Group...">
+          <i class="material-icons">playlist_add</i>
+        </button>
+      </div>
+      <button class="action load-fonts"  title="Reload All Fonts">
+        <i class="material-icons">cached</i>
       </button>
-      <button class="action --disabled add-font-to-group" title="Add Selected Typeface to Group...">
-        <i class="material-icons">playlist_add</i>
+      <button class="action add-group" title="Create new custom group">
+        <i class="material-icons">folder</i>
       </button>
-    </div>
-    <button class="action load-fonts"  title="Reload All Fonts">
-      <i class="material-icons">cached</i>
-    </button>
-    <button class="action add-group" title="Create new custom group">
-      <i class="material-icons">folder</i>
-    </button>
-    <button  class="action delete-group" title="Delete a custom group">
-      <i class="material-icons">delete</i>
-    </button>
+      <button  class="action delete-group" title="Delete a custom group">
+        <i class="material-icons">delete</i>
+      </button>
+    </section>
   </footer>
   
   <script type="text/javascript" src="CSInterface.js"></script>
