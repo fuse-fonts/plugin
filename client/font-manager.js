@@ -228,6 +228,62 @@ class TypeFaceLibrary {
   }
 }
 
+class CustomGroupTray {
+
+  constructor($tray, groups = []) {
+    this.groups = groups;
+    this.typeface = null;
+    this.activeClassName = "--active";
+    this.$tray = $tray;
+    this.$list = $tray.getElementsByTagName("ul");
+  }
+
+  /**
+   * Visually shows the tray.
+   */
+  open() {
+    this.$tray.classList.remove(add.activeClassName);
+  }
+
+  /**
+  * Visually  hides the tray.
+  */
+  close() {
+    this.$tray.classList.remove(this.activeClassName);
+  }
+
+  update(typeface, groups) {
+    this.typeface = typeface;
+    this.groups = groups;
+    this.render();
+  }
+
+  setScope(typeface) {
+    this.typeface = typeface;
+    this.applyScope();
+  }
+
+  applyScope() { 
+    const { activeClassName } = this;
+    const groupsWithinScope = this.groups.filter(g => g.typefaces.includes(typeface)).map(g => g.name)
+    Array.from(this.$list.querySelectorAll("li")).forEach(li => {
+      const isActive = groupsWithinScope.includes(li.innerText);
+      li.classList.toggle(activeClassName, isActive);
+    });
+  }
+
+  render() {
+    const { typeface, activeClassName } = this;
+
+    this.$list.innerHTML = customGroups.reduce((html, group) => {
+      const isWithinScope = group.typefaces.includes(typeface);
+      let isActive = isWithinScope ? activeClassName : "";
+      const template = (`<li class="${isActive}">${group.name}</li>`);
+      return html + template;
+    }, "");
+  }
+}
+
 class FontManager {
 
   constructor(csInterface, $list) {
