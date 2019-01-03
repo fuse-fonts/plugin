@@ -43,6 +43,14 @@
               <Height>600</Height>
               <Width>450</Width>
             </Size>
+            <MaxSize>
+              <Height>1200</Height>
+              <Width>600</Width>
+            </MaxSize>
+            <MinSize>
+              <Height>280</Height>
+              <Width>450</Width>
+            </MinSize>
           </Geometry>
           <Icons />
         </UI>
