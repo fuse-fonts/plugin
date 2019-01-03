@@ -113,6 +113,7 @@ class TypeFace {
     this.family = family;
     this.variants = [];
     this.isVisible = true;
+    this.isSelected = false;
 
     this.renderFontFace = this.renderFontFace.bind(this);
     this.addVariant = this.addVariant.bind(this);
@@ -240,9 +241,48 @@ class FontManager {
     this.typefaces = new TypeFaceLibrary();
     this.customGroups = [];
 
+    // the selected typeface
+    this.selected = null;
+
     // fonts is our raw data
     this.fonts = null;
-    this.toggleGroupHandler = this.toggleGroupHandler.bind(this);
+
+    this.handlers = {
+
+      toggleGroup(e) {
+        let groupName = e.currentTarget.dataset.groupName;
+        let customGroup = this.customGroups.find(g => g.name === groupName);
+        if (customGroup) {
+          customGroup.isActive = !customGroup.isActive;
+        }
+        e.currentTarget.parentNode.classList.toggle("--active");
+      },
+
+      toggleSelection(e) {
+
+        const selectedClassName = "--selected";
+        const family = e.currentTarget.dataset.family;
+        const typeface = this.typefaces[family];
+        
+        console.log("selected:", family, e.currentTarget);
+        
+        if (typeface) {
+          const state = !typeface.isSelected;
+          that.toggleSelect(typeface, state);
+          e.currentTarget.classList.toggle(selectedClassName, state);
+        }
+        else {
+          // unknown situation, just remove selection
+          e.currentTarget.classList.remove(selectedClassName);
+        }
+      },
+    };
+
+    // bind handlers
+    for (let key in this.handlers) {
+      this.handlers[key] = this.handlers[key].bind(that);
+    }
+
   }
 
   refresh() {
@@ -287,7 +327,31 @@ class FontManager {
 
   }
 
-  //
+  /**
+   * Toggles a typeface's isSelected state and affects the `.actions` bar
+   * @param {TypeFace} typeface 
+   */
+  toggleSelect(typeface, state = false) {
+
+    // clear previous selection
+    if (state && this.selected !== null && this.selected !== typeface) {
+      this.selected.isSelected = false;
+      document.querySelector(".--selected").classList.remove("--selected");
+    }
+
+    // set the typeface
+    typeface.isSelected = state;
+
+    this.selected = state ? typeface : null;
+
+    // toggle the visual state of the actions bar
+    Array.from(document.querySelectorAll(".actions__selection-actions .action")).forEach(el => el.classList.toggle("--disabled", !state));
+  }
+
+  /**
+   * 
+   * @param {[TextFont]} fonts
+   */
   update(fonts) {
 
     console.log(this);
@@ -296,6 +360,10 @@ class FontManager {
     fonts.forEach((font) => this.typefaces.from(font));
   }
 
+  /**
+   * Updates the preview text displayed next to each font.
+   * @param {string} text 
+   */
   updateText(text) {
     this.text = text.trim();
     if (this.text.length === 0) {
@@ -304,12 +372,20 @@ class FontManager {
     this.render();
   }
 
+  /**
+   * returns `true` when parameter `name` is already the name of a group, `false` otherwise.
+   * @param {string} name 
+   */
   hasGroup(name) {
     return this.customGroups.findIndex(g => g.name === name) !== -1;
   }
 
+  /**
+   * Creates a `CustomGroup` instance with the argument `name`, and adds it to the `.customGroups` list.
+   * @param {string} name 
+   */
   createGroup(name) {
-    let group = new CustomGroup(name);
+    const group = new CustomGroup(name);
     this.typefaces.toList().slice(0, 4).forEach(t => group.typefaces.add(t));
     this.customGroups.push(group);
     this.render();
@@ -326,30 +402,38 @@ class FontManager {
     }, "");
   }
 
-  toggleGroupHandler (e) {
-    let groupName = e.target.dataset.groupName;
-    let customGroup = this.customGroups.find(g => g.name === groupName);
-    if (customGroup) {
-      customGroup.isActive = !customGroup.isActive;
-    }
-    e.target.parentNode.classList.toggle("--active");
-  }
-
+  /**
+   * Removes all dynamic event listeners on specific re-rendered nodes, and re-listens to them.
+   */
   refreshEventListeners() {
 
     const that = this;
     const options = { capture: true, passive: true, };
 
-    document.body.querySelectorAll(".group .group__title").forEach((el) => {
-      el.removeEventListener("click", that.toggleGroupHandler, options);
-      el.addEventListener("click", that.toggleGroupHandler, options);
-    })
+    console.log("Refreshing Listeners: group toggle")
+    document.body.querySelectorAll(".group .group__title").forEach( el => {
+      el.removeEventListener("click", that.handlers.toggleGroup, options);
+      el.addEventListener("click", that.handlers.toggleGroup, options);
+    });
+
+    console.log("Refreshing Listeners: font select")
+    document.body.querySelectorAll(".font").forEach( el => {
+      el.removeEventListener("click", that.handlers.toggleSelection, options);
+      el.addEventListener("click", that.handlers.toggleSelection, options);
+    });
+
   }
 
+  /**
+   * Returns the rendered HTML of a custom group.
+   * @param {CustomGroup} group 
+   * @param {TypeFace[]} typefaces 
+   * @param {string} text 
+   */
   getCustomGroupHTML(group, typefaces, text) {
     
     const entries = this.getListHTML(typefaces, text);
-    let isActive = group.isActive ? "--active" : "";
+    const isActive = group.isActive ? "--active" : "";
 
     return (`
       <article class="group ${isActive}">
@@ -359,29 +443,37 @@ class FontManager {
     `);
   }
 
+  /**
+   * Returns the rendered HTML of a list of typefaces.
+   * @param {TypeFace[]} typefaces
+   * @param {string} text
+   */
+  getListHTML(typefaces, text) {
+    if (typefaces.length > 0) {
+      return typefaces.reduce((p, typeface) => {
 
-getListHTML(typefaces, text) {
-  if (typefaces.length > 0) {
-    return typefaces.reduce((p, typeface) => {
-      let family = typeface.family;
-      let entry = (`
-          <li class="font" style="${typeface.isVisible ? null : "display: none;"}">
-            <div class="font__name">${typeface.family}</div>
-            <div class="font__style-count">${typeface.variants.length} style${typeface.variants.length == 1 ? "" : "s"}</div>
-            <div class="font__preview" style="font-family: '${family}'">${text}</div>
-          </li>
-        `);
+        const family = typeface.family;
+        const selectedClassName = typeface.isSelected ? "--selected" : "";
+        const visibleStyle = typeface.isVisible ? "" : "display: none;";
 
-      return p + entry;
-    }, "");
+        const entry = (`
+            <li class="font ${selectedClassName}" style="${visibleStyle}" data-family="${family}">
+              <div class="font__name">${typeface.family}</div>
+              <div class="font__style-count">${typeface.variants.length} style${typeface.variants.length == 1 ? "" : "s"}</div>
+              <div class="font__preview" style="font-family: '${family}'">${text}</div>
+            </li>
+          `);
+
+        return p + entry;
+      }, "");
+    }
+    else {
+      return `<li class="empty">No fonts found.</li>`;
+    }
   }
-  else {
-    return `<li class="empty">No fonts found.</li>`;
-  }
-}
 
   /**
-   * 
+   * Renders the current state of all typefaces and custom groups to the DOM, then calls `FontManager.refreshEventListeners`
    */
   render() {
 
@@ -393,9 +485,14 @@ getListHTML(typefaces, text) {
     //
     const $customGroups = document.querySelector(".font-list__groups");
 
-    $customGroups.innerHTML = this.customGroups.reduce((p, group) => {
-      return p + that.getCustomGroupHTML(group, Object.values(group.typefaces), text);
-    }, "");
+    if (this.customGroups.length > 0) {
+      $customGroups.innerHTML = this.customGroups.reduce((p, group) => {
+        return p + that.getCustomGroupHTML(group, Object.values(group.typefaces), text);
+      }, "");
+    }
+    else {
+      $customGroups.innerHTML = `<h2 class="no-groups">No groups yet.</h2>`;
+    }
     
     //
     // render the "All Fonts" section — not a real category

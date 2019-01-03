@@ -10,6 +10,13 @@ i.material-icons {
   font-size: 1.65rem;
 }
 
+/* global modifiers */
+.--disabled {
+  opacity: 0.75 !important;
+  user-select: none !important;
+  pointer-events: none !important;
+}
+
 body {
   background-color: #323232;
   color: #f0f0f0;
@@ -85,6 +92,16 @@ body {
 
 .font:hover {
   background-color: rgba(0,0,0,0.2);
+  cursor: default;
+  user-select: none;
+}
+
+.font.--selected {
+  background-color: #38c;
+  transition: 0.1s ease-out background-color;
+  position: sticky;
+  top: -1rem;
+  bottom: -1rem;
 }
 
 
@@ -98,7 +115,7 @@ body {
   font-weight: 500;
   letter-spacing: 1px;
   margin: 0 1rem;
-  color: #b2b2b2;
+  color: rgba(255,255,255, 0.65);
   user-select: none;
 }
 
@@ -112,6 +129,15 @@ body {
   flex-grow: 2;
   text-align: right;
   user-select: none;
+}
+
+.no-groups {
+  font-size: 1rem;
+  opacity: 0.5;
+  text-align: center;
+  font-weight: 400;
+  background-color: rgba(0,0,0,0.1);
+  padding: 1rem 1rem;
 }
 
 .font-list__inputs {

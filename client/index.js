@@ -22,7 +22,10 @@ $addGroup.addEventListener("click", (r) => {
   let name = prompt("Enter a name.", "", "Create Group");
 
   if (name !== null) {
-    name = name.trim();
+
+    // sanitize
+    name = name.trim().replace(/"/gi, "'").replace(/</gi, "&gt;").replace(/</gi, "&lt;")
+
     if (name.length > 0 && !fm.hasGroup(name)) {
       fm.createGroup(name);
     }
