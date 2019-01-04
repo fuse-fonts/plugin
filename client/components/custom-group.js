@@ -18,14 +18,23 @@ class CustomGroup {
 
 class CustomGroupTray {
 
-  constructor($tray, groups = []) {
+  constructor(parent, $tray, groups = []) {
+    this.parent = parent;
     this.groups = groups;
     this.typeface = null;
     this.activeItemClassName = "--active";
     this.activeTrayClassName = "--open";
     this.$tray = $tray;
     this.$list = $tray.querySelector("ul");
+
+    const that = this;
+    this.$list.addEventListener("click", (e) => {
+      that.parent.toggleTypefaceInGroup(that.typeface, e.target.innerText);
+      that.render();
+    });
   }
+
+  
 
   /**
    * Visually shows the tray.
@@ -56,18 +65,27 @@ class CustomGroupTray {
   }
 
   applyScope() {
-    const { activeItemClassName } = this;
-    const groupsWithinScope = this.groups.filter(g => g.typefaces.has(typeface)).map(g => g.name)
-    Array.from(this.$list.querySelectorAll("li")).forEach(li => {
-      const isActive = groupsWithinScope.has(li.innerText);
-      li.classList.toggle(activeItemClassName, isActive);
-    });
+    const { activeItemClassName, typeface } = this;
+
+    const $items = Array.from(this.$list.querySelectorAll("li"))
+    if (typeface === null) {
+      $items.forEach(li => li.classList.remove(activeItemClassName));
+    }
+    else {
+      const groupsWithinScope = this.groups.filter(g => g.typefaces.has(typeface)).map(g => g.name)
+  
+      $items.forEach(li => {
+        const isActive = groupsWithinScope.includes(li.innerText);
+        li.classList.toggle(activeItemClassName, isActive);
+      });
+    }
   }
 
   render() {
     const { typeface, activeItemClassName, groups } = this;
 
     this.$list.innerHTML = groups.reduce((html, group) => {
+      
       const isWithinScope = group.typefaces.has(typeface);
       let isActive = isWithinScope ? activeItemClassName : "";
       const template = (`<li class="${isActive}">${group.name}</li>`);

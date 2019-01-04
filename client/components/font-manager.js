@@ -28,7 +28,7 @@ class FontManager {
     this.customGroups = [];
 
     const $tray = document.querySelector(".groups-tray");
-    this.tray = new CustomGroupTray($tray);
+    this.tray = new CustomGroupTray(this, $tray);
 
     // the selected typeface
     this.selected = null;
@@ -39,7 +39,7 @@ class FontManager {
     this.handlers = {
 
       toggleGroup(e) {
-        let groupName = e.currentTarget.dataset.groupName;
+        let groupName = e.currentTarget.parentNode.dataset.groupName;
         let customGroup = this.customGroups.find(g => g.name === groupName);
         if (customGroup) {
           customGroup.isActive = !customGroup.isActive;
@@ -130,12 +130,47 @@ class FontManager {
     // set the typeface
     typeface.isSelected = state;
     this.selected = state ? typeface : null;
-
+    
     // propagate all changes to all elements
     document.querySelectorAll(`.font[data-family="${typeface.family}"]`).forEach(el => el.classList.toggle(selectedClassName, state));
 
     // toggle the visual state of the actions bar
     Array.from(document.querySelectorAll(".actions__selection-actions .action")).forEach(el => el.classList.toggle("--disabled", !state));
+
+    // update the tray
+    this.tray.setScope(this.selected);
+    if (!state) {
+      this.tray.close();
+    }
+    
+  }
+
+  /**
+   * 
+   * @param {string} groupName
+   * @param {TypeFace} typeface 
+   */
+  toggleTypefaceInGroup(typeface, groupName) {
+
+    if (typeface === null) return false;
+
+    const group = this.customGroups.find(g =>  g.name === groupName);
+
+    if (group) {
+      const toggle = group.typefaces.has(typeface);
+  
+      if (toggle) {
+        group.typefaces.remove(typeface);
+      }
+      else {
+        group.typefaces.add(typeface);
+      }
+  
+      this.renderGroup(group);
+      return toggle;
+    }
+
+    return false;
   }
 
   /**
@@ -208,13 +243,11 @@ class FontManager {
     const that = this;
     const options = { capture: true, passive: true, };
 
-    console.log("Refreshing Listeners: group toggle")
     document.body.querySelectorAll(".group .group__title").forEach( el => {
       el.removeEventListener("click", that.handlers.toggleGroup, options);
       el.addEventListener("click", that.handlers.toggleGroup, options);
     });
 
-    console.log("Refreshing Listeners: font select")
     document.body.querySelectorAll(".font").forEach( el => {
       el.removeEventListener("click", that.handlers.toggleSelection, options);
       el.addEventListener("click", that.handlers.toggleSelection, options);
@@ -234,8 +267,8 @@ class FontManager {
     const isActive = group.isActive ? "--active" : "";
 
     return (`
-      <article class="group ${isActive}">
-        <h2 class="group__title" data-group-name="${group.name}">${group.name}</h2>
+      <article data-group-name="${group.name}" class="group ${isActive}">
+        <h2 class="group__title">${group.name}</h2>
         <ol class="group__list font-list__list">${entries}</ol>
       </article>
     `);
@@ -302,5 +335,12 @@ class FontManager {
     this.refreshEventListeners();
   }
 
+  renderGroup(group) {
+
+    const $previous = document.querySelector(`.group[data-group-name="${group.name}"]`)
+
+    $previous.outerHTML = this.getCustomGroupHTML(group, group.typefaces.toList(), this.text);
+    this.refreshEventListeners();
+  }
 
 }

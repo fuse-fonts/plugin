@@ -32,7 +32,7 @@ class TypeFaceLibrary {
    */
   remove(typeface) {
     if (typeface && typeface.family) {
-      this[typeface.family] = void 0;
+      delete this[typeface.family];
     }
   }
 
