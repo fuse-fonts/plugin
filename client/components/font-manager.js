@@ -14,276 +14,6 @@ const html = new (class Templates {
 });
 
 
-/**
- * Static Helper class for transforming TextFont descriptors into CSS Web Font properties
- */
-const fontStyleHelper = new class FontStyle {
-
-  constructor() {
-    // https://developer.mozilla.org/en-US/docs/Web/CSS/font-stretch
-    this.widths = {
-      "ultracondensed":   "ultra-condensed",
-      "extracondensed":   "extra-condensed",
-      "condensed":        "condensed",
-      "semicondensed":    "semi-condensed",
-      "normal":           "normal",
-      "semiextended":     "semi-expanded",
-      "extended":         "expanded",
-      "wide":             "extra-expanded",      
-    };
-    
-    // https://developer.mozilla.org/en-US/docs/Web/CSS/font-style
-    this.styles = {
-      "italic": "italic",
-      "oblique": "oblique",
-    };
-
-    // https://developer.mozilla.org/en-US/docs/Web/CSS/font-weight#Common_weight_name_mapping
-    this.weights = {
-      "thin":         "100",
-      "ultralight":   "200",
-      "extralight":   "200",
-      "light":        "300",
-      "regular":      "400",
-      "medium":       "500",
-      "semibold":     "600",
-      "bold":         "700",
-      "extrabold":    "800",
-      "black":        "900",
-      "ultrablack":   "1000",
-    };
-    
-    // these aren't currently used
-    // https://developer.mozilla.org/en-US/docs/Web/CSS/font-optical-sizing
-    this.opticalSizes = {
-      "poster":       "",
-      "display":      "",
-      "subheading":   "",
-      "regular":      "",
-      "small":        "",
-      "text":         "",
-      "caption":      "",
-    };
-
-    // bind all fn's
-    for (let key in this) {
-      let property = this[key];
-      if (typeof property === "function") this[key] = this[key].bind(this);
-    }
-
-  }
-
-  isWidth(prop) {
-    return typeof this.widths[prop] !== "undefined";
-  }
-
-  isStyle(prop) {
-    return typeof this.styles[prop] !== "undefined";
-  }
-
-  isWeight(prop) {
-    return typeof this.weights[prop] !== "undefined";
-  }
-
-  cssWidth(prop) {
-    let value = this.widths[prop];
-    return `font-stretch: ${value};`;
-  }
-
-  cssStyle(prop) {
-    let value = this.styles[prop];
-    return `font-style: ${value};`;
-  }
-
-  cssWeight(prop) {
-    let value = this.weights[prop];
-    return `font-weight: ${value};`;
-  }
-}
-
-
-/** 
- * A grouping of fonts and their variations
- * @param family the font family this typeface represents
-*/
-class TypeFace {
-
-  constructor(family) {
-    // console.log(`Creating TypeFace for %c${family}`, "color: #b0b;")
-    this.family = family;
-    this.variants = [];
-    this.isVisible = true;
-    this.isSelected = false;
-
-    this.renderFontFace = this.renderFontFace.bind(this);
-    this.addVariant = this.addVariant.bind(this);
-  }
-
-  addVariant(font) {
-    const name = TypeFace.toID(font.postScriptName);
-    const style = TypeFace.mapFontToCSS(font);
-    const variant = { name, style, font, description: font.style, parent: this, };
-    this.variants.push(variant);
-  }
-
-  renderFontFace() {
-    let id = TypeFace.toID(this.family);
-    if (document.getElementById(id) != null) {
-      let head = document.getElementsByTagName("head");
-      let styleNode = html.fontFace(id, this.family);
-      head.append(styleNode);
-    }
-  }
-
-  /**
-   * Transforms a name into a kebab-style ID
-   * @param {string} name
-   */
-  static toID(name) {
-    return name.toLowerCase().replace(/ /gi, "-");
-  }
-
-  /**
-   * Transforms a TextFont's `style` properties into their corrosponding CSS property and values.
-   * @param {TextFont} font
-   * @returns {string} `string`
-   */
-  static mapFontToCSS(font) {
-    let { style } = font;
-    let parts = style.split(" ").map(p => p.toLowerCase());
-    
-    let css = parts.reduce((p, prop) => {
-
-      if (fontStyleHelper.isStyle(prop))        p.push(fontStyleHelper.cssStyle(prop));
-      else if (fontStyleHelper.isWidth(prop))   p.push(fontStyleHelper.cssWidth(prop));
-      else if (fontStyleHelper.isWeight(prop))  p.push(fontStyleHelper.cssWeight(prop));
-      
-      return p;
-    }, []);
-
-    return css.join(" ");
-  }
-
-}
-
-
-class CustomGroup {
-  
-  constructor(name) {
-    this.name = name;
-    this.typefaces = new TypeFaceLibrary();
-    this.isActive = true;
-  }
-
-  updateTypeFaces(typefaces) {
-    this.typefaces = typefaces;
-  }
-
-  saveChanges() {
-    // todo
-    // persist
-  }
-}
-
-/**
- * Helper for handling typefaces
- */
-class TypeFaceLibrary {
-
-  /**
-   * 
-   * @param {TextFont} font 
-   */
-  from(font) {
-
-    if (!this[font.family]) {
-      this[font.family] = new TypeFace(font.family);
-    }
-
-    this[font.family].addVariant(font);
-  }
-
-  /**
-  * Adds the parameter typeface to the library.
-  * @param {TypeFace} typeface
-  */
-  add(typeface) {
-    if (!this[typeface.family]) {
-      this[typeface.family] = typeface;
-    }
-  }
-
-  /**
-   * Removes the parameter typeface from the library
-   * @param {TypeFace} typeface 
-   */
-  remove(typeface) {
-    if (typeface && typeface.family) {
-      this[typeface.family] = void 0;
-    }
-  }
-
-  toList() {
-    return Object.values(this);
-  }
-}
-
-class CustomGroupTray {
-
-  constructor($tray, groups = []) {
-    this.groups = groups;
-    this.typeface = null;
-    this.activeClassName = "--active";
-    this.$tray = $tray;
-    this.$list = $tray.getElementsByTagName("ul");
-  }
-
-  /**
-   * Visually shows the tray.
-   */
-  open() {
-    this.$tray.classList.remove(add.activeClassName);
-  }
-
-  /**
-  * Visually  hides the tray.
-  */
-  close() {
-    this.$tray.classList.remove(this.activeClassName);
-  }
-
-  update(typeface, groups) {
-    this.typeface = typeface;
-    this.groups = groups;
-    this.render();
-  }
-
-  setScope(typeface) {
-    this.typeface = typeface;
-    this.applyScope();
-  }
-
-  applyScope() { 
-    const { activeClassName } = this;
-    const groupsWithinScope = this.groups.filter(g => g.typefaces.includes(typeface)).map(g => g.name)
-    Array.from(this.$list.querySelectorAll("li")).forEach(li => {
-      const isActive = groupsWithinScope.includes(li.innerText);
-      li.classList.toggle(activeClassName, isActive);
-    });
-  }
-
-  render() {
-    const { typeface, activeClassName } = this;
-
-    this.$list.innerHTML = customGroups.reduce((html, group) => {
-      const isWithinScope = group.typefaces.includes(typeface);
-      let isActive = isWithinScope ? activeClassName : "";
-      const template = (`<li class="${isActive}">${group.name}</li>`);
-      return html + template;
-    }, "");
-  }
-}
-
 class FontManager {
 
   constructor(csInterface, $list) {
@@ -296,6 +26,9 @@ class FontManager {
     // typefaces is the family-grouping of fonts
     this.typefaces = new TypeFaceLibrary();
     this.customGroups = [];
+
+    const $tray = document.querySelector(".groups-tray");
+    this.tray = new CustomGroupTray($tray);
 
     // the selected typeface
     this.selected = null;
@@ -443,9 +176,17 @@ class FontManager {
    */
   createGroup(name) {
     const group = new CustomGroup(name);
-    this.typefaces.toList().slice(0, 4).forEach(t => group.typefaces.add(t));
+    
+    this.typefaces.toList().slice(0, 4).forEach(t => group.typefaces.add(t)); // TESTING
+
     this.customGroups.push(group);
+    this.tray.update(this.customGroups);
+
     this.render();
+  }
+
+  deleteGroup(name) {
+
   }
 
   /**

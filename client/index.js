@@ -7,6 +7,11 @@ const $list = document.querySelector(".font-list__list");
 // our font manager instance
 let fm = new FontManager(csInterface, $list);
 
+let $groupList = document.querySelectorAll(".toggle-group-list")
+Array.from($groupList).forEach(el => el.addEventListener("click", (e) => fm.tray.toggle()));
+
+
+
 /**
  * Button for refreshing fonts
  */
@@ -14,24 +19,23 @@ let $loadFonts = document.querySelector(".load-fonts");
 $loadFonts.addEventListener("click", (r) => fm.refresh.call(fm, r));
 
 /**
- * Button for creating a new group
+ * Buttons for creating a new group
  */
-let $addGroup = document.querySelector(".add-group");
-$addGroup.addEventListener("click", (r) => {
-
-  let name = prompt("Enter a name.", "", "Create Group");
-
-  if (name !== null) {
-
-    // sanitize
-    name = name.trim().replace(/"/gi, "'").replace(/</gi, "&gt;").replace(/</gi, "&lt;")
-
-    if (name.length > 0 && !fm.hasGroup(name)) {
-      fm.createGroup(name);
+let $addGroup = document.querySelectorAll(".add-group");
+Array.from($addGroup).forEach(el => el.addEventListener("click", (r) => {
+    let name = prompt("Enter a name.", "", "Create Group");
+  
+    if (name !== null) {
+  
+      // sanitize
+      name = name.trim().replace(/"/gi, "'").replace(/</gi, "&gt;").replace(/</gi, "&lt;")
+  
+      if (name.length > 0 && !fm.hasGroup(name)) {
+        fm.createGroup(name);
+      }
+  
     }
-
-  }
-});
+  }));
 
 /**
  * input for changing the preview font text

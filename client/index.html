@@ -31,20 +31,22 @@
   </section>
 
   <footer class="overlay">
-    <section class="groups-tray --open">
+    <section class="groups-tray">
       <h3 class="groups-tray__title">Groups</h3>
-      <ul>
-        <li>test 1 test 1 test 1 test 1 test 1 test 1 test 1</li>
-        <li class="--active">test 2</li>
-        <li>test 3</li>
-      </ul>
+      <ul></ul>
+      <div class="empty">
+        <span>Add a group to get started:</span>
+        <button class="action add-group" title="Create new custom group">
+          <i class="material-icons">folder</i>
+        </button>
+      </div>
     </section>
     <section class="actions">
       <div class="actions__selection-actions">
         <button class="action --disabled apply-font" title="Apply Selected Typeface to Text Tool">
           <i class="material-icons">text_format</i>
         </button>
-        <button class="action --disabled add-font-to-group" title="Add Selected Typeface to Group...">
+        <button class="action --disabled toggle-group-list" title="Add Selected Typeface to Group...">
           <i class="material-icons">playlist_add</i>
         </button>
       </div>
@@ -61,7 +63,11 @@
   </footer>
   
   <script type="text/javascript" src="CSInterface.js"></script>
-  <script type="text/javascript" src="font-manager.js"></script>
+  <script type="text/javascript" src="components/custom-group.js"></script>
+  <script type="text/javascript" src="components/font-style.js"></script>
+  <script type="text/javascript" src="components/typeface.js"></script>
+  <script type="text/javascript" src="components/typeface-library.js"></script>
+  <script type="text/javascript" src="components/font-manager.js"></script>
   <script type="text/javascript" src="index.js"></script>
 </body>
 </html>
