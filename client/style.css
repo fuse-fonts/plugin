@@ -9,6 +9,10 @@ body {
   font-family: "Tahoma", sans-serif;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 i.material-icons {
   font-size: 1.65rem;
   line-height: 1rem;
@@ -35,6 +39,7 @@ ul, ol {
   padding: 0 0;
   margin: 0 0;
 }
+
 
 .overlay {
   position: fixed;
@@ -184,13 +189,14 @@ ul, ol {
   margin: 0 0;
 }
 
-font-list__list li.empty {
+.font-list__list li.empty {
   padding: 0.5rem 1rem;
   background-color: #333;
+  color: rgba(255,255,255,0.5);
 }
 
 .font {
-  padding: 0.25rem 1rem 0.25rem 0.5rem;
+  padding: 0.5rem 1rem 0.5rem 0.5rem;
   background-color: transparent;
   border-bottom: 1px solid #000;
   display: flex;
@@ -211,17 +217,17 @@ font-list__list li.empty {
   background-color: var(--accent-color);
   transition: 0.1s ease-out background-color;
   position: sticky;
-  top: 2.25rem;
+  top: 2.5rem;
   bottom: -1rem;
   z-index: 0;
 }
 
 
-.font .font__name  {
+.font__name  {
   font-size: 1.2rem;
 }
 
-.font .font__style-count {
+.font__style-count {
   text-transform: uppercase;
   font-size: 0.8rem;
   font-weight: 500;
@@ -231,9 +237,9 @@ font-list__list li.empty {
   user-select: none;
 }
 
-.font .font__preview {
+.font__preview {
   font-size: 2rem;
-  line-height: 1.5em;
+  line-height: 1em;
   font-feature-settings: normal;
   padding: 0 0.5rem;
   align-self: self-end;
@@ -242,6 +248,7 @@ font-list__list li.empty {
   text-align: right;
   user-select: none;
 }
+
 
 .no-groups {
   font-size: 1rem;
@@ -257,31 +264,14 @@ font-list__list li.empty {
   justify-content: space-between;
   align-content: center;
   flex: 0 1 auto;
-  margin-bottom: 1rem;
+  margin: 0 0;
   position: sticky;
   top: -1rem;
   background-color: #333;
-  padding: 0.5rem;
+  padding: 0.5rem 0rem;
   border-bottom: 1px solid rgba(0,0,0,0.2);
   z-index: 2;
 }
-
-/* .font-list__inputs input {
-  transform: scale(1);
-  transform-origin: left;
-  transition: 0.1s ease-in-out all;
-}
-
-.font-list__inputs input:last-of-type {
-  transform-origin: right;
-}
-
-
-.font-list__inputs input:focus {
-  transform: scale(1.5);
-  position: relative;
-  z-index: 1;
-} */
 
 .group {
   border: 1px solid rgba(0,0,0,0.25);
@@ -291,7 +281,7 @@ font-list__list li.empty {
   margin: 0.5rem 0;
 }
 
-.group .group__title {
+.group__title {
   font-size: 1rem;
   background-color: #444;
   margin: 0 0;
@@ -299,7 +289,33 @@ font-list__list li.empty {
   user-select: none;
 }
 
-.group .group__list {
+.group__title.--editing {
+  background-color: var(--accent-color);
+}
+
+.group .group__title.--editing::before {
+  animation: 0.8s blink infinite alternate-reverse;
+  content: "arrow_right_alt" !important;
+  font-size: 2rem;
+  font-weight: 400;
+}
+
+@keyframes blink {
+  from {
+    opacity: 0.25;
+  }
+
+  to {
+    opacity: 0.75;
+  }
+}
+
+.group__title > em {
+  display: inline-block;
+  font-style: normal;
+}
+
+.group__list {
   display: none;
 }
 
@@ -307,7 +323,7 @@ font-list__list li.empty {
   display: block;
 }
 
-.group .group__title::before {
+.group__title::before {
   font-family: "Material Icons";
   content: "keyboard_arrow_right";
   font-size: 1.4rem;
@@ -352,8 +368,25 @@ button:hover {
 }
 
 input[type="text"] {
-  background-color: #111;
-  color: #eee;
+  font-size: 1.4rem;
+  display: inline-block;
+  background-color: transparent;
   border: 1px solid transparent;
-  padding: 0.25rem 0.5rem;
+  border-bottom: 3px solid #555;
+  padding: 0.25rem 0rem;
+  transition: 0.2s ease-out border;
+  color: var(--accent-color);
+  font-weight: 600;
+}
+
+input[type="text"]::placeholder {
+  font-weight: 400;
+  color: #777;
+}
+
+input[type="text"]:focus {
+  box-shadow: none;
+  outline: none;
+  border-bottom: 3px solid var(--accent-color);
+  
 }
