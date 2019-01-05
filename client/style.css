@@ -48,13 +48,11 @@ ul, ol {
   max-height: 20rem;
   overflow-y: auto;
   background-color: #444;
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
   position: absolute;
   right: 12.5rem;
   bottom: 3rem;
-
-
   transform: translateY(125%);
   transition: 0.2s ease-out all;
   opacity: 0.25;
@@ -153,11 +151,19 @@ ul, ol {
   display: none;
 }
 
-.--loading .loading {
+.--loading > .loading {
   display: block;
+  color: #fff;
+  position: fixed;
+  top: calc(33% - 5rem);
+  left: calc(50% - 5rem);
+  z-index: 4;
+  margin: 0 0;
+  padding: 0.25rem 1rem;
+  border-radius: 6px;
 }
 
-.--loading:not(.loading) {
+.--loading > :not(.loading) {
   display: none;
 }
 
@@ -200,8 +206,9 @@ ul, ol {
   background-color: var(--accent-color);
   transition: 0.1s ease-out background-color;
   position: sticky;
-  top: -1rem;
+  top: 2.25rem;
   bottom: -1rem;
+  z-index: 0;
 }
 
 
@@ -246,6 +253,12 @@ ul, ol {
   align-content: center;
   flex: 0 1 auto;
   margin-bottom: 1rem;
+  position: sticky;
+  top: -1rem;
+  background-color: #333;
+  padding: 0.5rem;
+  border-bottom: 1px solid rgba(0,0,0,0.2);
+  z-index: 2;
 }
 
 /* .font-list__inputs input {

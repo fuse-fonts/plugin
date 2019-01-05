@@ -66,9 +66,9 @@ document.body.classList.add("--loading");
 fm.refresh().then(r => {
   // fm.render();
 
-  fm.createGroup("Project X");
-  fm.createGroup("Grunge");
-  fm.createGroup("Beautiful Cursives");
+  fm.createGroup("Grunge Fonts");
+  // fm.createGroup("Grunge");
+  // fm.createGroup("Beautiful Cursives");
 
   document.body.classList.remove("--loading");
 });
