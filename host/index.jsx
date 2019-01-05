@@ -1,12 +1,9 @@
-﻿if (BridgeTalk.appName === "photoshop") {
-  // do things
-}
+﻿// if (BridgeTalk.appName === "photoshop") {
+//   // do things
+// }
 
 /*
  things to note:
-
- app.fonts.index();
- app.fonts.getByName();
 
  
  app.refreshFonts();
@@ -14,7 +11,9 @@
  persistance: https://github.com/Adobe-CEP/CEP-Resources/blob/master/CEP_9.x/Documentation/CEP%209.0%20HTML%20Extension%20Cookbook.md#html-extension-persistent
 
 changing fonts programmatically:
+https://forums.adobe.com/thread/539222
 https://forums.adobe.com/thread/1497156
+https://forums.adobe.com/thread/1941250
 
 */
 
@@ -55,3 +54,34 @@ function getFontList() {
 
 // testing:
 // getFontList();
+
+
+
+/**
+ * Sets the currently selected layer's font to be the argument postScriptName
+ * @param {string} postScriptName 
+ */
+function applyTypefaceByPostScriptName(postScriptName) {
+  
+  var response = {
+    result: false,
+    message: "No Document Open."
+  };
+
+  if (app.documents.length) {
+
+    var activeLayer = app.activeDocument.activeLayer;
+    response.message = "Current Layer is not a Text Layer."
+    
+    if (activeLayer.kind === LayerKind.TEXT) {
+      try {
+        activeLayer.textItem.font = postScriptName;
+        response.result = true;
+      }
+      catch(e) {
+        response.message = e;
+      }
+    }
+  }
+  return '{ "result":' + response.result.toString() + ', "message": "' + response.message + '" }';
+}

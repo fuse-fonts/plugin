@@ -1,5 +1,32 @@
-const html = new (class Templates {
+/**
+ * Helper for attempting to parse a JSON response from the host
+ * @param {string} input The JSON string result returned from the host script.
+ */
+window.resultsLog = {};
+const tryParseJSON = (input) => {
 
+  // we also log results
+  const logTimeKey = new Date().toLocaleString();
+  resultsLog[logTimeKey] = input;
+
+  console.log("Logged a result into %cresultsLog", "color: #06a; font-family: monospace;");
+
+  try {
+    return JSON.parse(input);
+  }
+  catch (e) {
+    let message = "Could not parse JSON from jsx payload";
+    console.warn("Could not parse JSON from jsx payload");
+    console.error(e);
+    return null;
+  }
+}
+
+/**
+ * Helper instance to help with rendering things.
+ * Todo: figure out if I keep going this route or incorporate lit-HTML
+ */
+const html = new (class Templates {
   fontFace(id, family) {
     let style = document.createElement("style");
     style.id = id;
@@ -75,28 +102,14 @@ class FontManager {
 
     return new Promise((resolve, reject) => {
       csInterface.evalScript("getFontList()", (result) => {
-  
-        console.groupCollapsed("result");
-        console.log(result);
-        console.groupEnd("result");
-        
-        let fonts = null;
-  
-        try {
-          fonts = JSON.parse(result);
-        }
-        catch (e) {
-          let message = "Could not parse JSON from jsx payload";
-          console.warn("Could not parse JSON from jsx payload");
-          console.error(e);
-          return reject();
-        }
+
+        let fonts = tryParseJSON(result);
+        if (fonts === null) return reject();
         
         this.update(fonts);
         resolve();
       });
     });
-
   }
 
   clearFilter() {
@@ -111,6 +124,28 @@ class FontManager {
     this.typefaces.toList().forEach(typeface => typeface.isVisible = typeface.family.toLowerCase().includes(text));
     this.render();
 
+  }
+
+  /**
+   * Applies the currently selected typeface to the current layer via communicating with host
+   * Does nothing if selection is null.
+   */
+  async applySelectedTypeface() {
+    const that = this;
+    const result = await new Promise((resolve, reject) => {
+
+      if (that.selected === null) return reject();
+
+      // right now just grab the first
+      const postScriptName = this.selected.defaultVariant;
+
+      csInterface.evalScript(`applyTypefaceByPostScriptName("${postScriptName}")`, (result) => {
+        let response = tryParseJSON(result)
+        resolve(response);
+      });
+    });
+
+    return result;
   }
 
   /**
@@ -139,7 +174,10 @@ class FontManager {
 
     // update the tray
     this.tray.setScope(this.selected);
-    if (!state) {
+    if (state) {
+      this.tray.open();
+    }
+    else {
       this.tray.close();
     }
     
@@ -212,7 +250,7 @@ class FontManager {
   createGroup(name) {
     const group = new CustomGroup(name);
     
-    this.typefaces.toList().slice(0, 4).forEach(t => group.typefaces.add(t)); // TESTING
+    // this.typefaces.toList().slice(0, 4).forEach(t => group.typefaces.add(t)); // TESTING
 
     this.customGroups.push(group);
     this.tray.update(this.customGroups);

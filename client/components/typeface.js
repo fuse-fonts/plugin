@@ -12,6 +12,7 @@ class TypeFace {
     this.variants = [];
     this.isVisible = true;
     this.isSelected = false;
+    this.defaultVariant = null;
 
     this.renderFontFace = this.renderFontFace.bind(this);
     this.addVariant = this.addVariant.bind(this);
@@ -21,7 +22,16 @@ class TypeFace {
     const name = TypeFace.toID(font.postScriptName);
     const style = TypeFace.mapFontToCSS(font);
     const variant = { name, style, font, description: font.style, parent: this, };
+    
+    // we try to determine which variant is the regular or base font, but if we can't we just use the first added.
+    if (this.variants.length === 0 || variant.style.toLowerCase() === "regular") {
+      console.log(`Settomg default variant of "${this.family}" to "${variant.font.postScriptName}"`)
+      this.defaultVariant = variant.font.postScriptName;
+    }
+
     this.variants.push(variant);
+
+
   }
 
   renderFontFace() {

@@ -38,6 +38,12 @@ Array.from($addGroup).forEach(el => el.addEventListener("click", (r) => {
   }));
 
 /**
+ * Button for applying the currently selected typeface to the current layer
+ */
+const $applyTypeFace = document.querySelector(".apply-typeface");
+$applyTypeFace.addEventListener("click", (e) => fm.applySelectedTypeface());
+
+/**
  * input for changing the preview font text
  */
 // TODO: debounce
