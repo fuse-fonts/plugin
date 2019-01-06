@@ -8,6 +8,7 @@ body {
   font-size: 10px;
   line-height: 1.6em;
   font-family: "Tahoma", sans-serif;
+  overflow-x: hidden;
 }
 
 * {
@@ -143,21 +144,27 @@ ul, ol {
   content: "check";
 }
 
-.group-deleter {
-  position: absolute;
-  right: 1rem;
-  bottom: 3rem;
-  background-color: var(--error-color);
-  padding: 1rem 1rem;
+
+.notification {
+  displaY: inline-block;
+  justify-self: flex-start;
+  flex-grow: 2;
+  color: rgba(255,255,255,0.5);
 }
 
+.warning {
+  color: var(--error-color);
+}
 .actions {
   clear: both;
-  display: block;
   padding: 0rem 2rem;
   border-top: 1px solid rgba(0,0,0,0.25);
-  text-align: right;
+  display: flex;
   background-color: #3a3a3a;
+  align-content: center;
+  align-items: center;
+  justify-items: flex-end;
+  justify-content: flex-end;
   z-index: 2; /* for tray to be under this */
   position: relative; /* for tray to be under this */
 }
@@ -171,6 +178,11 @@ ul, ol {
 
 .actions button + button {
   margin-left: 0.25rem;
+}
+
+.toggle-group-deletions.--active {
+  color: var(--error-color);
+  animation: 0.8s blink infinite alternate-reverse;
 }
 
 .loading {
@@ -218,6 +230,7 @@ ul, ol {
 .font-list {
   padding: 1rem 1rem;
   overflow-y: scroll;
+  overflow-x: hidden;
   height: calc(100vh - 3rem);
 }
 
@@ -324,7 +337,39 @@ ul, ol {
   margin: 0.5rem 0;
   cursor: default;
   margin-bottom: 0.5rem;
-  transition: 0.2s ease-out margin-bottom;
+  transition: 0.2s ease-out margin;
+  position: relative;
+  
+}
+
+.group__delete {
+  position: absolute;
+  right: 0rem;
+  padding: 0.25rem 0.5rem;
+
+  color: rgba(255,255,255,0.65);
+  transform: translateX(300%);
+}
+
+.group__delete:hover {
+  color: var(--error-color);
+}
+
+.group__delete i {
+  font-size: 1.8rem;
+  transform: scale(1);
+  transition: 0.2s ease-in transform;
+}
+
+
+.--allow-deletions .font-list__groups .group {
+  margin-right: 4rem;
+}
+
+.--allow-deletions .group__delete {
+  display: block;
+  transform: translateX(150%);
+  transition: 0.1s linear transform;
 }
 
 .group__title {

@@ -3,7 +3,7 @@ class CustomGroup {
   constructor(name) {
     this.name = name;
     this.typefaces = new TypeFaceLibrary();
-    this.isActive = true;
+    this.isActive = false;
   }
 
   updateTypeFaces(typefaces) {

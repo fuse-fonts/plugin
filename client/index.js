@@ -33,13 +33,13 @@ $applyTypeFace.addEventListener("click", (e) => fm.applySelectedTypeface());
 /**
  * Button for deleting groups
  */
-// const $deleteGroups = document.querySelector(".delete-groups");
-// $deleteGroups.addEventListener("click", (e) => {
-//   document.body.classList.add("--deleting");
-//   const $deleter = document.querySelector(".deleter");
-//   console.log(fm.tray.$list)
-//   $deleter.querySelector("ul").innerHTML = fm.tray.$list.innerHTML;
-// });
+const $deleteGroups = document.querySelector(".toggle-group-deletions");
+const $deleteGroupsIcons = $deleteGroups.querySelector("i");
+$deleteGroups.addEventListener("click", (e) => {
+  document.body.classList.toggle("--allow-deletions");
+  $deleteGroupsIcons.innerText = $deleteGroupsIcons.innerText === "delete" ? "delete_forever" : "delete";
+  $deleteGroups.classList.toggle("--active");
+});
 
 
 /**

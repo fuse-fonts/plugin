@@ -57,7 +57,10 @@ class FontManager {
     const $tray = document.querySelector(".groups-tray");
     this.tray = new CustomGroupTray(this, $tray);
     this.editor = new GroupEditor();
+
+    // notifications
     this.timeoutID = null; // used for notifications
+    this.$notification = document.querySelector(".notification");
 
     // the selected typeface
     this.selected = null;
@@ -72,6 +75,18 @@ class FontManager {
 
     this.toggleSelectionHandler = this.toggleSelectionHandler.bind(this);
     this.addEventListeners();
+  }
+
+  notify(message = "", duration = 5000) {
+    if (this.timeoutID) window.clearTimeout(this.timeoutID);
+    this.$notification.innerHTML = `<span>${message}</span>`;
+    const msgNode = this.$notification.firstElementChild;
+    const ms = duration / 2
+    this.timeoutID = window.setTimeout(() => {
+      let animation = msgNode.animate([{ opacity: 1 }, { opacity: 0 }], { duration: ms, easing: "ease-in"});
+      animation.onfinish = () => { this.$notification.innerHTML = ""; };
+    }, ms);
+
   }
 
   getGroupFromTitleNode(node) {
@@ -125,7 +140,7 @@ class FontManager {
         resolve(response);
       });
     });
-
+    if (!result.result) this.notify(result.message, 5000);
     return result;
   }
 
@@ -269,6 +284,7 @@ class FontManager {
   deleteGroup(name) {
     this.customGroups = this.customGroups.filter(g => g.name !== name);
     this.tray.update(this.customGroups);
+    this.notify(`${name} deleted`, 2600);
     this.render();
   }
 
@@ -364,6 +380,8 @@ class FontManager {
           })
       }, options);
 
+      node.querySelector(".group__delete").addEventListener("click", e => this.deleteGroup(group.name));
+
       node.querySelectorAll(".font").forEach(el => {
         el.addEventListener("click", that.toggleSelectionHandler, options);
       });
@@ -384,6 +402,7 @@ class FontManager {
 
     return (`
       <article data-group-name="${group.name}" class="group ${isActive}">
+        <div class="group__delete"><i class="material-icons">delete_forever</i></div>
         <h2 class="group__title">${group.name}</h2>
         <ol class="group__list font-list__list">${entries}</ol>
       </article>
