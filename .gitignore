@@ -1,5 +1,8 @@
 node_modules/
 
+# zxp sign utility
+ZXPSignCmd.exe
+
 # built files
 bin/client
 bin/host
