@@ -101,6 +101,7 @@ ul, ol {
   border-top: 1px solid rgba(0,0,0,0.2);
   list-style: none;
   z-index: 1;
+  user-select: none;
 }
 
 .groups-tray .empty {
