@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/RoryDuncan/adobe-plugin-project/issues"
   },
-  "homepage": "https://github.com/RoryDuncan/adobe-plugin-project#readme"
+  "homepage": "https://github.com/RoryDuncan/adobe-plugin-project#readme",
+  "dependencies": {
+    "shelljs": "^0.8.3"
+  }
 }
