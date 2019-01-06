@@ -369,6 +369,8 @@ class FontManager {
   
         that.editor.edit(e.currentTarget)
           .then((newValue) => {
+            // sanitize these things
+            newValue = newValue.replace(/</gi, "&lt;").replace(/>/gi, "&gt;")
             group.name = newValue;
             node.dataset.groupName = newValue;
             that.tray.render();
