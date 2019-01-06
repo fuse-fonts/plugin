@@ -208,6 +208,7 @@ class FontManager {
     this.tray.setScope(this.selected);
     if (state) {
       this.tray.open();
+      this.applySelectedTypeface();
     }
     else {
       this.tray.close();
