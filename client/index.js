@@ -22,20 +22,7 @@ $loadFonts.addEventListener("click", (r) => fm.refresh.call(fm, r));
  * Buttons for creating a new group
  */
 let $addGroup = document.querySelectorAll(".add-group");
-Array.from($addGroup).forEach(el => el.addEventListener("click", (r) => {
-    let name = prompt("Enter a name.", "", "Create Group");
-  
-    if (name !== null) {
-  
-      // sanitize
-      name = name.trim().replace(/"/gi, "'").replace(/</gi, "&gt;").replace(/</gi, "&lt;")
-  
-      if (name.length > 0 && !fm.hasGroup(name)) {
-        fm.createGroup(name);
-      }
-  
-    }
-  }));
+Array.from($addGroup).forEach( el => el.addEventListener("click", (e) => fm.createGroup() ));
 
 /**
  * Button for applying the currently selected typeface to the current layer

@@ -14,6 +14,21 @@ class CustomGroup {
     // todo
     // persist
   }
+
+  static getDefaultName(otherGroups) {
+    const base = (i) => `Group ${i}`;
+    
+    let name = null;
+    let n = 1;
+
+    while (name === null) {
+      let exists = otherGroups.find(g => g.name === base(n));
+      if (exists) n++;
+      else name = base(n);
+    }
+
+    return name;
+  }
 }
 
 class CustomGroupTray {

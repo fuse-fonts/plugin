@@ -25,7 +25,6 @@ class TypeFace {
     
     // we try to determine which variant is the regular or base font, but if we can't we just use the first added.
     if (this.variants.length === 0 || variant.style.toLowerCase() === "regular") {
-      console.log(`Settomg default variant of "${this.family}" to "${variant.font.postScriptName}"`)
       this.defaultVariant = variant.font.postScriptName;
     }
 

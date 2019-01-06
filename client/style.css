@@ -1,5 +1,6 @@
 html {
   --accent-color: #38c;
+  --error-color: #b42;
 }
 
 html,
@@ -11,6 +12,11 @@ body {
 
 * {
   box-sizing: border-box;
+}
+
+*:focus {
+  box-shadow: none;
+  outline: none;
 }
 
 i.material-icons {
@@ -279,6 +285,7 @@ ul, ol {
   margin-bottom: 1rem;
   padding: 0 0;
   margin: 0.5rem 0;
+  cursor: default;
 }
 
 .group__title {
@@ -287,17 +294,26 @@ ul, ol {
   margin: 0 0;
   padding: 0.5rem 0.5rem;
   user-select: none;
+  transition: 0.2s ease-out font-size;
 }
 
 .group__title.--editing {
-  background-color: var(--accent-color);
+  background-color: #222;
+  border-bottom: 3px solid var(--accent-color);
+  font-size: 1rem;
+  color: var(--accent-color);
+}
+
+.group__title.--editing:empty {
+  border-bottom: 3px solid var(--error-color);
 }
 
 .group .group__title.--editing::before {
   animation: 0.8s blink infinite alternate-reverse;
-  content: "arrow_right_alt" !important;
-  font-size: 2rem;
+  content: "edit" !important;
+  /* font-size: 1rem; */
   font-weight: 400;
+  color: var(--accent-color);
 }
 
 @keyframes blink {
@@ -365,6 +381,10 @@ button {
 button:hover {
   background-color: rgba(0,0,0,0.1);
   border: 1px solid #444;
+}
+
+button:focus {
+  outline: 1px solid var(--accent-color);
 }
 
 input[type="text"] {

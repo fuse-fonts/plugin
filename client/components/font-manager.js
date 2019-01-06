@@ -56,6 +56,8 @@ class FontManager {
 
     const $tray = document.querySelector(".groups-tray");
     this.tray = new CustomGroupTray(this, $tray);
+    this.editor = new GroupEditor();
+    this.timeoutID = null; // used for notifications
 
     // the selected typeface
     this.selected = null;
@@ -63,39 +65,16 @@ class FontManager {
     // fonts is our raw data
     this.fonts = null;
 
-    this.handlers = {
-
-      toggleGroup(e) {
-        let groupName = e.currentTarget.parentNode.dataset.groupName;
-        let customGroup = this.customGroups.find(g => g.name === groupName);
-        if (customGroup) {
-          customGroup.isActive = !customGroup.isActive;
-        }
-        e.currentTarget.parentNode.classList.toggle("--active");
-      },
-
-      toggleSelection(e) {
-
-        const selectedClassName = "--selected";
-        const family = e.currentTarget.dataset.family;
-        const typeface = this.typefaces[family];
-        
-        if (typeface) {
-          const state = !typeface.isSelected;
-          that.toggleSelect(typeface, state);
-        }
-        else {
-          // unknown situation, just remove selection
-          e.currentTarget.classList.remove("--selected");
-        }
-      },
-    };
-
     // bind handlers
     for (let key in this.handlers) {
       this.handlers[key] = this.handlers[key].bind(that);
     }
 
+  }
+
+  getGroupFromTitleNode(node) {
+    let groupName = node.parentNode.dataset.groupName;
+    return this.customGroups.find(g => g.name === groupName);
   }
 
   refresh() {
@@ -180,7 +159,31 @@ class FontManager {
     else {
       this.tray.close();
     }
+  }
+
+  unselect() {
+    if (this.selected !== null) {
+      this.toggleSelect(this.selected, false);
+      return true;
+    }
     
+    return false;
+  }
+
+  toggleSelectionHandler(e) {
+
+    const selectedClassName = "--selected";
+    const family = e.currentTarget.dataset.family;
+    const typeface = this.typefaces[family];
+
+    if (typeface) {
+      const state = !typeface.isSelected;
+      that.toggleSelect(typeface, state);
+    }
+    else {
+      // unknown situation, just remove selection
+      e.currentTarget.classList.remove("--selected");
+    }
   }
 
   /**
@@ -247,7 +250,10 @@ class FontManager {
    * Creates a `CustomGroup` instance with the argument `name`, and adds it to the `.customGroups` list.
    * @param {string} name 
    */
-  createGroup(name) {
+  createGroup(name = null) {
+    if (name === null) {
+      name = CustomGroup.getDefaultName(this.customGroups);
+    }
     const group = new CustomGroup(name);
     
     // this.typefaces.toList().slice(0, 4).forEach(t => group.typefaces.add(t)); // TESTING
@@ -259,6 +265,10 @@ class FontManager {
   }
 
   deleteGroup(name) {
+
+  }
+
+  editGroup() {
 
   }
 
@@ -281,16 +291,52 @@ class FontManager {
     const that = this;
     const options = { capture: true, passive: true, };
 
-    document.body.querySelectorAll(".group .group__title").forEach( el => {
-      el.removeEventListener("click", that.handlers.toggleGroup, options);
-      el.addEventListener("click", that.handlers.toggleGroup, options);
-    });
+    document.body.querySelectorAll(".group .group__title").forEach(this.addGroupEventListeners.bind(this));
 
-    document.body.querySelectorAll(".font").forEach( el => {
-      el.removeEventListener("click", that.handlers.toggleSelection, options);
+    // selecting under the all fonts region
+    // child `.font` of groups will be handled by this.addGroupEventListeners
+    document.body.querySelectorAll(".all-fonts .font").forEach( el => {
       el.addEventListener("click", that.handlers.toggleSelection, options);
     });
 
+  }
+
+  addGroupEventListeners(node) {
+    
+    const that = this;
+    const options = { capture: true, passive: true, };
+
+    const group = this.getGroupFromTitleNode(node);
+
+    // toggle
+    node.addEventListener("click", () => {
+      if (group) group.isActive = !customGroup.isActive;
+      node.parentNode.classList.toggle("--active");
+    }, options);
+
+    // editing
+    if (group) {
+      node.addEventListener("dblclick", (e) => {
+        
+        const selectedTypeface = this.selected;
+        const unselected = that.unselect();
+  
+        that.editor.edit(e.currentTarget)
+          .then((newValue) => {
+            group.name = newValue;
+            that.tray.render();
+          })
+          .catch(e => e) // no change
+          .then(r => {
+            // reselect our typeface like coolguys
+            if (unselected) that.toggleSelect(selectedTypeface, true);
+          })
+      }, options);
+    }
+
+    node.querySelectorAll(".font").forEach(el => {
+      el.addEventListener("click", that.handlers.toggleSelection, options);
+    });
   }
 
   /**
@@ -337,7 +383,11 @@ class FontManager {
       }, "");
     }
     else {
-      return `<li class="empty">No fonts found.</li>`;
+      return (`
+        <li class="empty">
+          Empty.
+        </li>`
+      );
     }
   }
 
@@ -374,11 +424,13 @@ class FontManager {
   }
 
   renderGroup(group) {
-
+    console.log(`rendering specific group: ${group.name}`)
     const $previous = document.querySelector(`.group[data-group-name="${group.name}"]`)
 
     $previous.outerHTML = this.getCustomGroupHTML(group, group.typefaces.toList(), this.text);
-    this.refreshEventListeners();
+    console.log("replaced node is?:", $previous);
+    const $next = document.querySelector(`.group[data-group-name="${group.name}"]`)
+    this.addGroupEventListeners($next)
   }
 
 }
