@@ -6,6 +6,7 @@ ZXPSignCmd.exe
 *.zxp
 
 # built files
+dist/**/*
 bin/**/*
 bin/client
 bin/host

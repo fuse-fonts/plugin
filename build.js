@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const shell = require("shelljs");
 
-const outputDirectory ="bin/plugin";
+const outputDirectory ="bin/";
 const inputDirectories = [
   "client",
   "csxs",
@@ -11,7 +11,10 @@ const inputDirectories = [
 ];
 
 // clean out previous build, if applicable
+console.log(`Removing ${outputDirectory}`)
 shell.rm("-R", outputDirectory);
+
+console.log(`Re-creating ${outputDirectory}`)
 shell.mkdir(outputDirectory);
 
 inputDirectories.forEach(folder => (console.log(`  — Copying '${folder}'`), shell.cp("-R", folder, `${outputDirectory}/${folder}`)));
