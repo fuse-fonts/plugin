@@ -10,11 +10,6 @@ class CustomGroup {
     this.typefaces = typefaces;
   }
 
-  saveChanges() {
-    // todo
-    // persist
-  }
-
   static getDefaultName(otherGroups) {
     const base = (i) => `Group ${i}`;
     

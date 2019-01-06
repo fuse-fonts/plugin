@@ -1,6 +1,7 @@
 
 const csInterface = new CSInterface();
 
+const timeStart = performance.now();
 // the ul that we will render to
 const $list = document.querySelector(".font-list__list");
 
@@ -10,7 +11,7 @@ let fm = new FontManager(csInterface, $list);
 let $groupList = document.querySelectorAll(".toggle-group-list")
 Array.from($groupList).forEach(el => el.addEventListener("click", (e) => fm.tray.toggle()));
 
-
+csInterface.setContextMenuByJSON(`{ "menu": [{"id": "hi", label": "hi"}]}`, () => {});
 
 /**
  * Button for refreshing fonts
@@ -37,7 +38,7 @@ const $deleteGroups = document.querySelector(".toggle-group-deletions");
 const $deleteGroupsIcons = $deleteGroups.querySelector("i");
 $deleteGroups.addEventListener("click", (e) => {
   document.body.classList.toggle("--allow-deletions");
-  $deleteGroupsIcons.innerText = $deleteGroupsIcons.innerText === "delete" ? "delete_forever" : "delete";
+  $deleteGroupsIcons.innerText = $deleteGroupsIcons.innerText === "delete_sweep" ? "delete_sweep" : "delete_sweep";
   $deleteGroups.classList.toggle("--active");
 });
 
@@ -69,12 +70,17 @@ $filter.addEventListener("keyup", (e) => {
 document.body.classList.add("--loading");
 
 fm.refresh().then(r => {
-  // fm.render();
-
-  fm.createGroup("Grunge Fonts");
+  
+  // fm.createGroup("Grunge Fonts");
   // fm.createGroup("Grunge");
   // fm.createGroup("Beautiful Cursives");
+  fm.load();
+  fm.render();
 
   document.body.classList.remove("--loading");
+  
+  const timeEnd = performance.now();
+  const timeRead = ((timeEnd - timeStart) / 1000).toFixed(2);
+  fm.notify(`Loaded ${fm.fonts.length} fonts in ${timeRead}s`, 6000)
 });
 

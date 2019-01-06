@@ -77,6 +77,42 @@ class FontManager {
     this.addEventListeners();
   }
 
+  save() {
+    let data = this.customGroups.map( g => {
+      const { name } = g;
+      const typefaces = g.typefaces.toList().map(t => t.family);
+      return { name, typefaces };
+    });
+    const fiveYears = 60 * 60 * 24 * 365;
+    const jsonData = `json=${JSON.stringify(data)};max-age=${fiveYears}`;
+    document.cookie = jsonData;
+  }
+
+  load() {
+
+    let kvp = document.cookie.split(";") || [];
+    let jsonKvp = kvp.find(k => k.includes("json="))
+    if (kvp.length > 0 && jsonKvp) {
+      let jsonData = jsonKvp.split("json=")[1];
+      let json = tryParseJSON(jsonData);
+      if (json != null) {
+        console.log("Successfully loaded from cookie", json);
+        this.customGroups = json.map(d => {
+          let group = new CustomGroup(d.name);
+
+          
+          this.typefaces.toList()
+            .filter(t => d.typefaces.includes(t.family)) // get all typefaces referenced in the cookie
+            .reduce( (lib, t) => (lib.add(t), lib), group.typefaces);
+          
+            return group;
+        });
+        
+        fm.tray.update(this.customGroups);
+      }
+    }
+  }
+
   notify(message = "", duration = 5000) {
     if (this.timeoutID) window.clearTimeout(this.timeoutID);
     this.$notification.innerHTML = `<span>${message}</span>`;
@@ -225,6 +261,7 @@ class FontManager {
       }
   
       this.renderGroup(group);
+      this.save();
       return toggle;
     }
 
@@ -279,6 +316,7 @@ class FontManager {
     this.tray.update(this.customGroups);
 
     this.render();
+    this.save();
   }
 
   deleteGroup(name) {
@@ -286,10 +324,7 @@ class FontManager {
     this.tray.update(this.customGroups);
     this.notify(`${name} deleted`, 2600);
     this.render();
-  }
-
-  editGroup() {
-
+    this.save();
   }
 
   /**
@@ -374,6 +409,7 @@ class FontManager {
             group.name = newValue;
             node.dataset.groupName = newValue;
             that.tray.render();
+            that.save();
           })
           .catch(e => e) // no change
           .then(r => {
@@ -471,7 +507,13 @@ class FontManager {
       }, "");
     }
     else {
-      $customGroups.innerHTML = `<h2 class="no-groups">No groups yet.</h2>`;
+      $customGroups.innerHTML = `
+        <h2 class="no-groups" onclick="fm.createGroup()">
+          <span>Add a group to get started:</span>
+          <button class="action add-group" title="Create new custom group">
+            <i class="material-icons">folder</i>
+          </button>
+        </h2>`;
     }
     
     //
@@ -482,6 +524,7 @@ class FontManager {
     $allFonts.innerHTML = this.getListHTML(typefaces.toList(), text);
 
     this.refreshEventListeners();
+    fm.tray.render();
   }
 
   renderGroup(group) {

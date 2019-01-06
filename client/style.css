@@ -181,8 +181,8 @@ ul, ol {
 }
 
 .toggle-group-deletions.--active {
-  color: var(--error-color);
-  animation: 0.8s blink infinite alternate-reverse;
+  color: var(--accent-color);
+  /* animation: 0.8s blink infinite alternate-reverse; */
 }
 
 .loading {
