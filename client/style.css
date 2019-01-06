@@ -48,14 +48,9 @@ ul, ol {
 
 .tip {
   color: #fff;
-  background-color: #777;
   padding: 0.25rem 0.5rem;
   border-radius: 3px;
   float: right;
-}
-
-.tip i {
-  font-size: 1rem;
 }
 
 .overlay {
@@ -73,7 +68,7 @@ ul, ol {
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
   position: absolute;
-  right: 12.5rem;
+  right: 5.7rem;
   bottom: 3rem;
   transform: translateY(125%);
   transition: 0.2s ease-out all;
@@ -148,6 +143,14 @@ ul, ol {
   content: "check";
 }
 
+.group-deleter {
+  position: absolute;
+  right: 1rem;
+  bottom: 3rem;
+  background-color: var(--error-color);
+  padding: 1rem 1rem;
+}
+
 .actions {
   clear: both;
   display: block;
@@ -170,8 +173,7 @@ ul, ol {
   margin-left: 0.25rem;
 }
 
-.loading,
-.group-deleter {
+.loading {
   display: none;
 }
 
@@ -190,11 +192,33 @@ ul, ol {
 .--loading > :not(.loading) {
   display: none;
 }
+/* 
+.deleter {
+  display: none;
+}
+
+.--deleting > .deleter {
+  display: block;
+    color: #fff;
+    padding: 5vh 5vw;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    display: block;
+    right: 0;
+    background-color: var(--error-color);
+    z-index: 999;
+} */
+
+.--deleting > :not(.deleter) {
+  pointer-events: none;
+}
 
 .font-list {
   padding: 1rem 1rem;
   overflow-y: scroll;
-  height: calc(100vh - 6rem);
+  height: calc(100vh - 3rem);
 }
 
 .font-list__list {
@@ -299,6 +323,8 @@ ul, ol {
   padding: 0 0;
   margin: 0.5rem 0;
   cursor: default;
+  margin-bottom: 0.5rem;
+  transition: 0.2s ease-out margin-bottom;
 }
 
 .group__title {
@@ -346,6 +372,11 @@ ul, ol {
 
 .group__list {
   display: none;
+}
+
+.group.--active {
+  margin-bottom: 1.5rem;
+
 }
 
 .group.--active .group__list {

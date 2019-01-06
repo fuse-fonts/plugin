@@ -267,7 +267,9 @@ class FontManager {
   }
 
   deleteGroup(name) {
-
+    this.customGroups = this.customGroups.filter(g => g.name !== name);
+    this.tray.update(this.customGroups);
+    this.render();
   }
 
   editGroup() {
@@ -291,9 +293,15 @@ class FontManager {
     const options = { capture: true, passive: true, };
 
     // toggle all fonts section
-    document.body.querySelector(".all-fonts .group__title").addEventListener("click", (e) => {
+    const $allFontsTitle = document.body.querySelector(".all-fonts .group__title")
+    $allFontsTitle.addEventListener("click", (e) => {
       e.currentTarget.parentNode.classList.toggle("--active");
     }, options);
+
+    $allFontsTitle.addEventListener("contextmenu", (e) => {
+      e.preventDefault();
+      return false;
+    })
   }
 
   /**
@@ -329,6 +337,12 @@ class FontManager {
       $title.addEventListener("click", () => {
         if (group) group.isActive = !group.isActive;
         node.classList.toggle("--active");
+      }, options);
+
+      $title.addEventListener("contextmenu", () => {
+        that.cs.setContextMenuByJSON(`{ "menu": [{"id": "${group.name}", "label": "Delete '${group.name}'"}]}`, (e) => {
+          that.deleteGroup(group.name);
+        });
       }, options);
     
       // editing

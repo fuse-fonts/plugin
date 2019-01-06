@@ -15,8 +15,8 @@ Array.from($groupList).forEach(el => el.addEventListener("click", (e) => fm.tray
 /**
  * Button for refreshing fonts
  */
-let $loadFonts = document.querySelector(".load-fonts");
-$loadFonts.addEventListener("click", (r) => fm.refresh.call(fm, r));
+// let $loadFonts = document.querySelector(".load-fonts");
+// $loadFonts.addEventListener("click", (r) => fm.refresh.call(fm, r));
 
 /**
  * Buttons for creating a new group
@@ -35,8 +35,8 @@ $applyTypeFace.addEventListener("click", (e) => fm.applySelectedTypeface());
  */
 // const $deleteGroups = document.querySelector(".delete-groups");
 // $deleteGroups.addEventListener("click", (e) => {
-//   const $deleter = document.querySelector(".group-deleter");
 //   document.body.classList.add("--deleting");
+//   const $deleter = document.querySelector(".deleter");
 //   console.log(fm.tray.$list)
 //   $deleter.querySelector("ul").innerHTML = fm.tray.$list.innerHTML;
 // });
