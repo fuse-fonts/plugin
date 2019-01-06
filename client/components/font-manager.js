@@ -70,6 +70,8 @@ class FontManager {
       this.handlers[key] = this.handlers[key].bind(that);
     }
 
+    this.toggleSelectionHandler = this.toggleSelectionHandler.bind(this);
+
   }
 
   getGroupFromTitleNode(node) {
@@ -178,11 +180,11 @@ class FontManager {
 
     if (typeface) {
       const state = !typeface.isSelected;
-      that.toggleSelect(typeface, state);
+      this.toggleSelect(typeface, state);
     }
     else {
       // unknown situation, just remove selection
-      e.currentTarget.classList.remove("--selected");
+      e.currentTarget.classList.remove(selectedClassName);
     }
   }
 
@@ -296,7 +298,7 @@ class FontManager {
     // selecting under the all fonts region
     // child `.font` of groups will be handled by this.addGroupEventListeners
     document.body.querySelectorAll(".all-fonts .font").forEach( el => {
-      el.addEventListener("click", that.handlers.toggleSelection, options);
+      el.addEventListener("click", that.toggleSelectionHandler, options);
     });
 
   }
@@ -310,7 +312,7 @@ class FontManager {
 
     // toggle
     node.addEventListener("click", () => {
-      if (group) group.isActive = !customGroup.isActive;
+      if (group) group.isActive = !group.isActive;
       node.parentNode.classList.toggle("--active");
     }, options);
 
@@ -335,7 +337,7 @@ class FontManager {
     }
 
     node.querySelectorAll(".font").forEach(el => {
-      el.addEventListener("click", that.handlers.toggleSelection, options);
+      el.addEventListener("click", that.toggleSelectionHandler, options);
     });
   }
 
@@ -347,7 +349,7 @@ class FontManager {
    */
   getCustomGroupHTML(group, typefaces, text) {
     
-    const entries = this.getListHTML(typefaces, text);
+    const entries = this.getListHTML(typefaces, text, group.name);
     const isActive = group.isActive ? "--active" : "";
 
     return (`
@@ -363,7 +365,7 @@ class FontManager {
    * @param {TypeFace[]} typefaces
    * @param {string} text
    */
-  getListHTML(typefaces, text) {
+  getListHTML(typefaces, text, groupName = null) {
     if (typefaces.length > 0) {
       return typefaces.reduce((p, typeface) => {
 
@@ -383,9 +385,17 @@ class FontManager {
       }, "");
     }
     else {
+      let tip = "";
+
+      // display a tip to the first group they create.
+      if (groupName !== null && groupName === "Group 1") {
+        tip = `<span class="tip">tip: Double-click '<b>${groupName}</b>' to rename this group.</span>`;
+      }
+
       return (`
         <li class="empty">
-          Empty.
+          This group is empty.
+          ${tip}
         </li>`
       );
     }

@@ -31,6 +31,18 @@ const $applyTypeFace = document.querySelector(".apply-typeface");
 $applyTypeFace.addEventListener("click", (e) => fm.applySelectedTypeface());
 
 /**
+ * Button for deleting groups
+ */
+// const $deleteGroups = document.querySelector(".delete-groups");
+// $deleteGroups.addEventListener("click", (e) => {
+//   const $deleter = document.querySelector(".group-deleter");
+//   document.body.classList.add("--deleting");
+//   console.log(fm.tray.$list)
+//   $deleter.querySelector("ul").innerHTML = fm.tray.$list.innerHTML;
+// });
+
+
+/**
  * input for changing the preview font text
  */
 // TODO: debounce
