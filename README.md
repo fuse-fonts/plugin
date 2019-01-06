@@ -1,8 +1,16 @@
 # adobe-plugin-project
 
+## Developing
 
-## Packaging Dependency
-[zxp utility](https://github.com/Adobe-CEP/Getting-Started-guides/tree/master/Package%20Distribute%20Install#download-the-signing-and-packaging-tool-zxpsigncmd)
+1. Clone repository into your `/c/Users/<USER>/AppData/Roaming/Adobe/CEP/extensions/` directory (Create if doesn't exist).
+2. Restart photoshop.
+
+
+## Building
+
+1. `npm install`
+2. Download [zxp utility](https://github.com/Adobe-CEP/Getting-Started-guides/tree/master/Package%20Distribute%20Install#download-the-signing-and-packaging-tool-zxpsigncmd) into your cloned repository. Place in root directory.
+3. `npm run build`
 
 
 ## Resources
