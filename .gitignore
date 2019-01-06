@@ -2,8 +2,11 @@ node_modules/
 
 # zxp sign utility
 ZXPSignCmd.exe
+*.cert
+*.zxp
 
 # built files
+bin/**/*
 bin/client
 bin/host
 bin/csxs

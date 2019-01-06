@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node build.js"
+    "build": "node build.js",
+    "self-sign": "ZXPSignCmd.exe -selfSignedCert US CA FuseFonts \"Fuse Fonts\" bravecoffee ./bin/zxp.cert -tsa https://timestamp.geotrust.com/tsa",
+    "package": "ZXPSignCmd.exe -sign bin/plugin bin/fusefonts.zxp bin/zxp.cert bravecoffee"
   },
   "repository": {
     "type": "git",
