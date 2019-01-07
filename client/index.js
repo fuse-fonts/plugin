@@ -62,18 +62,18 @@ $filter.addEventListener("keyup", (e) => {
   fm.filter(text);
 });
 
-// csInterface.addEventListener(CSInterface.THEME_COLOR_CHANGED_EVENT, (e) => {
-//   console.log("todo: theme changed");
-//   var env = csInterface.getHostEnvironment();
-// });
 
+
+/*
+Startup Code
+*/
 document.body.classList.add("--loading");
+
+fm.detectTheme();
+csInterface.addEventListener(CSInterface.THEME_COLOR_CHANGED_EVENT, (e) => fm.detectTheme());
 
 fm.refresh().then(r => {
   
-  // fm.createGroup("Grunge Fonts");
-  // fm.createGroup("Grunge");
-  // fm.createGroup("Beautiful Cursives");
   fm.load();
   fm.render();
 

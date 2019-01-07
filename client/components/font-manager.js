@@ -113,6 +113,31 @@ class FontManager {
     }
   }
 
+  /**
+   * Detect the theme based on the current host environment and applies it.
+   * Notes: the host environment returns an sRGB color, which we need to transform into our stylesheets of "dark", "medium", "light", and "bright"
+   */
+  detectTheme() {
+
+    const red = this.cs.getHostEnvironment().appSkinInfo.panelBackgroundColor.color.red;
+
+    const theme = {
+      DARK: "theme--dark",
+      MEDIUM: "theme--medium",
+      LIGHT: "theme--light",
+      BRIGHT: "theme--bright",
+    };
+    
+    // clear theme from before
+    document.body.classList.remove(...Object.values(theme));
+
+    if (red <= 50)        document.body.classList.add(theme.DARK);
+    else if (red <= 83)   document.body.classList.add(theme.MEDIUM);
+    else if (red <= 184)  document.body.classList.add(theme.LIGHT);
+    else if (red <= 240)  document.body.classList.add(theme.BRIGHT);
+    else                  document.body.classList.add(theme.DARK);
+  }
+
   notify(message = "", duration = 5000) {
     if (this.timeoutID) window.clearTimeout(this.timeoutID);
     this.$notification.innerHTML = `<span>${message}</span>`;
