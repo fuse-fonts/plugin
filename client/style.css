@@ -11,7 +11,12 @@ html {
   --panel-layer-1: #3a3a3a;
   --panel-layer-2: #444;
   --panel-border: 1px solid rgba(0,0,0,0.2);
-  --panel-hover: rgba(255,255,255,0.1);
+
+  --panel-item: transparent;
+  --panel-item-hover: rgba(255,255,255,0.1);
+
+  --selected-background: var(--accent-color);
+  --selected-color: var(--body-color);
 
   --button-hover: var(--panel-2);
   --input-border: 3px solid #555;
@@ -34,7 +39,7 @@ body.theme--medium {
   --panel-layer-1: #6b6b6b;
   --panel-layer-2: #777;
   --panel-border: 1px solid rgba(0,0,0,0.2);
-  --panel-hover: rgba(255,255,255,0.1);
+  --panel-item-hover: rgba(255,255,255,0.1);
 
   --button-hover: var(--panel-layer-2);
   --input-border: 3px solid #888;
@@ -45,7 +50,33 @@ body.theme--medium {
 
 }
 
-body.theme--light {}
+body.theme--light {
+  --accent-color: #6bb;
+  --error-color: #600;
+  --muted-color: rgba(0,0,0,0.75);
+
+  --body-background-color: #b8b8b8;
+  --body-color: #464646;
+  --foreground-color: #222;
+
+  --panel-layer-0: #b0b0b0;
+  --panel-layer-1: #ccc;
+  --panel-layer-2: #ddd;
+  --panel-border: 1px solid transparent;
+
+  --panel-item: var(--panel-layer-1);
+  --panel-item-hover: var(--panel-layer-2);
+
+  --selected-background: var(--accent-color);
+  --selected-color: #000;
+
+  --button-hover: var(--panel-2);
+  --input-border: 3px solid #555;
+  --input-border-active: 3px solid var(--accent-color);
+
+  --scrollbar-track: #b0b0b0;
+  --scrollbar-thumb: #ccc;
+}
 body.theme--bright {}
 
 
@@ -277,7 +308,7 @@ body {
 
 .font {
   padding: 0.5rem 1rem 0.5rem 0.5rem;
-  background-color: transparent;
+  background-color: var(--panel-item);
   border-bottom: var(--panel-border);
   border-bottom-width: 2px;
   display: flex;
@@ -288,13 +319,14 @@ body {
 }
 
 .font:hover {
-  background-color: var(--panel-hover);
+  background-color: var(--panel-item-hover);
   cursor: default;
   user-select: none;
 }
 
 .font.--selected {
-  background-color: var(--accent-color);
+  background-color: var(--selected-background);
+  color: var(--selected-color);
   transition: 0.1s ease-out background-color;
   position: sticky;
   top: 2.5rem;
@@ -311,7 +343,7 @@ body {
   text-transform: uppercase;
   font-size: 0.8rem;
   font-weight: 400;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
   margin: 0 1rem;
   color: var(--muted-color);
   user-select: none;
