@@ -18,7 +18,7 @@ html {
   --selected-background: var(--accent-color);
   --selected-color: var(--body-color);
 
-  --button-hover: var(--panel-2);
+  --button-hover: var(--panel-layer-2);
   --input-border: 3px solid #555;
   --input-border-active: 3px solid var(--accent-color);
 
@@ -53,7 +53,7 @@ body.theme--medium {
 body.theme--light {
   --accent-color: #6bb;
   --error-color: #600;
-  --muted-color: rgba(0,0,0,0.75);
+  --muted-color: rgba(0,0,0,0.5);
 
   --body-background-color: #b8b8b8;
   --body-color: #464646;
@@ -70,14 +70,41 @@ body.theme--light {
   --selected-background: var(--accent-color);
   --selected-color: #000;
 
-  --button-hover: var(--panel-2);
-  --input-border: 3px solid #555;
+  --button-hover: var(--panel-layer-2);
+  --input-border: 3px solid #777;
   --input-border-active: 3px solid var(--accent-color);
 
   --scrollbar-track: #b0b0b0;
   --scrollbar-thumb: #ccc;
 }
-body.theme--bright {}
+
+body.theme--bright {
+  --accent-color: #6cb;
+  --error-color: #c64;
+  --muted-color: rgba(0,0,0,0.75);
+
+  --body-background-color: #f0f0f0;
+  --body-color: #464646;
+  --foreground-color: #222;
+
+  --panel-layer-0: #e8e8e8;
+  --panel-layer-1: #f6f6f6;
+  --panel-layer-2: #fafafa;
+  --panel-border: 1px solid rgba(0,0,0,0.075);
+
+  --panel-item: var(--panel-layer-1);
+  --panel-item-hover: var(--panel-layer-2);
+
+  --selected-background: var(--accent-color);
+  --selected-color: #000;
+
+  --button-hover: var(--panel-layer-2);
+  --input-border: 3px solid #d1d1d1;
+  --input-border-active: 3px solid var(--accent-color);
+
+  --scrollbar-track: #e8e8e8;
+  --scrollbar-thumb: #f6f6f6;
+}
 
 
 /* base */
