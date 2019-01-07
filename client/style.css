@@ -25,7 +25,25 @@ html {
 /* dark is the default theme */
 body.theme--dark {}
 
-body.theme--medium {}
+body.theme--medium {
+  --body-background-color: #535353;
+  --body-color: #f0f0f0;
+  --foreground-color: #fff;
+
+  --panel-layer-0: #282828;
+  --panel-layer-1: #6b6b6b;
+  --panel-layer-2: #777;
+  --panel-border: 1px solid rgba(0,0,0,0.2);
+  --panel-hover: rgba(255,255,255,0.1);
+
+  --button-hover: var(--panel-layer-2);
+  --input-border: 3px solid #888;
+  --input-border-active: 3px solid var(--accent-color);
+
+  --scrollbar-track: #444;
+  --scrollbar-thumb: #666;
+
+}
 
 body.theme--light {}
 body.theme--bright {}
@@ -253,7 +271,7 @@ body {
 
 .font-list__list li.empty {
   padding: 0.5rem 1rem;
-  background-color: var(--panel-layer-0);
+  background-color: var(--body-background-color);
   color: var(--muted-color);
 }
 
