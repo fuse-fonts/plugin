@@ -1,7 +1,7 @@
 html {
 
   --groups-panel-size: 18%;
-  --fonts-panel-size: calc(100% - var(--groups-panel-size))
+  --fonts-panel-size: calc(100% - var(--groups-panel-size));
 
   --accent-color: #38c;
   --error-color: #b42;
@@ -341,7 +341,7 @@ body {
 }
 
 .fonts-panel {
-  height: calc(--fonts-panel-size - 6px);
+  height: calc(var(--fonts-panel-size) - 6px);
   padding: 1rem 1rem;
 }
 
