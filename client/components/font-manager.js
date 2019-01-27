@@ -54,8 +54,11 @@ class FontManager {
     this.typefaces = new TypeFaceLibrary();
     this.customGroups = [];
 
-    const $tray = document.querySelector(".groups-tray");
-    this.tray = new CustomGroupTray(this, $tray);
+    this.panels = {
+      groups: new CustomGroupPanel(that),
+      fonts: new FontsPanel(that),
+    }
+    
     this.editor = new GroupEditor();
 
     // notifications
@@ -108,7 +111,7 @@ class FontManager {
             return group;
         });
         
-        fm.tray.update(this.customGroups);
+        this.panels.groups.update(this.customGroups)
       }
     }
   }
@@ -229,15 +232,7 @@ class FontManager {
     // toggle the visual state of the actions bar
     Array.from(document.querySelectorAll(".actions__selection-actions .action")).forEach(el => el.classList.toggle("--disabled", !state));
 
-    // update the tray
-    this.tray.setScope(this.selected);
-    if (state) {
-      this.tray.open();
-      this.applySelectedTypeface();
-    }
-    else {
-      this.tray.close();
-    }
+    // todo: update groups panel items
   }
 
   unselect() {
@@ -339,7 +334,7 @@ class FontManager {
     // this.typefaces.toList().slice(0, 4).forEach(t => group.typefaces.add(t)); // TESTING
 
     this.customGroups.push(group);
-    this.tray.update(this.customGroups);
+    // this.tray.update(this.customGroups);
 
     this.render();
     this.save();
@@ -550,7 +545,8 @@ class FontManager {
     $allFonts.innerHTML = this.getListHTML(typefaces.toList(), text);
 
     this.refreshEventListeners();
-    fm.tray.render();
+
+    // fm.tray.render();
   }
 
   renderGroup(group) {

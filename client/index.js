@@ -8,9 +8,6 @@ const $list = document.querySelector(".font-list__list");
 // our font manager instance
 let fm = new FontManager(csInterface, $list);
 
-let $groupList = document.querySelectorAll(".toggle-group-list")
-Array.from($groupList).forEach(el => el.addEventListener("click", (e) => fm.tray.toggle()));
-
 csInterface.setContextMenuByJSON(`{ "menu": [{"id": "hi", label": "hi"}]}`, () => {});
 
 /**

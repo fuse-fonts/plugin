@@ -41,54 +41,55 @@
     <h3>Loading..</h3>
   </section>
 
-  <!-- <section class="deleter">
-    <h2>Permenantly Delete Groups</h2>
-    <ul></ul>
-  </section> -->
-
-  <section class="font-list">
-
-    <header class="font-list__inputs">
-      <input class="font-list__filter" type="text" placeholder="filter..." />
-      <input class="font-list__text" type="text" placeholder="AaBbCc" maxlength="8" />
-    </header>
-
-    <section class="font-list__groups">
-      
+  <main class="panels">
+    
+    <section class="groups-panel panel">
+      <div class="groups">
+        <h3 class="groups__title">Groups</h3>
+        <ul class="groups__list"></ul>
+        <div class="empty">
+          <span>Add a group to get started:</span>
+          <button class="action add-group" title="Create new custom group">
+            <i class="material-icons">folder</i>
+          </button>
+        </div>
+      </div>
+    </section>
+    
+    <section class="separator">
+      <div class="handle"></div>
     </section>
 
-    <section class="all-fonts group --static --active">
-      <h2 class="group__title">All Fonts</h2>
-      <ol class="group__list font-list__list"></ol>
+    <section class="fonts-panel panel">
+
+      <header class="fonts__inputs">
+        <input class="fonts__filter" type="text" placeholder="filter..." />
+        <input class="fonts__text" type="text" placeholder="AaBbCc" maxlength="8" />
+      </header>
+  
+      <ul class="fonts__list"></ul>
+  
+      <!-- <section class="all-fonts group --static --active">
+        <h2 class="group__title">All Fonts</h2>
+        <ol class="group__list font-list__list"></ol>
+      </section> -->
+  
     </section>
 
-  </section>
+  </main>
 
   <footer class="overlay">
 
-    
-
-    <section class="groups-tray">
-      <h3 class="groups-tray__title">Groups</h3>
-      <ul></ul>
-      <div class="empty">
-        <span>Add a group to get started:</span>
-        <button class="action add-group" title="Create new custom group">
-          <i class="material-icons">folder</i>
-        </button>
-      </div>
-    </section>
     <section class="actions">
       
       <section class="notification"></section>
 
       <div class="actions__selection-actions">
+
         <button class="action --disabled apply-typeface" title="Apply Selected Typeface to Current Layer Text">
           <i class="material-icons">text_format</i>
         </button>
-        <button class="action --disabled toggle-group-list" title="Add Selected Typeface to Group...">
-          <i class="material-icons">playlist_add_check</i>
-        </button>
+
       </div>
       <!-- <button class="action load-fonts"  title="Reload All Fonts">
         <i class="material-icons">cached</i>
@@ -103,6 +104,11 @@
   </footer>
   
   <script type="text/javascript" src="CSInterface.js"></script>
+
+  <script type="text/javascript" src="components/panels/panel.js"></script>
+  <script type="text/javascript" src="components/panels/fonts-panel.js"></script>
+  <script type="text/javascript" src="components/panels/custom-group-panel.js"></script>
+
   <script type="text/javascript" src="components/custom-group.js"></script>
   <script type="text/javascript" src="components/group-editor.js"></script>
   <script type="text/javascript" src="components/font-style.js"></script>
