@@ -3,7 +3,7 @@ const csInterface = new CSInterface();
 
 const timeStart = performance.now();
 // the ul that we will render to
-const $list = document.querySelector(".font-list__list");
+const $list = document.querySelector(".fonts-panel__list");
 
 // our font manager instance
 let fm = new FontManager(csInterface, $list);
@@ -44,7 +44,7 @@ $deleteGroups.addEventListener("click", (e) => {
  * input for changing the preview font text
  */
 // TODO: debounce
-$text = document.querySelector(".font-list__text");
+$text = document.querySelector(".fonts__inputs .fonts__text");
 $text.addEventListener("keyup", (e) => {
   fm.updateText($text.value || "");
 });
@@ -53,7 +53,7 @@ $text.addEventListener("keyup", (e) => {
  * input for filtering the list of ALL FONTS
  */
 // TODO: debounce
-$filter = document.querySelector(".font-list__filter");
+$filter = document.querySelector(".fonts__inputs .fonts__filter");
 $filter.addEventListener("keyup", (e) => {
   let text = ($filter.value || "").trim().toLowerCase();
   fm.filter(text);

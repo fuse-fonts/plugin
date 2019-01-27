@@ -23,7 +23,7 @@ class FontsPanel extends Panel {
       `);
     }
     else {
-      return "";
+      return "No group selected.";
     }
 
   }

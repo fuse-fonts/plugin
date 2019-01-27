@@ -1,4 +1,8 @@
 html {
+
+  --groups-panel-size: 18%;
+  --fonts-panel-size: calc(100% - var(--groups-panel-size))
+
   --accent-color: #38c;
   --error-color: #b42;
   --muted-color: rgba(255,255,255,0.5);
@@ -22,7 +26,7 @@ html {
   --input-border: 3px solid #555;
   --input-border-active: 3px solid var(--accent-color);
 
-  --scrollbar-track: #2a2a2a;
+  --scrollbar-track: var(--body-background-color);
   --scrollbar-thumb: #444;
 }
 
@@ -162,22 +166,29 @@ body {
 }
 
 .groups {
-
+  background-color: var(--body-background-color);
+  padding: 1rem 1rem;
 }
 
 .groups .groups__title {
-  font-weight: 500;
-  font-size: 1.1rem;
-  margin: -1rem -1rem 0.25rem -1rem;
-  padding: 0.25rem 0.5rem;
+  display: none;
+  font-weight: 600;
+  font-size: 1rem;
+  margin: 0 0;
+  padding: 0.5rem 0.8rem;
   border-bottom: var(--panel-border);
+  position: sticky;
+  top: 0rem;
+  bottom: 0rem;
+  background-color: var(--body-background-color);
+  z-index: 2;
 }
 
-.groups ul {
-  position: relative;
+.groups .groups__list {
   font-size: 1.4rem;
   list-style: none;
   z-index: 1;
+  position: relative;
   user-select: none;
 }
 
@@ -197,32 +208,8 @@ body {
   display: block;
 }
 
-.groups ul li {
-    padding: 0.5rem 1rem;
-    text-overflow: ellipsis;
-    border-bottom: var(--panel-border);
-    overflow: hidden;
-    white-space: nowrap;
-}
-
-.groups ul li:hover {
-  cursor: default;
-  background-color: rgba(255,255,255,0.1);
-}
-
-.groups ul li:before {
-  content: "folder";
-  font-family: "Material Icons";
-  margin-right: 0.75rem;
-  display: inline-block;
-}
-
 .groups .groups__list li.--active {
   /* background-color: var(--accent-color); */
-}
-
-.groups ul li.--active:before {
-  content: "check";
 }
 
 
@@ -292,7 +279,7 @@ body {
 
 .panels {
   width: 100%;
-  overflow-y: scroll;
+  overflow-y: hidden;
   overflow-x: hidden;
   height: calc(100vh - 3rem);
 }
@@ -301,16 +288,21 @@ body {
   width: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
-  padding: 1rem 1rem;
 }
 
 .groups-panel {
-  height: 20%;
+  height: var(--groups-panel-size);
+  transition: 0.1s ease-in height;
+}
+
+.groups-panel:hover {
+  --groups-panel-size: 26%;
+  transition: 0.2s ease-out height;
 }
 
 .separator {
   width: 100%;
-  height: 6px;
+  height: 7px;
   overflow-y: hidden;
   background-color: var(--panel-layer-0);
   border: 1px solid #000;
@@ -319,10 +311,13 @@ body {
 }
 
 .separator .handle {
-  width: 2rem;
-  border-bottom: 1px dotted var(--panel-layer-2);
-  height: 2px;
+  width: 16px;
+  border-bottom: 1px dotted #000;
+  border-top: 1px dotted #000;
+  height: 3px;
   margin: 0 auto;
+  margin-top: 1px;
+  transition: 0.2s ease-out all;
 }
 
 .panels .separator:hover {
@@ -335,7 +330,9 @@ body {
 }
 
 .panels .separator:hover .handle {
-  border-color: var(--muted-color);
+  width: 32px;
+  border-color: var(--panel-layer-2);
+  transition: 0.2s ease-out all;
 }
 
 .panels .separator:active { 
@@ -344,7 +341,8 @@ body {
 }
 
 .fonts-panel {
-  height: 80%;
+  height: calc(--fonts-panel-size - 6px);
+  padding: 1rem 1rem;
 }
 
 .fonts {
@@ -448,13 +446,9 @@ body {
 }
 
 .group {
-  border: var(--panel-border);
-  border-radius: 3px;
-  margin-bottom: 1rem;
   padding: 0 0;
-  margin: 0.5rem 0;
+  margin: 0 0;
   cursor: default;
-  margin-bottom: 0.5rem;
   transition: 0.2s ease-out margin;
   position: relative;
   
@@ -491,11 +485,15 @@ body {
 
 .group__title {
   font-size: 1rem;
-  background-color: var(--panel-layer-2);
+  background-color: transparent;
   margin: 0 0;
   padding: 0.5rem 0.5rem;
   user-select: none;
   transition: 0.2s ease-out font-size;
+}
+
+.group__title:hover {
+  background-color: var(--panel-layer-1);
 }
 
 .group__title.--editing {
@@ -535,11 +533,11 @@ body {
 
 .group__title::before {
   font-family: "Material Icons";
-  content: "keyboard_arrow_right";
+  content: "folder";
   font-size: 1.4rem;
   line-height: 1rem;
   vertical-align: middle;
-  margin-right: 0.25rem;
+  margin-right: 0.5rem;
 }
 
 .group.--active .group__title::before {
@@ -555,6 +553,7 @@ body {
   width: 8px;
   height: 100%;
   background-color: var(--scrollbar-track);
+  border-left: var(--panel-border);
 }
 ::-webkit-scrollbar-thumb {
   background-color: var(--scrollbar-thumb);

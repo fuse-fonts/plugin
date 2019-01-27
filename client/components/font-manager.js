@@ -365,15 +365,15 @@ class FontManager {
     const options = { capture: true, passive: true, };
 
     // toggle all fonts section
-    const $allFontsTitle = document.body.querySelector(".all-fonts .group__title")
-    $allFontsTitle.addEventListener("click", (e) => {
-      e.currentTarget.parentNode.classList.toggle("--active");
-    }, options);
+    // const $allFontsTitle = document.body.querySelector(".all-fonts .group__title")
+    // $allFontsTitle.addEventListener("click", (e) => {
+    //   e.currentTarget.parentNode.classList.toggle("--active");
+    // }, options);
 
-    $allFontsTitle.addEventListener("contextmenu", (e) => {
-      e.preventDefault();
-      return false;
-    })
+    // $allFontsTitle.addEventListener("contextmenu", (e) => {
+    //   e.preventDefault();
+    //   return false;
+    // })
   }
 
   /**
@@ -517,6 +517,10 @@ class FontManager {
     const that = this;
     const { typefaces, text } = this;
 
+    this.panels.groups.render();
+    this.panels.fonts.render(this.panels.groups.selected || null);
+
+    return;
     //
     // render our custom groups — if any
     //
