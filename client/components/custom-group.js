@@ -1,9 +1,10 @@
 class CustomGroup {
 
-  constructor(name) {
+  constructor(name, permanent = false) {
     this.name = name;
     this.typefaces = new TypeFaceLibrary();
     this.isActive = false;
+    this.permanent = permanent;
   }
 
   updateTypeFaces(typefaces) {

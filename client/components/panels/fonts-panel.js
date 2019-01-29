@@ -56,18 +56,13 @@ class FontsPanel extends Panel {
     this.render(null);
   }
 
-  viewContents(event) {
-    const groupID = event.detail.groupID;
-    const selectedGroup = this.parent.customGroups.find(g => g.name === groupID);
-
-    if (selectedGroup) {
-      this.render(selectedGroup);
-    }
+  viewContents(group) {
+    this.render(group);
   }
 
   getHTML(group) {
     if (group) {
-      return getListHTML(group.typefaces, this.text);
+      return getListHTML(group.typefaces.toList(), this.text);
     }
     else {
       return "No group selected.";

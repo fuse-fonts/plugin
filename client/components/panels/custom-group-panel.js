@@ -32,9 +32,10 @@ class CustomGroupPanel extends Panel {
     if (this.selectedNode) {
       
       const that = this;
-  
+      const node = this.selectedNode;
+
       const keyframes = [
-        { height: `${this.selectedNode.offsetHeight}px`, overflow: "hidden", transform: "scale(1)", },
+        { height: `${node.offsetHeight}px`, overflow: "hidden", transform: "scale(1)", },
         { height: "0px", overflow: "hidden", transform: "scale(0)" },
       ];
   
@@ -43,11 +44,14 @@ class CustomGroupPanel extends Panel {
         easing: "ease-out",
       };
   
-      var animation = this.selectedNode.animate(keyframes, options);
+      var animation = node.animate(keyframes, options);
   
       this.unselect();
+      this.groups = groups;
   
-      animation.onfinish = () => this.update(groups);
+      animation.onfinish = () => {
+
+      }
   
       return animation;
     }
@@ -56,7 +60,7 @@ class CustomGroupPanel extends Panel {
     }
   }
 
-  update() {
+  update(groups) {
     this.groups = groups;
     this.render();
   }
@@ -105,7 +109,8 @@ class CustomGroupPanel extends Panel {
   }
 
   render() {
-    this.$list.innerHTML = this.groups.reduce((html, group) => html + this.renderGroup(group), "");
+    const groups = [this.parent.allFontsGroup, ...this.groups];
+    this.$list.innerHTML = groups.reduce((html, group) => html + this.renderGroup(group), "");
   }
   
   renderGroup(group) {
@@ -120,9 +125,6 @@ class CustomGroupPanel extends Panel {
     `);
   }
 
-  addTypefaceToGroup() {
-
-  }
 }
 
 // event enum

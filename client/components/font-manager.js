@@ -64,9 +64,14 @@ class FontManager {
 
     // setup our cross talk of panels
     groupPanel.addEventListener(CustomGroupPanel.SELECT, (e) => {
-      fontPanel.viewContents(e);
-      actionsPanel.hasSelection = true;
+
+      const selectedGroup = this.getGroup(event.detail.groupID);
+      if (selectedGroup) fontPanel.viewContents(selectedGroup);
+
+      // don't allow them to delete "all fonts" lol
+      actionsPanel.hasSelection = selectedGroup.permanent ? false: true;
     });
+
     groupPanel.addEventListener(CustomGroupPanel.UNSELECT, (e) => {
       fontPanel.clear();
       actionsPanel.hasSelection = false;
@@ -91,6 +96,17 @@ class FontManager {
 
     this.toggleSelectionHandler = this.toggleSelectionHandler.bind(this);
     this.addEventListeners();
+  }
+
+  getGroup(name) {
+    if (name === "All Fonts") return this.allFontsGroup;
+    return this.customGroups.find(g => g.name === name) || null;
+  }
+
+  get allFontsGroup() {
+    const allFonts = new CustomGroup("All Fonts", true);
+    allFonts.typefaces = this.typefaces;
+    return allFonts;
   }
 
   save() {
