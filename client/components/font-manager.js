@@ -43,21 +43,34 @@ const html = new (class Templates {
 
 class FontManager {
 
-  constructor(csInterface, $list) {
+  constructor(csInterface) {
 
     let that = this;
     this.cs = csInterface;
-    this.$list = $list;
-    this.text = "AaBbCc";
-    this.defaultText = "AaBbCc";
+
     // typefaces is the family-grouping of fonts
     this.typefaces = new TypeFaceLibrary();
     this.customGroups = [];
 
+    const fontPanel = new FontsPanel(that);
+    const groupPanel = new CustomGroupPanel(that);
+    const actionsPanel = new ActionsPanel(that);
+
     this.panels = {
-      groups: new CustomGroupPanel(that),
-      fonts: new FontsPanel(that),
+      groups: groupPanel,
+      fonts: fontPanel,
+      actions: actionsPanel,
     }
+
+    // setup our cross talk of panels
+    groupPanel.addEventListener(CustomGroupPanel.SELECT, (e) => {
+      fontPanel.viewContents(e);
+      actionsPanel.hasSelection = true;
+    });
+    groupPanel.addEventListener(CustomGroupPanel.UNSELECT, (e) => {
+      fontPanel.clear();
+      actionsPanel.hasSelection = false;
+    });
     
     this.editor = new GroupEditor();
 
@@ -326,25 +339,36 @@ class FontManager {
    * @param {string} name 
    */
   createGroup(name = null) {
+
     if (name === null) {
       name = CustomGroup.getDefaultName(this.customGroups);
     }
+
     const group = new CustomGroup(name);
     
     // this.typefaces.toList().slice(0, 4).forEach(t => group.typefaces.add(t)); // TESTING
 
     this.customGroups.push(group);
-    // this.tray.update(this.customGroups);
+    
+    this.panels.groups.update(this.customGroups);
 
-    this.render();
     this.save();
   }
 
-  deleteGroup(name) {
+  deleteGroup(name = null) {
+
+    if (name === null) {
+      // fetch name from currently selected group
+      if (this.panels.groups.selected) return this.deleteGroup(this.panels.groups.selected);
+      // else it's an invalid group
+    }
+
     this.customGroups = this.customGroups.filter(g => g.name !== name);
-    this.tray.update(this.customGroups);
+
+    this.panels.groups.deleteGroup(this.customGroups);
+
     this.notify(`${name} deleted`, 2600);
-    this.render();
+
     this.save();
   }
 

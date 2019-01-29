@@ -49,7 +49,7 @@
         <ul class="groups__list"></ul>
         <div class="empty">
           <span>Add a group to get started:</span>
-          <button class="action add-group" title="Create new custom group">
+          <button class="action create-group" title="Create new custom group">
             <i class="material-icons">folder</i>
           </button>
         </div>
@@ -72,11 +72,11 @@
         <!-- <button class="action load-fonts"  title="Reload All Fonts">
             <i class="material-icons">cached</i>
           </button> -->
-        <button class="action add-group" title="Create new custom group">
+        <button class="action create-group" title="Create new custom group">
           <i class="material-icons">folder</i>
         </button>
-        <button class="action toggle-group-deletions" title="Allow groups to be deleted">
-          <i class="material-icons">delete_sweep</i>
+        <button class="action --disabled toggle-group-deletions" title="Allow groups to be deleted">
+          <i class="material-icons">delete</i>
         </button>
       </div>
     </section>
@@ -107,6 +107,7 @@
 
   <script type="text/javascript" src="components/panels/panel.js"></script>
   <script type="text/javascript" src="components/panels/fonts-panel.js"></script>
+  <script type="text/javascript" src="components/panels/actions-panel.js"></script>
   <script type="text/javascript" src="components/panels/custom-group-panel.js"></script>
 
   <script type="text/javascript" src="components/custom-group.js"></script>

@@ -17,27 +17,10 @@ csInterface.setContextMenuByJSON(`{ "menu": [{"id": "hi", label": "hi"}]}`, () =
 // $loadFonts.addEventListener("click", (r) => fm.refresh.call(fm, r));
 
 /**
- * Buttons for creating a new group
- */
-let $addGroup = document.querySelectorAll(".add-group");
-Array.from($addGroup).forEach( el => el.addEventListener("click", (e) => fm.createGroup() ));
-
-/**
  * Button for applying the currently selected typeface to the current layer
  */
 const $applyTypeFace = document.querySelector(".apply-typeface");
 $applyTypeFace.addEventListener("click", (e) => fm.applySelectedTypeface());
-
-/**
- * Button for deleting groups
- */
-const $deleteGroups = document.querySelector(".toggle-group-deletions");
-const $deleteGroupsIcons = $deleteGroups.querySelector("i");
-$deleteGroups.addEventListener("click", (e) => {
-  document.body.classList.toggle("--allow-deletions");
-  $deleteGroupsIcons.innerText = $deleteGroupsIcons.innerText === "delete_sweep" ? "delete_sweep" : "delete_sweep";
-  $deleteGroups.classList.toggle("--active");
-});
 
 
 /**

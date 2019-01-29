@@ -5,33 +5,103 @@
  */
 class CustomGroupPanel extends Panel {
   
-  constructor(parent, groups = []) {
-    super();
+  get panelClassName() { return ".groups-panel" }
+  get listClassName() { return ".groups__list" }
+  get selectedClassName() { return "--selected" }
 
-    const panelClassName = ".groups-panel";
-    const listClassName = ".groups__list";
-
-    this.parent = parent;
-    this.selected = null;
-    this.groups = groups;
-
-    const $root = document.querySelector(panelClassName);
-    this.$root = $root;
-    this.$list = $root.querySelector(listClassName);
-
+  get events() {
+    return ["SELECT", "UNSELECT"];
   }
 
-  update(groups) {
+  constructor(parent, groups = []) {
+    super();
+    this.parent = parent;
+    this.selected = null;
+    this.selectedNode = null;
+    this.groups = groups;
+
+    const $root = document.querySelector(this.panelClassName);
+    this.$root = $root;
+    this.$list = $root.querySelector(this.listClassName);
+
+    this.addEventListeners();
+    console.log(this);
+  }
+
+  deleteGroup(groups) {
+    if (this.selectedNode) {
+      
+      const that = this;
+  
+      const keyframes = [
+        { height: `${this.selectedNode.offsetHeight}px`, overflow: "hidden", transform: "scale(1)", },
+        { height: "0px", overflow: "hidden", transform: "scale(0)" },
+      ];
+  
+      const options = {
+        duration: 400,
+        easing: "ease-out",
+      };
+  
+      var animation = this.selectedNode.animate(keyframes, options);
+  
+      this.unselect();
+  
+      animation.onfinish = () => this.update(groups);
+  
+      return animation;
+    }
+    else {
+      this.update(groups);
+    }
+  }
+
+  update() {
     this.groups = groups;
     this.render();
   }
 
-  select() {
+  addEventListeners() {
+    
+    const that = this;
+
+    this.$list.addEventListener("click", e => {
+      
+      var li = e.target.parentNode;
+      var groupID = li.dataset.groupName;
+
+      var isActive = li.classList.toggle(that.selectedClassName)
+      
+      if (isActive) this.select(groupID, li);
+      else this.unselect(groupID, li);
+    })
+  }
+
+  select(groupID, node) {
+    
+    // unselect previous
+    if (this.selectedNode) this.unselect();
+
+    this.selected = groupID;
+    this.selectedNode = node;
+
+    const detail = { groupID, node };
+    const event = new CustomEvent(CustomGroupPanel.SELECT, { detail });
+
+    this.dispatchEvent(event);
 
   }
 
   unselect() {
+    if (this.selectedNode) this.selectedNode.classList.remove(this.selectedClassName);
+    
+    const detail = { groupID: this.selected };
+    const event = new CustomEvent(CustomGroupPanel.UNSELECT, { detail });
+    
+    this.dispatchEvent(event);
 
+    this.selected = null;
+    this.selectedNode = null;
   }
 
   render() {
@@ -54,3 +124,7 @@ class CustomGroupPanel extends Panel {
 
   }
 }
+
+// event enum
+CustomGroupPanel.SELECT = "select";
+CustomGroupPanel.UNSELECT = "unselect";
