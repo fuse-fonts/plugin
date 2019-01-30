@@ -1,4 +1,5 @@
 
+
 /**
  * [HELPER] Returns the rendered HTML of a list of typefaces.
  * @param {TypeFace[]} typefaces
@@ -17,6 +18,7 @@ const getListHTML = (typefaces = [], text) => {
               <div class="font__name">${typeface.family}</div>
               <div class="font__style-count">${typeface.variants.length} style${typeface.variants.length == 1 ? "" : "s"}</div>
               <div class="font__preview" style="font-family: '${family}'">${text}</div>
+              <div class="font__styles"></div>
             </li>
           `);
 
@@ -44,6 +46,9 @@ class FontsPanel extends Panel {
     this.text = "AaBbCc";
     this.defaultText = "AaBbCc";
 
+    this.selected = null;
+    this.selectedNode = null;
+
     const panelClassName = ".fonts-panel";
     const listClassName = ".fonts__list";
 
@@ -58,6 +63,14 @@ class FontsPanel extends Panel {
 
   viewContents(group) {
     this.render(group);
+  }
+
+  select() {
+
+  }
+
+  unselect() {
+    
   }
 
   getHTML(group) {

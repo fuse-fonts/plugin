@@ -49,9 +49,7 @@ class CustomGroupPanel extends Panel {
       this.unselect();
       this.groups = groups;
   
-      animation.onfinish = () => {
-
-      }
+      animation.onfinish = () => node.remove();
   
       return animation;
     }
