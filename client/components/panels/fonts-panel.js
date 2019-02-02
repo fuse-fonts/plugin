@@ -1,5 +1,4 @@
 
-
 /**
  * [HELPER] Returns the rendered HTML of a list of typefaces.
  * @param {TypeFace[]} typefaces
@@ -46,15 +45,19 @@ class FontsPanel extends Panel {
     this.text = "AaBbCc";
     this.defaultText = "AaBbCc";
 
-    this.selected = null;
-    this.selectedNode = null;
+    this.selected = [];
+    this.selectedNodes = [];
 
     const panelClassName = ".fonts-panel";
     const listClassName = ".fonts__list";
+    this.selectedClassName = "--selected";
 
     let $root = document.querySelector(panelClassName);
     this.$root = $root;
     this.$list = $root.querySelector(listClassName);
+
+
+    this.nodeClicked = this.nodeClicked.bind(this);
   }
 
   clear() {
@@ -65,12 +68,118 @@ class FontsPanel extends Panel {
     this.render(group);
   }
 
-  select() {
+  addEventListeners() {
+
+    const options = { capture: true, passive: true, };
+
+    Array
+      .from(this.$list.children)
+      .forEach(node => node.addEventListener("click", e => this.nodeClicked(e), options));
+
 
   }
 
-  unselect() {
+  getNodeRange(startNode, endNode) {
+    let nodes = Array.from(this.$list.children);
+
+    let start = nodes.indexOf(startNode)
+    let end = nodes.indexOf(endNode);
+
+    if (end < start) {
+      [start, end] = [end, start];
+    }
+
+    return nodes.slice(start, end + 1);
+  }
+
+  nodeClicked(e) {
+    const node = e.currentTarget;
+    let nodes = [node];
+    // console.log("clicked", node, e)
+
+    if (this.selected.length > 0) {
+
+      const shouldClearSelection = !(e.shiftKey || e.ctrlKey);
+      const previousNode = this.selectedNodes[0];
+      const selectedPreviousNode = node.isSameNode(previousNode);
+
+      if (shouldClearSelection) {
+
+        this.unselectAll(true);
+        if (selectedPreviousNode) return;
+      }
+      else {
+        if (e.shiftKey) {
+          this.selectRange(previousNode, node);
+          return;
+        }
+        if (e.ctrlKey) {
+          nodes = nodes.concat(this.selectedNodes);
+        }
+      }
+    }
+
+    const toggle = node.classList.toggle(this.selectedClassName);
+    if (toggle) this.select(nodes);
+    else this.unselect(nodes);
+
+  }
+
+  selectRange(previousNode, node) {
+    const nodes = this.getNodeRange(previousNode, node);
+    nodes.forEach(n => n.classList.add(this.selectedClassName));
+    this.select(nodes);
+  }
+
+  select(nodes = []) {
+    const shouldTriggerEvent = this.selected.length === 0;
+    this.selectedNodes = nodes;
+    this.selected = this.selectedNodes.map(node => node.dataset.family);
+    console.log("selected:", this.selected)
+
+    if (shouldTriggerEvent) {
+      const fonts = this.selected;
+      const detail = { fonts, nodes, };
+      const event = new CustomEvent(FontsPanel.SELECT, { detail });
+
+      this.dispatchEvent(event);
+    }
+  }
+
+  unselectAll() {
+    const fonts = [];
+    const nodes = this.selectedNodes.map(node => node.classList.remove(this.selectedClassName));
+
+    this.selectedNodes = [];
+    this.selected = [];
+
+  }
+
+  unselect(nodes = []) {
     
+    const groups = this.selectedNodes.reduce((p, node) => {
+      if (nodes.contains(node)) p.unselected.push(node);
+      else p.selected.push(node);
+      return p;
+    }, {
+      selected: [],
+      unselected: [],
+    })
+
+    groups.unselected.forEach(n => n.classList.remove(this.selectedClassName));
+
+    this.selectedNodes = groups.selected;
+    this.selected = groups.selected.map(n => n.dataset.family);
+
+    // event triggered only when no items are currently selected
+    if (this.selected.length === 0) {
+      const fonts = groups.unselected.map(n => n.dataset.family);
+      const detail = { fonts, nodes: group.unselected };
+      const event = new CustomEvent(FontsPanel.UNSELECT, { detail });
+  
+      this.dispatchEvent(event);
+    }
+
   }
 
   getHTML(group) {
@@ -85,6 +194,11 @@ class FontsPanel extends Panel {
 
   render(group = null) {
     this.$list.innerHTML = this.getHTML(group);
+    this.addEventListeners();
   }
 
 }
+
+// event enum
+FontsPanel.SELECT = "select";
+FontsPanel.UNSELECT = "unselect";

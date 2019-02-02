@@ -534,7 +534,6 @@ body {
   position: sticky;
   top: 0rem;
   bottom: 0;
-  margin-left: -0.5rem;
   z-index: 2;
 }
 
