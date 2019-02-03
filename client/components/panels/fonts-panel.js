@@ -60,6 +60,10 @@ class FontsPanel extends Panel {
     this.nodeClicked = this.nodeClicked.bind(this);
   }
 
+  get events() {
+    return ["SELECT", "UNSELECT"];
+  }
+
   clear() {
     this.render(null);
   }
@@ -114,7 +118,7 @@ class FontsPanel extends Panel {
           return;
         }
         if (e.ctrlKey) {
-          nodes = nodes.concat(this.selectedNodes);
+          nodes = mergeUnique(nodes, this.selectedNodes);
         }
       }
     }
@@ -128,14 +132,14 @@ class FontsPanel extends Panel {
   selectRange(previousNode, node) {
     const nodes = this.getNodeRange(previousNode, node);
     nodes.forEach(n => n.classList.add(this.selectedClassName));
-    this.select(nodes);
+    this.select(mergeUnique(nodes, this.selectedNodes));
   }
 
   select(nodes = []) {
     const shouldTriggerEvent = this.selected.length === 0;
     this.selectedNodes = nodes;
     this.selected = this.selectedNodes.map(node => node.dataset.family);
-    console.log("selected:", this.selected)
+    console.log("selected:", this.selected, this.selectedNodes)
 
     if (shouldTriggerEvent) {
       const fonts = this.selected;
@@ -174,7 +178,7 @@ class FontsPanel extends Panel {
     // event triggered only when no items are currently selected
     if (this.selected.length === 0) {
       const fonts = groups.unselected.map(n => n.dataset.family);
-      const detail = { fonts, nodes: group.unselected };
+      const detail = { fonts, nodes: groups.unselected };
       const event = new CustomEvent(FontsPanel.UNSELECT, { detail });
   
       this.dispatchEvent(event);
@@ -197,6 +201,11 @@ class FontsPanel extends Panel {
     this.addEventListeners();
   }
 
+}
+
+function mergeUnique(nodes, otherNodes) {
+  const uniques = otherNodes.filter(node => !nodes.includes(node));
+  return nodes.concat(uniques);
 }
 
 // event enum

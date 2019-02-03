@@ -106,6 +106,14 @@ class CustomGroupPanel extends Panel {
     this.selectedNode = null;
   }
 
+  displayFontActions() {
+
+  }
+
+  hideFontActions() {
+
+  }
+
   render() {
     const groups = [this.parent.allFontsGroup, ...this.groups];
     this.$list.innerHTML = groups.reduce((html, group) => html + this.renderGroup(group), "");
@@ -117,8 +125,11 @@ class CustomGroupPanel extends Panel {
   
     return (`
       <li data-group-name="${group.name}" class="group ${isActive}">
-        <div class="group__delete"><i class="material-icons">delete_forever</i></div>
         <h2 class="group__title">${group.name}</h2>
+        <section class="group__actions">
+          <button><i class="material-icons">add</i></button>
+          <button><i class="material-icons">remove</i></button>
+        </section>
       </li>
     `);
   }
