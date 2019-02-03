@@ -8,6 +8,7 @@ class CustomGroupPanel extends Panel {
   get panelClassName() { return ".groups-panel" }
   get listClassName() { return ".groups__list" }
   get selectedClassName() { return "--selected" }
+  get actionsClassName() { return "--allow-actions" }
 
   get events() {
     return ["SELECT", "UNSELECT"];
@@ -68,8 +69,15 @@ class CustomGroupPanel extends Panel {
     const that = this;
 
     this.$list.addEventListener("click", e => {
+
+      // ignore clicks withing group actions region
+      const isAnAction = e.target.closest(".group__actions") !== null;
+      if (isAnAction) return;
+
+
+      const li = e.target.closest(".group");
+      if (li === null) return;
       
-      var li = e.target.parentNode;
       var groupID = li.dataset.groupName;
 
       var isActive = li.classList.toggle(that.selectedClassName)
@@ -107,11 +115,13 @@ class CustomGroupPanel extends Panel {
   }
 
   displayFontActions() {
-
+    console.log("displayFontActions");
+    this.$list.classList.add(this.actionsClassName);
   }
 
   hideFontActions() {
-
+    console.log("hideFontActions");
+    this.$list.classList.remove(this.actionsClassName);
   }
 
   render() {
@@ -127,8 +137,8 @@ class CustomGroupPanel extends Panel {
       <li data-group-name="${group.name}" class="group ${isActive}">
         <h2 class="group__title">${group.name}</h2>
         <section class="group__actions">
-          <button><i class="material-icons">add</i></button>
-          <button><i class="material-icons">remove</i></button>
+          <button><i class="material-icons">turned_in</i></button>
+          <!--<button><i class="material-icons">remove_from_queue</i></button>-->
         </section>
       </li>
     `);

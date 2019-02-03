@@ -97,6 +97,7 @@ class FontsPanel extends Panel {
   }
 
   nodeClicked(e) {
+    debugger;
     const node = e.currentTarget;
     let nodes = [node];
     // console.log("clicked", node, e)
@@ -109,7 +110,7 @@ class FontsPanel extends Panel {
 
       if (shouldClearSelection) {
 
-        this.unselectAll(true);
+        this.unselectAll(selectedPreviousNode);
         if (selectedPreviousNode) return;
       }
       else {
@@ -139,7 +140,6 @@ class FontsPanel extends Panel {
     const shouldTriggerEvent = this.selected.length === 0;
     this.selectedNodes = nodes;
     this.selected = this.selectedNodes.map(node => node.dataset.family);
-    console.log("selected:", this.selected, this.selectedNodes)
 
     if (shouldTriggerEvent) {
       const fonts = this.selected;
@@ -150,13 +150,16 @@ class FontsPanel extends Panel {
     }
   }
 
-  unselectAll() {
+  unselectAll(dispatchEvent = false) {
     const fonts = [];
     const nodes = this.selectedNodes.map(node => node.classList.remove(this.selectedClassName));
 
     this.selectedNodes = [];
     this.selected = [];
-
+    if (dispatchEvent) {
+      const event = new CustomEvent(FontsPanel.UNSELECT);
+      this.dispatchEvent(event);
+    }
   }
 
   unselect(nodes = []) {
@@ -177,10 +180,7 @@ class FontsPanel extends Panel {
 
     // event triggered only when no items are currently selected
     if (this.selected.length === 0) {
-      const fonts = groups.unselected.map(n => n.dataset.family);
-      const detail = { fonts, nodes: groups.unselected };
-      const event = new CustomEvent(FontsPanel.UNSELECT, { detail });
-  
+      const event = new CustomEvent(FontsPanel.UNSELECT);
       this.dispatchEvent(event);
     }
 

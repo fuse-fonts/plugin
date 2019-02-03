@@ -449,7 +449,20 @@ body {
   transition: 0.2s ease-out margin;
   position: relative;
   background-color: transparent;
-  
+  display: flex;
+  flex: 0 1 auto;
+  justify-content: space-between;
+}
+
+.group__actions {
+  display: none;
+}
+
+.--allow-actions .group__actions {
+  display: flex;
+  flex: 0 1 auto;
+  justify-content: space-evenly;
+  padding: 0.25rem 0.25rem;
 }
 
 .group:hover {
@@ -514,11 +527,6 @@ body {
   content: "edit" !important;
   font-weight: 400;
   color: var(--accent-color);
-}
-
-.group__title > em {
-  display: inline-block;
-  font-style: normal;
 }
 
 .group__list {

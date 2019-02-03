@@ -67,10 +67,15 @@ class FontManager {
       
       window.setTimeout(() => {
         const selectedGroup = that.getGroup(e.detail.groupID);
-        if (selectedGroup) fontPanel.viewContents(selectedGroup);
-  
-        // don't allow them to delete "all fonts" — lol nerds
-        actionsPanel.hasSelection = selectedGroup.permanent ? false: true;
+        if (selectedGroup) {
+          fontPanel.viewContents(selectedGroup);
+          // don't allow them to delete "all fonts" — lol nerds
+          actionsPanel.hasSelection = selectedGroup.permanent ? false: true;
+        }
+        else {
+          actionsPanel.hasSelection = false;
+        }
+        
       }, 1)
     });
 
@@ -83,7 +88,7 @@ class FontManager {
       groupPanel.displayFontActions();
     });
 
-    fontPanel.addEventListener(FontsPanel.SELECT, (e) => {
+    fontPanel.addEventListener(FontsPanel.UNSELECT, (e) => {
       groupPanel.hideFontActions();
     });
     
