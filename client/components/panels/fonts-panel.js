@@ -56,6 +56,11 @@ class FontsPanel extends Panel {
     this.$root = $root;
     this.$list = $root.querySelector(listClassName);
 
+    // inputs
+    this.$inputs = $root.querySelector(".fonts__inputs");
+    this.$filter = $root.querySelector(".fonts__filter");
+    this.$preview = $root.querySelector(".fonts__text");
+
 
     this.nodeClicked = this.nodeClicked.bind(this);
   }
@@ -98,7 +103,6 @@ class FontsPanel extends Panel {
   }
 
   nodeClicked(e) {
-    debugger;
     const node = e.currentTarget;
     let nodes = [node];
     // console.log("clicked", node, e)
@@ -192,7 +196,7 @@ class FontsPanel extends Panel {
       return getListHTML(group.typefaces.toList(), this.text);
     }
     else {
-      return "No group selected.";
+      return (`<li class="empty">No group selected.</li>`);
     }
 
   }
@@ -203,8 +207,11 @@ class FontsPanel extends Panel {
 
   render(group = null) {
     this.$list.innerHTML = this.getHTML(group);
+    this.$inputs.classList.toggle("--disabled", group === null);
     this.addEventListeners();
   }
+
+
 
 }
 

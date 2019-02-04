@@ -21,6 +21,7 @@ html {
   --panel-layer-2: #444;
   --panel-border: 1px solid rgba(0,0,0,0.2);
 
+
   --panel-item: transparent;
   --panel-item-hover: rgba(255,255,255,0.1);
 
@@ -227,8 +228,8 @@ body {
 
 .actions-panel,
 .selection-panel {
-  clear: both;
-  padding: 0rem 1rem;
+
+  padding: 0.25rem 3rem 0.25rem 1rem;
   border-top: var(--panel-border);
   display: flex;
   background-color: var(--panel-layer-1);
@@ -350,7 +351,7 @@ body {
 .fonts-panel {
   --font-panel-size: calc(var(--fonts-panel-size) - 6px);
   height: var(--font-panel-size);
-  padding: 1rem 1rem;
+  padding: 0rem 0rem;
 }
 
 .fonts {
@@ -361,7 +362,6 @@ body {
   list-style: none;
   padding: 0rem 0;
   margin: 0rem 0;
-  border-top: var(--panel-border);
   margin-bottom: 1rem;
 }
 
@@ -370,9 +370,12 @@ body {
 }
 
 .fonts__list li.empty {
-  padding: 0.5rem 1rem;
+  padding: 1rem 1rem;
   background-color: var(--body-background-color);
   color: var(--muted-color);
+  font-size: 1.5rem;
+  margin: 1rem auto;
+  text-align: center;
 }
 
 .font {
@@ -447,11 +450,21 @@ body {
   flex: 0 1 auto;
   margin: 0 0;
   position: sticky;
-  top: -1rem;
+  top: 0rem;
   background-color: var(--body-background-color);
-  padding: 0.5rem 0rem;
+  padding: 0.5rem 1rem;
   border-bottom: var(--panel-border);
+  border-bottom-width: 2px;
   z-index: 2;
+  visibility: visible;
+}
+
+.fonts__inputs.--disabled {
+  visibility: hidden;
+}
+
+.fonts__inputs:focus-within {
+  background-color: var(--panel-layer-1);
 }
 
 .group {

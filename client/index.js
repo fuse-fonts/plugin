@@ -2,6 +2,7 @@
 const csInterface = new CSInterface();
 
 const timeStart = performance.now();
+
 // the ul that we will render to
 const $list = document.querySelector(".fonts-panel__list");
 
@@ -27,20 +28,20 @@ $applyTypeFace.addEventListener("click", (e) => fm.applySelectedTypeface());
  * input for changing the preview font text
  */
 // TODO: debounce
-$text = document.querySelector(".fonts__inputs .fonts__text");
-$text.addEventListener("keyup", (e) => {
-  fm.updateText($text.value || "");
-});
+// $text = document.querySelector(".fonts__inputs .fonts__text");
+// $text.addEventListener("keyup", (e) => {
+//   fm.updateText($text.value || "");
+// });
 
 /**
  * input for filtering the list of ALL FONTS
  */
 // TODO: debounce
-$filter = document.querySelector(".fonts__inputs .fonts__filter");
-$filter.addEventListener("keyup", (e) => {
-  let text = ($filter.value || "").trim().toLowerCase();
-  fm.filter(text);
-});
+// $filter = document.querySelector(".fonts__inputs .fonts__filter");
+// $filter.addEventListener("keyup", (e) => {
+//   let text = ($filter.value || "").trim().toLowerCase();
+//   fm.filter(text);
+// });
 
 
 
