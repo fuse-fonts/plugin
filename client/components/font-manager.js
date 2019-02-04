@@ -65,18 +65,20 @@ class FontManager {
     // setup our cross talk of panels
     groupPanel.addEventListener(CustomGroupPanel.SELECT, (e) => {
       
-      window.setTimeout(() => {
-        const selectedGroup = that.getGroup(e.detail.groupID);
-        if (selectedGroup) {
-          fontPanel.viewContents(selectedGroup);
-          // don't allow them to delete "all fonts" — lol nerds
-          actionsPanel.hasSelection = selectedGroup.permanent ? false: true;
+      const selectedGroup = that.getGroup(e.detail.groupID);
+
+      if (selectedGroup) {
+        fontPanel.loading();
+        window.setTimeout(() => {
+            fontPanel.viewContents(selectedGroup);
+            // don't allow them to delete "all fonts" — lol nerds
+            actionsPanel.hasSelection = selectedGroup.permanent ? false: true;
+            
+          }, 1);
         }
         else {
           actionsPanel.hasSelection = false;
         }
-        
-      }, 1)
     });
 
     groupPanel.addEventListener(CustomGroupPanel.UNSELECT, (e) => {

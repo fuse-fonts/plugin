@@ -61,7 +61,7 @@ class FontsPanel extends Panel {
   }
 
   get events() {
-    return ["SELECT", "UNSELECT"];
+    return ["CHANGE", "SELECT", "UNSELECT"];
   }
 
   clear() {
@@ -69,6 +69,7 @@ class FontsPanel extends Panel {
   }
 
   viewContents(group) {
+    this.unselectAll()
     this.render(group);
   }
 
@@ -196,6 +197,10 @@ class FontsPanel extends Panel {
 
   }
 
+  loading() {
+    this.parent.notify("todo: show loading");
+  }
+
   render(group = null) {
     this.$list.innerHTML = this.getHTML(group);
     this.addEventListeners();
@@ -203,11 +208,17 @@ class FontsPanel extends Panel {
 
 }
 
+// event enum
+FontsPanel.CHANGE = "change";
+FontsPanel.SELECT = "select";
+FontsPanel.UNSELECT = "unselect";
+
+/**
+ * [HELPER] Helper for combining two nodelists,
+ * @param {Node[]} nodes unaffected list that `otherNodes` will be added to
+ * @param {Node[]} otherNodes The list of nodes that will be checked for duplicates
+ */
 function mergeUnique(nodes, otherNodes) {
   const uniques = otherNodes.filter(node => !nodes.includes(node));
   return nodes.concat(uniques);
 }
-
-// event enum
-FontsPanel.SELECT = "select";
-FontsPanel.UNSELECT = "unselect";

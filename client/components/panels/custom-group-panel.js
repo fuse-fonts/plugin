@@ -104,6 +104,7 @@ class CustomGroupPanel extends Panel {
 
   unselect() {
     if (this.selectedNode) this.selectedNode.classList.remove(this.selectedClassName);
+    this.hideFontActions();
     
     const detail = { groupID: this.selected };
     const event = new CustomEvent(CustomGroupPanel.UNSELECT, { detail });
@@ -130,16 +131,19 @@ class CustomGroupPanel extends Panel {
   }
   
   renderGroup(group) {
-    // const entries = this.getListHTML(typefaces, text, group.name);
     const isActive = group.isActive ? "--active" : "";
   
+    const actionsHTML = (`
+      <section class="group__actions">
+        <button><i class="material-icons">playlist_add</i></button>
+        <!--<button><i class="material-icons">remove_from_queue</i></button>-->
+      </section>
+    `)
+    
     return (`
       <li data-group-name="${group.name}" class="group ${isActive}">
         <h2 class="group__title">${group.name}</h2>
-        <section class="group__actions">
-          <button><i class="material-icons">turned_in</i></button>
-          <!--<button><i class="material-icons">remove_from_queue</i></button>-->
-        </section>
+        ${group.permanent ? "" : actionsHTML}
       </li>
     `);
   }
