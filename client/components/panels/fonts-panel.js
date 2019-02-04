@@ -45,7 +45,7 @@ class FontsPanel extends Panel {
     this.text = "AaBbCc";
     this.defaultText = "AaBbCc";
 
-    this.selected = [];
+    this._selected = []; // private
     this.selectedNodes = [];
 
     const panelClassName = ".fonts-panel";
@@ -61,20 +61,55 @@ class FontsPanel extends Panel {
     this.$filter = $root.querySelector(".fonts__filter");
     this.$preview = $root.querySelector(".fonts__text");
 
+    // selection panel
+    this.$selections = document.querySelector(".selection-panel");
+    this.$message = this.$selections.querySelector(".selection-text");
+    this.$applyFonts = this.$selections.querySelector(".apply-typeface");
+    this.$removeFont = this.$selections.querySelector(".remove-from-group");
+
+    this.group = null;
 
     this.nodeClicked = this.nodeClicked.bind(this);
+    this.changeHandler = this.changeHandler.bind(this)
+    this.addEventListener(FontsPanel.CHANGE, this.changeHandler)
   }
 
   get events() {
     return ["CHANGE", "SELECT", "UNSELECT"];
   }
 
+  get selected() {
+    return this._selected;
+  }
+
+  set selected(value = []) {
+
+    if (value.length > 0) {
+
+      this.$selections.classList.add("--active");
+
+      let message = "";
+      if (value.length > 1) message = `${value.length} typefaces selected`;
+      this.$message.innerText = message;
+    }
+    else {
+      this.$selections.classList.remove("--active");
+    }
+
+    
+
+    this._selected = value;
+  }
+
   clear() {
+    this.group = null;
     this.render(null);
   }
 
   viewContents(group) {
     this.unselectAll()
+    this.group = group;
+    this.selected = [];
     this.render(group);
   }
 
@@ -102,10 +137,13 @@ class FontsPanel extends Panel {
     return nodes.slice(start, end + 1);
   }
 
+  changeHandler(e) {
+
+  }
+
   nodeClicked(e) {
     const node = e.currentTarget;
     let nodes = [node];
-    // console.log("clicked", node, e)
 
     if (this.selected.length > 0) {
 
@@ -153,6 +191,9 @@ class FontsPanel extends Panel {
 
       this.dispatchEvent(event);
     }
+
+    // dispatch change event
+    this.dispatchEvent(new CustomEvent(FontsPanel.CHANGE));
   }
 
   unselectAll(dispatchEvent = false) {
@@ -161,9 +202,14 @@ class FontsPanel extends Panel {
 
     this.selectedNodes = [];
     this.selected = [];
+
     if (dispatchEvent) {
-      const event = new CustomEvent(FontsPanel.UNSELECT);
-      this.dispatchEvent(event);
+      // dispatch "unselect" event
+      this.dispatchEvent(new CustomEvent(FontsPanel.UNSELECT));
+    }
+    else {
+      // dispatch "change" event
+      this.dispatchEvent(new CustomEvent(FontsPanel.CHANGE));
     }
   }
 

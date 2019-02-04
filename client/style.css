@@ -216,7 +216,6 @@ body {
 
 .notification {
   display: inline-block;
-  justify-self: flex-start;
   flex-grow: 2;
   color: var(--muted-color);
   margin-right: 1rem;
@@ -228,15 +227,19 @@ body {
 
 .actions-panel,
 .selection-panel {
-
   padding: 0.25rem 3rem 0.25rem 1rem;
   border-top: var(--panel-border);
   display: flex;
   background-color: var(--panel-layer-1);
   align-content: center;
   align-items: center;
-  justify-items: flex-end;
-  justify-content: flex-end;
+  justify-content: space-between;
+}
+
+.panel-buttons {
+  display: flex;
+  align-content: center;
+  align-items: center;
 }
 
 .actions-panel {
@@ -252,13 +255,14 @@ body {
 }
 
 .selection-panel {
-  /* transform: translateY(100%);*/
+  transform: translateY(100%);
   transition: 0.2s ease-in all;
 }
 
 .selection-panel.--active {
-  background-color: var(--accent-color);
+  background-color: var(--panel-layer-2);
   transform: translateY(0%);
+  transition: 0.1s ease-out all;
 }
 
 .loading {
@@ -401,7 +405,7 @@ body {
   color: var(--selected-color);
   transition: 0.1s ease-out background-color;
   position: sticky;
-  top: 2.5rem;
+  top: 3.5rem;
   bottom: -1rem;
   z-index: 0;
 }

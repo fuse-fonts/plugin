@@ -57,20 +57,18 @@
     </section>
     
     <section class="actions-panel">
-    
-      <div class="actions">
-    
-        <section class="notification"></section>
-        <!-- <button class="action load-fonts"  title="Reload All Fonts">
-            <i class="material-icons">cached</i>
-          </button> -->
-        <button class="action create-group" title="Create new custom group">
-          <i class="material-icons">folder</i>
-        </button>
-        <button class="action --disabled toggle-group-deletions" title="Allow groups to be deleted">
-          <i class="material-icons">delete</i>
-        </button>
-      </div>
+      <section class="notification"></section>
+      <!-- <button class="action load-fonts"  title="Reload All Fonts">
+          <i class="material-icons">cached</i>
+        </button> -->
+        <div class="panel-buttons">
+          <button class="action create-group" title="Create new custom group">
+            <i class="material-icons">folder</i>
+          </button>
+          <button class="action --disabled toggle-group-deletions" title="Allow groups to be deleted">
+            <i class="material-icons">delete</i>
+          </button>
+        </div>
     </section>
 
     <section class="separator">
@@ -88,12 +86,15 @@
     </section>
 
     <section class="selection-panel">
+      <section class="selection-text"></section>
+      <div class="panel-buttons">
         <button class="action apply-typeface" title="Apply Selected Typeface to Current Layer Text">
           <i class="material-icons">text_format</i>
         </button>
-        <button class="action remove-from-group" title="Apply Selected Typeface to Current Layer Text">
+        <button class="action remove-from-group" title="Remove selected typefaces from this group.">
           <i class="material-icons">remove_circle</i>
         </button>
+      </div>
     </section>
 
   </main>

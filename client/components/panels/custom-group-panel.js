@@ -116,12 +116,10 @@ class CustomGroupPanel extends Panel {
   }
 
   displayFontActions() {
-    console.log("displayFontActions");
     this.$list.classList.add(this.actionsClassName);
   }
 
   hideFontActions() {
-    console.log("hideFontActions");
     this.$list.classList.remove(this.actionsClassName);
   }
 
