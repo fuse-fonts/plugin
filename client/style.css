@@ -1,7 +1,11 @@
 html {
 
   --groups-panel-size: 18%;
-  --fonts-panel-size: calc(100% - var(--groups-panel-size));
+  --actions-panel-size: 2.5rem;
+  --selection-panel-size: 2.5rem;
+  --bar-panels: calc(var(--actions-panel-size) + var(--selection-panel-size));
+  --other-panels: calc(var(--bar-panels) + var(--groups-panel-size));
+  --fonts-panel-size: calc(100% - var(--other-panels));
 
   --accent-color: #38c;
   --error-color: #b42;
@@ -125,7 +129,6 @@ body {
   color:  var(--body-color);
   padding: 0rem 0rem;
   margin: 0 0;
-  margin-bottom: 2rem;
   position: relative;
 }
 
@@ -211,19 +214,21 @@ body {
 
 
 .notification {
-  displaY: inline-block;
+  display: inline-block;
   justify-self: flex-start;
   flex-grow: 2;
   color: var(--muted-color);
+  margin-right: 1rem;
 }
 
 .warning {
   color: var(--error-color);
 }
 
-.actions {
+.actions-panel,
+.selection-panel {
   clear: both;
-  padding: 0rem 2rem;
+  padding: 0rem 1rem;
   border-top: var(--panel-border);
   display: flex;
   background-color: var(--panel-layer-1);
@@ -231,23 +236,28 @@ body {
   align-items: center;
   justify-items: flex-end;
   justify-content: flex-end;
-  z-index: 2; /* for tray to be under this */
-  position: relative; /* for tray to be under this */
 }
 
-.actions__selection-actions {
-  display: inline-block;
-  margin-right: 0.5rem;
-  border-right: var(--panel-border);
-  padding: 0.25rem 0.75rem 0.25rem 0.25rem;
+.actions-panel {
+  height: var(--actions-panel-size);
+}
+
+.selection-panel {
+  height: var(--selection-panel-size);
 }
 
 .actions button + button {
   margin-left: 0.25rem;
 }
 
-.toggle-group-deletions.--active {
+.selection-panel {
+  /* transform: translateY(100%);*/
+  transition: 0.2s ease-in all;
+}
+
+.selection-panel.--active {
   background-color: var(--accent-color);
+  transform: translateY(0%);
 }
 
 .loading {
@@ -278,7 +288,7 @@ body {
   width: 100%;
   overflow-y: hidden;
   overflow-x: hidden;
-  height: calc(100vh - 3rem);
+  height: calc(100vh);
 }
 
 .panels > .panel {
@@ -338,7 +348,8 @@ body {
 }
 
 .fonts-panel {
-  height: calc(var(--fonts-panel-size) - 6px);
+  --font-panel-size: calc(var(--fonts-panel-size) - 6px);
+  height: var(--font-panel-size);
   padding: 1rem 1rem;
 }
 
@@ -351,6 +362,7 @@ body {
   padding: 0rem 0;
   margin: 0rem 0;
   border-top: var(--panel-border);
+  margin-bottom: 1rem;
 }
 
 .fonts__list li {
@@ -456,13 +468,13 @@ body {
 
 .group__actions {
   display: none;
+  flex: 0 1 auto;
+  justify-content: space-evenly;
+  align-content: center;
 }
 
 .--allow-actions .group__actions {
   display: flex;
-  flex: 0 1 auto;
-  justify-content: space-evenly;
-  padding: 0.25rem 0.25rem;
 }
 
 .group:hover {

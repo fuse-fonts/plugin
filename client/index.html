@@ -61,14 +61,6 @@
       <div class="actions">
     
         <section class="notification"></section>
-    
-        <div class="actions__selection-actions">
-    
-          <button class="action --disabled apply-typeface" title="Apply Selected Typeface to Current Layer Text">
-            <i class="material-icons">text_format</i>
-          </button>
-    
-        </div>
         <!-- <button class="action load-fonts"  title="Reload All Fonts">
             <i class="material-icons">cached</i>
           </button> -->
@@ -93,12 +85,15 @@
       </header>
   
       <ul class="fonts__list"></ul>
-  
-      <!-- <section class="all-fonts group --static --active">
-        <h2 class="group__title">All Fonts</h2>
-        <ol class="group__list font-list__list"></ol>
-      </section> -->
-  
+    </section>
+
+    <section class="selection-panel">
+        <button class="action apply-typeface" title="Apply Selected Typeface to Current Layer Text">
+          <i class="material-icons">text_format</i>
+        </button>
+        <button class="action remove-from-group" title="Apply Selected Typeface to Current Layer Text">
+          <i class="material-icons">remove_circle</i>
+        </button>
     </section>
 
   </main>
