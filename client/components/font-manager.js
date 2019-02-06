@@ -61,38 +61,6 @@ class FontManager {
       fonts: fontPanel,
       actions: actionsPanel,
     }
-
-    // setup our cross talk of panels
-    groupPanel.addEventListener(CustomGroupPanel.SELECT, (e) => {
-      
-      const selectedGroup = that.getGroup(e.detail.groupID);
-
-      if (selectedGroup) {
-        fontPanel.loading();
-        window.setTimeout(() => {
-            fontPanel.viewContents(selectedGroup);
-            // don't allow them to delete "all fonts" — lol nerds
-            actionsPanel.hasSelection = selectedGroup.permanent ? false: true;
-            
-          }, 1);
-        }
-        else {
-          actionsPanel.hasSelection = false;
-        }
-    });
-
-    groupPanel.addEventListener(CustomGroupPanel.UNSELECT, (e) => {
-      fontPanel.clear();
-      actionsPanel.hasSelection = false;
-    });
-
-    fontPanel.addEventListener(FontsPanel.SELECT, (e) => {
-      groupPanel.displayFontActions();
-    });
-
-    fontPanel.addEventListener(FontsPanel.UNSELECT, (e) => {
-      groupPanel.hideFontActions();
-    });
     
     this.editor = new GroupEditor();
 
@@ -112,8 +80,64 @@ class FontManager {
     }
 
     this.toggleSelectionHandler = this.toggleSelectionHandler.bind(this);
+    this.addPanelListeners();
     this.addEventListeners();
   }
+
+  addPanelListeners() {
+
+    const that = this;
+    const [fontPanel, groupPanel, actionsPanel] = [this.panels.fonts, this.panels.groups, this.panels.actions];
+
+    groupPanel.addEventListener(CustomGroupPanel.SELECT, (e) => {
+
+      const selectedGroup = that.getGroup(e.detail.groupID);
+
+      if (selectedGroup) {
+        fontPanel.loading();
+        window.setTimeout(() => {
+          fontPanel.viewContents(selectedGroup);
+          // don't allow them to delete "all fonts" — lol nerds
+          actionsPanel.hasSelection = selectedGroup.permanent ? false : true;
+
+        }, 1);
+      }
+      else {
+        actionsPanel.hasSelection = false;
+      }
+    });
+
+    groupPanel.addEventListener(CustomGroupPanel.UNSELECT, (e) => {
+      fontPanel.clear();
+      actionsPanel.hasSelection = false;
+    });
+
+    groupPanel.addEventListener(CustomGroupPanel.ADD, (e) => {
+      const groupID = e.detail;
+      const fonts = fontPanel.selected;
+      console.log("adding", fonts, "to", groupID);
+
+    })
+
+    groupPanel.addEventListener(CustomGroupPanel.REMOVE, (e) => {
+
+    })
+
+    fontPanel.addEventListener(FontsPanel.CHANGE, (e) => {
+
+    });
+
+    fontPanel.addEventListener(FontsPanel.SELECT, (e) => {
+      groupPanel.displayFontActions();
+    });
+
+    fontPanel.addEventListener(FontsPanel.UNSELECT, (e) => {
+      groupPanel.hideFontActions();
+    });
+
+
+  }
+  
 
   getGroup(name) {
     if (name === "All Fonts") return this.allFontsGroup;
@@ -254,8 +278,8 @@ class FontManager {
     return result;
   }
 
-  /**
-   * Toggles a typeface's isSelected state and affects the `.actions` bar
+  /** 
+   * [DEPRACATED] Toggles a typeface's isSelected state and affects the `.actions` bar
    * @param {TypeFace} typeface 
    */
   toggleSelect(typeface, state = false) {
@@ -281,6 +305,9 @@ class FontManager {
     // todo: update groups panel items
   }
 
+  /**
+   * [DEPRACATED]
+   */
   unselect() {
     if (this.selected !== null) {
       this.toggleSelect(this.selected, false);
@@ -290,6 +317,9 @@ class FontManager {
     return false;
   }
 
+  /**
+   * [DEPRACATED]
+   */
   toggleSelectionHandler(e) {
 
     const selectedClassName = "--selected";
@@ -307,7 +337,7 @@ class FontManager {
   }
 
   /**
-   * 
+   * [DEPRACATED]
    * @param {string} groupName
    * @param {TypeFace} typeface 
    */

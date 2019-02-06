@@ -84,19 +84,8 @@ class FontsPanel extends Panel {
 
   set selected(value = []) {
 
-    if (value.length > 0) {
-
-      this.$selections.classList.add("--active");
-
-      let message = "";
-      if (value.length > 1) message = `${value.length} typefaces selected`;
-      this.$message.innerText = message;
-    }
-    else {
-      this.$selections.classList.remove("--active");
-    }
-
-    
+    const detail = value;
+    this.dispatchEvent(new CustomEvent(FontsPanel.CHANGE, { detail, }));
 
     this._selected = value;
   }
@@ -138,7 +127,20 @@ class FontsPanel extends Panel {
   }
 
   changeHandler(e) {
+    const value = e.detail;
+    console.log("changed", value);
 
+    if (value.length > 0) {
+
+      this.$selections.classList.add("--active");
+
+      let message = "";
+      if (value.length > 1) message = `${value.length} typefaces selected`;
+      this.$message.innerText = message;
+    }
+    else {
+      this.$selections.classList.remove("--active");
+    }
   }
 
   nodeClicked(e) {
@@ -191,9 +193,6 @@ class FontsPanel extends Panel {
 
       this.dispatchEvent(event);
     }
-
-    // dispatch change event
-    this.dispatchEvent(new CustomEvent(FontsPanel.CHANGE));
   }
 
   unselectAll(dispatchEvent = false) {
@@ -206,10 +205,6 @@ class FontsPanel extends Panel {
     if (dispatchEvent) {
       // dispatch "unselect" event
       this.dispatchEvent(new CustomEvent(FontsPanel.UNSELECT));
-    }
-    else {
-      // dispatch "change" event
-      this.dispatchEvent(new CustomEvent(FontsPanel.CHANGE));
     }
   }
 

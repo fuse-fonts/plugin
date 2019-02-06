@@ -11,7 +11,7 @@ class CustomGroupPanel extends Panel {
   get actionsClassName() { return "--allow-actions" }
 
   get events() {
-    return ["SELECT", "UNSELECT"];
+    return ["SELECT", "UNSELECT", "ADD", "REMOVE"];
   }
 
   constructor(parent, groups = []) {
@@ -20,6 +20,7 @@ class CustomGroupPanel extends Panel {
     this.selected = null;
     this.selectedNode = null;
     this.groups = groups;
+    this.context = null;
 
     const $root = document.querySelector(this.panelClassName);
     this.$root = $root;
@@ -123,17 +124,45 @@ class CustomGroupPanel extends Panel {
     this.$list.classList.remove(this.actionsClassName);
   }
 
+  refreshEventListeners() {
+    
+    const options = {};
+    const that = this;
+
+    this.$list
+      .querySelectorAll(".group__actions button")
+      .forEach(node => {
+
+        const li = node.closest(".group");
+        const detail = li.dataset.groupName;
+        const eventType = node.classList.contains("add") ? CustomGroupPanel.ADD : CustomGroupPanel.REMOVE
+        const addEvent = new CustomEvent(eventType, { detail, });
+
+        node.addEventListener("click", (e) => {
+          e.stopPropagation();
+          that.dispatchEvent(addEvent);
+        });
+    })
+  }
+
   render() {
     const groups = [this.parent.allFontsGroup, ...this.groups];
     this.$list.innerHTML = groups.reduce((html, group) => html + this.renderGroup(group), "");
+    
+    // re-apply our selected node
+    if (this.selectedNode !== null) {
+      this.selectedNode = this.$list.querySelector(`.${this.selectedClassName}`);
+    }
+
+    this.refreshEventListeners();
   }
   
   renderGroup(group) {
-    const isActive = group.isActive ? "--active" : "";
+    const isActive = this.selected === group.name ? this.selectedClassName : "";
   
     const actionsHTML = (`
       <section class="group__actions">
-        <button><i class="material-icons">playlist_add</i></button>
+        <button class="add"><i class="material-icons">add</i></button>
         <!--<button><i class="material-icons">remove_from_queue</i></button>-->
       </section>
     `)
@@ -151,3 +180,5 @@ class CustomGroupPanel extends Panel {
 // event enum
 CustomGroupPanel.SELECT = "select";
 CustomGroupPanel.UNSELECT = "unselect";
+CustomGroupPanel.ADD = "add";
+CustomGroupPanel.REMOVE = "remove";
