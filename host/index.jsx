@@ -77,6 +77,7 @@ function applyTypefaceByPostScriptName(postScriptName) {
       try {
         activeLayer.textItem.font = postScriptName;
         response.result = true;
+        response.message = "All Good.";
       }
       catch(e) {
         response.message = e;

@@ -55,11 +55,13 @@ class FontManager {
     const fontPanel = new FontsPanel(that);
     const groupPanel = new CustomGroupPanel(that);
     const actionsPanel = new ActionsPanel(that);
+    const selectionPanel = new SelectionPanel(that, fontPanel);
 
     this.panels = {
       groups: groupPanel,
       fonts: fontPanel,
       actions: actionsPanel,
+      selection: selectionPanel,
     }
     
     this.editor = new GroupEditor();
@@ -85,7 +87,12 @@ class FontManager {
   addPanelListeners() {
 
     const that = this;
-    const [fontPanel, groupPanel, actionsPanel] = [this.panels.fonts, this.panels.groups, this.panels.actions];
+    const [fontPanel, groupPanel, actionsPanel, selectionPanel] = [
+      this.panels.fonts, 
+      this.panels.groups, 
+      this.panels.actions, 
+      this.panels.selection,
+    ];
 
     groupPanel.addEventListener(CustomGroupPanel.SELECT, (e) => {
 
@@ -125,9 +132,8 @@ class FontManager {
       return true;
     });
 
-    groupPanel.addEventListener(CustomGroupPanel.REMOVE, (e) => {
-      const groupName = e.detail;
-      const group = this.getGroup(groupName);
+    // helper, used in multiple locations
+    const removeFontsFromGroup = group => {
       const fonts = fontPanel.selected;
 
       this.removeTypefacesFromGroup(fonts, group);
@@ -136,12 +142,17 @@ class FontManager {
       if (fontPanel.group && group.name === fontPanel.group.name) {
         fontPanel.viewContents(fontPanel.group);
       }
+    }
+
+    groupPanel.addEventListener(CustomGroupPanel.REMOVE, (e) => {
+      const groupName = e.detail;
+      removeFontsFromGroup(this.getGroup(groupName));
       return true;
     });
 
-    groupPanel.addEventListener(CustomGroupPanel.REMOVE, (e) => {
-
-    })
+    selectionPanel.addEventListener(SelectionPanel.REMOVE, e => {
+      removeFontsFromGroup(fontPanel.group);
+    });
 
     fontPanel.addEventListener(FontsPanel.CHANGE, (e) => {
       groupPanel.setContext(e.detail);
@@ -325,6 +336,32 @@ class FontManager {
     this.notify(`${name} deleted`, 2600);
 
     this.save();
+  }
+
+  /**	
+     * Applies the currently selected typeface to the current layer via communicating with host	
+     * Does nothing if selection is null.	
+     */
+  async applySelectedTypeface(typefaceName = "") {
+    const that = this;
+    const result = await new Promise((resolve, reject) => {
+
+      if (!typefaceName) return reject();
+
+      if (!this.typefaces.includes(typefaceName)) return reject();
+
+      const typeface = this.typefaces[typefaceName];
+
+      // right now just grab the first	
+      const postScriptName = typeface.defaultVariant;
+
+      csInterface.evalScript(`applyTypefaceByPostScriptName("${postScriptName}")`, (result) => {
+        let response = tryParseJSON(result)
+        resolve(response);
+      });
+    });
+    if (!result.result) this.notify(result.message, 5000);
+    return result;
   }
 
   /**

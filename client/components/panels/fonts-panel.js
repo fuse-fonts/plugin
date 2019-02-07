@@ -61,17 +61,10 @@ class FontsPanel extends Panel {
     this.$filter = $root.querySelector(".fonts__filter");
     this.$preview = $root.querySelector(".fonts__text");
 
-    // selection panel
-    this.$selections = document.querySelector(".selection-panel");
-    this.$message = this.$selections.querySelector(".selection-text");
-    this.$applyFonts = this.$selections.querySelector(".apply-typeface");
-    this.$removeFont = this.$selections.querySelector(".remove-from-group");
-
     this.group = null;
 
     this.nodeClicked = this.nodeClicked.bind(this);
-    this.changeHandler = this.changeHandler.bind(this)
-    this.addEventListener(FontsPanel.CHANGE, this.changeHandler)
+
   }
 
   get events() {
@@ -126,22 +119,7 @@ class FontsPanel extends Panel {
     return nodes.slice(start, end + 1);
   }
 
-  changeHandler(e) {
-    const value = e.detail;
-    console.log("changed", value);
 
-    if (value.length > 0) {
-
-      this.$selections.classList.add("--active");
-
-      let message = "";
-      if (value.length > 1) message = `${value.length} typefaces selected`;
-      this.$message.innerText = message;
-    }
-    else {
-      this.$selections.classList.remove("--active");
-    }
-  }
 
   nodeClicked(e) {
     const node = e.currentTarget;
@@ -211,7 +189,7 @@ class FontsPanel extends Panel {
   unselect(nodes = []) {
     
     const groups = this.selectedNodes.reduce((p, node) => {
-      if (nodes.contains(node)) p.unselected.push(node);
+      if (nodes.includes(node)) p.unselected.push(node);
       else p.selected.push(node);
       return p;
     }, {
@@ -229,7 +207,17 @@ class FontsPanel extends Panel {
       const event = new CustomEvent(FontsPanel.UNSELECT);
       this.dispatchEvent(event);
     }
+  }
 
+  removeSelectedFonts() {
+    const group = this.group;
+    const fonts = fontPanel.selected;
+    this.removeTypefacesFromGroup(fonts, group);
+
+    // re-render the font panel if it was the group affected
+    if (fontPanel.group && group.name === fontPanel.group.name) {
+      fontPanel.viewContents(fontPanel.group);
+    }
   }
 
   getHTML(group) {

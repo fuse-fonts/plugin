@@ -265,6 +265,11 @@ body {
   margin-left: 0.25rem;
 }
 
+button.action.--active {
+  background-color: var(--accent-color);
+  color: var(--foreground-color);
+}
+
 .selection-panel {
   transform: translateY(100%);
   transition: 0.2s ease-in all;
@@ -675,11 +680,17 @@ button {
 
 button:hover {
   background-color: var(--button-hover);
-  border: var(--panel-border);
+  /* border: var(--panel-border); */
 }
 
 button:focus {
-  outline: 1px solid var(--accent-color);
+  outline: none;
+  background-color: var(--panel-layer-2);
+}
+
+button.--disabled {
+  color: var(--panel-layer-0);
+  /* background-color: var(--panel-layer-0); */
 }
 
 input[type="text"] {
