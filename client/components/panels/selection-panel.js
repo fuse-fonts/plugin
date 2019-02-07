@@ -38,9 +38,8 @@ class SelectionPanel extends Panel {
 
   changeHandler(e) {
     const value = e.detail;
-
+    console.log("selection:", value);
     if (value.length > 0) {
-      console.log(value);
       this.applyTypeface(value[0]);
 
       let message = "";

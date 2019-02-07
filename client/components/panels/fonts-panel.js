@@ -120,7 +120,8 @@ class FontsPanel extends Panel {
   }
 
 
-
+  // the logic is a bit dense here
+  // the key is watching `nodes`, as it contains what will be selected or unselected
   nodeClicked(e) {
     const node = e.currentTarget;
     let nodes = [node];
@@ -141,13 +142,17 @@ class FontsPanel extends Panel {
           this.selectRange(previousNode, node);
           return;
         }
-        if (e.ctrlKey) {
-          nodes = mergeUnique(nodes, this.selectedNodes);
-        }
       }
     }
 
     const toggle = node.classList.toggle(this.selectedClassName);
+
+    // add to our list of nodes when holding ctrl
+    if (e.ctrlKey && toggle && this.selected.length > 0) {
+      nodes = mergeUnique(nodes, this.selectedNodes);
+    }
+    
+
     if (toggle) this.select(nodes);
     else this.unselect(nodes);
 
