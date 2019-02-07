@@ -79,9 +79,7 @@ class FontManager {
       this.handlers[key] = this.handlers[key].bind(that);
     }
 
-    this.toggleSelectionHandler = this.toggleSelectionHandler.bind(this);
     this.addPanelListeners();
-    this.addEventListeners();
   }
 
   addPanelListeners() {
@@ -113,10 +111,11 @@ class FontManager {
     });
 
     groupPanel.addEventListener(CustomGroupPanel.ADD, (e) => {
-      const groupID = e.detail;
+      const groupName = e.detail;
+      const group = this.getGroup(groupName);
       const fonts = fontPanel.selected;
-      console.log("adding", fonts, "to", groupID);
 
+      this.addTypefacesToGroup(fonts, group);
     })
 
     groupPanel.addEventListener(CustomGroupPanel.REMOVE, (e) => {
@@ -124,15 +123,15 @@ class FontManager {
     })
 
     fontPanel.addEventListener(FontsPanel.CHANGE, (e) => {
-
+      groupPanel.setContext(e.detail);
     });
 
     fontPanel.addEventListener(FontsPanel.SELECT, (e) => {
-      groupPanel.displayFontActions();
+      // groupPanel.setContext(e.detail)
     });
 
     fontPanel.addEventListener(FontsPanel.UNSELECT, (e) => {
-      groupPanel.hideFontActions();
+      groupPanel.setContext(null);
     });
 
 
@@ -221,11 +220,6 @@ class FontManager {
       animation.onfinish = () => { this.$notification.innerHTML = ""; };
     }, ms);
 
-  }
-
-  getGroupFromTitleNode(node) {
-    let groupName = node.parentNode.dataset.groupName;
-    return this.customGroups.find(g => g.name === groupName);
   }
 
   refresh() {
@@ -379,6 +373,15 @@ class FontManager {
 
   }
 
+  addTypefacesToGroup(families = [], customGroup) {
+
+    // get all typefaces from their name
+    const typefaces = families.map(family => this.typefaces[family]);
+
+    typefaces.forEach(typeface => customGroup.typefaces.add(typeface));
+
+    this.save();
+  }
 
   /**
    * Renders the current state of all typefaces and custom groups to the DOM, then calls `FontManager.refreshEventListeners`

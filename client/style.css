@@ -9,6 +9,7 @@ html {
 
   --accent-color: #38c;
   --error-color: #b42;
+  --add-color: #0b8;
   --delete-color: var(--error-color);
   --muted-color: rgba(255,255,255,0.5);
 
@@ -24,6 +25,9 @@ html {
 
   --panel-item: transparent;
   --panel-item-hover: rgba(255,255,255,0.1);
+
+  --checkbox-background-color: var(--panel-layer-0);
+  --checkbox-color: var(--add-color);
 
   --selected-background: var(--accent-color);
   --selected-color: var(--body-color);
@@ -133,16 +137,29 @@ body {
   position: relative;
 }
 
-/* Animations */
-@keyframes blink {
-  from {
-    opacity: 0.25;
-  }
-
-  to {
-    opacity: 0.75;
-  }
+.group__actions button {
+  border-radius: 3px;
+  padding: 0 0;
+  margin-right: 0.5rem;
+  background-color: var(--checkbox-background-color);
+  width: 1.8rem;
+  height: 1.8rem;
 }
+
+.group__actions button i.material-icons {
+  font-size: 2rem;
+}
+
+.group__actions button.add {
+  color: transparent;
+}
+
+.group__actions button.remove {
+  color: var(--checkbox-color);
+  
+}
+
+
 /* helpers */
 
 .tip {
@@ -173,6 +190,16 @@ body {
 .groups {
   background-color: var(--body-background-color);
   margin: 1rem 0;
+}
+
+.--compact .groups__list {
+  display: flex;
+  flex-wrap: wrap;
+  flex: 0 1 50%;
+}
+
+.--compact .group {
+  width: 18rem;
 }
 
 .groups .groups__title {
@@ -484,14 +511,11 @@ body {
 }
 
 .group__actions {
-  display: none;
+  display: flex;
   flex: 0 1 auto;
   justify-content: space-evenly;
   align-content: center;
-}
-
-.--allow-actions .group__actions {
-  display: flex;
+  align-items: center;
 }
 
 .group:hover {

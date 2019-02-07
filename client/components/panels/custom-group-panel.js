@@ -8,7 +8,6 @@ class CustomGroupPanel extends Panel {
   get panelClassName() { return ".groups-panel" }
   get listClassName() { return ".groups__list" }
   get selectedClassName() { return "--selected" }
-  get actionsClassName() { return "--allow-actions" }
 
   get events() {
     return ["SELECT", "UNSELECT", "ADD", "REMOVE"];
@@ -20,7 +19,7 @@ class CustomGroupPanel extends Panel {
     this.selected = null;
     this.selectedNode = null;
     this.groups = groups;
-    this.context = null;
+    this.context = [];
 
     const $root = document.querySelector(this.panelClassName);
     this.$root = $root;
@@ -105,7 +104,6 @@ class CustomGroupPanel extends Panel {
 
   unselect() {
     if (this.selectedNode) this.selectedNode.classList.remove(this.selectedClassName);
-    this.hideFontActions();
     
     const detail = { groupID: this.selected };
     const event = new CustomEvent(CustomGroupPanel.UNSELECT, { detail });
@@ -114,14 +112,12 @@ class CustomGroupPanel extends Panel {
 
     this.selected = null;
     this.selectedNode = null;
+    this.context = [];
   }
 
-  displayFontActions() {
-    this.$list.classList.add(this.actionsClassName);
-  }
-
-  hideFontActions() {
-    this.$list.classList.remove(this.actionsClassName);
+  setContext(families) {
+    this.context = families ? families : [];
+    this.render();
   }
 
   refreshEventListeners() {
@@ -148,7 +144,7 @@ class CustomGroupPanel extends Panel {
   render() {
     const groups = [this.parent.allFontsGroup, ...this.groups];
     this.$list.innerHTML = groups.reduce((html, group) => html + this.renderGroup(group), "");
-    
+
     // re-apply our selected node
     if (this.selectedNode !== null) {
       this.selectedNode = this.$list.querySelector(`.${this.selectedClassName}`);
@@ -160,17 +156,37 @@ class CustomGroupPanel extends Panel {
   renderGroup(group) {
     const isActive = this.selected === group.name ? this.selectedClassName : "";
   
+    const hasSelection = this.context.length !== 0;
+    const displayActions = hasSelection && !group.permanent;
+    let containsTypeface = false;
+    let hasMultiple = false;
+
+    if (hasSelection) {
+
+      containsTypeface = this.context.find(t => group.typefaces.includes(t));
+      hasMultiple = this.context.length > 1;
+    }
+
+
+    let className = containsTypeface ? "remove" : "add";
+    let icon = containsTypeface ? "check" : "add";
+    let text = "";
+
+    if (hasMultiple) {
+      text = "";
+      icon = containsTypeface ? "check" : "playlist_add";
+    }
+
     const actionsHTML = (`
       <section class="group__actions">
-        <button class="add"><i class="material-icons">add</i></button>
-        <!--<button><i class="material-icons">remove_from_queue</i></button>-->
+  <button class="${className}"><i class="material-icons">${icon}</i></button>
       </section>
     `)
     
     return (`
       <li data-group-name="${group.name}" class="group ${isActive}">
         <h2 class="group__title">${group.name}</h2>
-        ${group.permanent ? "" : actionsHTML}
+        ${displayActions ? actionsHTML : ""}
       </li>
     `);
   }

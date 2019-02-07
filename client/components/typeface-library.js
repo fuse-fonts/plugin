@@ -40,6 +40,10 @@ class TypeFaceLibrary {
     return Object.values(this);
   }
 
+  includes(family) {
+    return !!this[family];
+  }
+
   /**
    * 
    * @param {TypeFace} typeface 
