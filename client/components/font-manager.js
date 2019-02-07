@@ -101,7 +101,7 @@ class FontManager {
       if (selectedGroup) {
         fontPanel.loading();
         window.setTimeout(() => {
-          fontPanel.viewContents(selectedGroup);
+          fontPanel.viewContents.call(fontPanel, selectedGroup);
           // don't allow them to delete "all fonts" — lol nerds
           actionsPanel.hasSelection = selectedGroup.permanent ? false : true;
 

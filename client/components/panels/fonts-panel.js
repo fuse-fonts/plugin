@@ -32,6 +32,26 @@ const getListHTML = (typefaces = [], text) => {
   }
 }
 
+// Returns a function, that, as long as it continues to be invoked, will not
+// be triggered. The function will be called after it stops being called for
+// N milliseconds. If `immediate` is passed, trigger the function on the
+// leading edge, instead of the trailing.
+function debounce(func, wait, immediate) {
+  var timeout;
+  return function () {
+    var context = this, args = arguments;
+    var later = function () {
+      timeout = null;
+      if (!immediate) func.apply(context, args);
+    };
+    var callNow = immediate && !timeout;
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+    if (callNow) func.apply(context, args);
+  };
+};
+
+
 /**
  * 
  */
@@ -42,6 +62,7 @@ class FontsPanel extends Panel {
 
     this.parent = parent;
 
+    this.filterText = "";
     this.text = "AaBbCc";
     this.defaultText = "AaBbCc";
 
@@ -64,7 +85,12 @@ class FontsPanel extends Panel {
     this.group = null;
 
     this.nodeClicked = this.nodeClicked.bind(this);
-    this.$filter.addEventListener("keyup", e => this.filterKeyUp(e));
+
+    const debouncedFilter = debounce(this.filterKeyUp.bind(this), 60);
+    this.$filter.addEventListener("keyup", e => debouncedFilter(e));
+
+    const debouncedPreview = debounce(this.previewKeyUp.bind(this), 120);
+    this.$preview.addEventListener("keyup", e => debouncedPreview(e));
   }
 
   get events() {
@@ -166,6 +192,18 @@ class FontsPanel extends Panel {
     const text = this.$filter.value;
     if (text.length === 0) this.clearFilter();
     this.filter(text.toLowerCase());
+  }
+
+  previewKeyUp(e) {
+    let value = this.$preview.value.trim();
+
+    this.text = value;
+
+    if (this.text.length === 0) {
+      this.text = this.defaultText;
+    }
+
+    this.render(this.group);
   }
 
   filter(text) {
