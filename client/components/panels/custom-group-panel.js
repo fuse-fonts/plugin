@@ -169,24 +169,27 @@ class CustomGroupPanel extends Panel {
 
 
     let className = containsTypeface ? "remove" : "add";
-    let icon = containsTypeface ? "check" : "add";
-    let text = "";
+    let icon = containsTypeface ? "remove" : "add";
+    let text = containsTypeface ? "remove" : "add";
 
     if (hasMultiple) {
-      text = "";
-      icon = containsTypeface ? "check" : "playlist_add";
+      text = containsTypeface ? "remove" : "add";
+      icon = containsTypeface ? "clear_all" : "done_all";
     }
+
+    // disabled for now...
+    text = "";
 
     const actionsHTML = (`
       <section class="group__actions">
-  <button class="${className}"><i class="material-icons">${icon}</i></button>
+  <button class="${className}"><i class="material-icons">${icon}</i> ${text}</button>
       </section>
     `)
     
     return (`
       <li data-group-name="${group.name}" class="group ${isActive}">
-        <h2 class="group__title">${group.name}</h2>
-        ${displayActions ? actionsHTML : ""}
+      <h2 class="group__title">${group.name}</h2>
+      ${displayActions ? actionsHTML : ""}
       </li>
     `);
   }

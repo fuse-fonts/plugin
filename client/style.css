@@ -137,28 +137,6 @@ body {
   position: relative;
 }
 
-.group__actions button {
-  border-radius: 3px;
-  padding: 0 0;
-  margin-right: 0.5rem;
-  background-color: var(--checkbox-background-color);
-  width: 1.8rem;
-  height: 1.8rem;
-}
-
-.group__actions button i.material-icons {
-  font-size: 2rem;
-}
-
-.group__actions button.add {
-  color: transparent;
-}
-
-.group__actions button.remove {
-  color: var(--checkbox-color);
-  
-}
-
 
 /* helpers */
 
@@ -176,6 +154,9 @@ body {
   pointer-events: none !important;
 }
 
+.button-group {
+  margin: 0 1rem;
+}
 
 /* Components */
 
@@ -199,7 +180,7 @@ body {
 }
 
 .--compact .group {
-  width: 18rem;
+  width: 20rem;
 }
 
 .groups .groups__title {
@@ -508,19 +489,50 @@ body {
   display: flex;
   flex: 0 1 auto;
   justify-content: space-between;
-}
-
-.group__actions {
-  display: flex;
-  flex: 0 1 auto;
-  justify-content: space-evenly;
-  align-content: center;
+  border-bottom: var(--panel-border);
   align-items: center;
 }
 
 .group:hover {
   background-color: var(--panel-layer-1);
 }
+
+.group__actions {
+  /* background-color: var(--panel-layer-1); */
+}
+
+.group__actions button {
+  /* border-radius: 3px;
+  padding: 0 0;
+  background-color: var(--checkbox-background-color);
+  width: 1.8rem;
+  height: 1.8rem; */
+  margin-right: 0.5rem;
+  border: none;
+  padding: 0.25rem 0.25rem;
+  background-color: transparent;
+}
+
+.group__actions button:hover,
+.group__actions button:active,
+.group__actions button:focus {
+  border: none;
+  background-color: transparent;
+}
+
+.group__actions button i.material-icons {
+  font-size: 2rem;
+}
+
+.group__actions button.add {
+  color: var(--add-color);
+}
+
+.group__actions button.remove {
+  color: var(--delete-color);
+}
+
+
 
 .group__delete {
   position: absolute;
@@ -591,11 +603,16 @@ body {
 }
 
 .group.--selected {
+  /* background-color: var(--panel-layer-2); */
   background-color: var(--accent-color);
   position: sticky;
   top: 0rem;
   bottom: 0;
   z-index: 2;
+}
+
+.group.--selected .group__title::before {
+  color: var(--foreground-color);
 }
 
 
@@ -606,6 +623,7 @@ body {
   line-height: 1rem;
   vertical-align: middle;
   margin-right: 0.5rem;
+  color: var(--muted-color);
 }
 
 .group.--selected .group__title::before {
