@@ -116,7 +116,28 @@ class FontManager {
       const fonts = fontPanel.selected;
 
       this.addTypefacesToGroup(fonts, group);
-    })
+
+      // re-render the font panel if it was the group affected
+      if (fontPanel.group && group.name === fontPanel.group.name) {
+        fontPanel.viewContents(fontPanel.group);
+      }
+
+      return true;
+    });
+
+    groupPanel.addEventListener(CustomGroupPanel.REMOVE, (e) => {
+      const groupName = e.detail;
+      const group = this.getGroup(groupName);
+      const fonts = fontPanel.selected;
+
+      this.removeTypefacesFromGroup(fonts, group);
+
+      // re-render the font panel if it was the group affected
+      if (fontPanel.group && group.name === fontPanel.group.name) {
+        fontPanel.viewContents(fontPanel.group);
+      }
+      return true;
+    });
 
     groupPanel.addEventListener(CustomGroupPanel.REMOVE, (e) => {
 
@@ -379,6 +400,16 @@ class FontManager {
     const typefaces = families.map(family => this.typefaces[family]);
 
     typefaces.forEach(typeface => customGroup.typefaces.add(typeface));
+
+    this.save();
+  }
+
+  removeTypefacesFromGroup(families = [], customGroup) {
+
+    // get all typefaces from their name
+    const typefaces = families.map(family => this.typefaces[family]);
+
+    typefaces.forEach(typeface => customGroup.typefaces.remove(typeface));
 
     this.save();
   }

@@ -136,7 +136,9 @@ class CustomGroupPanel extends Panel {
 
         node.addEventListener("click", (e) => {
           e.stopPropagation();
-          that.dispatchEvent(addEvent);
+          if (that.dispatchEvent(addEvent)) {
+            that.render();
+          }
         });
     })
   }
@@ -169,23 +171,22 @@ class CustomGroupPanel extends Panel {
 
 
     let className = containsTypeface ? "remove" : "add";
-    let icon = containsTypeface ? "remove" : "add";
-    let text = containsTypeface ? "remove" : "add";
+    let icon = containsTypeface ? "check" : "check";
 
-    if (hasMultiple) {
-      text = containsTypeface ? "remove" : "add";
-      icon = containsTypeface ? "clear_all" : "done_all";
-    }
-
-    // disabled for now...
-    text = "";
+    // if (hasMultiple) {
+    //   icon = containsTypeface ? "clear_all" : "done_all";
+    // }
 
     const actionsHTML = (`
       <section class="group__actions">
-  <button class="${className}"><i class="material-icons">${icon}</i> ${text}</button>
+        <button class="${className}"><i class="material-icons">${icon}</i></button>
       </section>
-    `)
+    `);
     
+    const fontsCount = (`
+      <span class="group__items-count">${group.typefaces.toList().length} typefaces</span>
+    `);
+
     return (`
       <li data-group-name="${group.name}" class="group ${isActive}">
       <h2 class="group__title">${group.name}</h2>
