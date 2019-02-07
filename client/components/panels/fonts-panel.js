@@ -64,7 +64,7 @@ class FontsPanel extends Panel {
     this.group = null;
 
     this.nodeClicked = this.nodeClicked.bind(this);
-
+    this.$filter.addEventListener("keyup", e => this.filterKeyUp(e));
   }
 
   get events() {
@@ -93,6 +93,9 @@ class FontsPanel extends Panel {
     this.group = group;
     this.selected = [];
     this.render(group);
+    if (this.filterText.length > 0) {
+      this.filter(this.filterText);
+    }
   }
 
   addEventListeners() {
@@ -107,7 +110,8 @@ class FontsPanel extends Panel {
   }
 
   getNodeRange(startNode, endNode) {
-    let nodes = Array.from(this.$list.children);
+    let nodes = Array.from(this.$list.children)
+      .filter(node => node.style.display !== "none"); // only get visible nodes
 
     let start = nodes.indexOf(startNode)
     let end = nodes.indexOf(endNode);
@@ -156,6 +160,28 @@ class FontsPanel extends Panel {
     if (toggle) this.select(nodes);
     else this.unselect(nodes);
 
+  }
+
+  filterKeyUp(e) {
+    const text = this.$filter.value;
+    if (text.length === 0) this.clearFilter();
+    this.filter(text.toLowerCase());
+  }
+
+  filter(text) {
+    
+    this.filterText = text;
+
+    Array
+      .from(this.$list.children)
+      .forEach(node => {
+        const family = node.dataset.family;
+        node.style.display = family.toLowerCase().includes(text) ? null : "none";
+      });
+  }
+
+  clearFilter() {
+    this.filterText = "";
   }
 
   selectRange(previousNode, node) {
