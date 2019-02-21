@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Document</title>
+  <title>Fuse Fonts</title>
   <style>
     html {
       box-sizing: border-box;
@@ -86,8 +86,15 @@
       <div class="handle"></div>
     </section>
 
-    <section class="fonts-panel panel">
+    <section class="editor-panel">
+      <div class="group-editor --hidden">
+        <i class="group-editor__icon material-icons">folder</i>
+        <span class="group-editor__title"></span>
+        <input class="group-editor__editor" type="text" spellcheck="false" autocomplete="false" />
+      </div>
+    </section>
 
+    <section class="fonts-panel panel">
       <header class="fonts__inputs">
         <input class="fonts__filter" type="text" placeholder="filter..." />
         <input class="fonts__text" type="text" placeholder="AaBbCc" maxlength="8" />
@@ -113,6 +120,7 @@
   <script type="text/javascript" src="CSInterface.js"></script>
 
   <script type="text/javascript" src="components/panels/panel.js"></script>
+  <script type="text/javascript" src="components/panels/editor-panel.js"></script>
   <script type="text/javascript" src="components/panels/fonts-panel.js"></script>
   <script type="text/javascript" src="components/panels/selection-panel.js"></script>
   <script type="text/javascript" src="components/panels/actions-panel.js"></script>

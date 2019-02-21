@@ -3,13 +3,14 @@ html {
   --groups-panel-size: 18%;
   --actions-panel-size: 2.5rem;
   --selection-panel-size: 2.5rem;
-  --bar-panels: calc(var(--actions-panel-size) + var(--selection-panel-size));
+  --editor-panel-size: 2.5rem;
+  --bar-panels: calc(var(--editor-panel-size) + (var(--actions-panel-size) + var(--selection-panel-size)));
   --other-panels: calc(var(--bar-panels) + var(--groups-panel-size));
   --fonts-panel-size: calc(100% - var(--other-panels));
 
   --accent-color: #38c;
   --error-color: #b42;
-  --add-color: #0b8;
+  --success-color: #0b8;
   --delete-color: var(--error-color);
   --muted-color: rgba(255,255,255,0.5);
 
@@ -137,6 +138,64 @@ body {
   position: relative;
 }
 
+/* inputs */
+
+button {
+    font-size: 1rem;
+    font-weight: 600;
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--foreground-color);
+    box-shadow: none;
+    padding: 0.5em 0.5em;
+    margin: 0 0;
+    display: inline-block;
+    user-select: none;
+}
+
+button:hover {
+  background-color: var(--button-hover);
+  /* border: var(--panel-border); */
+}
+
+button:focus {
+  outline: none;
+  background-color: var(--panel-layer-2);
+}
+
+button.--disabled {
+  color: var(--panel-layer-0);
+  /* background-color: var(--panel-layer-0); */
+}
+
+input {
+  font-size: 1.4rem;
+  display: inline-block;
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-bottom: var(--input-border);
+  padding: 0.25rem 0rem;
+  transition: 0.2s ease-out border;
+  color: var(--accent-color);
+  font-weight: 600;
+  font-family: "Tahoma", sans-serif;
+}
+
+input::placeholder {
+  font-weight: 400;
+  color: var(--muted-color);
+}
+
+input:focus {
+  box-shadow: none;
+  outline: none;
+  border-bottom: var(--input-border-active);
+}
+
+input::selection {
+  background-color:var(--accent-color);
+  color: var(---foreground-color);
+}
 
 /* helpers */
 
@@ -259,6 +318,10 @@ body {
 
 .selection-panel {
   height: var(--selection-panel-size);
+}
+
+.editor-panel {
+  min-height: var(--selection-panel-size);
 }
 
 .actions button + button {
@@ -600,24 +663,6 @@ button.action.--active {
   
 }
 
-.group__title.--editing {
-  background-color:var(--panel-layer-0);
-  border-bottom: 3px solid var(--accent-color);
-  font-size: 1rem;
-  color: var(--accent-color);
-}
-
-.group__title.--editing:empty {
-  border-bottom: 3px solid var(--error-color);
-}
-
-.group .group__title.--editing::before {
-  animation: 0.8s blink infinite alternate-reverse;
-  content: "edit" !important;
-  font-weight: 400;
-  color: var(--accent-color);
-}
-
 .group__list {
   display: none;
 }
@@ -655,6 +700,64 @@ button.action.--active {
 }
 
 
+.group-editor {
+  padding: 0.5rem 1rem;
+  background-color: var(--panel-layer-1);
+  font-weight: 600;
+  display: block;
+  transition: 0.1s ease-out all;
+  font-size: 1rem;
+  position: relative;
+  margin-bottom: 0rem;
+  width: 100%;
+  border-bottom: var(--panel-border);
+  transition: 0.2s ease-out all;
+}
+
+.group-editor.--hidden {
+  display: none;
+}
+
+.group-editor__title {
+  display: inline-block;
+  font-size: 1rem;
+  margin: 0 0;
+  border-bottom: 1px solid transparent;
+  cursor: pointer;
+
+}
+
+.group-editor:focus-within {
+  background-color: var(--accent-color);
+  padding: 1rem 1rem;
+}
+
+.group-editor input {
+  font-size: 1rem;
+  border: none;
+  font-weight: 600;
+  padding: 0 0;
+}
+
+
+.group-editor input,
+.group-editor input:active,
+.group-editor input:focus {
+  border: none;
+  color: var(--foreground-color);
+}
+
+.group-editor__icon {
+  user-select: none;
+  font-size: 1.4rem;
+  margin-right: 1rem;
+  font-weight: 400;
+  line-height: 1rem;
+  vertical-align: middle;
+  color: var(--muted-color);
+}
+
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 100%;
@@ -663,55 +766,4 @@ button.action.--active {
 }
 ::-webkit-scrollbar-thumb {
   background-color: var(--scrollbar-thumb);
-}
-
-button {
-    font-size: 1rem;
-    font-weight: 600;
-    background: transparent;
-    border: 1px solid transparent;
-    color: var(--foreground-color);
-    box-shadow: none;
-    padding: 0.5em 0.5em;
-    margin: 0 0;
-    display: inline-block;
-    user-select: none;
-}
-
-button:hover {
-  background-color: var(--button-hover);
-  /* border: var(--panel-border); */
-}
-
-button:focus {
-  outline: none;
-  background-color: var(--panel-layer-2);
-}
-
-button.--disabled {
-  color: var(--panel-layer-0);
-  /* background-color: var(--panel-layer-0); */
-}
-
-input[type="text"] {
-  font-size: 1.4rem;
-  display: inline-block;
-  background-color: transparent;
-  border: 1px solid transparent;
-  border-bottom: var(--input-border);
-  padding: 0.25rem 0rem;
-  transition: 0.2s ease-out border;
-  color: var(--accent-color);
-  font-weight: 600;
-}
-
-input[type="text"]::placeholder {
-  font-weight: 400;
-  color: var(--muted-color);
-}
-
-input[type="text"]:focus {
-  box-shadow: none;
-  outline: none;
-  border-bottom: var(--input-border-active);
 }

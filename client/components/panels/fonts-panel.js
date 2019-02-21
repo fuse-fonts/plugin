@@ -82,6 +82,11 @@ class FontsPanel extends Panel {
     this.$filter = $root.querySelector(".fonts__filter");
     this.$preview = $root.querySelector(".fonts__text");
 
+    // editor
+    this.$groupName = $root.querySelector(".group-editor .group-editor__name");
+    this.$editor = $root.querySelector(".group-editor .group-editor__editor");
+    
+
     this.group = null;
 
     this.nodeClicked = this.nodeClicked.bind(this);

@@ -1,8 +1,8 @@
 class GroupEditor {
 
-  constructor(parent) {
+  constructor(maxlength = 60) {
+    this.maxlength = maxlength;
     this.el = null;
-    this.parent = parent;
 
     // bindings
     this.keydownHandler = this.keydownHandler.bind(this);
@@ -14,8 +14,12 @@ class GroupEditor {
   }
 
   get value() {
-    if (this.isEditing) return this.el.innerText.trim();
+    if (this.isEditing) return this.el.value.trim();
     return null;
+  }
+
+  sanitize(input) {
+    return input.replace(/</gi, "&lt;").replace(/>/gi, "&gt;");
   }
 
   edit(el) {
@@ -25,18 +29,19 @@ class GroupEditor {
 
     const that = this;
     this.el = el;
-    this.initialValue = this.el.innerText;
+    el.maxlength = this.maxlength;
+    this.initialValue = this.el.value;
+    this.el.setAttribute("placeholder", this.initialValue);
+    this.el.value = "";
 
-    console.log("Editing ", el.innerText)
-    el.contentEditable = true;
     el.classList.add("--editing");
     el.focus();
+
     // if we want to highlight the selection
-    // document.execCommand('selectAll',false,null)
+    // document.execCommand('selectAll', false, null)
 
     el.addEventListener("blur", this.blurHandler);
     el.addEventListener("keydown", this.keydownHandler);
-
 
     this.promise = new Promise((resolve, reject) => this.setExecutor(resolve, reject));
     return this.promise;
@@ -50,7 +55,7 @@ class GroupEditor {
   end() {
 
     const { el, isValid, value, initialValue } = this;
-
+    
     el.contentEditable = false;
     el.classList.remove("--editing");
     el.blur();
@@ -59,22 +64,31 @@ class GroupEditor {
     el.removeEventListener("keydown", this.keydownHandler);
 
     if (isValid) {
-      this.resolve(value);
+      this.resolve(this.sanitize(value));
     }
     else {
-      el.innerText = initialValue;
+      el.value = initialValue;
       this.reject("Invalid text");
     }
     this.el = null;
   }
 
   keydownHandler(e){
+
+    console.log(e.key.toLowerCase());
+
     switch (e.key.toLowerCase()) {
       case "enter":
         e.preventDefault();
       case "escape":
         this.end();
-        break;
+        return;
+      
+      case "backspace":
+      case "delete":
+      case "arrowleft":
+      case "arrowright":
+        return;
     }
   }
 

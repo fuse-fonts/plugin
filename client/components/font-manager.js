@@ -53,18 +53,21 @@ class FontManager {
     this.customGroups = [];
 
     const fontPanel = new FontsPanel(that);
+    const editorPanel = new EditorPanel(that);
     const groupPanel = new CustomGroupPanel(that);
     const actionsPanel = new ActionsPanel(that);
     const selectionPanel = new SelectionPanel(that, fontPanel);
+    
 
     this.panels = {
       groups: groupPanel,
+      editor: editorPanel,
       fonts: fontPanel,
       actions: actionsPanel,
       selection: selectionPanel,
     }
     
-    this.editor = new GroupEditor();
+    // this.editor = new GroupEditor();
 
     // notifications
     this.timeoutID = null; // used for notifications
@@ -87,11 +90,12 @@ class FontManager {
   addPanelListeners() {
 
     const that = this;
-    const [fontPanel, groupPanel, actionsPanel, selectionPanel] = [
+    const [fontPanel, groupPanel, actionsPanel, selectionPanel, editorPanel] = [
       this.panels.fonts, 
       this.panels.groups, 
       this.panels.actions, 
       this.panels.selection,
+      this.panels.editor
     ];
 
     groupPanel.addEventListener(CustomGroupPanel.SELECT, (e) => {
@@ -100,6 +104,7 @@ class FontManager {
 
       if (selectedGroup) {
         fontPanel.loading();
+        editorPanel.setContext(selectedGroup);
         window.setTimeout(() => {
           fontPanel.viewContents.call(fontPanel, selectedGroup);
           // don't allow them to delete "all fonts" — lol nerds
@@ -113,6 +118,7 @@ class FontManager {
     });
 
     groupPanel.addEventListener(CustomGroupPanel.UNSELECT, (e) => {
+      editorPanel.clearContext();
       fontPanel.clear();
       actionsPanel.hasSelection = false;
     });
@@ -145,6 +151,7 @@ class FontManager {
     }
 
     groupPanel.addEventListener(CustomGroupPanel.REMOVE, (e) => {
+      fontPanel.unselectAll();
       const groupName = e.detail;
       removeFontsFromGroup(this.getGroup(groupName));
       return true;
@@ -164,6 +171,15 @@ class FontManager {
 
     fontPanel.addEventListener(FontsPanel.UNSELECT, (e) => {
       groupPanel.setContext(null);
+    });
+
+    // high level: editing a group name will unselect all selected fonts
+    editorPanel.addEventListener(EditorPanel.EDIT, e => fontPanel.unselectAll(true));
+
+    // renaming the group should re-render the group section
+    editorPanel.addEventListener(EditorPanel.CHANGE, e => {
+      groupPanel.selected = e.detail; // update with the new name
+      groupPanel.render()
     });
 
 
