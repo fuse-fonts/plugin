@@ -99,7 +99,14 @@ class CustomGroupPanel extends Panel {
     const event = new CustomEvent(CustomGroupPanel.SELECT, { detail });
 
     this.dispatchEvent(event);
+  }
 
+  selectByName(name) {
+    this.unselect();
+    let li = Array.from(this.$list.children).find(li => li.dataset.groupName);
+    if (li) {
+      this.select(name, li);
+    }
   }
 
   unselect() {

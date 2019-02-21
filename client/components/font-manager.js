@@ -87,6 +87,9 @@ class FontManager {
     this.addPanelListeners();
   }
 
+  /**
+   * Provides the glue of event corrospondences between the panels
+   */
   addPanelListeners() {
 
     const that = this;
@@ -99,9 +102,9 @@ class FontManager {
     ];
 
     groupPanel.addEventListener(CustomGroupPanel.SELECT, (e) => {
-
+      
       const selectedGroup = that.getGroup(e.detail.groupID);
-
+      console.log("CustomGroupPanel.SELECT:", selectedGroup.name)
       if (selectedGroup) {
         fontPanel.loading();
         editorPanel.setContext(selectedGroup);
@@ -160,6 +163,12 @@ class FontManager {
     selectionPanel.addEventListener(SelectionPanel.REMOVE, e => {
       removeFontsFromGroup(fontPanel.group);
     });
+
+    actionsPanel.addEventListener(ActionsPanel.CREATE, e => {
+      const group = e.detail;
+      groupPanel.selectByName(group.name);
+      editorPanel.edit();
+    })
 
     fontPanel.addEventListener(FontsPanel.CHANGE, (e) => {
       groupPanel.setContext(e.detail);
@@ -327,14 +336,13 @@ class FontManager {
     }
 
     const group = new CustomGroup(name);
-    
-    // this.typefaces.toList().slice(0, 4).forEach(t => group.typefaces.add(t)); // TESTING
 
     this.customGroups.push(group);
     
     this.panels.groups.update(this.customGroups);
 
     this.save();
+    return group;
   }
 
   deleteGroup(name = null) {

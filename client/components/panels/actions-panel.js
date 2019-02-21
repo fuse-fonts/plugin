@@ -43,10 +43,12 @@ class ActionsPanel extends Panel {
 
   deleteClicked() {
     this.parent.deleteGroup();
+    this.dispatchEvent(new CustomEvent(ActionsPanel.DELETE));
   }
 
   createClicked() {
-    this.parent.createGroup();
+    const group = this.parent.createGroup();
+    this.dispatchEvent(new CustomEvent(ActionsPanel.CREATE, { detail: group }));
   }
 
   listView(){
