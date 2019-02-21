@@ -101,10 +101,10 @@ class FontManager {
       this.panels.editor
     ];
 
+    // when a group is selected, load it's fonts and set the editor panel title
     groupPanel.addEventListener(CustomGroupPanel.SELECT, (e) => {
       
       const selectedGroup = that.getGroup(e.detail.groupID);
-      console.log("CustomGroupPanel.SELECT:", selectedGroup.name)
       if (selectedGroup) {
         fontPanel.loading();
         editorPanel.setContext(selectedGroup);
@@ -120,12 +120,14 @@ class FontManager {
       }
     });
 
+    // when a group is unselected, clear out the fonts panel, actions panel, and editor panel
     groupPanel.addEventListener(CustomGroupPanel.UNSELECT, (e) => {
       editorPanel.clearContext();
       fontPanel.clear();
       actionsPanel.hasSelection = false;
     });
 
+    // When a group was chosen while there are selections in the fonts panel, add the selected fonts to that group
     groupPanel.addEventListener(CustomGroupPanel.ADD, (e) => {
       const groupName = e.detail;
       const group = this.getGroup(groupName);
@@ -153,6 +155,7 @@ class FontManager {
       }
     }
 
+    // When a group was UNCHOSEN while there are selections in the fonts panel, REMOVe the selected fonts to that group
     groupPanel.addEventListener(CustomGroupPanel.REMOVE, (e) => {
       fontPanel.unselectAll();
       const groupName = e.detail;
@@ -160,24 +163,24 @@ class FontManager {
       return true;
     });
 
+    // When fonts have been removed via the selection panel, _really_ remove them from the current group
     selectionPanel.addEventListener(SelectionPanel.REMOVE, e => {
       removeFontsFromGroup(fontPanel.group);
     });
 
+    // when a new group is created, selected it and set us in edit mode
     actionsPanel.addEventListener(ActionsPanel.CREATE, e => {
       const group = e.detail;
       groupPanel.selectByName(group.name);
       editorPanel.edit();
-    })
+    });
 
+    // when the selection in the fonts panel have changed, trugger the group panel to re-render
     fontPanel.addEventListener(FontsPanel.CHANGE, (e) => {
       groupPanel.setContext(e.detail);
     });
 
-    fontPanel.addEventListener(FontsPanel.SELECT, (e) => {
-      // groupPanel.setContext(e.detail)
-    });
-
+    // when all items are unselected in the fonts panel, re-render the groups panel without any context
     fontPanel.addEventListener(FontsPanel.UNSELECT, (e) => {
       groupPanel.setContext(null);
     });
@@ -185,7 +188,7 @@ class FontManager {
     // high level: editing a group name will unselect all selected fonts
     editorPanel.addEventListener(EditorPanel.EDIT, e => fontPanel.unselectAll(true));
 
-    // renaming the group should re-render the group section
+    // when renaming the group should re-render the group section
     editorPanel.addEventListener(EditorPanel.CHANGE, e => {
       groupPanel.selected = e.detail; // update with the new name
       groupPanel.render()
