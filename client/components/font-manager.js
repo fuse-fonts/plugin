@@ -9,7 +9,7 @@ const tryParseJSON = (input) => {
   const logTimeKey = new Date().toLocaleString();
   resultsLog[logTimeKey] = input;
 
-  console.log("Logged a result into %cresultsLog", "color: #06a; font-family: monospace;");
+  // console.log("Logged a result into %cresultsLog", "color: #06a; font-family: monospace;");
 
   try {
     return JSON.parse(input);
@@ -39,7 +39,7 @@ class FontManager {
     const groupPanel = new CustomGroupPanel(that);
     const actionsPanel = new ActionsPanel(that);
     const selectionPanel = new SelectionPanel(that, fontPanel);
-    
+    const separator = new Separator(that);
 
     this.panels = {
       groups: groupPanel,
@@ -47,6 +47,8 @@ class FontManager {
       fonts: fontPanel,
       actions: actionsPanel,
       selection: selectionPanel,
+      separator,
+      
     }
     
     // this.editor = new GroupEditor();

@@ -138,6 +138,18 @@ body {
   position: relative;
 }
 
+body.--resizing .selection-panel {
+  display: none;
+}
+
+body.--resizing {
+  cursor: none !important;
+}
+
+body.--resizing  .panels > *:not(.separator) {
+  pointer-events: none;
+}
+
 /* inputs */
 
 button {
@@ -297,6 +309,7 @@ input::selection {
 
 .actions-panel,
 .selection-panel {
+  user-select: none;
   padding: 0.25rem 3rem 0.25rem 1rem;
   border-top: var(--panel-border);
   display: flex;
@@ -379,11 +392,12 @@ button.action.--active {
   width: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
+  user-select: none;
 }
 
 .groups-panel {
   height: var(--groups-panel-size);
-  transition: 0.1s ease-in height;
+  transition: 0.01s linear height;
 }
 
 .groups-panel.groups-panel--adaptive:hover {
@@ -399,6 +413,7 @@ button.action.--active {
   border: 1px solid #000;
   border-left: none;
   border-right: none;
+  user-select: none;
 }
 
 .separator .handle {
@@ -417,7 +432,7 @@ button.action.--active {
 }
 
 .panels .separator:active {
-  cursor: row-resize;
+  cursor: none;
 }
 
 .panels .separator:hover .handle {
