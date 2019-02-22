@@ -22,24 +22,6 @@ const tryParseJSON = (input) => {
   }
 }
 
-/**
- * Helper instance to help with rendering things.
- * Todo: figure out if I keep going this route or incorporate lit-HTML
- */
-const html = new (class Templates {
-  fontFace(id, family) {
-    let style = document.createElement("style");
-    style.id = id;
-    style.innerHTML = (`
-        @font-face {
-          font-family: '${family}';
-          src:  local('${family}');
-        }
-    `);
-    return style;
-  }
-});
-
 
 class FontManager {
 
@@ -191,7 +173,8 @@ class FontManager {
     // when renaming the group should re-render the group section
     editorPanel.addEventListener(EditorPanel.CHANGE, e => {
       groupPanel.selected = e.detail; // update with the new name
-      groupPanel.render()
+      groupPanel.render();
+      that.save();
     });
 
 
@@ -215,34 +198,62 @@ class FontManager {
       const typefaces = g.typefaces.toList().map(t => t.family);
       return { name, typefaces };
     });
-    const fiveYears = 60 * 60 * 24 * 365;
-    const jsonData = `json=${JSON.stringify(data)};max-age=${fiveYears}`;
-    document.cookie = jsonData;
+
+    const jsonData = JSON.stringify(data);
+    
+    localStorage.setItem("custom-groups", jsonData);
   }
 
-  load() {
 
-    let kvp = document.cookie.split(";") || [];
-    let jsonKvp = kvp.find(k => k.includes("json="))
-    if (kvp.length > 0 && jsonKvp) {
-      let jsonData = jsonKvp.split("json=")[1];
-      let json = tryParseJSON(jsonData);
-      if (json != null) {
-        console.log("Successfully loaded from cookie", json);
-        this.customGroups = json.map(d => {
-          let group = new CustomGroup(d.name);
+  async load() {
 
-          
-          this.typefaces.toList()
-            .filter(t => d.typefaces.includes(t.family)) // get all typefaces referenced in the cookie
-            .reduce( (lib, t) => (lib.add(t), lib), group.typefaces);
-          
-            return group;
-        });
-        
-        this.panels.groups.update(this.customGroups)
-      }
+
+    const timeStart = performance.now();
+
+    const typefacesJSON = localStorage.getItem("typefaces");
+
+    // populate this.typefaces
+    if (typefacesJSON === null) {
+      await this.loadTypefaces();
+
+      const timeEnd = performance.now();
+      const timeRead = ((timeEnd - timeStart) / 1000).toFixed(2);
+      this.notify(`Loaded ${this.typefaces.toList().length} fonts in ${timeRead}s`, 6000)
     }
+    else {
+      let typefaces = tryParseJSON(typefacesJSON);
+      typefaces.forEach(typeface => this.typefaces.add(typeface));
+
+      const timeEnd = performance.now();
+      const timeRead = ((timeEnd - timeStart) / 1000).toFixed(2);
+      this.notify(`Loaded ${this.typefaces.toList().length} fonts from cache in ${timeRead}s`, 6000)
+    }
+
+    // populate custom groups
+    const customGroupJSON = localStorage.getItem("custom-groups");
+
+    if (customGroupJSON !== null) {
+      
+      let customGroups = tryParseJSON(customGroupJSON);
+
+      if (customGroups == null) return;
+
+      this.customGroups = customGroups.map(d => {
+        let group = new CustomGroup(d.name);
+  
+        this.typefaces.toList()
+          .filter(t => d.typefaces.includes(t.family)) // get all typefaces referenced
+          .reduce((lib, t) => (lib.add(t), lib), group.typefaces);
+  
+        return group;
+      });
+
+      this.panels.groups.update(this.customGroups)
+    }
+
+
+
+    return new Promise(resolve => resolve());
   }
 
   /**
@@ -282,7 +293,7 @@ class FontManager {
 
   }
 
-  refresh() {
+  loadTypefaces() {
 
     return new Promise((resolve, reject) => {
       csInterface.evalScript("getFontList()", (result) => {
@@ -290,10 +301,19 @@ class FontManager {
         let fonts = tryParseJSON(result);
         if (fonts === null) return reject();
         
+        localStorage.setItem("fonts", result);
+        
         this.update(fonts);
         resolve();
       });
     });
+  }
+
+  saveAllFonts() {
+    
+    const fiveYears = 60 * 60 * 24 * 365;0
+    let data = JSON.stringify(this.typefaces.toList());
+    localStorage.setItem("typefaces", data);
   }
 
   /**
@@ -302,22 +322,9 @@ class FontManager {
    */
   update(fonts) {
 
-    console.log(this);
-
     this.fonts = fonts;
     fonts.forEach((font) => this.typefaces.from(font));
-  }
-
-  /**
-   * Updates the preview text displayed next to each font.
-   * @param {string} text 
-   */
-  updateText(text) {
-    this.text = text.trim();
-    if (this.text.length === 0) {
-      this.text = this.defaultText;
-    }
-    this.render();
+    this.saveAllFonts();
   }
 
   /**
@@ -400,62 +407,6 @@ class FontManager {
       let template = (`<div class="font__variant font__preview" style="${variant.style}">${variant.description}</div>`);
       return p + template;
     }, "");
-  }
-
-  /**
-   * [DEPRACATED] — Keep for editing name reference
-   */
-  addGroupEventListeners(node) {
-    
-    const that = this;
-    const options = { capture: true, passive: true, };
-
-    const $title = node.querySelector(".group__title");
-    const group = this.getGroupFromTitleNode($title);
-
-    if (group) {
-
-      // toggle
-      $title.addEventListener("click", () => {
-        if (group) group.isActive = !group.isActive;
-        node.classList.toggle("--active");
-      }, options);
-
-      $title.addEventListener("contextmenu", () => {
-        that.cs.setContextMenuByJSON(`{ "menu": [{"id": "${group.name}", "label": "Delete '${group.name}'"}]}`, (e) => {
-          that.deleteGroup(group.name);
-        });
-      }, options);
-    
-      // editing
-      $title.addEventListener("dblclick", (e) => {
-        
-        const selectedTypeface = this.selected;
-        const unselected = that.unselect();
-  
-        that.editor.edit(e.currentTarget)
-          .then((newValue) => {
-            // sanitize these things
-            newValue = newValue.replace(/</gi, "&lt;").replace(/>/gi, "&gt;")
-            group.name = newValue;
-            node.dataset.groupName = newValue;
-            that.tray.render();
-            that.save();
-          })
-          .catch(e => e) // no change
-          .then(r => {
-            // reselect our typeface like coolguys
-            if (unselected) that.toggleSelect(selectedTypeface, true);
-          })
-      }, options);
-
-      node.querySelector(".group__delete").addEventListener("click", e => this.deleteGroup(group.name));
-
-      node.querySelectorAll(".font").forEach(el => {
-        el.addEventListener("click", that.toggleSelectionHandler, options);
-      });
-    }
-
   }
 
   addTypefacesToGroup(families = [], customGroup) {

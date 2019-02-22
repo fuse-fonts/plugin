@@ -1,5 +1,24 @@
 const fontStyleHelper = new FontStyle();
 
+/**
+ * Helper instance to help with rendering things.
+ * Todo: figure out if I keep going this route or incorporate lit-HTML
+ */
+const html = new (class Templates {
+  fontFace(id, family) {
+    let style = document.createElement("style");
+    style.id = id;
+    style.innerHTML = (`
+        @font-face {
+          font-family: '${family}';
+          src:  local('${family}');
+        }
+    `);
+    return style;
+  }
+});
+
+
 /** 
  * A grouping of fonts and their variations
  * @param family the font family this typeface represents
@@ -7,7 +26,7 @@ const fontStyleHelper = new FontStyle();
 class TypeFace {
 
   constructor(family) {
-    // console.log(`Creating TypeFace for %c${family}`, "color: #b0b;")
+
     this.family = family;
     this.variants = [];
     this.isVisible = true;
@@ -21,11 +40,17 @@ class TypeFace {
   addVariant(font) {
     const name = TypeFace.toID(font.postScriptName);
     const style = TypeFace.mapFontToCSS(font);
-    const variant = { name, style, font, description: font.style, parent: this, };
+    const variant = { 
+      name, 
+      style, 
+      description: font.style, 
+      font, 
+      // parent: this,
+    };
     
     // we try to determine which variant is the regular or base font, but if we can't we just use the first added.
     if (this.variants.length === 0 || variant.style.toLowerCase() === "regular") {
-      this.defaultVariant = variant.font.postScriptName;
+      this.defaultVariant = font.postScriptName;
     }
 
     this.variants.push(variant);

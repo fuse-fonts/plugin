@@ -723,8 +723,7 @@ button.action.--active {
   font-size: 1rem;
   margin: 0 0;
   border-bottom: 1px solid transparent;
-  cursor: pointer;
-
+  cursor: text;
 }
 
 .group-editor:focus-within {

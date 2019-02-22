@@ -33,6 +33,8 @@ class EditorPanel extends Panel {
 
     const that = this;
     const { group } = this;
+
+    if (!group || group.permanent) return;
     
     this.dispatchEvent(new CustomEvent(EditorPanel.EDIT));
 
