@@ -36,14 +36,17 @@ class CustomGroupPanel extends Panel {
       const node = this.selectedNode;
       node.style.position - "relative";
       node.style.backgroundColor = "var(--error-color)";
+      node.style.overflow = "hidden";
+      node.style.transformOrigin = "left center";
 
       const keyframes = [
-        { height: `${node.offsetHeight}px`, "top": "0px", overflow: "hidden", },
-        { height: "0px", "top": `${node.offsetHeight}px`, overflow: "hidden", },
+        { transform: "scale(1)", opacity: "1", },
+        { transform: "scale(0)", opacity: "0", },
       ];
   
       const options = {
-        duration: 200,
+        duration: 260,
+        delay: 240,
         easing: "ease-out",
       };
   
