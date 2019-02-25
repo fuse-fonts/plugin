@@ -29,7 +29,7 @@ class GroupEditor {
 
     const that = this;
     this.el = el;
-    el.maxlength = this.maxlength;
+    el.setAttribute("maxlength", this.maxlength);
     this.initialValue = this.el.value;
     this.el.setAttribute("placeholder", this.initialValue);
     this.el.value = "";
@@ -75,8 +75,6 @@ class GroupEditor {
 
   keydownHandler(e){
 
-    console.log(e.key.toLowerCase());
-
     switch (e.key.toLowerCase()) {
       case "enter":
         e.preventDefault();
@@ -99,7 +97,7 @@ class GroupEditor {
   get isValid() {
     const value = this.value;
     if (value === null) return false;
-    if (value.length === 0) return false;
+    if (value.length === 0 || value.length > this.maxlength) return false;
     if (value === this.initialValue) return false;
     return true;
   }

@@ -85,19 +85,25 @@ class FontManager {
       this.panels.editor
     ];
 
+    let timeoutID = null;
+
     // when a group is selected, load it's fonts and set the editor panel title
     groupPanel.addEventListener(CustomGroupPanel.SELECT, (e) => {
       
       const selectedGroup = that.getGroup(e.detail.groupID);
       if (selectedGroup) {
-        fontPanel.loading();
+
+        fontPanel.loading(true);
         editorPanel.setContext(selectedGroup);
-        window.setTimeout(() => {
+
+        if (timeoutID !== null) window.clearTimeout(timeoutID);
+
+        timeoutID = window.setTimeout(() => {
+          timeoutID = null;
           fontPanel.viewContents.call(fontPanel, selectedGroup);
           // don't allow them to delete "all fonts" — lol nerds
           actionsPanel.hasSelection = selectedGroup.permanent ? false : true;
-
-        }, 1);
+        }, 200);
       }
       else {
         actionsPanel.hasSelection = false;

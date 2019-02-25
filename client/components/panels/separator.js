@@ -41,7 +41,7 @@ class Separator {
   }
 
   resizeMove(e) {
-    let y = e.clientY + 20;
+    let y = e.clientY;
     let yPosition = Math.round((y / (window.innerHeight)) * 100);
     this.setSplit(yPosition);
   }

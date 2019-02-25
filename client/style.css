@@ -254,6 +254,7 @@ input::selection {
   width: 16rem;
   border-radius: 6px;
   text-overflow: ellipsis;
+  overflow-x: hidden;
 }
 
 
@@ -452,6 +453,24 @@ button.action.--active {
   padding: 0rem 0rem;
 }
 
+.fonts-panel .loading-section {
+  display: none;
+  vertical-align: middle;
+  align-content: center;
+  height: 100%;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.fonts-panel.--loading .loading-section {
+  display: flex;
+}
+
+.fonts-panel.--loading > *:not(.loading-section) {
+  display: none;
+}
+
 .fonts {
 
 }
@@ -461,6 +480,21 @@ button.action.--active {
   padding: 0rem 0;
   margin: 0rem 0;
   margin-bottom: 1rem;
+}
+
+.fonts__list + .fonts__empty {
+  display: none;
+}
+
+.fonts__list:empty + .fonts__empty {
+  color: var(--muted-color);
+  display: flex;
+  vertical-align: middle;
+  align-content: center;
+  height: 100%;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .fonts__list li {
@@ -815,3 +849,29 @@ button.action.--active {
 ::-webkit-scrollbar-thumb {
   background-color: var(--scrollbar-thumb);
 }
+
+i.loading-circle {
+  user-select: none;
+  --scale: 2.5rem;
+  --color: var(--muted-color);
+  display: block;
+  width: var(--scale);
+  height: var(--scale);
+  border-radius: 50%;
+  border: 3px solid var(--color);
+  border-top-color: transparent;
+  background-color: transparent;
+  animation: 0.6s linear loading-animation infinite;
+}
+
+@keyframes loading-animation {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+
+  }
+}
+

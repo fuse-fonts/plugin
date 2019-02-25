@@ -24,12 +24,7 @@ const getListHTML = (typefaces = [], text) => {
       return p + entry;
     }, "");
   }
-  else {
-
-    return (`
-        <li class="empty">This group is empty.</li>`
-    );
-  }
+  else return "";
 }
 
 // Returns a function, that, as long as it continues to be invoked, will not
@@ -89,6 +84,8 @@ class FontsPanel extends Panel {
     this.$groupName = $root.querySelector(".group-editor .group-editor__name");
     this.$editor = $root.querySelector(".group-editor .group-editor__editor");
     
+    // panel loading
+    this.$loading = $root.querySelector(".loading-section");
     
     this.group = null;
     
@@ -130,13 +127,17 @@ class FontsPanel extends Panel {
   }
 
   viewContents(group) {
+    
     this.unselectAll()
     this.group = group;
     this.selected = [];
     this.render(group);
+
     if (this.filterText.length > 0) {
       this.filter(this.filterText);
     }
+
+    this.loading(false);
   }
 
   addEventListeners() {
@@ -323,8 +324,8 @@ class FontsPanel extends Panel {
 
   }
 
-  loading() {
-    this.parent.notify("todo: show loading");
+  loading(toggle = true) {
+    this.$root.classList.toggle("--loading", toggle);
   }
 
   render(group = null) {
