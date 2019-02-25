@@ -26,7 +26,6 @@ class CustomGroupPanel extends Panel {
     this.$list = $root.querySelector(this.listClassName);
 
     this.addEventListeners();
-    console.log(this);
   }
 
   deleteGroup(groups) {
@@ -125,6 +124,11 @@ class CustomGroupPanel extends Panel {
     this.selected = null;
     this.selectedNode = null;
     this.context = [];
+    this.render();
+  }
+
+  clearContext() {
+    this.setContext(null);
   }
 
   setContext(families) {

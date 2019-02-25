@@ -139,11 +139,11 @@ class FontManager {
       }
     }
 
-    // When a group was UNCHOSEN while there are selections in the fonts panel, REMOVe the selected fonts to that group
+    // When a group was UNCHOSEN while there are selections in the fonts panel, REMOVe the selected fonts from that group
     groupPanel.addEventListener(CustomGroupPanel.REMOVE, (e) => {
-      fontPanel.unselectAll();
       const groupName = e.detail;
       removeFontsFromGroup(this.getGroup(groupName));
+      fontPanel.unselectAll();
       return true;
     });
 
@@ -166,7 +166,7 @@ class FontManager {
 
     // when all items are unselected in the fonts panel, re-render the groups panel without any context
     fontPanel.addEventListener(FontsPanel.UNSELECT, (e) => {
-      groupPanel.setContext(null);
+      groupPanel.clearContext();
     });
 
     // high level: editing a group name will unselect all selected fonts

@@ -72,6 +72,7 @@ class FontsPanel extends Panel {
     const panelClassName = ".fonts-panel";
     const listClassName = ".fonts__list";
     this.selectedClassName = "--selected";
+    this.suppressChangeEvent = false;
 
     let $root = document.querySelector(panelClassName);
     this.$root = $root;
@@ -112,15 +113,20 @@ class FontsPanel extends Panel {
 
   set selected(value = []) {
 
-    const detail = value;
-    this.dispatchEvent(new CustomEvent(FontsPanel.CHANGE, { detail, }));
+    if (!this.suppressChangeEvent) {
+      const detail = value;
+      this.dispatchEvent(new CustomEvent(FontsPanel.CHANGE, { detail, }));
+    }
 
     this._selected = value;
   }
 
   clear() {
+    this.suppressChangeEvent = true;
+    this.unselectAll(true);
     this.group = null;
     this.render(null);
+    this.suppressChangeEvent = false;
   }
 
   viewContents(group) {
