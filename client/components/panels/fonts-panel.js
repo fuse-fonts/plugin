@@ -81,21 +81,25 @@ class FontsPanel extends Panel {
     this.$inputs = $root.querySelector(".fonts__inputs");
     this.$filter = $root.querySelector(".fonts__filter");
     this.$preview = $root.querySelector(".fonts__text");
+    this.$clearFilter = $root.querySelector(".fonts__clear-filter");
+    this.$filterIcon = $root.querySelector(".filter-icon");
 
     // editor
     this.$groupName = $root.querySelector(".group-editor .group-editor__name");
     this.$editor = $root.querySelector(".group-editor .group-editor__editor");
     
-
+    
     this.group = null;
-
+    
     this.nodeClicked = this.nodeClicked.bind(this);
-
+    
     const debouncedFilter = debounce(this.filterKeyUp.bind(this), 60);
     this.$filter.addEventListener("keyup", e => debouncedFilter(e));
-
+    
     const debouncedPreview = debounce(this.previewKeyUp.bind(this), 120);
     this.$preview.addEventListener("keyup", e => debouncedPreview(e));
+
+    this.$clearFilter.addEventListener("click", e => this.clearFilter())
   }
 
   get events() {
@@ -195,7 +199,6 @@ class FontsPanel extends Panel {
 
   filterKeyUp(e) {
     const text = this.$filter.value;
-    if (text.length === 0) this.clearFilter();
     this.filter(text.toLowerCase());
   }
 
@@ -215,6 +218,15 @@ class FontsPanel extends Panel {
     
     this.filterText = text;
 
+    if (this.filterText.length > 0) {
+      this.$clearFilter.style.display = null;
+      this.$filterIcon.classList.add("--active")
+    }
+    else {
+      this.$clearFilter.style.display = "none";
+      this.$filterIcon.classList.remove("--active")
+    }
+
     Array
       .from(this.$list.children)
       .forEach(node => {
@@ -224,7 +236,8 @@ class FontsPanel extends Panel {
   }
 
   clearFilter() {
-    this.filterText = "";
+    this.$filter.value = "";
+    this.filter("");
   }
 
   selectRange(previousNode, node) {

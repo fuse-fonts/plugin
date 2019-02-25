@@ -563,8 +563,8 @@ button.action.--active {
   visibility: hidden;
 }
 
-.fonts__inputs:focus-within i {
-  color: var(--foreground-color);
+.filter-icon.--active {
+  color: var(--accent-color);
 }
 
 .fonts__inputs input {
@@ -576,20 +576,28 @@ button.action.--active {
   color: var(--foreground-color);
 }
 
-.fonts__filter {
-  display: flex;
-  flex: 0 1 auto;
-}
-
 .fonts__inputs i {
   display: inline-block;
   color: var(--muted-color);
   margin-right: 0.5rem;
 }
 
-.fonts__inputs input:hover,
-.fonts__inputs input:focus {
-  
+.fonts__filter {
+  display: flex;
+  flex: 0 1 auto;
+}
+
+.fonts__clear-filter {
+  border: none;
+  padding: 0 0.5rem;
+}
+
+.fonts__clear-filter:hover {
+  background-color: transparent;
+}
+
+.fonts__clear-filter i {
+  color: var(--error-color);
 }
 
 .group {
