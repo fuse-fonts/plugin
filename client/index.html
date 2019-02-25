@@ -96,8 +96,14 @@
 
     <section class="fonts-panel panel">
       <header class="fonts__inputs">
-        <input class="fonts__filter" type="text" placeholder="filter..." />
-        <input class="fonts__text" type="text" placeholder="AaBbCc" maxlength="8" />
+        <section>
+          <i class="material-icons">filter_list</i>
+          <input class="fonts__filter" type="text" placeholder="filter" />
+          <button class="fonts__clear-filter" style="display: none"><i class="material-icons">close</i></button>
+        </section>
+        <section>
+          <input class="fonts__text" type="text" placeholder="AaBbCc" maxlength="8" />
+        </section>
       </header>
   
       <ul class="fonts__list"></ul>
@@ -110,7 +116,7 @@
           <i class="material-icons">text_format</i>
         </button>
         <button class="action remove" title="Remove selected typefaces from this group.">
-          <i class="material-icons">remove</i>
+          <i class="material-icons">clear_all</i>
         </button>
       </div>
     </section>

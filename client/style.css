@@ -310,7 +310,7 @@ input::selection {
 .actions-panel,
 .selection-panel {
   user-select: none;
-  padding: 0.25rem 3rem 0.25rem 1rem;
+  padding: 0.25rem 2rem 0.25rem 1rem;
   border-top: var(--panel-border);
   display: flex;
   background-color: var(--panel-layer-1);
@@ -499,7 +499,7 @@ button.action.--active {
   color: var(--selected-color);
   transition: 0.1s ease-out background-color;
   position: sticky;
-  top: 3.5rem;
+  top: 2.5rem;
   bottom: -1rem;
   z-index: 0;
 }
@@ -552,17 +552,44 @@ button.action.--active {
   background-color: var(--body-background-color);
   padding: 0.5rem 1rem;
   border-bottom: var(--panel-border);
-  border-bottom-width: 2px;
+  border-bottom-width: 1px;
   z-index: 2;
   visibility: visible;
+  background-color: var(--panel-layer-1);
 }
+
 
 .fonts__inputs.--disabled {
   visibility: hidden;
 }
 
-.fonts__inputs:focus-within {
-  background-color: var(--panel-layer-1);
+.fonts__inputs:focus-within i {
+  color: var(--foreground-color);
+}
+
+.fonts__inputs input {
+  font-size: 1rem;
+  display: inline-block;
+  padding: 0 0.5rem;
+  border: none;
+  justify-content: space-between;
+  color: var(--foreground-color);
+}
+
+.fonts__filter {
+  display: flex;
+  flex: 0 1 auto;
+}
+
+.fonts__inputs i {
+  display: inline-block;
+  color: var(--muted-color);
+  margin-right: 0.5rem;
+}
+
+.fonts__inputs input:hover,
+.fonts__inputs input:focus {
+  
 }
 
 .group {
@@ -671,7 +698,6 @@ button.action.--active {
   margin: 0 0;
   user-select: none;
   padding: 0.5rem 2rem;
-  transition: 0.2s ease-out font-size;
 }
 
 .group__title:hover {
