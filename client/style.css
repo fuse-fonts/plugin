@@ -3,9 +3,10 @@ html {
   --groups-panel-size: 18%;
   --actions-panel-size: 2.5rem;
   --selection-panel-size: 2.5rem;
-  --editor-panel-size: 2.5rem;
+  --editor-panel-size: 2.8rem;
+  --filters-panel-size: 2.5rem;
   --bar-panels: calc(var(--editor-panel-size) + (var(--actions-panel-size) + var(--selection-panel-size)));
-  --other-panels: calc(var(--bar-panels) + var(--groups-panel-size));
+  --other-panels: calc((var(--bar-panels) + var(--groups-panel-size)) + var(--filters-panel-size));
   --fonts-panel-size: calc(100% - var(--other-panels));
 
   --accent-color: #38c;
@@ -354,7 +355,7 @@ button.action.--active {
 
 .selection-panel.--active {
   background-color: var(--panel-layer-2);
-  transform: translateY(0%);
+  transform: translateY(-1px);
   transition: 0.1s ease-out all;
 }
 
@@ -579,13 +580,10 @@ button.action.--active {
   align-content: center;
   flex: 0 1 auto;
   margin: 0 0;
-  position: sticky;
-  top: 0rem;
   background-color: var(--body-background-color);
   padding: 0.5rem 1rem;
   border-bottom: var(--panel-border);
   border-bottom-width: 1px;
-  z-index: 2;
   visibility: visible;
   background-color: var(--panel-layer-1);
 }
@@ -593,6 +591,7 @@ button.action.--active {
 
 .fonts__inputs.--disabled {
   visibility: hidden;
+  pointer-events: none;
 }
 
 .filter-icon.--active {

@@ -69,16 +69,16 @@ class FontsPanel extends Panel {
     this.selectedClassName = "--selected";
     this.suppressChangeEvent = false;
 
-    let $root = document.querySelector(panelClassName);
+    const $root = document.querySelector(panelClassName);
     this.$root = $root;
     this.$list = $root.querySelector(listClassName);
 
-    // inputs
-    this.$inputs = $root.querySelector(".fonts__inputs");
-    this.$filter = $root.querySelector(".fonts__filter");
-    this.$preview = $root.querySelector(".fonts__text");
-    this.$clearFilter = $root.querySelector(".fonts__clear-filter");
-    this.$filterIcon = $root.querySelector(".filter-icon");
+    // inputs panel selectors
+    const $inputs = this.$inputs = document.querySelector(".fonts__inputs");
+    this.$filter = $inputs.querySelector(".fonts__filter");
+    this.$preview = $inputs.querySelector(".fonts__text");
+    this.$clearFilter = $inputs.querySelector(".fonts__clear-filter");
+    this.$filterIcon = $inputs.querySelector(".filter-icon");
 
     // editor
     this.$groupName = $root.querySelector(".group-editor .group-editor__name");
