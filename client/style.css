@@ -565,14 +565,12 @@ button.action.--active {
   user-select: none;
 }
 
+.fonts__no-selection {
+  display: none;
+}
 
-.no-groups {
-  font-size: 1rem;
-  opacity: 0.5;
-  text-align: center;
-  font-weight: 400;
-  background-color: var(--panel-layer-0);
-  padding: 1rem 1rem;
+.--has-selection .fonts__no-selection {
+  display: block;
 }
 
 .fonts__inputs {
@@ -752,11 +750,12 @@ button.action.--active {
 
 .group:active {
   background-color: var(--panel-layer-2);
+  /* background-color: var(--accent-color); */
 }
 
 .group.--selected {
-  /* background-color: var(--panel-layer-2); */
-  background-color: var(--accent-color);
+  /* background-color: var(--accent-color); */
+  background-color: var(--panel-layer-2);
   position: sticky;
   top: 0rem;
   bottom: 0;

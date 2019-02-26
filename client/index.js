@@ -21,7 +21,8 @@ fm.detectTheme();
 csInterface.addEventListener(CSInterface.THEME_COLOR_CHANGED_EVENT, (e) => fm.detectTheme());
 
 fm.load().then(r => {
-  fm.render();
   document.body.classList.remove("--loading");
 });
+
+
 

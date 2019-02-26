@@ -110,7 +110,9 @@ class FontsPanel extends Panel {
 
   set selected(value = []) {
 
-    if (!this.suppressChangeEvent) {
+    const willTriggerUnselectEvent = value.length !== 0;
+
+    if (willTriggerUnselectEvent && !this.suppressChangeEvent) {
       const detail = value;
       this.dispatchEvent(new CustomEvent(FontsPanel.CHANGE, { detail, }));
     }
@@ -118,9 +120,9 @@ class FontsPanel extends Panel {
     this._selected = value;
   }
 
-  clear() {
+  clear(dispatchEvents = false) {
     this.suppressChangeEvent = true;
-    this.unselectAll(true);
+    this.unselectAll();
     this.group = null;
     this.render(null);
     this.suppressChangeEvent = false;
@@ -319,7 +321,7 @@ class FontsPanel extends Panel {
       return getListHTML(group.typefaces.toList(), this.text);
     }
     else {
-      return (`<li class="empty">No group selected.</li>`);
+      return (``);
     }
 
   }
@@ -331,6 +333,7 @@ class FontsPanel extends Panel {
   render(group = null) {
     this.$list.innerHTML = this.getHTML(group);
     this.$inputs.classList.toggle("--disabled", group === null);
+    this.$inputs.classList.toggle("--has-selection", group !== null);
     this.addEventListeners();
   }
 

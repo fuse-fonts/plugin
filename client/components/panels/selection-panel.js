@@ -30,6 +30,10 @@ class SelectionPanel extends Panel {
     // this panel hooks into the fonts panel
     fontPanel.addEventListener(FontsPanel.CHANGE, this.changeHandler);
 
+    // todo: determine if this is helpful:
+    const unselectEvent = new CustomEvent(FontsPanel.CHANGE, { detail: [] });
+    fontPanel.addEventListener(FontsPanel.UNSELECT, e => this.changeHandler(unselectEvent));
+
   }
 
   applyTypeface(typefaceName) {

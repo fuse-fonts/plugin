@@ -76,6 +76,8 @@ class FontManager {
    */
   addPanelListeners() {
 
+    const debugEvents = true;
+
     const that = this;
     const [fontPanel, groupPanel, actionsPanel, selectionPanel, editorPanel] = [
       this.panels.fonts, 
@@ -89,7 +91,9 @@ class FontManager {
 
     // when a group is selected, load it's fonts and set the editor panel title
     groupPanel.addEventListener(CustomGroupPanel.SELECT, (e) => {
-      
+
+      if (debugEvents) console.log("CustomGroupPanel.SELECT");
+
       const selectedGroup = that.getGroup(e.detail.groupID);
       if (selectedGroup) {
 
@@ -112,6 +116,7 @@ class FontManager {
 
     // when a group is unselected, clear out the fonts panel, actions panel, and editor panel
     groupPanel.addEventListener(CustomGroupPanel.UNSELECT, (e) => {
+      if (debugEvents) console.log("CustomGroupPanel.UNSELECT");
       editorPanel.clearContext();
       fontPanel.clear();
       actionsPanel.hasSelection = false;
@@ -119,6 +124,7 @@ class FontManager {
 
     // When a group was chosen while there are selections in the fonts panel, add the selected fonts to that group
     groupPanel.addEventListener(CustomGroupPanel.ADD, (e) => {
+      if (debugEvents) console.log("CustomGroupPanel.ADD");
       const groupName = e.detail;
       const group = this.getGroup(groupName);
       const fonts = fontPanel.selected;
@@ -143,23 +149,38 @@ class FontManager {
       if (fontPanel.group && group.name === fontPanel.group.name) {
         fontPanel.viewContents(fontPanel.group);
       }
+
+      if (group.typefaces.toList().length === 0) {
+        groupPanel.clearContext();
+      }
+
+      return false;
     }
 
     // When a group was UNCHOSEN while there are selections in the fonts panel, REMOVe the selected fonts from that group
     groupPanel.addEventListener(CustomGroupPanel.REMOVE, (e) => {
+      if (debugEvents) console.log("CustomGroupPanel.REMOVE");
+
       const groupName = e.detail;
       removeFontsFromGroup(this.getGroup(groupName));
-      fontPanel.unselectAll();
+      
+      // if we've removed from our currently selected group, then we need to make it happen and lose context
+      if (groupName === groupPanel.selected) {
+        fontPanel.unselectAll(true);
+      }
+
       return true;
     });
 
     // When fonts have been removed via the selection panel, _really_ remove them from the current group
     selectionPanel.addEventListener(SelectionPanel.REMOVE, e => {
+      if (debugEvents) console.log("SelectionPanel.REMOVE");
       removeFontsFromGroup(fontPanel.group);
     });
 
     // when a new group is created, selected it and set us in edit mode
     actionsPanel.addEventListener(ActionsPanel.CREATE, e => {
+      if (debugEvents) console.log("ActionsPanel.CREATE");
       const group = e.detail;
       groupPanel.selectByName(group.name);
       editorPanel.edit();
@@ -167,19 +188,30 @@ class FontManager {
 
     // when the selection in the fonts panel have changed, trugger the group panel to re-render
     fontPanel.addEventListener(FontsPanel.CHANGE, (e) => {
+      if (debugEvents) console.log("FontsPanel.CHANGE");
+
       groupPanel.setContext(e.detail);
     });
 
     // when all items are unselected in the fonts panel, re-render the groups panel without any context
     fontPanel.addEventListener(FontsPanel.UNSELECT, (e) => {
+      if (debugEvents) console.log("FontsPanel.UNSELECT");
+
       groupPanel.clearContext();
+      // groupPanel.render()
     });
 
     // high level: editing a group name will unselect all selected fonts
-    editorPanel.addEventListener(EditorPanel.EDIT, e => fontPanel.unselectAll(true));
+    editorPanel.addEventListener(EditorPanel.EDIT, e => {
+      if (debugEvents) console.log("EditorPanel.EDIT");
+      
+      fontPanel.unselectAll(true)
+    });
 
     // when renaming the group should re-render the group section
     editorPanel.addEventListener(EditorPanel.CHANGE, e => {
+      if (debugEvents) console.log("EditorPanel.CHANGE");
+
       groupPanel.selected = e.detail; // update with the new name
       groupPanel.render();
       that.save();

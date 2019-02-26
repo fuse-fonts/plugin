@@ -29,6 +29,7 @@ class CustomGroupPanel extends Panel {
   }
 
   deleteGroup(groups) {
+    console.log("delete: deleting node")
     if (this.selectedNode) {
       
       const that = this;
@@ -54,7 +55,10 @@ class CustomGroupPanel extends Panel {
       this.unselect();
       this.groups = groups;
   
-      animation.onfinish = () => node.remove();
+      animation.onfinish = () => {
+        node.remove();
+        console.log("delete: removed node")
+      }
   
       return animation;
     }
@@ -103,6 +107,7 @@ class CustomGroupPanel extends Panel {
     const event = new CustomEvent(CustomGroupPanel.SELECT, { detail });
 
     this.dispatchEvent(event);
+    this.render();
   }
 
   selectByName(name) {
@@ -124,11 +129,11 @@ class CustomGroupPanel extends Panel {
     this.selected = null;
     this.selectedNode = null;
     this.context = [];
-    this.render();
+    // this.render();
   }
 
   clearContext() {
-    this.setContext(null);
+    this.context = [];
   }
 
   setContext(families) {
@@ -160,6 +165,7 @@ class CustomGroupPanel extends Panel {
   }
 
   render() {
+    console.log("rendering")
     const groups = [this.parent.allFontsGroup, ...this.groups];
     this.$list.innerHTML = groups.reduce((html, group) => html + this.renderGroup(group), "");
 
