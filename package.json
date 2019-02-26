@@ -22,5 +22,8 @@
   "homepage": "https://github.com/RoryDuncan/adobe-plugin-project#readme",
   "dependencies": {
     "shelljs": "^0.8.3"
+  },
+  "devDependencies": {
+    "firebase-tools": "^6.4.0"
   }
 }
