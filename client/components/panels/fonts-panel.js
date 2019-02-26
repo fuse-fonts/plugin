@@ -317,6 +317,7 @@ class FontsPanel extends Panel {
   }
 
   getHTML(group) {
+
     if (group) {
       return getListHTML(group.typefaces.toList(), this.text);
     }

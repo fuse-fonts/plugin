@@ -10,17 +10,20 @@ let fm = new FontManager(csInterface, $list);
 
 csInterface.setContextMenuByJSON(`{ "menu": [{"id": "hi", label": "hi"}]}`, () => {});
 
-
+/* Menu Panel Actions */
+const menuXML = document.getElementById("menu").innerHTML;
+csInterface.setPanelFlyoutMenu(menuXML);
+csInterface.addEventListener(CSInterface.FLYOUT_MENU_CLICKED_EVENT, (e) => fm.menuItemClicked(e));
 
 /*
 Startup Code
 */
-document.body.classList.add("--loading");
+fm.loading(true);
 
 fm.detectTheme();
 csInterface.addEventListener(CSInterface.THEME_COLOR_CHANGED_EVENT, (e) => fm.detectTheme());
 
-window.setTimeout(() => fm.load().then(r => document.body.classList.remove("--loading")), 1000);
+window.setTimeout(() => fm.load().then(r => fm.loading(false)), 1000);
 
 
 

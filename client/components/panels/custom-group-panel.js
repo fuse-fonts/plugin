@@ -68,6 +68,8 @@ class CustomGroupPanel extends Panel {
   }
 
   update(groups) {
+    this.selected = null;
+    this.selectedNode = null;
     this.groups = groups;
     this.render();
   }
@@ -165,7 +167,6 @@ class CustomGroupPanel extends Panel {
   }
 
   render() {
-    console.log("rendering")
     const groups = [this.parent.allFontsGroup, ...this.groups];
     this.$list.innerHTML = groups.reduce((html, group) => html + this.renderGroup(group), "");
 

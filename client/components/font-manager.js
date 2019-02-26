@@ -76,7 +76,7 @@ class FontManager {
    */
   addPanelListeners() {
 
-    const debugEvents = true;
+    const debugEvents = false;
 
     const that = this;
     const [fontPanel, groupPanel, actionsPanel, selectionPanel, editorPanel] = [
@@ -198,7 +198,6 @@ class FontManager {
       if (debugEvents) console.log("FontsPanel.UNSELECT");
 
       groupPanel.clearContext();
-      // groupPanel.render()
     });
 
     // high level: editing a group name will unselect all selected fonts
@@ -321,6 +320,43 @@ class FontManager {
     else                  document.body.classList.add(theme.DARK);
   }
 
+  loading(value = true) {
+    document.body.classList.toggle("--loading", value);
+  }
+
+  menuItemClicked(e) {
+    console.log(e);
+
+    const supportURL = "https://meow.coffee";
+
+    const { data } =  e;
+    switch (data.menuId) {
+      case "feedback":
+        this.cs.openURLInDefaultBrowser(supportURL);
+        break;
+      case "delete-data":
+        this.clearData();
+        break;
+      case "refresh-fonts":
+        this.loading(true)
+        this.loadTypefaces().then(() => this.loading(false))
+        break;
+    }
+  }
+
+  clearData() {
+    if (window.confirm("Delete all custom groups? This is irreversible and permenant.")) {
+
+      this.panels.fonts.unselectAll();
+      this.customGroups = [];
+      this.panels.editor.clearContext();
+      this.panels.groups.update(this.customGroups);
+
+      this.save();
+      this.render();
+    }
+  }
+
   notify(message = "", duration = 5000) {
     if (this.timeoutID) window.clearTimeout(this.timeoutID);
     this.$notification.innerHTML = `<span>${message}</span>`;
@@ -334,6 +370,8 @@ class FontManager {
   }
 
   loadTypefaces() {
+    
+    this.typefaces = new TypeFaceLibrary();
 
     return new Promise((resolve, reject) => {
       csInterface.evalScript("getFontList()", (result) => {

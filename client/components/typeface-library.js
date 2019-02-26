@@ -3,6 +3,16 @@
  *    I realized I could've used a Map instead.
  */
 class TypeFaceLibrary {
+
+  constructor() {
+    // this.from = this.from.bind(this);
+    // this.add = this.add.bind(this);
+    // this.remove = this.remove.bind(this);
+    // this.toList = this.toList.bind(this);
+    // this.includes = this.includes.bind(this);
+    // this.has = this.has.bind(this);
+  }
+
   /**
    * 
    * @param {TextFont} font 

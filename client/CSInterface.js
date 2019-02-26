@@ -915,6 +915,7 @@ CSInterface.prototype.getCurrentApiVersion = function()
  * </Menu>
  *
  */
+CSInterface.FLYOUT_MENU_CLICKED_EVENT = "com.adobe.csxs.events.flyoutMenuClicked"; // custom property added for Fuse Fonts
 CSInterface.prototype.setPanelFlyoutMenu = function(menu)
 {
     if ("string" != typeof menu)
