@@ -486,28 +486,9 @@ button.action.--active {
   display: none;
 }
 
-.fonts__list:empty + .fonts__empty {
-  color: var(--muted-color);
-  display: flex;
-  vertical-align: middle;
-  align-content: center;
-  height: 100%;
-  width: 100%;
-  justify-content: space-around;
-  align-items: center;
-}
 
 .fonts__list li {
   margin: 0 0;
-}
-
-.fonts__list li.empty {
-  padding: 1rem 1rem;
-  background-color: var(--body-background-color);
-  color: var(--muted-color);
-  font-size: 1.5rem;
-  margin: 1rem auto;
-  text-align: center;
 }
 
 .font {
@@ -565,12 +546,31 @@ button.action.--active {
   user-select: none;
 }
 
-.fonts__no-selection {
+.fonts__empty {
   display: none;
 }
 
+.fonts__no-selection {
+  display: flex;
+}
+
+.fonts__empty,
+.fonts__no-selection {
+  color: var(--muted-color);
+  vertical-align: middle;
+  align-content: center;
+  height: 80%;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.--has-selection .fonts__list:empty + .fonts__empty {
+  display: flex;
+}
+
 .--has-selection .fonts__no-selection {
-  display: block;
+  display: none;
 }
 
 .fonts__inputs {
@@ -843,7 +843,7 @@ button.action.--active {
   width: 8px;
   height: 100%;
   background-color: var(--scrollbar-track);
-  border-left: var(--panel-border);
+  /* border-left: var(--panel-border); */
 }
 ::-webkit-scrollbar-thumb {
   background-color: var(--scrollbar-thumb);

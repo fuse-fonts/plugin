@@ -333,7 +333,7 @@ class FontsPanel extends Panel {
   render(group = null) {
     this.$list.innerHTML = this.getHTML(group);
     this.$inputs.classList.toggle("--disabled", group === null);
-    this.$inputs.classList.toggle("--has-selection", group !== null);
+    this.$root.classList.toggle("--has-selection", group !== null);
     this.addEventListeners();
   }
 
