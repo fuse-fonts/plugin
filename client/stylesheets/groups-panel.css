@@ -1,0 +1,149 @@
+
+.group {
+  padding: 0 0;
+  margin: 0 0;
+  cursor: default;
+  width: 100%;
+  border-radius: 0px;
+  transition: 0.2s ease-out all;
+  position: relative;
+  background-color: transparent;
+  display: flex;
+  flex: 0 1 auto;
+  justify-content: space-between;
+  border-bottom: var(--panel-border);
+  align-items: center;
+}
+
+.group:hover {
+  background-color: var(--panel-layer-1);
+}
+
+.group__items-count {
+  margin-right: 1rem;
+  font-size: 1rem;
+  color: var(--muted-color);
+}
+
+.group__actions {
+  /* background-color: var(--panel-layer-1); */
+}
+
+.group__actions button {
+  border-radius: 3px;
+  padding: 0 0;
+  margin-right: 1rem;
+  background-color: var(--checkbox-background-color);
+  width: 1.6rem;
+  height: 1.6rem;
+  border: 1px solid transparent;
+  transition: 0.1s ease-out all;
+  /* cursor: pointer; */
+}
+
+.group__actions button i.material-icons {
+  /* font-size: 2rem; */
+}
+
+.group__actions button:hover,
+.group__actions button:active,
+.group__actions button:focus {
+  outline: none;
+  border: 1px solid transparent;
+  background-color: var(--checkbox-background-color);
+}
+
+.group__actions button:active {
+  transform: scale(1.25);
+  transform-origin: center center;
+}
+
+.group__actions button:hover {
+  background-color: var(--accent-color);
+}
+
+.group__actions button.add {
+  color: transparent;
+}
+
+.group__actions button.remove {
+  color: var(--checkbox-color);
+}
+
+.group__delete {
+  position: absolute;
+  right: 0rem;
+  padding: 0.25rem 0.5rem;
+  color: var(--muted-color);
+  transform: translateX(300%);
+}
+
+.group__delete:hover {
+  color: var(--error-color);
+}
+
+.group__delete i {
+  font-size: 1.8rem;
+  transform: scale(1);
+  transition: 0.2s ease-in transform;
+}
+
+
+.--allow-deletions .fonts__groups .group {
+  margin-right: 4rem;
+}
+
+.--allow-deletions .group__delete {
+  display: block;
+  transform: translateX(150%);
+  transition: 0.1s linear transform;
+}
+
+.group__title {
+  font-size: 1rem;
+  background-color: transparent;
+  margin: 0 0;
+  user-select: none;
+  padding: 0.5rem 2rem;
+}
+
+.group__title:hover {
+  
+}
+
+.group__list {
+  display: none;
+}
+
+.group:active {
+  background-color: var(--panel-layer-2);
+  /* background-color: var(--accent-color); */
+}
+
+.group.--selected {
+  /* background-color: var(--accent-color); */
+  background-color: var(--panel-layer-2);
+  position: sticky;
+  top: 0rem;
+  bottom: 0;
+  z-index: 2;
+}
+
+.group.--selected .group__title::before {
+  color: var(--foreground-color);
+}
+
+
+.group__title::before {
+  font-family: "Material Icons";
+  content: "folder";
+  font-size: 1.4rem;
+  line-height: 1rem;
+  vertical-align: middle;
+  margin-right: 0.5rem;
+  color: var(--muted-color);
+}
+
+.group.--selected .group__title::before {
+  content: "folder";
+}

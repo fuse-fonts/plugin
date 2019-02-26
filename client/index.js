@@ -20,9 +20,8 @@ document.body.classList.add("--loading");
 fm.detectTheme();
 csInterface.addEventListener(CSInterface.THEME_COLOR_CHANGED_EVENT, (e) => fm.detectTheme());
 
-fm.load().then(r => {
-  document.body.classList.remove("--loading");
-});
+window.setTimeout(() => fm.load().then(r => document.body.classList.remove("--loading")), 1000);
+
 
 
 

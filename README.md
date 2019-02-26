@@ -23,7 +23,7 @@
 4. [Scripting Documents](https://www.adobe.com/devnet/scripting.html)
 5. [Adobe Extensions Forum](https://forums.adobe.com/community/creative_cloud/add-ons/extensions) - has links, too
 6. [Extension Installer](https://github.com/Hennamann/CEP-Extension-Installer)
-7. https://www.ps-scripts.com/#
+7. https://www.ps-scripts.com/
 
 ## Last Straw
 https://gumroad.com/l/rAAKQ
