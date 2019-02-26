@@ -320,8 +320,30 @@ class FontManager {
     else                  document.body.classList.add(theme.DARK);
   }
 
+  setLoadingMessage(message) {
+    const p = document.querySelector(".loading .messages p")
+    const lastMessage = p.innerText;
+    p.innerText = message;
+    return lastMessage;
+  }
+
   loading(value = true) {
-    document.body.classList.toggle("--loading", value);
+    const { body } = document;
+
+    if (value) {
+      body.classList.add("--loading");
+      return;
+    }
+    
+    const target = document.querySelector(".loading");
+    body.style.overflowY = "hidden";
+    let keyframes = [{ opacity: "1", }, { opacity: "0", }, ];
+    const options = { delay: 200, duration: 400, easing: "ease-in", }
+    const animation = target.animate(keyframes, options);
+    animation.onfinish = () => {
+      body.classList.remove("--loading");
+    }
+
   }
 
   menuItemClicked(e) {

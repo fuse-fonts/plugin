@@ -23,7 +23,9 @@ fm.loading(true);
 fm.detectTheme();
 csInterface.addEventListener(CSInterface.THEME_COLOR_CHANGED_EVENT, (e) => fm.detectTheme());
 
-window.setTimeout(() => fm.load().then(r => fm.loading(false)), 1000);
+fm.load().then(r => {
+    fm.loading(false, true);
+});
 
 
 

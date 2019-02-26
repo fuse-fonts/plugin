@@ -70,33 +70,9 @@
   color: var(--checkbox-color);
 }
 
-.group__delete {
-  position: absolute;
-  right: 0rem;
-  padding: 0.25rem 0.5rem;
-  color: var(--muted-color);
-  transform: translateX(300%);
-}
 
 .group__delete:hover {
   color: var(--error-color);
-}
-
-.group__delete i {
-  font-size: 1.8rem;
-  transform: scale(1);
-  transition: 0.2s ease-in transform;
-}
-
-
-.--allow-deletions .fonts__groups .group {
-  margin-right: 4rem;
-}
-
-.--allow-deletions .group__delete {
-  display: block;
-  transform: translateX(150%);
-  transition: 0.1s linear transform;
 }
 
 .group__title {
@@ -104,7 +80,7 @@
   background-color: transparent;
   margin: 0 0;
   user-select: none;
-  padding: 0.5rem 2rem;
+  padding: 0.5rem 2rem 0.5rem 1rem;
 }
 
 .group__title:hover {
@@ -117,11 +93,10 @@
 
 .group:active {
   background-color: var(--panel-layer-2);
-  /* background-color: var(--accent-color); */
 }
 
 .group.--selected {
-  /* background-color: var(--accent-color); */
+
   background-color: var(--panel-layer-2);
   position: sticky;
   top: 0rem;
@@ -140,10 +115,15 @@
   font-size: 1.4rem;
   line-height: 1rem;
   vertical-align: middle;
-  margin-right: 0.5rem;
+  margin-right: 1rem;
   color: var(--muted-color);
 }
 
-.group.--selected .group__title::before {
-  content: "folder";
+.group[data-group-name="All Fonts"] {
+  width: 100% !important;
+  border-radius: 0px;
+}
+
+.group[data-group-name="All Fonts"] .group__title::before{
+  content: "menu";
 }
