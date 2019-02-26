@@ -364,14 +364,13 @@ button.action.--active {
 }
 
 .--loading > .loading {
-  display: block;
+  display: flex;
+  height: 80%;
+  align-content: center;
+  align-items: center;
+  justify-content: space-between;
   color:var(--foreground-color);
-  position: fixed;
-  top: calc(33% - 5rem);
-  left: calc(50% - 5rem);
-  z-index: 4;
-  margin: 0 0;
-  padding: 0.25rem 1rem;
+  
   border-radius: 6px;
 }
 
