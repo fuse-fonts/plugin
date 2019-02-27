@@ -6,9 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node build.js",
-    "self-sign": "ZXPSignCmd.exe -selfSignedCert US CA FuseFonts \"Fuse Fonts\" bravecoffee zxp.cert",
-    "generate": "rm \"dist/fusefonts.zxp\" && ZXPSignCmd.exe -sign bin \"dist/fusefonts.zxp\" zxp.cert bravecoffee",
-    "package": "npm run build && npm run generate"
+    "self-sign": "ZXPSignCmd.exe -selfSignedCert US CA FuseFonts \"Fuse Fonts\" bravecoffee zxp.cert ",
+    "generate": "rm \"dist/fusefonts.zxp\" && ZXPSignCmd.exe -sign bin \"dist/fusefonts.zxp\" zxp.cert bravecoffee -tsa https://tsa.safecreative.org",
+    "package": "npm run build && npm run generate",
+    "verify": "ZXPSignCmd.exe -verify dist/fusefonts.zxp"
   },
   "repository": {
     "type": "git",
