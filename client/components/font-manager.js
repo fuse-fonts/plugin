@@ -360,8 +360,7 @@ class FontManager {
         this.clearData();
         break;
       case "refresh-fonts":
-        this.loading(true)
-        this.loadTypefaces().then(() => this.loading(false))
+        this.refreshFonts();
         break;
     }
   }
@@ -389,6 +388,11 @@ class FontManager {
       animation.onfinish = () => { this.$notification.innerHTML = ""; };
     }, ms);
 
+  }
+
+  refreshFonts() {
+    this.loading(true)
+    this.loadTypefaces().then(() => window.setTimeout(() => this.loading(false), 1000));
   }
 
   loadTypefaces() {

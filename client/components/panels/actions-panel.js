@@ -30,6 +30,7 @@ class ActionsPanel extends Panel {
     this.$listView.addEventListener("click", e => this.listView());
     this.$gridView.addEventListener("click", e => this.gridView())
 
+    if (this.view === "grid") this.gridView();
   }
 
   get hasSelection() {
@@ -39,6 +40,14 @@ class ActionsPanel extends Panel {
   set hasSelection(value) {
     this._hasSelection = value;
     this.$delete.classList.toggle(this.disabledClassName, !value);
+  }
+
+  get view() {
+    return localStorage.getItem("view") || "list";
+  }
+
+  set view(value) {
+    localStorage.setItem("view", value);
   }
 
   deleteClicked() {
@@ -55,12 +64,14 @@ class ActionsPanel extends Panel {
     this.$listView.classList.add(this.disabledClassName);
     this.$groups.classList.remove(this.compactViewClassName);
     this.$gridView.classList.remove(this.disabledClassName);
+    this.view = "list";
   }
 
   gridView() {
     this.$gridView.classList.add(this.disabledClassName);
     this.$groups.classList.add(this.compactViewClassName);
     this.$listView.classList.remove(this.disabledClassName);
+    this.view = "grid";
   }
 
 }

@@ -96,7 +96,6 @@
 }
 
 .group.--selected {
-
   background-color: var(--panel-layer-2);
   position: sticky;
   top: 0rem;
@@ -126,4 +125,63 @@
 
 .group[data-group-name="All Fonts"] .group__title::before{
   content: "menu";
+}
+
+
+
+.groups {
+  background-color: var(--body-background-color);
+  margin: 1rem 0;
+}
+
+.--compact .groups__list {
+  display: flex;
+  flex-wrap: wrap;
+  flex: 0 1 auto;
+}
+
+.--compact .group {
+  width: 14rem;
+  border-radius: 6px;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
+
+.groups .groups__title {
+  display: none;
+  font-weight: 600;
+  font-size: 1rem;
+  margin: 0 0;
+  padding: 0.5rem 0.8rem;
+  border-bottom: var(--panel-border);
+  position: sticky;
+  top: 0rem;
+  bottom: 0rem;
+  background-color: var(--body-background-color);
+  z-index: 2;
+}
+
+.groups .groups__list {
+  font-size: 1.4rem;
+  list-style: none;
+  z-index: 1;
+  position: relative;
+  user-select: none;
+}
+
+.groups .empty {
+  display: none;
+  text-align: center;
+  padding: 1rem 1rem;
+}
+
+.groups .empty span {
+  display: inline-block;
+  padding: 0.25rem;
+  margin: 0.25rem 0 0.5rem 0;
+}
+
+.groups ul:empty + .empty {
+  display: block;
 }
