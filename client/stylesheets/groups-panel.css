@@ -27,6 +27,9 @@
 
 .group__actions {
   /* background-color: var(--panel-layer-1); */
+  position: absolute;
+  left: 0.5rem;
+  top: 2.5px;
 }
 
 .group__actions button {
@@ -80,7 +83,7 @@
   background-color: transparent;
   margin: 0 0;
   user-select: none;
-  padding: 0.5rem 2rem 0.5rem 1rem;
+  padding: 0.5rem 2rem 0.5rem 3rem;
 }
 
 .group__title:hover {
@@ -131,35 +134,7 @@
 
 .groups {
   background-color: var(--body-background-color);
-  margin: 1rem 0;
-}
-
-.--compact .groups__list {
-  display: flex;
-  flex-wrap: wrap;
-  flex: 0 1 auto;
-}
-
-.--compact .group {
-  width: 14rem;
-  border-radius: 6px;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-}
-
-
-.groups .groups__title {
-  display: none;
-  font-weight: 600;
-  font-size: 1rem;
-  margin: 0 0;
-  padding: 0.5rem 0.8rem;
-  border-bottom: var(--panel-border);
-  position: sticky;
-  top: 0rem;
-  bottom: 0rem;
-  background-color: var(--body-background-color);
-  z-index: 2;
+  margin: 1.5rem 0;
 }
 
 .groups .groups__list {
@@ -184,4 +159,24 @@
 
 .groups ul:empty + .empty {
   display: block;
+}
+
+/* COMPACT MODE */
+.--compact .groups__list {
+  display: flex;
+  flex-wrap: wrap;
+  flex: 0 1 auto;
+}
+
+.--compact .group {
+  width: 14rem;
+  border-radius: 6px;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  white-space: nowrap;
+  position: relative;
+}
+
+.--compact .group__actions {
+
 }
