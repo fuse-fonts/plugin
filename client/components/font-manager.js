@@ -72,7 +72,7 @@ class FontManager {
   }
 
   /**
-   * Provides the glue of event corrospondences between the panels
+   * Provides the glue of event corrospondences between the various panels
    */
   addPanelListeners() {
 
@@ -198,6 +198,7 @@ class FontManager {
       if (debugEvents) console.log("FontsPanel.UNSELECT");
 
       groupPanel.clearContext();
+      groupPanel.render();
     });
 
     // high level: editing a group name will unselect all selected fonts
