@@ -67,8 +67,8 @@
   color: var(--selected-color);
   transition: 0.1s ease-out background-color;
   position: sticky;
-  top: 2.5rem;
-  bottom: -1rem;
+  top: 0rem;
+  bottom: 0rem;
   z-index: 0;
 }
 
