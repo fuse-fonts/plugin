@@ -157,6 +157,7 @@
   border: none;
   justify-content: space-between;
   color: var(--foreground-color);
+
 }
 
 .fonts__inputs i {
@@ -165,9 +166,8 @@
   margin-right: 0.5rem;
 }
 
-.fonts__filter {
-  display: flex;
-  flex: 0 1 auto;
+input.fonts__filter {
+  width: calc(100% - 6.5rem);
 }
 
 .fonts__clear-filter {
@@ -175,10 +175,16 @@
   padding: 0 0.5rem;
 }
 
+input.fonts__text {
+  text-align: right;
+  width: 10rem;
+  padding-right: 1.5rem;
+}
+
 .fonts__clear-filter:hover {
   background-color: transparent;
 }
 
 .fonts__clear-filter i {
-  color: var(--error-color);
+  color: var(--foreground-color);
 }

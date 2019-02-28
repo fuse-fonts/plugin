@@ -1,6 +1,9 @@
 
 const csInterface = new CSInterface();
 
+// set our font size to match the current device
+// const baseFontSize = csInterface.getHostEnvironment().appSkinInfo.baseFontSize;
+// document.querySelector("html").style.fontSize = `${baseFontSize}px`;
 
 // the ul that we will render to
 const $list = document.querySelector(".fonts-panel__list");

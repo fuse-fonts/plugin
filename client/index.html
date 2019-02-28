@@ -55,7 +55,6 @@
 
     <section class="groups-panel panel">
       <div class="groups">
-        <h3 class="groups__title">Groups</h3>
         <ul class="groups__list"></ul>
         <div class="empty">
           <span>Add a group to get started:</span>
@@ -79,9 +78,7 @@
           </button>
         </div>
       </div>
-      <!-- <button class="action load-fonts"  title="Reload All Fonts">
-          <i class="material-icons">cached</i>
-        </button> -->
+
         <div class="panel-buttons">
           <button class="action create-group" title="Create new custom group">
             <i class="material-icons">folder</i>
@@ -108,7 +105,7 @@
       <main class="fonts__inputs --disabled">
         <div>
           <i class="material-icons filter-icon">filter_list</i>
-          <input class="fonts__filter" type="text" placeholder="filter" />
+          <input class="fonts__filter" type="text" placeholder="filter" maxlength="64" />
           <button class="fonts__clear-filter" style="display: none"><i class="material-icons">close</i></button>
         </div>
         <div>
@@ -158,7 +155,7 @@
       <!-- <MenuItem Label="Settings" Enabled="false" Checked="false" /> -->
       <!-- <MenuItem Id="lock-groups" Label="Lock Groups" Enabled="true" Checked="false" /> -->
       <!-- <MenuItem Id="auto-apply-fonts" Label="Auto-Apply Typeface" Enabled="true" Checked="true" /> -->
-      
+
 
       <MenuItem Label="---" />
       <MenuItem Id="refresh-fonts" Label="Refresh Fonts" Enabled="true" Checked="false" />

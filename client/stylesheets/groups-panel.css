@@ -26,10 +26,9 @@
 }
 
 .group__actions {
-  /* background-color: var(--panel-layer-1); */
   position: absolute;
   left: 0.5rem;
-  top: 2.5px;
+  top: 0.5rem;
 }
 
 .group__actions button {
@@ -124,6 +123,11 @@
 .group[data-group-name="All Fonts"] {
   width: 100% !important;
   border-radius: 0px;
+  
+}
+
+.group[data-group-name="All Fonts"] .group__title {
+  /* padding-left: 1rem; */
 }
 
 .group[data-group-name="All Fonts"] .group__title::before{
@@ -134,7 +138,7 @@
 
 .groups {
   background-color: var(--body-background-color);
-  margin: 1.5rem 0;
+  margin: 0.5rem 0 2rem 0;
 }
 
 .groups .groups__list {
@@ -175,8 +179,6 @@
   overflow-x: hidden;
   white-space: nowrap;
   position: relative;
+  border: none;
 }
 
-.--compact .group__actions {
-
-}

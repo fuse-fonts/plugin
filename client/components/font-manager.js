@@ -274,6 +274,8 @@ class FontManager {
     // populate custom groups
     const customGroupJSON = localStorage.getItem("custom-groups");
 
+    this.customGroups = [];
+    // if we have some custom groups saved
     if (customGroupJSON !== null) {
       
       let customGroups = tryParseJSON(customGroupJSON);
@@ -289,11 +291,9 @@ class FontManager {
   
         return group;
       });
-
-      this.panels.groups.update(this.customGroups)
     }
 
-
+    this.panels.groups.update(this.customGroups)
 
     return new Promise(resolve => resolve());
   }
@@ -366,6 +366,10 @@ class FontManager {
         this.refreshFonts();
         break;
     }
+  }
+
+  setUIScale(pixels) {
+    document.querySelector("html").style.fontSize = `${pixels}`;
   }
 
   clearData() {
