@@ -150,10 +150,6 @@ class FontManager {
         fontPanel.viewContents(fontPanel.group);
       }
 
-      if (group.typefaces.toList().length === 0) {
-        groupPanel.clearContext();
-      }
-
       return false;
     }
 
