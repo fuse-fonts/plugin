@@ -84,7 +84,6 @@ class CustomGroupPanel extends Panel {
       const isAnAction = e.target.closest(".group__actions") !== null;
       if (isAnAction) return;
 
-
       const li = e.target.closest(".group");
       if (li === null) return;
       
@@ -94,6 +93,25 @@ class CustomGroupPanel extends Panel {
       
       if (isActive) this.select(groupID, li);
       else this.unselect(groupID, li);
+    });
+
+    this.$list.addEventListener("dblclick", e => {
+      e.stopPropagation();
+
+      // ignore clicks withing group actions region
+      const isAnAction = e.target.closest(".group__actions") !== null;
+      if (isAnAction) return;
+
+
+      const li = e.target.closest(".group");
+      if (li === null) return;
+
+      var groupID = li.dataset.groupName;
+
+      this.select(groupID, li);
+
+      const detail = groupID;
+      this.dispatchEvent(new CustomEvent(CustomGroupPanel.EDIT, { detail }))
     })
   }
 
@@ -131,7 +149,6 @@ class CustomGroupPanel extends Panel {
     this.selected = null;
     this.selectedNode = null;
     this.context = [];
-    // this.render();
   }
 
   clearContext() {
@@ -225,3 +242,4 @@ CustomGroupPanel.SELECT = "select";
 CustomGroupPanel.UNSELECT = "unselect";
 CustomGroupPanel.ADD = "add";
 CustomGroupPanel.REMOVE = "remove";
+CustomGroupPanel.EDIT = "edit";

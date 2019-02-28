@@ -168,6 +168,12 @@ class FontManager {
       return true;
     });
 
+    groupPanel.addEventListener(CustomGroupPanel.EDIT, (e) => {
+      if (debugEvents) console.log("CustomGroupPanel.EDIT");
+      const group = e.detail;
+      editorPanel.edit();
+    });
+
     // When fonts have been removed via the selection panel, _really_ remove them from the current group
     selectionPanel.addEventListener(SelectionPanel.REMOVE, e => {
       if (debugEvents) console.log("SelectionPanel.REMOVE");
