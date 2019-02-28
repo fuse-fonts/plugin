@@ -34,3 +34,6 @@ https://gumroad.com/l/rAAKQ
 ## Text Selection and Formatting issue
 
 lead? http://blogs.adobe.com/cssdk/2011/01/formatting-text-ranges-in-photoshop.html
+
+## Timestamping authority
+- https://stackoverflow.com/questions/43585380/is-http-timestamp-geotrust-com-tsa-not-longer-available-for-signtool
