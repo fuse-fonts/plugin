@@ -352,7 +352,7 @@ class FontManager {
   menuItemClicked(e) {
     console.log(e);
 
-    const supportURL = "https://meow.coffee";
+    const supportURL = "https://github.com/fuse-fonts/issue-tracker/issues/new/choose";
 
     const { data } =  e;
     switch (data.menuId) {
