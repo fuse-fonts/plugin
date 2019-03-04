@@ -5,14 +5,14 @@
   </ExtensionList>
   <ExecutionEnvironment>
     <HostList>
-      <Host Name="PHSP" Version="[14.0,20.1]"/>
-      <Host Name="PHXS" Version="[14.0,20.1]"/>
+      <Host Name="PHSP" Version="[14.0,21]"/>
+      <Host Name="PHXS" Version="[14.0,21]"/>
     </HostList>
     <LocaleList>
       <Locale Code="All" />
     </LocaleList>
     <RequiredRuntimeList>
-      <RequiredRuntime Name="CSXS" Version="8.0" />
+      <RequiredRuntime Name="CSXS" Version="9.0" />
     </RequiredRuntimeList>
   </ExecutionEnvironment>
   <DispatchInfoList>
@@ -35,7 +35,7 @@
             </Size>
             <MaxSize>
               <Height>9999</Height>
-              <Width>600</Width>
+              <Width>1000</Width>
             </MaxSize>
             <MinSize>
               <Height>280</Height>
