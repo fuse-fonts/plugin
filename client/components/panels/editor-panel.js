@@ -7,7 +7,6 @@ class EditorPanel extends Panel {
   constructor(parent) {
     super();
     this.parent = parent;
-    console.log(this);
     this.group = null
 
     this.editor = new GroupEditor();

@@ -184,6 +184,12 @@ class FontManager {
     actionsPanel.addEventListener(ActionsPanel.CREATE, e => {
       if (debugEvents) console.log("ActionsPanel.CREATE");
       const group = e.detail;
+
+      // it items were selected in the fonts panel, add them to the new group
+      if (fontPanel.selected) {
+        this.addTypefacesToGroup(fontPanel.selected, group);
+      }
+
       groupPanel.selectByName(group.name);
       editorPanel.edit();
     });

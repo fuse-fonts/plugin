@@ -29,7 +29,7 @@ class CustomGroupPanel extends Panel {
   }
 
   deleteGroup(groups) {
-    console.log("delete: deleting node")
+
     if (this.selectedNode) {
       
       const that = this;
@@ -57,7 +57,6 @@ class CustomGroupPanel extends Panel {
   
       animation.onfinish = () => {
         node.remove();
-        console.log("delete: removed node")
       }
   
       return animation;
