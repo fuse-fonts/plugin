@@ -12,6 +12,9 @@
 2. Download [zxp utility](https://github.com/Adobe-CEP/Getting-Started-guides/tree/master/Package%20Distribute%20Install#download-the-signing-and-packaging-tool-zxpsigncmd) into your cloned repository. Place in root directory.
 3. `npm run build`
 
+## Installer
+1. https://github.com/RoryDuncan/CEP-Extension-Installer
+
 ## Firebase Functions
 
 1. Not added yet.
