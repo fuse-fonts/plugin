@@ -361,7 +361,12 @@ class FontManager {
     const supportURL = "https://github.com/fuse-fonts/issue-tracker/issues/new/choose";
 
     const { data } =  e;
-    switch (data.menuId) {
+    const menuID = data.menuId;
+    this.menuAction(menuID);
+  }
+
+  menuAction(menuID) {
+    switch (menuID) {
       case "feedback":
         this.cs.openURLInDefaultBrowser(supportURL);
         break;

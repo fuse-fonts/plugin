@@ -11,11 +11,11 @@ const $list = document.querySelector(".fonts-panel__list");
 // our font manager instance
 let fm = new FontManager(csInterface, $list);
 
-csInterface.setContextMenuByJSON(`{ "menu": [{"id": "hi", label": "hi"}]}`, () => {});
 
 /* Menu Panel Actions */
 const menuXML = document.getElementById("menu").innerHTML;
 csInterface.setPanelFlyoutMenu(menuXML);
+csInterface.setContextMenu(menuXML, menuID => fm.menuAction(menuID));
 csInterface.addEventListener(CSInterface.FLYOUT_MENU_CLICKED_EVENT, (e) => fm.menuItemClicked(e));
 
 /*
