@@ -6,7 +6,7 @@
 2. Restart photoshop.
 
 ### Debugging
-1. Follow instructions in CEP Resources guide to setup dev debugging (create registry edit etc)
+1. Follow instructions in [CEP Resources guide to setup dev debugging](https://github.com/Adobe-CEP/CEP-Resources/blob/master/CEP_9.x/Documentation/CEP%209.0%20HTML%20Extension%20Cookbook.md#remote-debugging) (create registry edit etc)
 2. If you can't connect to the port, you need to check logs `C:\Users\<USER>\AppData\Local\Temp`
   1.  `CEPHtmlEngine9-PHXS-20.0.4-com.fusefonts.log` should say
     > DevTools listening on 127.0.0.1:8888
