@@ -3,6 +3,7 @@ node_modules/
 # zxp sign utility
 ZXPSignCmd.exe
 *.cert
+*.p12
 *.zxp
 
 # built files

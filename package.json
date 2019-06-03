@@ -7,7 +7,7 @@
     "postinstall": "sh scripts/download-signed-utility.sh",
     "test": "npm run package && npm run verify",
     "build": "node build.js",
-    "self-sign": "ZXPSignCmd.exe -selfSignedCert US CA FuseFonts \"Fuse Fonts\" bravecoffee zxp.cert ",
+    "self-sign": "sh scripts/create-certificate.sh",
     "clean": "rm -f \"dist/fuse-fonts.zxp\"",
     "generate": "npm run clean && ZXPSignCmd.exe -sign build \"dist/fuse-fonts.zxp\" zxp.cert bravecoffee -tsa \"http://sha1timestamp.ws.symantec.com/sha1/timestamp\"",
     "package": "npm run build && npm run generate",
