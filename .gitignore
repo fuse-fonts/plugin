@@ -7,7 +7,7 @@ ZXPSignCmd.exe
 
 # built files
 dist/**/*
-bin/**/*
-bin/client
-bin/host
-bin/csxs
+build/**/*
+build/client
+build/host
+build/csxs

@@ -1,7 +1,7 @@
 console.log("Building...");
 const shell = require("shelljs");
 
-const outputDirectory ="bin/";
+const outputDirectory ="build/";
 const inputDirectories = [
   "client",
   "csxs",
