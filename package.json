@@ -26,5 +26,14 @@
   "dependencies": {
     "shelljs": "^0.8.3"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "rollup": "^1.13.1",
+    "rollup-plugin-buble": "^0.19.6",
+    "rollup-plugin-commonjs": "^10.0.0",
+    "rollup-plugin-includepaths": "^0.2.3",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-node-resolve": "^5.0.1",
+    "rollup-plugin-svelte": "^5.0.3",
+    "svelte": "^3.4.4"
+  }
 }
