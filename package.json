@@ -7,10 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node build.js",
     "self-sign": "ZXPSignCmd.exe -selfSignedCert US CA FuseFonts \"Fuse Fonts\" bravecoffee zxp.cert ",
-    "clean": "rm -f \"dist/extension.zxp\"",
-    "generate": "npm run clean && ZXPSignCmd.exe -sign bin \"dist/extension.zxp\" zxp.cert bravecoffee -tsa \"http://sha1timestamp.ws.symantec.com/sha1/timestamp\"",
+    "clean": "rm -f \"dist/fuse-fonts.zxp\"",
+    "generate": "npm run clean && ZXPSignCmd.exe -sign bin \"dist/fuse-fonts.zxp\" zxp.cert bravecoffee -tsa \"http://sha1timestamp.ws.symantec.com/sha1/timestamp\"",
     "package": "npm run build && npm run generate",
-    "verify": "ZXPSignCmd.exe -verify dist/extension.zxp"
+    "verify": "ZXPSignCmd.exe -verify dist/fuse-fonts.zxp"
   },
   "repository": {
     "type": "git",
