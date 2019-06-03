@@ -9,7 +9,7 @@
     "build": "node build.js",
     "self-sign": "sh scripts/create-certificate.sh",
     "clean": "rm -f \"dist/fuse-fonts.zxp\"",
-    "generate": "npm run clean && ZXPSignCmd.exe -sign build \"dist/fuse-fonts.zxp\" zxp.cert bravecoffee -tsa \"http://sha1timestamp.ws.symantec.com/sha1/timestamp\"",
+    "generate": "npm run clean && sh scripts/sign-zxp.sh",
     "package": "npm run build && npm run generate",
     "verify": "ZXPSignCmd.exe -verify dist/fuse-fonts.zxp"
   },
