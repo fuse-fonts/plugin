@@ -19,7 +19,7 @@
 3. `npm run build`
 
 ## Installer
-1. https://github.com/RoryDuncan/CEP-Extension-Installer
+1. https://github.com/fuse-fonts/installer
 
 ## Firebase Functions
 
