@@ -1,6 +1,4 @@
 console.log("Building...");
-const fs = require("fs");
-const path = require("path");
 const shell = require("shelljs");
 
 const outputDirectory ="bin/";
