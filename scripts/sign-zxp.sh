@@ -18,9 +18,9 @@ timestampserver="http://sha1timestamp.ws.symantec.com/sha1/timestamp"
 echo "Signing and packaging '$inputdir' -> '$outputdir'"
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
-  bin/ZXPSignCmd.dmg -sign "$inputdir" "$output" "$p12" "$p12password" -tsa "$timestampserver"
+  bin/ZXPSignCmd.dmg -sign "$inputdir" "$outputdir" "$p12" "$p12password" -tsa "$timestampserver"
 else
-  bin/ZXPSignCmd.exe -sign "$inputdir" "$output" "$p12" "$p12password" -tsa "$timestampserver"
+  bin/ZXPSignCmd.exe -sign "$inputdir" "$outputdir" "$p12" "$p12password" -tsa "$timestampserver"
 fi
 
 exit 0
