@@ -4,6 +4,13 @@
 
 echo -e "\nRunning script to download the correct ZXPSignCMD for this OS..."
 
+if [ ! -d "bin" ]; then
+  echo -e "Creating /bin"
+  mkdir bin
+fi
+
+cd bin  > /dev/null # redirect the output to not be seen in the script
+
 if [[ "$OSTYPE" == "darwin"* ]]; then
   echo -e "Downloading ZXPSignCMD for OSX\n"
   # Mac OSX
@@ -18,9 +25,14 @@ elif [[ "$OSTYPE" == "msys" ]]; then
   curl -O -L "https://github.com/Adobe-CEP/CEP-Resources/raw/master/ZXPSignCMD/4.0.7/win64/ZXPSignCmd.exe"
   echo ""
 else
-  echo -e "\n\nYou're running this from an unknown OS. You should try downloading the signing utility yourself.\n\n"
+  echo -e "\n\nYou're running this from an unknown OS. You should try downloading the signing utility yourself."
+  echo "https://github.com/Adobe-CEP/CEP-Resources/tree/master/ZXPSignCMD"
+  cd -;
   exit 1
 fi
+
+
+cd - > /dev/null # redirect the output to not be seen in the script
 
 echo -e "Done.\n"
 exit 0
