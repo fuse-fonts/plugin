@@ -14,9 +14,12 @@
 
 ## Building
 
-1. `npm install`
-2. Download [zxp utility](https://github.com/Adobe-CEP/Getting-Started-guides/tree/master/Package%20Distribute%20Install#download-the-signing-and-packaging-tool-zxpsigncmd) into your cloned repository. Place in root directory.
-3. `npm run build`
+1.  `npm install`
+  Adds all dependencies and downloads the ZXPSignCmd for your platform 
+2.  `npm run self-sign`
+  Creates a `certificate.p12` to sign the packaged `.zxp`
+3.  `npm run package`
+  Builds and signs zxp, and places into `/dist`
 
 ## Installer
 1. https://github.com/fuse-fonts/installer
