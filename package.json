@@ -11,7 +11,7 @@
     "clean": "rm -f \"dist/fuse-fonts.zxp\"",
     "generate": "npm run clean && sh scripts/sign-zxp.sh",
     "package": "npm run build && npm run generate",
-    "verify": "ZXPSignCmd.exe -verify dist/fuse-fonts.zxp"
+    "verify": "sh scripts/verify.sh"
   },
   "repository": {
     "type": "git",
