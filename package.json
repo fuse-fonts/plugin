@@ -6,7 +6,10 @@
   "scripts": {
     "postinstall": "sh scripts/download-signed-utility.sh",
     "test": "npm run package && npm run verify",
-    "build": "node build.js",
+    "dev": "rollup -c -w",
+    "build:app": "rollup -c",
+    "build:structures": "node build.js",
+    "build": "npm run build:app && npm run build:structures",
     "self-sign": "sh scripts/create-certificate.sh",
     "clean": "rm -f \"dist/fuse-fonts.zxp\"",
     "generate": "npm run clean && sh scripts/sign-zxp.sh",
