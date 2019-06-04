@@ -10,7 +10,7 @@ export default {
   input: 'src/main.js',
   output: {
     file: 'client/scripts/bundle.js',
-    format: 'iife' //immediatelly invoke function expressions
+    format: 'iife'
   },
 
 
@@ -24,7 +24,7 @@ export default {
     //set an include path so we can do simpler imports without needed to traverse up trees
     includePaths({ paths: ["src"], }),
 
-    //auto convert commonjs / modejs modues to es6 modules.
+    // auto convert commonjs / modejs modues to es6 modules.
     commonjs({
       sourceMap: false, // default: true
     }),
