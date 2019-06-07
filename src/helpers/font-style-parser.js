@@ -1,7 +1,7 @@
 /**
  * Static Helper class for transforming TextFont descriptors into CSS Web Font properties
  */
-class FontStyle {
+class FontStyleParser {
 
   constructor() {
     // https://developer.mozilla.org/en-US/docs/Web/CSS/font-stretch
@@ -84,3 +84,5 @@ class FontStyle {
     return `font-weight: ${value};`;
   }
 }
+
+export default new FontStyleParser();

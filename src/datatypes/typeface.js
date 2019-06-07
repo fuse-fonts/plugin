@@ -23,7 +23,7 @@ const html = new (class Templates {
  * A grouping of fonts and their variations
  * @param family the font family this typeface represents
 */
-class TypeFace {
+export class TypeFace {
 
   constructor(family) {
 
