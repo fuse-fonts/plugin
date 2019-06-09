@@ -1,7 +1,7 @@
 node_modules/
 
 # zxp sign utility
-ZXPSignCmd.exe
+ZXPSignCmd.*
 *.cert
 *.p12
 *.zxp
