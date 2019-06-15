@@ -24,7 +24,7 @@ echo "Creating a Self-Signed Certificate"
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
   echo "Signing on macOS"
-  bin/ZXPSignCmd.dmg -selfSignedCert "$country" "$state" "$organization" "$commonname" "$password" "$output"
+  bin/ZXPSignCmd -selfSignedCert "$country" "$state" "$organization" "$commonname" "$password" "$output"
 else
   echo "Signing on Windows"
   bin/ZXPSignCmd.exe -selfSignedCert "$country" "$state" "$organization" "$commonname" "$password" "$output"

@@ -13,7 +13,7 @@ zxppath="dist/fuse-fonts.zxp"
 echo -e "\nVerifying '$zxppath'..."
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
-  bin/ZXPSignCmd.dmg -verify "$zxppath"
+  bin/ZXPSignCmd -verify "$zxppath"
 else
   bin/ZXPSignCmd.exe -verify "$zxppath"
 fi

@@ -5,10 +5,16 @@ ZXPSignCmd.*
 *.cert
 *.p12
 *.zxp
+.DS_Store
+bin/**.*
+bin/
 
 # built files
-dist/**/*
+dist/**.*
 build/**/*
 build/client
 build/host
 build/csxs
+client/scripts/bundle.js
+client/stylesheets/main.css
+client/stylesheets/main.css.map
