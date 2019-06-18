@@ -1,0 +1,34 @@
+<main style="height: {height}">
+
+  <slot name="top" height={topPaneHeight}></slot>
+
+  <section class="separator">
+    <div class="handle"></div>
+  </section>
+
+  <slot name="bottom" height={bottomPaneHeight}></slot>
+
+</main>
+
+<style>
+
+  main {
+    display: block;
+    overflow: hidden;
+  }
+
+  .separator {
+    height: 1rem;
+    border: 1px solid #bbb;
+  }
+</style>
+
+<script>
+
+  export let height = "auto";
+  export let split = 50;
+
+  let topPaneHeight = "45%";
+  let bottomPaneHeight = "45%";
+
+</script>

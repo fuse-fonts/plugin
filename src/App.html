@@ -4,20 +4,24 @@
     <h1>Loading...</h1>
     <Loading text="oy" color="#fff" />
   {:else}
-
-    <Panel height="50vh" title={appTitle}>
-      <p>All ready</p>
-    </Panel>
-
-    <Panel height="40vh" title="Fonts">
-
-    </Panel>
+    <ResizablePane>
+      
+      <Panel slot="top" height="50vh" title={appTitle}>
+        <p>All ready</p>
+      </Panel>
+      
+      <Panel slot="bottom" height="40vh" title="Fonts">
+        <h1>hi</h1>
+      </Panel>
+      
+  
+    </ResizablePane>
   {/if}
   
 </section>
 
 <style>
-  
+
   h1 {
     padding: 0rem 0rem;
     margin: 0 0;
@@ -29,6 +33,7 @@
 </style>
 
 <script>
+  import ResizablePane from "components/ResizablePane.html";
   import Panel from "components/Panel.html";
   import Loading from "components/Loading.html"
   import { typefaces, loading } from "stores/typefaces.js";
