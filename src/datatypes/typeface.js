@@ -1,4 +1,4 @@
-const fontStyleHelper = new FontStyle();
+import fontStyleHelper from "helpers/font-style-parser.js";
 
 /**
  * Helper instance to help with rendering things.

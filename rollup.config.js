@@ -5,6 +5,9 @@ import svelte from 'rollup-plugin-svelte';
 import includePaths from 'rollup-plugin-includepaths';
 import buble from 'rollup-plugin-buble';
 
+// `npm run build` -> `production` is true
+// `npm run dev` -> `production` is false
+const production = !process.env.ROLLUP_WATCH;
 
 export default {
   input: 'src/main.js',
@@ -26,7 +29,7 @@ export default {
 
     // auto convert commonjs / modejs modues to es6 modules.
     commonjs({
-      sourceMap: false, // default: true
+      sourceMap: true, // default: true
     }),
 
     //trasnform svelte web components into their scripts

@@ -1,7 +1,13 @@
 <section>
-  <h1> {$fonts.title} </h1>
-  <p>Svelte is rendered and firebase is initialized!</p>
-  <p>You'll want to start adding components for yourself.</p>  
+  
+  {#if $loading}
+    <h1>Loading...</h1>
+    <Loading text="oy" color="#fff" />
+  {:else}
+    <h1> {appTitle} </h1>
+    <p>All ready</p>
+  {/if}
+  
 </section>
 
 <style>
@@ -16,5 +22,9 @@
 </style>
 
 <script>
-  import fonts from "stores/fonts";
+  import Loading from "components/Loading.html"
+  import { typefaces, loading } from "stores/typefaces.js";
+
+  const appTitle = "Fuse Fonts";
+
 </script>
