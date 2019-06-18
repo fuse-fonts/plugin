@@ -4,8 +4,14 @@
     <h1>Loading...</h1>
     <Loading text="oy" color="#fff" />
   {:else}
-    <h1> {appTitle} </h1>
-    <p>All ready</p>
+
+    <Panel height="50vh" title={appTitle}>
+      <p>All ready</p>
+    </Panel>
+
+    <Panel height="40vh" title="Fonts">
+
+    </Panel>
   {/if}
   
 </section>
@@ -22,6 +28,7 @@
 </style>
 
 <script>
+  import Panel from "components/Panel.html";
   import Loading from "components/Loading.html"
   import { typefaces, loading } from "stores/typefaces.js";
 
