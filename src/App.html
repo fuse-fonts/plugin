@@ -4,15 +4,19 @@
     <h1>Loading...</h1>
     <Loading text="oy" color="#fff" />
   {:else}
-    <ResizablePane>
+    <ResizablePane split={5}>
+
+      <div slot="top">
+        <Panel title={appTitle}>
+          <p>All ready</p>
+        </Panel>
+      </div>
       
-      <Panel slot="top" height="50vh" title={appTitle}>
-        <p>All ready</p>
-      </Panel>
-      
-      <Panel slot="bottom" height="40vh" title="Fonts">
-        <h1>hi</h1>
-      </Panel>
+      <div slot="bottom">
+        <Panel title="Fonts">
+          <h1>hi</h1>
+        </Panel>
+      </div>
       
   
     </ResizablePane>
@@ -25,10 +29,6 @@
   h1 {
     padding: 0rem 0rem;
     margin: 0 0;
-  }
-  
-  section {
-    padding: 1rem 1rem;
   }
 </style>
 

@@ -1,34 +1,162 @@
-<main style="height: {height}">
+<main bind:this={root} class:resizing style="--top-panel-height: {clampedValue}%">
+  <section class="panel top-panel">
+    <slot name="top"></slot>
+  </section>
 
-  <slot name="top" height={topPaneHeight}></slot>
-
-  <section class="separator">
+  <section class="separator" bind:this={seperator} >
     <div class="handle"></div>
   </section>
 
-  <slot name="bottom" height={bottomPaneHeight}></slot>
+  <section class="panel bottom-panel">
+    <slot name="bottom"></slot>
+  </section>
 
 </main>
 
 <style>
 
   main {
+    
+    --total-height: 100vh;
+    --top-panel-height: 25%;
+    --seperator-height: 7px;
+    --bottom-panel-height: calc(var(--total-height) - (var(--top-panel-height) + var(--seperator-height)));
+
     display: block;
     overflow: hidden;
+    height: var(--total-height);
   }
 
-  .separator {
-    height: 1rem;
-    border: 1px solid #bbb;
+  .resizing {
+    cursor: none !important;
   }
+
+  .resizing > .panel {
+    pointer-events: none;
+    user-select: none;
+  }
+
+
+  .separator {
+    width: 100%;
+    height: var(--seperator-height);
+    overflow-y: hidden;
+    background-color: var(--panel-layer-0);
+    border: 1px solid #000;
+    border-left: none;
+    border-right: none;
+    user-select: none;
+  }
+
+  .separator .handle {
+    width: 16px;
+    border-bottom: 1px dotted #000;
+    border-top: 1px dotted #000;
+    height: 3px;
+    margin: 0 auto;
+    margin-top: 1px;
+    transition: 0.2s ease-out all;
+  }
+
+  .separator:hover {
+    cursor: row-resize;
+    
+  }
+
+  .separator:active {
+    cursor: none;
+  }
+
+  .separator:hover .handle {
+    width: 32px;
+    border-color: var(--panel-layer-2);
+    transition: 0.2s ease-out all;
+  }
+
+  .separator:active { 
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+  }
+
+
+  .panel {
+    padding: 1rem 1rem;
+  }
+
+  .top-panel {
+    height: var(--top-panel-height);
+  }
+
+  .bottom-panel {
+    height: var(--bottom-panel-height);
+  }
+
 </style>
 
 <script>
 
+  import { onMount, } from "svelte";
+
+  // exports
   export let height = "auto";
   export let split = 50;
+  export let min = 12;
+  export let max = 70;
 
-  let topPaneHeight = "45%";
-  let bottomPaneHeight = "45%";
+  $: clampedValue = clamp(split, min, max);
+  // dom references
+  let root;
+  let seperator;
+
+  //helpers
+  const clamp = (value, min, max) => Math.max(min, Math.min(value, max));
+
+  // reactive and stateful vars
+  let resizing = false;
+  let pointerID = null;
+  
+  // lifecycle
+  onMount(() => {
+    seperator.addEventListener("pointerdown", resizeStart);
+    seperator.addEventListener("pointerup", resizeEnd);
+    seperator.addEventListener("pointercancel", resizeEnd)
+    seperator.addEventListener("pointerleave", resizeEnd);
+
+    return () => {
+      seperator.removeEventListener("pointerdown", resizeStart);
+      seperator.removeEventListener("pointerup", resizeEnd);
+      seperator.removeEventListener("pointercancel", resizeEnd)
+      seperator.removeEventListener("pointerleave", resizeEnd);
+    }
+  });
+  
+
+
+  const resizeStart = (e) => {
+    pointerID = e.pointerId;
+    seperator.setPointerCapture(pointerID);
+    seperator.addEventListener("pointermove", resizeMove);
+    resizing = true;
+  };
+
+  const resizeEnd = (e) => {
+    if (pointerID !== null ) {
+      seperator.removeEventListener("pointermove", resizeMove);
+      seperator.releasePointerCapture(pointerID);
+      resizing = false;
+    }
+  }
+
+  const resizeMove = (e) => {
+    let percent = (e.clientY / window.innerHeight);
+    split = Math.round(percent * 100);
+    
+  };
+
+  const setSeperator = (value) => {
+    
+    root.style.setProperty("--top-panel-height", `${clampedValue}%`)
+    
+  };
 
 </script>
