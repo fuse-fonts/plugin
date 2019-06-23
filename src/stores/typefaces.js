@@ -17,6 +17,8 @@ console.log("loading")
 typefaceService.load().then( data => {
   typefaces.set(data);
   loading.set(false);
+
+  // for testing
   // window.setTimeout(() => {
   //   console.log("loaded")
   //   loading.set(false);
