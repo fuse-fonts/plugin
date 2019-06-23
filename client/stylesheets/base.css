@@ -124,6 +124,18 @@ body.theme--bright {
 }
 
 
+::-webkit-scrollbar {
+  width: 8px;
+  height: 100%;
+  background-color: var(--scrollbar-track);
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb);
+}
+
+
+
+
 /* base */
 
 i.material-icons {
@@ -253,7 +265,7 @@ input::selection {
 .warning {
   color: var(--error-color);
 }
-
+/* 
 .actions-panel,
 .selection-panel {
   user-select: none;
@@ -304,32 +316,7 @@ button.action.--active {
   transition: 0.1s ease-out all;
 }
 
-.loading {
-  display: none;
-  height: 100%;
-  align-content: center;
-  align-items: center;
-  justify-content: flex-start;
-  flex-direction: column;
-  color:var(--muted-color);
-  text-align: center;
-  border-radius: 6px;
-  padding: 10vh 0rem;
-  background-color: rgba(0,0,0,0.1);
-}
 
-.loading::before {
-  
-}
-
-.--loading > .loading {
-  display: flex;
-}
-
-.loading .messages {
-    padding: 1rem 1rem;
-    text-align: center;
-}
 
 .--loading > :not(.loading) {
   display: none;
@@ -352,43 +339,4 @@ button.action.--active {
 .groups-panel {
   height: var(--groups-panel-size);
   overflow-y: auto !important;
-}
-
-::-webkit-scrollbar {
-  width: 8px;
-  height: 100%;
-  background-color: var(--scrollbar-track);
-}
-::-webkit-scrollbar-thumb {
-  background-color: var(--scrollbar-thumb);
-}
-
-i.loading-circle {
-  user-select: none;
-  --scale: 2.5rem;
-  --color: var(--muted-color);
-  display: inline-block;
-  width: var(--scale);
-  height: var(--scale);
-  border-radius: 50%;
-  border: 3px solid var(--color);
-  border-top-color: transparent;
-  background-color: transparent;
-  animation: 0.6s linear loading-animation infinite;
-}
-
-i.loading-circle.--colorful {
-  --color: var(--accent-color);
-}
-
-@keyframes loading-animation {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-
-  }
-}
-
+} */

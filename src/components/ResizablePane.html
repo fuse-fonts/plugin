@@ -22,7 +22,8 @@
     --seperator-height: 7px;
     --bottom-panel-height: calc(var(--total-height) - (var(--top-panel-height) + var(--seperator-height)));
 
-    display: block;
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
     height: var(--total-height);
   }
@@ -104,6 +105,7 @@
   export let max = 70;
 
   $: clampedValue = clamp(split, min, max);
+
   // dom references
   let root;
   let seperator;
