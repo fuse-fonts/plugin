@@ -1,0 +1,44 @@
+<div class="custom-groups">
+  <div class="custom-groups-list">
+    {#each $customGroups as group}
+      <h3>{group.name}</h3>
+    {:else}
+      <p>No Custom Groups</p>
+    {/each}
+  </div>
+
+  <div class="custom-groups-actions">
+    <ActionsPanel />
+  </div>
+</div>
+
+<style>
+  .custom-groups {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+  }
+
+  .custom-groups-list {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    padding: 0.5rem 1rem;
+  }
+
+  .custom-groups-actions {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--panel-layer-1);
+  }
+</style>
+
+<script>
+
+  import ActionsPanel from "components/ActionsPanel.html";
+
+  import { customGroups } from "stores/custom-groups.js";
+</script>

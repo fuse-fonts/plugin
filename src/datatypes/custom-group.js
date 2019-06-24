@@ -1,4 +1,6 @@
-export class CustomGroup {
+import TypeFaceLibrary from "datatypes/typeface-library.js";
+
+export default class CustomGroup {
 
   constructor(name, permanent = false) {
     this.name = name;

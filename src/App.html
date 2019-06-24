@@ -3,15 +3,15 @@
   {#if $loading}
     <Loading text="Loading Fonts..." color="#fff" />
   {:else}
-    <ResizablePane split={5}>
+    <ResizablePane split={20}>
 
-      <div slot="top">
-        <Panel title={appTitle}>
-          <p>All ready</p>
+      <div slot="top" class="full-height">
+        <Panel>
+          <CustomGroupsList />
         </Panel>
       </div>
       
-      <div slot="bottom">
+      <div slot="bottom" class="full-height">
         <Panel title="Fonts">
           <h1>hi</h1>
         </Panel>
@@ -29,13 +29,23 @@
     padding: 0rem 0rem;
     margin: 0 0;
   }
+
+  .full-height {
+    height: 100%;
+    
+  }
 </style>
 
 <script>
+  // sub components
   import ResizablePane from "components/ResizablePane.html";
+  import CustomGroupsList from "components/CustomGroupsList.html";
   import Panel from "components/Panel.html";
   import Loading from "components/Loading.html"
+
+  // stores
   import { typefaces, loading } from "stores/typefaces.js";
+  
 
   const appTitle = "Fuse Fonts";
 

@@ -240,10 +240,6 @@ input::selection {
   pointer-events: none !important;
 }
 
-.button-group {
-  margin: 0 1rem;
-}
-
 /* Components */
 
 

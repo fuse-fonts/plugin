@@ -1,6 +1,6 @@
 <main bind:this={root} class:resizing style="--top-panel-height: {clampedValue}%">
   <section class="panel top-panel">
-    <slot name="top"></slot>
+    <slot name="top" class="slot"></slot>
   </section>
 
   <section class="separator" bind:this={seperator} >
@@ -8,7 +8,7 @@
   </section>
 
   <section class="panel bottom-panel">
-    <slot name="bottom"></slot>
+    <slot name="bottom" class="slot"></slot>
   </section>
 
 </main>
@@ -26,6 +26,10 @@
     flex-direction: column;
     overflow: hidden;
     height: var(--total-height);
+  }
+
+  .slot {
+    height: 100%;
   }
 
   .resizing {
@@ -81,7 +85,7 @@
 
 
   .panel {
-    padding: 1rem 1rem;
+    /* padding: 1rem 1rem; */
   }
 
   .top-panel {
