@@ -1,0 +1,40 @@
+<li class="group">
+  <h1 class="group-name">{group.name}</h1>
+</li>
+
+<style>
+  li {
+    list-style: none;
+  }
+
+  .group {
+    padding: 0 0;
+    margin: 0 0;
+    cursor: default;
+    width: 100%;
+    border-radius: 0px;
+    transition: 0.2s ease-out all;
+    position: relative;
+    background-color: transparent;
+    display: flex;
+    flex: 0 1 auto;
+    justify-content: space-between;
+    border-bottom: var(--panel-border);
+    align-items: center;
+  }
+
+  .group-name {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    margin: 0 0;
+  }
+
+  .group:hover {
+    background-color: var(--panel-layer-1);
+  }
+
+</style>
+
+<script>
+  export let group = null
+</script>

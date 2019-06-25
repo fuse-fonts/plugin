@@ -1,11 +1,11 @@
 <div class="custom-groups">
-  <div class="custom-groups-list">
+  <ul class="custom-groups-list">
     {#each $customGroups as group}
-      <h3>{group.name}</h3>
+      <CustomGroup {group} />
     {:else}
       <p>No Custom Groups</p>
     {/each}
-  </div>
+  </ul>
 
   <div class="custom-groups-actions">
     <ActionsPanel />
@@ -24,14 +24,11 @@
   .custom-groups-list {
     overflow-x: hidden;
     overflow-y: scroll;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 0rem 0.5rem 0rem;
+    height: calc(100% - 2.5rem);
   }
 
   .custom-groups-actions {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
     background-color: var(--panel-layer-1);
   }
 </style>
@@ -39,6 +36,7 @@
 <script>
 
   import ActionsPanel from "components/ActionsPanel.html";
+  import CustomGroup from "components/CustomGroup.html";
 
   import { customGroups } from "stores/custom-groups.js";
 </script>
