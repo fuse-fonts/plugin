@@ -66,12 +66,20 @@ export default class TypeFaceLibrary {
     return !!this.data[family];
   }
 
+  get(family) {
+    this.data[family];
+  }
+
   /**
    * 
    * @param {TypeFace} typeface 
    */
   has(typeface) {
     return this.data[typeface.family] === typeface;
+  }
+
+  toList() {
+    return Object.values(this.data);
   }
 
   toString() {

@@ -1,6 +1,6 @@
 import { writable } from "svelte/store";
-import typefaceService from "services/typefaces.js";
-
+import typefaceRepository from "repositories/typefaces.js";
+import { loadCustomGroups } from "stores/custom-groups.js"
 
 /**
  * 
@@ -14,7 +14,11 @@ export const loading = writable(true);
 
 //
 console.log("loading")
-typefaceService.load().then( data => {
+typefaceRepository.load().then( async data => {
+  console.log("typeface data:", data)
+
+  await loadCustomGroups(data);
+
   typefaces.set(data);
   loading.set(false);
 
@@ -24,6 +28,6 @@ typefaceService.load().then( data => {
   //   loading.set(false);
   // }, 5000);
   // after the real data is laoded — any changes we then save to local storage
-  typefaces.subscribe(data => typefaceService.save(data));
+  typefaces.subscribe(data => typefaceRepository.save(data));
 });
 
