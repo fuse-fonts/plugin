@@ -1,9 +1,9 @@
 <div class="custom-groups">
   <ul class="custom-groups-list">
-    <CustomGroup group={$allFontsGroup} selected={selected===$allFontsGroup} on:click={selectGroup} />
+    <CustomGroup group={$allFontsGroup} selected={$selected===$allFontsGroup} on:click={selectGroup} />
     
     {#each $customGroups as group}
-      <CustomGroup {group} selected={selected === group} on:click={selectGroup} />
+      <CustomGroup {group} selected={$selected === group} on:click={selectGroup} />
     {:else}
       <p>No Custom Groups</p>
     {/each}
@@ -40,12 +40,10 @@
   import ActionsPanel from "components/ActionsPanel.html";
   import CustomGroup from "components/CustomGroup.html";
 
-  import { customGroups, allFontsGroup } from "stores/custom-groups.js";
-
-  export let selected = null;
+  import { selected, customGroups, allFontsGroup } from "stores/custom-groups.js";
 
   const selectGroup = (event) => {
-    selected = event.data;
+    selected.set(event.data);
   };
 
 </script>

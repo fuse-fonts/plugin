@@ -12,8 +12,8 @@
       </div>
       
       <div slot="bottom" class="full-height">
-        <Panel title="Fonts">
-          <h1>hi</h1>
+        <Panel>
+          <TypefaceList />
         </Panel>
       </div>
       
@@ -40,11 +40,12 @@
   // sub components
   import ResizablePane from "components/ResizablePane.html";
   import CustomGroupsList from "components/CustomGroupsList.html";
+  import TypefaceList from "components/TypefaceList.html";
   import Panel from "components/Panel.html";
   import Loading from "components/Loading.html"
 
   // stores
-  import { typefaces, loading } from "stores/typefaces.js";
+  import { loading } from "stores/typefaces.js";
   
 
   const appTitle = "Fuse Fonts";

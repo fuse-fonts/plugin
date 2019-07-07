@@ -1,0 +1,14 @@
+{#if hasSelection}
+  <p>hey</p>
+{:else}
+  <p>not hey</p>
+{/if}
+
+<script>
+
+  import { selected } from "stores/custom-groups.js";
+
+  let hasSelection = false;
+  $: hasSelection = $selected !== null;
+
+</script>
