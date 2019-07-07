@@ -1,4 +1,5 @@
-<li class="group">
+<li class="group" class:selected on:click={setEventData} on:click>
+  <Icon icon={group.permanent ? "view_headline" : "folder" } />
   <h1 class="group-name">{group.name}</h1>
 </li>
 
@@ -8,7 +9,7 @@
   }
 
   .group {
-    padding: 0 0;
+    padding: 0 0 0 0.5rem;
     margin: 0 0;
     cursor: default;
     width: 100%;
@@ -23,18 +24,35 @@
     align-items: center;
   }
 
+  .group:hover {
+    background-color: var(--panel-layer-1);
+  }
+
+  .group.selected {
+    background-color: var(--panel-layer-2);
+    position: sticky;
+    top: 0rem;
+    bottom: 0;
+    z-index: 2;
+  }
+
   .group-name {
     width: 100%;
     padding: 0.5rem 1rem;
     margin: 0 0;
   }
 
-  .group:hover {
-    background-color: var(--panel-layer-1);
-  }
 
 </style>
 
 <script>
-  export let group = null
+  import Icon from "components/Icon.html";
+  export let group = null;
+  export let selected = false;
+
+
+  function setEventData(event) {
+    event.data = selected ? null : group;
+  }
+
 </script>

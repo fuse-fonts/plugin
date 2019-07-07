@@ -1,5 +1,6 @@
 import { writable } from "svelte/store";
 import customGroupRepository from "repositories/custom-groups.js";
+import CustomGroup from "../datatypes/custom-group";
 
 
 /**
@@ -7,10 +8,27 @@ import customGroupRepository from "repositories/custom-groups.js";
  */
 export const customGroups = writable([]);
 
+/**
+ *
+ */
+export const selected = writable(null);
+
+/**
+ *
+ */
+const allFonts = new CustomGroup("All Fonts", true);
+export const allFontsGroup = writable(allFonts);
+
+/**
+ *
+ */
 export const loadCustomGroups = (typefaces) => {
 
-  return customGroupRepository.load(typefaces).then((data) => {
+  // create our "all fonts" group using all the typfaces
+  allFonts.updateTypeFaces(typefaces);
+  allFontsGroup.set(allFonts)
 
+  return customGroupRepository.load(typefaces).then((data) => {
     if (data !== null) {
       customGroups.set(data);
     }

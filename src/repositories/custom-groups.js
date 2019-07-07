@@ -46,7 +46,7 @@ export default {
     const customGroups = data.map(groupData => {
       let group = new CustomGroup(groupData.name);
 
-      // groupdata.typefaces is only the names of typeface family, not a actual representation.
+      // groupdata.typefaces is only the names of typeface family, not an actual representation.
       groupData.typefaces.forEach(name => {
         if (typefaces.includes(name)) {
           group.typefaces.add(typefaces.get(name));

@@ -13,9 +13,10 @@ export const typefaces = writable({});
 export const loading = writable(true);
 
 //
-console.log("loading")
+console.log("loading");
 typefaceRepository.load().then( async data => {
-  console.log("typeface data:", data)
+  
+  console.log("typeface data:", data);
 
   await loadCustomGroups(data);
 

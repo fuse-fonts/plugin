@@ -1,5 +1,5 @@
 <button title={title} {disabled} on:click>
-  <i class="material-icons">{icon}</i>
+  <Icon {icon} />
 </button>
 
 
@@ -22,6 +22,8 @@
 </style>
 
 <script>
+
+  import Icon from "components/Icon.html";
 
   export let icon = "report";
   export let title = "";
