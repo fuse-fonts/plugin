@@ -1,11 +1,48 @@
 {#if hasSelection}
-  <p>hey</p>
+  <h2 class="group-name">{$selected.name}</h2>
+  <ol class="typefaces">
+    {#each $selected.typefaces.toList() as typeface}
+      <li>
+        <TypeFace {typeface} />
+      </li>
+    {/each}
+  </ol>
 {:else}
-  <p>not hey</p>
+  <div class="empty">
+    <p>No Group Selected</p>
+  </div>
 {/if}
+
+<style>
+
+  .empty {
+    padding: 1rem 1rem;
+    text-align: center;
+    color: var(--muted-color);
+  }
+
+
+  .group-name {
+    font-size: 1rem;
+    font-weight: 400;
+    padding: 1rem 0.5rem;
+    margin: 0 0;
+  }
+
+  .typefaces {
+    height: 100%;
+    overflow-y: scroll;
+  }
+
+  .typefaces li {
+    display: block;
+  }
+
+</style>
 
 <script>
 
+  import TypeFace from "components/TypeFace.html";
   import { selected } from "stores/custom-groups.js";
 
   let hasSelection = false;

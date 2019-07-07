@@ -1,5 +1,15 @@
-<i class="material-icons">{icon}</i>
+<i class="material-icons"
+  style="color: {c}" 
+  on:click
+  on:mouseenter={() => hovering = true}
+  on:mouseleave={() => hovering = false}
+>{icon}</i>
 
 <script>
+  let hovering = false;
+  export let color = "inherit";
+  export let hover = null;
   export let icon = "report";
+  $: c = hover !== null && hovering ? hover : color;
+  
 </script>

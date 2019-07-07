@@ -1,0 +1,79 @@
+<article class="typeface">
+  <header>
+    <ExpandableIcon on:click={toggleFonts} />
+    <h1 class="name">{typeface.family}</h1>
+    <h3 class="styles-count">{styleCount} style{styleCount !== 1 ? "s" : ""}</h3>
+  </header>
+
+  {#if expanded}
+    <main transition:slide={{duration: 500, easing: quintOut}}>
+      <ol>
+        {#each typeface.variants as font}
+          <li>{font.name} — {font.description}</li>
+        {/each}
+      </ol>
+    </main>
+  {/if}
+</article>
+
+
+<style>
+  .typeface header {
+    padding: 0.5rem 1rem 0.5rem 0.5rem;
+    background-color: var(--panel-item);
+    border-bottom: var(--panel-border);
+    border-bottom-width: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    align-items: center;
+    flex: 0 1 auto;
+  }
+
+   .typeface header:hover {
+    background-color: var(--panel-item-hover);
+    cursor: default;
+    user-select: none;
+  }
+
+  .name {
+    font-size: 1.2rem;
+    margin: 0 0 0 0.5rem;
+    font-weight: 400;
+  }
+
+  .styles-count {
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    margin: 0 1rem;
+    color: var(--muted-color);
+    user-select: none;
+  }
+
+
+  /* to be fontlist */
+  .typeface main {
+    padding-left: 1rem;
+  }
+
+  .typeface ol {
+    list-style: none;
+  }
+</style>
+
+<script>
+  import ExpandableIcon from "components/ExpandableIcon.html";
+  import { slide } from 'svelte/transition';
+  import { quintOut } from 'svelte/easing';
+
+  export let typeface = null;
+  export let expanded = false;
+  let styleCount = typeface.variants.length;
+  
+  const toggleFonts = (e) => {
+    expanded = e.data;
+  }
+
+</script>
