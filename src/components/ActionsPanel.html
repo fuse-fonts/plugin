@@ -2,8 +2,8 @@
   
   <div class="panel-buttons">
     <span class="button-group">
-      <IconButton icon="view_list" />
-      <IconButton icon="view_module" disabled={true} />
+      <IconButton icon="view_list" disabled={!listView} on:click={toggleView} />
+      <IconButton icon="view_module" disabled={listView} on:click={toggleView} />
     </span>
     <IconButton icon="folder" title="Create new group" on:click={createGroup} />
     <IconButton icon="delete" title="Delete selected group" />
@@ -21,12 +21,18 @@
 </style>
 
   <script>
+    
+    export let listView = true;
 
     import IconButton from "components/IconButton.html";
 
     import { customGroups } from "stores/custom-groups.js";
 
     import CustomGroup from "datatypes/custom-group.js";
+
+    const toggleView = () => {
+      listView = !listView;
+    }
 
     const createGroup = (e) => {
       customGroups.update(values => {
