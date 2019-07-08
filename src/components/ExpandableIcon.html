@@ -1,4 +1,5 @@
 <Icon {icon} 
+  {disabled}
   color="var(--muted-color)"
   hover="var(--body-color)"
   on:click={expandSection} 
@@ -8,6 +9,7 @@
 <script>
   import Icon from "components/Icon.html";
 
+  export let disabled = false;
   export let expanded = false;
   $: icon = expanded ? "keyboard_arrow_down" : "keyboard_arrow_right";
 

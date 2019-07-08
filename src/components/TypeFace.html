@@ -1,7 +1,7 @@
 <article class="typeface-container">
   <main class="typeface">
     <header class="icon-section">
-      <ExpandableIcon on:click={toggleFonts} />
+      <ExpandableIcon on:click={toggleFonts} disabled={!hasStyles} />
 
     </header>
     <h1 class="name">{typeface.family}</h1>

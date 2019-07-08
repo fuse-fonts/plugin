@@ -1,15 +1,24 @@
 <i class="material-icons"
-  style="color: {c}" 
+  style="color: {c}"
+  class:disabled
   on:click
   on:mouseenter={() => hovering = true}
   on:mouseleave={() => hovering = false}
 >{icon}</i>
+
+<style>
+  .disabled {
+    color: var(--panel-layer-0) !important;
+    pointer-events: none;
+  }
+</style>
 
 <script>
   let hovering = false;
   export let color = "inherit";
   export let hover = null;
   export let icon = "report";
+  export let disabled = false;
   $: c = hover !== null && hovering ? hover : color;
   
 </script>
