@@ -1,0 +1,46 @@
+<div class="font">
+  <h1 class="name">{name}</h1>
+</div>
+
+<style>
+  .font {
+    padding: 0.5rem 1rem 0.5rem 2rem;
+    
+    background-color: var(--panel-item);
+    border-bottom: var(--panel-border);
+    border-bottom-width: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    align-items: center;
+    flex: 0 1 auto;
+  }
+
+   .font:hover {
+    background-color: var(--panel-item-hover);
+    cursor: default;
+    user-select: none;
+  }
+
+  .name {
+    font-size: 1.2rem;
+    margin: 0 0 0 0.5rem;
+    font-weight: 400;
+  }
+
+  .subtext {
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    margin: 0 1rem;
+    color: var(--muted-color);
+    user-select: none;
+  }
+
+</style>
+
+<script>
+  export let font = null;
+  $: name = font.description;
+</script>

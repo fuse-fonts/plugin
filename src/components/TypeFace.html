@@ -1,24 +1,23 @@
-<article class="typeface">
-  <header>
-    <ExpandableIcon on:click={toggleFonts} />
+<article class="typeface-container">
+  <main class="typeface">
+    <header class="icon-section">
+      <ExpandableIcon on:click={toggleFonts} />
+
+    </header>
     <h1 class="name">{typeface.family}</h1>
-    <h3 class="styles-count">{styleCount} style{styleCount !== 1 ? "s" : ""}</h3>
-  </header>
+    <h3 class="styles-count" on:click={() => expanded = !expanded}>{styleCount} style{styleCount !== 1 ? "s" : ""}</h3>
+  </main>
 
   {#if expanded}
-    <main transition:slide={{duration: 500, easing: quintOut}}>
-      <ol>
-        {#each typeface.variants as font}
-          <li>{font.name} — {font.description}</li>
-        {/each}
-      </ol>
-    </main>
+    <section class="typeface-variants" transition:slide={{duration: 500, easing: quintOut}}>
+      <FontList fonts={typeface.variants} />
+    </section>
   {/if}
 </article>
 
 
 <style>
-  .typeface header {
+  .typeface {
     padding: 0.5rem 1rem 0.5rem 0.5rem;
     background-color: var(--panel-item);
     border-bottom: var(--panel-border);
@@ -30,10 +29,14 @@
     flex: 0 1 auto;
   }
 
-   .typeface header:hover {
+   .typeface:hover {
     background-color: var(--panel-item-hover);
     cursor: default;
     user-select: none;
+  }
+
+  .icon-section {
+    width: 1.5rem;
   }
 
   .name {
@@ -52,25 +55,23 @@
     user-select: none;
   }
 
-
-  /* to be fontlist */
-  .typeface main {
-    padding-left: 1rem;
+  .styles-count:hover {
+    color: var(--foreground-color);
   }
 
-  .typeface ol {
-    list-style: none;
-  }
 </style>
 
 <script>
   import ExpandableIcon from "components/ExpandableIcon.html";
+  import FontList from "components/FontList.html";
+
   import { slide } from 'svelte/transition';
   import { quintOut } from 'svelte/easing';
 
   export let typeface = null;
   export let expanded = false;
   let styleCount = typeface.variants.length;
+  $: hasStyles = styleCount > 1;
   
   const toggleFonts = (e) => {
     expanded = e.data;

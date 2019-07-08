@@ -1,0 +1,23 @@
+<ol>
+  {#each fonts as font}
+    <li>
+      <FontFace {font} />
+    </li>
+  {/each}
+</ol>
+
+<style>
+  ol {
+    list-style: none;
+    background-color: var(--panel-layer-0);
+  }
+
+</style>
+
+<script>
+
+  import FontFace from "components/FontFace.html";
+
+  export let fonts = null;
+
+</script>
