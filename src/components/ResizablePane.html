@@ -1,9 +1,13 @@
+{#if resizing}
+  <svelte:body on:mousemove={resizeMove} on:mouseleave={resizeEnd} on:mouseup={resizeEnd} />
+{/if}
+
 <main bind:this={root} class:resizing style="--top-panel-height: {clampedValue}%">
   <section class="panel top-panel">
     <slot name="top" class="slot"></slot>
   </section>
 
-  <section class="separator" bind:this={seperator} >
+  <section class="separator" bind:this={seperator} on:mousedown={resizeStart}>
     <div class="handle"></div>
   </section>
 
@@ -60,7 +64,7 @@
     height: 3px;
     margin: 0 auto;
     margin-top: 1px;
-    transition: 0.2s ease-out all;
+    /* transition: 0.2s ease-out all; */
   }
 
   .separator:hover {
@@ -107,53 +111,45 @@
   export let split = 50;
   export let min = 12;
   export let max = 70;
-
+  
   $: clampedValue = clamp(split, min, max);
-
+  
   // dom references
   let root;
   let seperator;
-
+  
   //helpers
   const clamp = (value, min, max) => Math.max(min, Math.min(value, max));
-
+  
   // reactive and stateful vars
   let resizing = false;
   let pointerID = null;
   
-  // lifecycle
-  onMount(() => {
-    seperator.addEventListener("pointerdown", resizeStart);
-    seperator.addEventListener("pointerup", resizeEnd);
-    seperator.addEventListener("pointercancel", resizeEnd)
-    seperator.addEventListener("pointerleave", resizeEnd);
-
-    return () => {
-      seperator.removeEventListener("pointerdown", resizeStart);
-      seperator.removeEventListener("pointerup", resizeEnd);
-      seperator.removeEventListener("pointercancel", resizeEnd)
-      seperator.removeEventListener("pointerleave", resizeEnd);
-    }
-  });
-  
-
 
   const resizeStart = (e) => {
-    pointerID = e.pointerId;
-    seperator.setPointerCapture(pointerID);
-    seperator.addEventListener("pointermove", resizeMove);
+    console.log(e.type);
+
+    // pointerID = e.pointerId;
+    // seperator.setPointerCapture(pointerID);
+    // seperator.addEventListener("mousemove", resizeMove);
+    // seperator.addEventListener("mouseup", resizeEnd);
+    // seperator.addEventListener("pointercancel", resizeEnd)
+    // seperator.addEventListener("pointerleave", resizeEnd);
     resizing = true;
   };
 
   const resizeEnd = (e) => {
+    console.log(e.type);
     if (pointerID !== null ) {
-      seperator.removeEventListener("pointermove", resizeMove);
-      seperator.releasePointerCapture(pointerID);
-      resizing = false;
+      // seperator.removeEventListener("mousemove", resizeMove);
+      // seperator.releasePointerCapture(pointerID);
     }
+    resizing = false;
   }
 
   const resizeMove = (e) => {
+    console.log(e.type);
+    console.log(e.mouseY);
     let percent = (e.clientY / window.innerHeight);
     split = Math.round(percent * 100);
     
