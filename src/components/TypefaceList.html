@@ -1,10 +1,14 @@
-{#if hasSelection}
-  <h2 class="group-name">{$selected.name}</h2>
+{#if hasGroupSelected}
+  <h2 class="group-name">{$selectedGroup.name} <span class="count">{typefaces.length}</span></h2>
   <ol class="typefaces">
-    {#each $selected.typefaces.toList() as typeface}
+    {#each typefaces as typeface, i (typeface.family)}
       <li>
-        <TypeFace {typeface} />
+        <TypeFace {typeface} selected={typeof $selectedFonts[typeface.family] !== "undefined"} />
       </li>
+    {:else}
+      <div class="empty">
+        <p>{$selectedGroup.name} is empty</p>
+      </div>
     {/each}
   </ol>
 {:else}
@@ -39,14 +43,32 @@
     display: block;
   }
 
+  .count {
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    margin: 0 1rem;
+    color: var(--muted-color);
+    user-select: none;
+  }
+
 </style>
 
 <script>
 
   import TypeFace from "components/TypeFace.html";
-  import { selected } from "stores/custom-groups.js";
 
-  let hasSelection = false;
-  $: hasSelection = $selected !== null;
+  import { selected as selectedGroup } from "stores/custom-groups.js";
+  import { selected as selectedFonts } from "stores/font-selection.js";
+
+  let hasGroupSelected = false;
+  $: hasGroupSelected = $selectedGroup !== null;
+
+  let typefaces = [];
+  $: typefaces = hasGroupSelected ? $selectedGroup.typefaces.toList() : [];
+
+  // selectedGroup.subscribe(data => console.log(`selected group changed`, data))
+  // selectedFonts.subscribe( data => console.log(`Selection changed`, data))
 
 </script>

@@ -1,16 +1,15 @@
 <article class="typeface-container">
-  <main class="typeface">
+  <main class="typeface" class:selected on:click={clickTypeface}  draggable={selected}>
     <header class="icon-section">
-      <ExpandableIcon on:click={toggleFonts} disabled={!hasStyles} />
-
+      <ExpandableIcon {expanded} on:click={toggleFonts} disabled={!hasStyles} />
     </header>
     <h1 class="name">{typeface.family}</h1>
-    <h3 class="styles-count" on:click={() => expanded = !expanded}>{styleCount} style{styleCount !== 1 ? "s" : ""}</h3>
+    <h3 class="styles-count" on:click={toggleFonts}>{styleCountMessage}</h3>
   </main>
 
   {#if expanded}
-    <section class="typeface-variants" transition:slide={{duration: 500, easing: quintOut}}>
-      <FontList fonts={typeface.variants} />
+    <section class="typeface-variants" transition:slide={{duration: 500}}>
+      <FontList fonts={typeface.variants} selected={selectedVariants} on:click={selectFont} />
     </section>
   {/if}
 </article>
@@ -33,6 +32,16 @@
     background-color: var(--panel-item-hover);
     cursor: default;
     user-select: none;
+  }
+
+  .typeface.selected {
+    background-color: var(--selected-background);
+    color: var(--selected-color);
+    transition: 0.1s ease-out background-color;
+    position: sticky;
+    top: 0;
+    bottom: 0;
+    z-index: 0;
   }
 
   .icon-section {
@@ -62,19 +71,80 @@
 </style>
 
 <script>
+
   import ExpandableIcon from "components/ExpandableIcon.html";
   import FontList from "components/FontList.html";
+  import { selected as selectedFonts } from "stores/font-selection.js";
+
 
   import { slide } from 'svelte/transition';
-  import { quintOut } from 'svelte/easing';
 
-  export let typeface = null;
-  export let expanded = false;
+  export let typeface = null; // the typeface in question
+  export let expanded = false; // whether the fonts of this typeface are displayed
+  export let selected = false; // whether this typeface is selected
+  export let selectedVariants = []; // list of the font names `font.name
+
   let styleCount = typeface.variants.length;
+  $: styleCountMessage = `${styleCount} ${styleCount === 1 ? "style" : "styles" }`;
   $: hasStyles = styleCount > 1;
-  
+    
   const toggleFonts = (e) => {
-    expanded = e.data;
+    e.stopPropagation();
+    expanded = !expanded;
+  }
+
+  const clickTypeface = (e) => {
+    selected = !selected;
+    const variants = typeface.variants.map(v => v.name);
+    selectVariants(variants);
+  }
+
+  // toggles the currently selected setting
+  const selectVariants = (variants) => {
+    const key = typeface.family;
+    const nextSelection = { ...$selectedFonts, [key]: variants };
+
+    if (variants.length > 0 && selected) {
+      selectedVariants = variants;
+    }
+    else {
+      // unselect all variants
+      selectedVariants = [];
+      // remove from the next selection
+      delete nextSelection[key];
+    }
+
+    selectedFonts.set(nextSelection);
+    
+  }
+
+  const selectFont = (e) => {
+    const font = e.data;
+    console.log("selected", font.name, font);
+
+    if (selected) {
+      const key = typeface.family;
+      const typefaceSelection = $selectedFonts[key];
+
+      let isFontSelected = typefaceSelection.includes(font.name);
+
+      let variants = [];
+
+      // remove the individual font from the selection
+      if (isFontSelected) {
+        variants = typefaceSelection.filter(name => name !== font.name);
+      }
+      else { // add the individual font to the selection
+        variants = [...typefaceSelection,  font.name];
+      }
+      // let variants = $selectedFonts.filter(name => name  === font.name);
+      selectVariants(variants);
+    }
+    else {
+      selected = !selected;
+      const variants = typeface.variants.filter(v => v.name === font.name).map(v => v.name);
+      selectVariants(variants);
+    }
   }
 
 </script>

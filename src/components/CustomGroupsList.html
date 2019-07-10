@@ -1,11 +1,17 @@
 <div class="custom-groups">
   <ul class="custom-groups-list">
-    <CustomGroup group={$allFontsGroup} selected={$selected===$allFontsGroup} on:click={selectGroup} />
+    <li>
+      <CustomGroup group={$allFontsGroup} selected={$selected===$allFontsGroup} on:click={selectGroup} />
+    </li>
     
-    {#each $customGroups as group}
-      <CustomGroup {group} selected={$selected === group} on:click={selectGroup} />
+    {#each $customGroups as group, i (group.name)}
+      <li in:fly={{ y: 50, duration: 400, delay: (i * 40) }}>
+        <CustomGroup {group} selected={$selected === group} on:click={selectGroup} />
+      </li>
     {:else}
-      <p>No Custom Groups</p>
+      <div class="empty">
+        <p>No Custom Groups</p>
+      </div>
     {/each}
   </ul>
 
@@ -30,12 +36,24 @@
     height: calc(100% - 2.5rem);
   }
 
+  .custom-groups-list li {
+    display: block;
+  }
+
   .custom-groups-actions {
     background-color: var(--panel-layer-1);
+  }
+
+  .empty {
+    padding: 1rem 1rem;
+    text-align: center;
+    color: var(--muted-color);
   }
 </style>
 
 <script>
+
+  import { fly } from 'svelte/transition';
 
   import ActionsPanel from "components/ActionsPanel.html";
   import CustomGroup from "components/CustomGroup.html";
@@ -43,6 +61,7 @@
   import { selected, customGroups, allFontsGroup } from "stores/custom-groups.js";
 
   const selectGroup = (event) => {
+    console.log("selectGroup:", event.data)
     selected.set(event.data);
   };
 

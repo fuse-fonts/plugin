@@ -1,7 +1,7 @@
 <ol>
   {#each fonts as font}
     <li>
-      <FontFace {font} />
+      <FontFace {font} selected={selected.includes(font.name)} on:click />
     </li>
   {/each}
 </ol>
@@ -19,5 +19,6 @@
   import FontFace from "components/FontFace.html";
 
   export let fonts = null;
+  export let selected = [];
 
 </script>

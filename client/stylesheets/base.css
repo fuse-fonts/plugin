@@ -10,6 +10,7 @@ html {
   --fonts-panel-size: calc(100% - var(--other-panels));
 
   --accent-color: #38c;
+  --muted-accent-color: #369;
   --error-color: #b42;
   --success-color: #0b8;
   --delete-color: var(--error-color);
@@ -69,6 +70,7 @@ body.theme--medium {
 
 body.theme--light {
   --accent-color: #6bb;
+  --muted-accent-color: #6faaaa;
   --error-color: #600;
   --muted-color: rgba(0,0,0,0.5);
 

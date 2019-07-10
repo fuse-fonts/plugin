@@ -26,7 +26,7 @@ export const loadCustomGroups = (typefaces) => {
 
   // create our "all fonts" group using all the typfaces
   allFonts.updateTypeFaces(typefaces);
-  allFontsGroup.set(allFonts)
+  // allFontsGroup.set(allFonts)
   selected.set(allFonts);
 
   return customGroupRepository.load(typefaces).then((data) => {

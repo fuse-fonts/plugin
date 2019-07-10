@@ -1,6 +1,15 @@
-<li class="group" class:selected on:click={setEventData} on:click>
+<li class="group" 
+  class:selected class:drophover
+  on:click={setEventData} 
+  on:click 
+  on:dragover={dragOver} 
+  on:dragleave={dragEnd}
+  on:drop={drop}
+>
+  
   <Icon icon={group.permanent ? "view_headline" : "folder" } />
   <h1 class="group-name">{group.name}</h1>
+
 </li>
 
 <style>
@@ -20,6 +29,7 @@
     display: flex;
     flex: 0 1 auto;
     justify-content: space-between;
+    border: 1px solid transparent;
     border-bottom: var(--panel-border);
     align-items: center;
   }
@@ -42,6 +52,9 @@
     margin: 0 0;
   }
 
+  .drophover {
+    border: 1px dashed var(--accent-color);
+  }
 
 </style>
 
@@ -49,10 +62,26 @@
   import Icon from "components/Icon.html";
   export let group = null;
   export let selected = false;
-
+  let drophover = false;
 
   function setEventData(event) {
     event.data = selected ? null : group;
+    console.log("event data set to based on selection: selected=" + selected);
+  }
+
+  function dragOver(e) {
+    if (!selected) {
+      e.preventDefault();
+      drophover = true;
+    }
+  } 
+
+  function dragEnd() {
+    drophover = false;
+  }
+
+  function drop(e) {
+    dragEnd();
   }
 
 </script>

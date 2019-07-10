@@ -1,4 +1,4 @@
-<div class="font">
+<div class="font" class:selected on:click={clickHandler} on:click>
   <h1 class="name">{name}</h1>
 </div>
 
@@ -22,6 +22,17 @@
     user-select: none;
   }
 
+  .font.selected {
+    background-color: var(--muted-accent-color);
+    color: var(--selected-color);
+    transition: 0.1s ease-out background-color;
+  }
+
+  .font.selected:hover {
+    background-color: var(--selected-background);
+  }
+
+
   .name {
     font-size: 1.2rem;
     margin: 0 0 0 0.5rem;
@@ -41,6 +52,16 @@
 </style>
 
 <script>
+
+  // import { selected as selectedFonts } from "stores/font-selection.js";
+
   export let font = null;
   $: name = font.description;
+
+  export let selected = false;
+
+
+  const clickHandler = (e) => {
+    e.data = font;
+  }
 </script>
