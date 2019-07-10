@@ -245,14 +245,6 @@ input::selection {
 /* Components */
 
 
-.overlay {
-  position: fixed;
-  bottom: 0rem;
-  left: 0rem;
-  right: 0rem;
-}
-
-
 .notification {
   display: inline-block;
   flex-grow: 2;

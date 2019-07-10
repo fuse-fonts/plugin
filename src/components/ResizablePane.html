@@ -1,8 +1,13 @@
+<svelte:body on:mouseleave={resizeEnd} />
+
 {#if resizing}
-  <svelte:body on:mousemove={resizeMove} on:mouseleave={resizeEnd} on:mouseup={resizeEnd} />
+  <section class="overlay" style="top: {clampedValue / 2}%;">{topPaneHeight}px</section>
+  <section class="overlay" style="top: {clampedValue + ((100 - clampedValue) / 2)}%;">{bottomPaneHeight}px</section>
 {/if}
 
 <main bind:this={root} class:resizing style="--top-panel-height: {clampedValue}%">
+
+
   <section class="panel top-panel">
     <slot name="top" class="slot"></slot>
   </section>
@@ -32,12 +37,29 @@
     height: var(--total-height);
   }
 
+  .overlay {
+    font-size: 1rem;
+    pointer-events: none;
+    z-index: 10;
+    position: fixed;
+    top: 2.5%;
+    left: 0;
+    right: 0;
+    width: 6rem;
+    margin: 0 auto;
+    color: var(--selected-color);
+    background-color: var(--accent-color);
+    border-radius: 0.5rem;
+    text-align: center;
+
+  }
+
   .slot {
     height: 100%;
   }
 
   .resizing {
-    cursor: none !important;
+    cursor: row-resize !important;
   }
 
   .resizing > .panel {
@@ -64,7 +86,6 @@
     height: 3px;
     margin: 0 auto;
     margin-top: 1px;
-    /* transition: 0.2s ease-out all; */
   }
 
   .separator:hover {
@@ -73,7 +94,9 @@
   }
 
   .separator:active {
-    cursor: none;
+    cursor: row-resize;
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
   }
 
   .separator:hover .handle {
@@ -82,14 +105,9 @@
     transition: 0.2s ease-out all;
   }
 
-  .separator:active { 
-    background-color: var(--accent-color);
-    border-color: var(--accent-color);
-  }
-
-
-  .panel {
-    /* padding: 1rem 1rem; */
+  .separator:active .handle{
+    border-bottom: 1px dotted transparent;
+    border-top: 1px dotted transparent;
   }
 
   .top-panel {
@@ -113,6 +131,8 @@
   export let max = 70;
   
   $: clampedValue = clamp(split, min, max);
+  $: topPaneHeight = Math.round(window.innerHeight * (clampedValue / 100));
+  $: bottomPaneHeight = Math.round(window.innerHeight * (1 - (clampedValue / 100)));
   
   // dom references
   let root;
@@ -127,29 +147,19 @@
   
 
   const resizeStart = (e) => {
-    console.log(e.type);
 
-    // pointerID = e.pointerId;
-    // seperator.setPointerCapture(pointerID);
-    // seperator.addEventListener("mousemove", resizeMove);
-    // seperator.addEventListener("mouseup", resizeEnd);
-    // seperator.addEventListener("pointercancel", resizeEnd)
-    // seperator.addEventListener("pointerleave", resizeEnd);
+    root.addEventListener("mousemove", resizeMove);
+    root.addEventListener("mouseup", resizeEnd);
     resizing = true;
   };
 
   const resizeEnd = (e) => {
-    console.log(e.type);
-    if (pointerID !== null ) {
-      // seperator.removeEventListener("mousemove", resizeMove);
-      // seperator.releasePointerCapture(pointerID);
-    }
+    root.removeEventListener("mousemove", resizeMove);
+    root.removeEventListener("mouseup", resizeEnd);
     resizing = false;
   }
 
   const resizeMove = (e) => {
-    console.log(e.type);
-    console.log(e.mouseY);
     let percent = (e.clientY / window.innerHeight);
     split = Math.round(percent * 100);
     
