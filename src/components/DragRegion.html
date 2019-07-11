@@ -4,7 +4,7 @@
 </section>
 
 {#if dragging}
-  <div class="selection" class:dragging bind:this={dragGhostElement}>
+  <div class="selection" class:dragging bind:this={dragGhostElement} transition:scale={{ duration: 200 }}>  
     <span class="selection-icon">
       <Icon icon="text_fields" color="var(--selected-color)" />
     </span>
@@ -40,6 +40,7 @@
   import Icon from "components/Icon.html";
   import { selected } from "stores/font-selection.js";
   import { onMount } from "svelte";
+  import { scale } from 'svelte/transition';
 
   // dom node
   let dragGhostElement;
