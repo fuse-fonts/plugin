@@ -3,7 +3,7 @@
     class="typeface" 
     class:selected 
     on:click={clickTypeface} 
-    draggable={selected} 
+    draggable={true}
     on:dragstart={dragStart}
     on:dragend={dragEnd}
   >
@@ -158,14 +158,15 @@
   }
 
   function dragStart(e) {
+    if (!selected) clickTypeface(e);
     // if we do this on the immediate frame, it will disappear 
     // and lose dragging state
     requestAnimationFrame(() => {
-      el.style.opacity = "0.25";
+      // el.style.opacity = "0.25";
     });
   }
 
   function dragEnd() {
-    el.style.opacity = null;
+    // el.style.opacity = null;
   }
 </script>

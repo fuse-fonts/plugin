@@ -7,7 +7,7 @@
   on:drop={drop}
 >
   
-  <Icon icon={group.permanent ? "view_headline" : "folder" } />
+  <Icon color={drophover ? "var(--selected-color)" : "var(--muted-color)"} icon={group.permanent ? "view_headline" : "folder" } />
   <h1 class="group-name">{group.name}</h1>
 
 </li>
@@ -53,7 +53,10 @@
   }
 
   .drophover {
-    border: 1px dashed var(--accent-color);
+    border: 1px solid var(--accent-color);
+    /* outline: 2px solid var(--accent-color); */
+    /* box-shadow: 0px -0.5rem 2rem var(--panel-layer-0) inset; */
+    /* box-shadow: 0 0 2rem var(--accent-color); */
   }
 
 </style>
@@ -68,12 +71,12 @@
     event.data = selected ? null : group;
     console.log("event data set to based on selection: selected=" + selected);
   }
-
+  
   function dragOver(e) {
     if (!selected) {
+      drophover = true;
       e.preventDefault();
       e.dataTransfer.dropEffect = "copy";
-      drophover = true;
     }
     else {
       e.dataTransfer.dropEffect = "none";

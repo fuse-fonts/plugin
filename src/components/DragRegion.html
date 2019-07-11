@@ -5,23 +5,30 @@
 
 {#if dragging}
   <div class="selection" class:dragging bind:this={dragGhostElement}>
-    <Icon icon="file_copy" color="var(--selected-color)" /> {dragMessage($selected)}
+    <span class="selection-icon">
+      <Icon icon="text_fields" color="var(--selected-color)" />
+    </span>
+    {dragMessage($selected)}
   </div>
 {/if}
 
 <style>
   .selection {
     display: none;
-    top: 10%;
+    top: -50%;
     position: fixed;
     background-color: var(--accent-color);
     color: var(--selected-color);
-    left: 25%;
-    right: 25%;
-    padding: 0.5rem 1rem;
+    width: auto;
+    padding: 0.5rem 1rem 0.5rem 0.5rem;
     pointer-events: none;
-    /* transition: 0.1s ease-in top; */
     border-radius: 3px;
+    z-index: 999;
+  }
+
+  .selection-icon {
+    display: inline-block;
+    margin-right: 0.5rem;
   }
 
   .selection.dragging {
@@ -62,30 +69,34 @@ function dragMessage(selection) {
   return (length === 1 ? firstItem : `${length} TypeFaces`);
 }
 
+function updateMousePositions(e) {
+  mouseX = e.clientX - 10;
+  mouseY = e.clientY - 10;
+}
+
 function dragStart(e) {
+  updateMousePositions(e);
   dragging = true;
   e.dataTransfer.setDragImage(dragImageElement, 0, 0)
 }
 
 function dragOver(e) {
   dragging = true;
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-  // console.log({x: mouseX, y: mouseY });
-  
-  // console.log(dragging, dragGhostElement)
+  updateMousePositions(e);
+
   if (dragGhostElement) {
     dragGhostElement.style.top = `${mouseY}px`;
-    // dragGhostElement.style.left = `${mouseX}px`;
+    dragGhostElement.style.left = `${mouseX}px`;
 
   }
-  // console.log(mouseX, mouseY);
 
 }
 
 function dragEnd(e) {
   console.log("no longer dragging")
   dragging = false;
+  mouseX = 0;
+  mouseY = 0;
 }
 
 function drop(e) {
