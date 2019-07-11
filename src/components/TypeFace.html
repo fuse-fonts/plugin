@@ -1,5 +1,12 @@
-<article class="typeface-container">
-  <main class="typeface" class:selected on:click={clickTypeface}  draggable={selected}>
+<article class="typeface-container" bind:this={el}>
+  <main 
+    class="typeface" 
+    class:selected 
+    on:click={clickTypeface} 
+    draggable={selected} 
+    on:dragstart={dragStart}
+    on:dragend={dragEnd}
+  >
     <header class="icon-section">
       <ExpandableIcon {expanded} on:click={toggleFonts} disabled={!hasStyles} />
     </header>
@@ -79,15 +86,19 @@
 
   import { slide } from 'svelte/transition';
 
-  export let typeface = null; // the typeface in question
+  export let typeface = null;
   export let expanded = false; // whether the fonts of this typeface are displayed
   export let selected = false; // whether this typeface is selected
   export let selectedVariants = []; // list of the font names `font.name
 
+  // dom node
+  let el;
+
   let styleCount = typeface.variants.length;
   $: styleCountMessage = `${styleCount} ${styleCount === 1 ? "style" : "styles" }`;
   $: hasStyles = styleCount > 1;
-    
+
+
   const toggleFonts = (e) => {
     e.stopPropagation();
     expanded = !expanded;
@@ -99,7 +110,6 @@
     selectVariants(variants);
   }
 
-  // toggles the currently selected setting
   const selectVariants = (variants) => {
     const key = typeface.family;
     const nextSelection = { ...$selectedFonts, [key]: variants };
@@ -147,4 +157,15 @@
     }
   }
 
+  function dragStart(e) {
+    // if we do this on the immediate frame, it will disappear 
+    // and lose dragging state
+    requestAnimationFrame(() => {
+      el.style.opacity = "0.25";
+    });
+  }
+
+  function dragEnd() {
+    el.style.opacity = null;
+  }
 </script>

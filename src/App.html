@@ -1,8 +1,9 @@
-<section>
+
+{#if $loading}
+  <Loading text="Loading Fonts..." color="#fff" />
+{:else}
   
-  {#if $loading}
-    <Loading text="Loading Fonts..." color="#fff" />
-  {:else}
+  <DragRegion>
     <ResizablePane split={20}>
 
       <div slot="top" class="full-height">
@@ -18,9 +19,9 @@
       </div>
       
     </ResizablePane>
-  {/if}
+  </DragRegion>
+{/if}
   
-</section>
 
 <style>
 
@@ -31,13 +32,14 @@
 
   .full-height {
     height: 100%;
-    
   }
 </style>
 
 <script>
+
   // sub components
   import ResizablePane from "components/ResizablePane.html";
+  import DragRegion from "components/DragRegion.html";
   import CustomGroupsList from "components/CustomGroupsList.html";
   import TypefaceList from "components/TypefaceList.html";
   import Panel from "components/Panel.html";
@@ -45,7 +47,6 @@
 
   // stores
   import { loading } from "stores/typefaces.js";
-  
 
   const appTitle = "Fuse Fonts";
 

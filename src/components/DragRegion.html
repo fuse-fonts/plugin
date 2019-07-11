@@ -1,0 +1,95 @@
+
+<section on:dragstart={dragStart} on:dragover={dragOver} on:dragend={dragEnd} on:drop={drop}>
+  <slot></slot>
+</section>
+
+{#if dragging}
+  <div class="selection" class:dragging bind:this={dragGhostElement}>
+    <Icon icon="file_copy" color="var(--selected-color)" /> {dragMessage($selected)}
+  </div>
+{/if}
+
+<style>
+  .selection {
+    display: none;
+    top: 10%;
+    position: fixed;
+    background-color: var(--accent-color);
+    color: var(--selected-color);
+    left: 25%;
+    right: 25%;
+    padding: 0.5rem 1rem;
+    pointer-events: none;
+    /* transition: 0.1s ease-in top; */
+    border-radius: 3px;
+  }
+
+  .selection.dragging {
+    display: block;
+  }
+</style>
+
+<script>
+  import Icon from "components/Icon.html";
+  import { selected } from "stores/font-selection.js";
+  import { onMount } from "svelte";
+
+  // dom node
+  let dragGhostElement;
+  let dragImageElement = new Image();
+
+  // state
+  let dragging = false;
+  let mouseX = 0;
+  let mouseY = 0;
+
+onMount(() => {
+
+  // offscreen canvas not supported in CEP yet
+  const canvas = document.createElement("canvas");
+  canvas.width = 1;
+  canvas.height = 1;
+  const context = canvas.getContext("2d");
+  dragImageElement.src = canvas.toDataURL("image/png");
+
+})
+
+function dragMessage(selection) {
+  const items = Object.keys(selection);
+  const length = items.length;
+  const firstItem = items[0];
+
+  return (length === 1 ? firstItem : `${length} TypeFaces`);
+}
+
+function dragStart(e) {
+  dragging = true;
+  e.dataTransfer.setDragImage(dragImageElement, 0, 0)
+}
+
+function dragOver(e) {
+  dragging = true;
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  // console.log({x: mouseX, y: mouseY });
+  
+  // console.log(dragging, dragGhostElement)
+  if (dragGhostElement) {
+    dragGhostElement.style.top = `${mouseY}px`;
+    // dragGhostElement.style.left = `${mouseX}px`;
+
+  }
+  // console.log(mouseX, mouseY);
+
+}
+
+function dragEnd(e) {
+  console.log("no longer dragging")
+  dragging = false;
+}
+
+function drop(e) {
+
+}
+
+</script>

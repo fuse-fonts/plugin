@@ -72,7 +72,11 @@
   function dragOver(e) {
     if (!selected) {
       e.preventDefault();
+      e.dataTransfer.dropEffect = "copy";
       drophover = true;
+    }
+    else {
+      e.dataTransfer.dropEffect = "none";
     }
   } 
 
@@ -81,6 +85,7 @@
   }
 
   function drop(e) {
+    console.log("successfully dropped into", group.name)
     dragEnd();
   }
 
