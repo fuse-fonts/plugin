@@ -82,7 +82,7 @@
   }
   
   function dragOver(e) {
-    if (!selected) {
+    if (!selected && !group.permanent) {
       drophover = true;
       e.preventDefault();
       e.dataTransfer.dropEffect = "copy";

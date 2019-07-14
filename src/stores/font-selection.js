@@ -1,6 +1,7 @@
 import { writable, get } from "svelte/store";
 import TypefaceLibrary from "datatypes/typeface-library.js";
 import { typefaces } from "stores/typefaces";
+import TypeFace from "datatypes/typeface";
 
 
 
@@ -132,11 +133,18 @@ function selectionStore(initialValue = new TypefaceLibrary()) {
 
       console.warn("get() not implemented fully");
       
-      for (family in $store) {
-        console.log(family);
+      const library = new TypefaceLibrary();
+      for (let family in $store) {
+
+        const variants = $store[family];
+        const typeface = TypeFace.clone($typefaces.get(family), variants);
+
+        if (typeface !== null) {
+          library.add(typeface);
+        }
       }
 
-      return null;
+      return library;
     }
     
   }

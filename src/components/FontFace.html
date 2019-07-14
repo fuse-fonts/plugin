@@ -1,4 +1,4 @@
-<div class="font" class:selected on:click={clickHandler} on:click>
+<div class="font" class:selected on:click={clickHandler} on:click on:drag draggable={true}>
   <h1 class="name">{name}</h1>
 </div>
 
@@ -61,7 +61,11 @@
   export let selected = false;
 
 
-  const clickHandler = (e) => {
+  function clickHandler(e) {
+    e.data = font;
+  }
+
+  function dragHandler(e) {
     e.data = font;
   }
 </script>

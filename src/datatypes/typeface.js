@@ -1,24 +1,5 @@
 import fontStyleHelper from "helpers/font-style-parser.js";
 
-/**
- * Helper instance to help with rendering things.
- * Todo: figure out if I keep going this route or incorporate lit-HTML
- */
-// const html = new (class Templates {
-//   fontFace(id, family) {
-//     let style = document.createElement("style");
-//     style.id = id;
-//     style.innerHTML = (`
-//         @font-face {
-//           font-family: '${family}';
-//           src:  local('${family}');
-//         }
-//     `);
-//     return style;
-//   }
-// });
-
-
 /** 
  * A grouping of fonts and their variations
  * @param family the font family this typeface represents
@@ -31,7 +12,7 @@ export default class TypeFace {
     this.variants = [];
     this.defaultVariant = null;
 
-    this.renderFontFace = this.renderFontFace.bind(this);
+    // this.renderFontFace = this.renderFontFace.bind(this);
     this.addVariant = this.addVariant.bind(this);
   }
 
@@ -53,17 +34,7 @@ export default class TypeFace {
 
     this.variants.push(variant);
 
-
   }
-
-  // renderFontFace() {
-  //   let id = TypeFace.toID(this.family);
-  //   if (document.getElementById(id) != null) {
-  //     let head = document.getElementsByTagName("head");
-  //     let styleNode = html.fontFace(id, this.family);
-  //     head.append(styleNode);
-  //   }
-  // }
 
   /**
    * Transforms a name into a kebab-style ID
@@ -94,4 +65,21 @@ export default class TypeFace {
     return css.join(" ");
   }
 
+  static clone(typeface, variants = null) {
+
+    if (typeface === null) return null;
+
+    const clone = Object.assign(new TypeFace(typeface.family), typeface);
+    if (variants !== null && variants.length > 0) {
+      clone.variants = clone.variants.filter(v => variants.includes(v.name));
+
+      // need to set the default variant for this subset
+      if (!variants.includes("regular")) {
+        clone.defaultVariant = clone.variants[0];
+      }
+
+    }
+    
+    return clone;
+  }
 }

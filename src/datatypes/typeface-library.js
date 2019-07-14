@@ -66,8 +66,12 @@ export default class TypefaceLibrary {
     return !!this.data[family];
   }
 
+  /** get
+   *  Retrieve a typeface from this library, or null if it doesn't exist
+   * @param {string} family 
+   */
   get(family) {
-    return this.data[family];
+    return this.data[family] || null;
   }
 
   /**
@@ -75,7 +79,7 @@ export default class TypefaceLibrary {
    * @param {TypeFace} typeface 
    */
   has(typeface) {
-    return this.data[typeface.family] === typeface;
+    return typeface !== null && this.data[typeface.family] === typeface;
   }
 
   toList() {
@@ -88,5 +92,30 @@ export default class TypefaceLibrary {
 
   clear() {
     this.data = {};
+  }
+
+  merge(typefaceLibrary) {
+    
+    for (let family in typefaceLibrary.data) {
+      const typeface = typefaceLibrary.data[family];
+
+      if (this.includes(family)) {
+
+        const existingTypeface = this.get(family);
+        // resolve any variants that may need adding
+        typeface.variants.forEach(variant => {
+          
+          const isIncluded = existingTypeface.variants.find(v => v.name === variant.name) || false;
+
+          if (!isIncluded) {
+            existingTypeface.variants.push(variant);
+          }
+
+        });
+      }
+      else {
+        this.add(typeface);
+      }
+    }
   }
 }

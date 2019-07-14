@@ -16,7 +16,7 @@
   </ul>
 
   <div class="custom-groups-actions">
-    <ActionsPanel />
+    <ActionsPanel  />
   </div>
 </div>
 
@@ -71,7 +71,13 @@
     console.log("CustomGroupList.html: dropped fonts into", groupName)
     const group = $customGroups.find(group => group.name === groupName);
     
-    console.log($selectedFonts, $customGroups);
+    if (group) {
+      customGroups.update(groups => {
+        const typefaces = selectedFonts.get();
+        group.typefaces.merge(typefaces);
+        return groups;
+      });
+    }
   }
 
 </script>
