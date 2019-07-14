@@ -6,7 +6,7 @@
     
     {#each $customGroups as group, i (group.name)}
       <li in:fly={{ y: 50, duration: 400, delay: (i * 40) }}>
-        <CustomGroup {group} selected={$selected === group} on:click={selectGroup} />
+        <CustomGroup {group} selected={$selected === group} on:click={selectGroup} on:dropped={addSelectionToGroup} />
       </li>
     {:else}
       <div class="empty">
@@ -59,10 +59,19 @@
   import CustomGroup from "components/CustomGroup.html";
 
   import { selected, customGroups, allFontsGroup } from "stores/custom-groups.js";
+  import { selected as selectedFonts } from "stores/font-selection.js";
 
-  const selectGroup = (event) => {
-    console.log("selectGroup:", event.data)
-    selected.set(event.data);
-  };
+  function selectGroup(e) {
+    console.log("selectGroup:", e.data)
+    selected.set(e.data);
+  }
+
+  function addSelectionToGroup(e) {
+    const groupName = e.detail;
+    console.log("CustomGroupList.html: dropped fonts into", groupName)
+    const group = $customGroups.find(group => group.name === groupName);
+    
+    console.log($selectedFonts, $customGroups);
+  }
 
 </script>

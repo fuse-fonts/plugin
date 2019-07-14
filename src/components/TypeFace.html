@@ -81,7 +81,7 @@
 
   import ExpandableIcon from "components/ExpandableIcon.html";
   import FontList from "components/FontList.html";
-  import { selected as selectedFonts } from "stores/font-selection.js";
+  import { selected as selectionStore } from "stores/font-selection.js";
 
 
   import { slide } from 'svelte/transition';
@@ -90,6 +90,14 @@
   export let expanded = false; // whether the fonts of this typeface are displayed
   export let selected = false; // whether this typeface is selected
   export let selectedVariants = []; // list of the font names `font.name
+
+  // keep our selected variants in sync
+  selectionStore.subscribe(store => {
+    const variants = store[typeface.family];
+    // if the key-value exists, this typeface is selected
+    selected == !!variants; 
+    selectedVariants = variants || [];
+  });
 
   // dom node
   let el;
@@ -105,9 +113,7 @@
   }
 
   const clickTypeface = (e) => {
-    selected = !selected;
-    const variants = typeface.variants.map(v => v.name);
-    selectVariants(variants);
+    selectionStore.toggleTypeface(typeface, !selected);
   }
 
   const selectVariants = (variants) => {
@@ -129,32 +135,8 @@
   }
 
   const selectFont = (e) => {
-    const font = e.data;
-    console.log("selected", font.name, font);
-
-    if (selected) {
-      const key = typeface.family;
-      const typefaceSelection = $selectedFonts[key];
-
-      let isFontSelected = typefaceSelection.includes(font.name);
-
-      let variants = [];
-
-      // remove the individual font from the selection
-      if (isFontSelected) {
-        variants = typefaceSelection.filter(name => name !== font.name);
-      }
-      else { // add the individual font to the selection
-        variants = [...typefaceSelection,  font.name];
-      }
-      // let variants = $selectedFonts.filter(name => name  === font.name);
-      selectVariants(variants);
-    }
-    else {
-      selected = !selected;
-      const variants = typeface.variants.filter(v => v.name === font.name).map(v => v.name);
-      selectVariants(variants);
-    }
+    const variant = e.data;
+    selectionStore.toggleVariant(typeface, variant);
   }
 
   function dragStart(e) {

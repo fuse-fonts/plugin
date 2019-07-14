@@ -4,19 +4,19 @@ import fontStyleHelper from "helpers/font-style-parser.js";
  * Helper instance to help with rendering things.
  * Todo: figure out if I keep going this route or incorporate lit-HTML
  */
-const html = new (class Templates {
-  fontFace(id, family) {
-    let style = document.createElement("style");
-    style.id = id;
-    style.innerHTML = (`
-        @font-face {
-          font-family: '${family}';
-          src:  local('${family}');
-        }
-    `);
-    return style;
-  }
-});
+// const html = new (class Templates {
+//   fontFace(id, family) {
+//     let style = document.createElement("style");
+//     style.id = id;
+//     style.innerHTML = (`
+//         @font-face {
+//           font-family: '${family}';
+//           src:  local('${family}');
+//         }
+//     `);
+//     return style;
+//   }
+// });
 
 
 /** 
@@ -29,8 +29,6 @@ export default class TypeFace {
 
     this.family = family;
     this.variants = [];
-    this.isVisible = true;
-    this.isSelected = false;
     this.defaultVariant = null;
 
     this.renderFontFace = this.renderFontFace.bind(this);
@@ -58,14 +56,14 @@ export default class TypeFace {
 
   }
 
-  renderFontFace() {
-    let id = TypeFace.toID(this.family);
-    if (document.getElementById(id) != null) {
-      let head = document.getElementsByTagName("head");
-      let styleNode = html.fontFace(id, this.family);
-      head.append(styleNode);
-    }
-  }
+  // renderFontFace() {
+  //   let id = TypeFace.toID(this.family);
+  //   if (document.getElementById(id) != null) {
+  //     let head = document.getElementsByTagName("head");
+  //     let styleNode = html.fontFace(id, this.family);
+  //     head.append(styleNode);
+  //   }
+  // }
 
   /**
    * Transforms a name into a kebab-style ID

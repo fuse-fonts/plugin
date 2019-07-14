@@ -6,7 +6,7 @@
   on:dragleave={dragEnd}
   on:drop={drop}
 >
-  
+
   <Icon color={drophover ? "var(--selected-color)" : "var(--muted-color)"} icon={group.permanent ? "view_headline" : "folder" } />
   <h1 class="group-name">{group.name}</h1>
 
@@ -62,9 +62,18 @@
 </style>
 
 <script>
+  
   import Icon from "components/Icon.html";
+
+  import { createEventDispatcher } from 'svelte';
+
+  const dispatch = createEventDispatcher();
+
   export let group = null;
   export let selected = false;
+
+  export const DROPPED_EVENT = "dropped";
+
   let drophover = false;
 
   function setEventData(event) {
@@ -88,8 +97,8 @@
   }
 
   function drop(e) {
-    console.log("successfully dropped into", group.name)
     dragEnd();
+    dispatch(DROPPED_EVENT, group.name);
   }
 
 </script>

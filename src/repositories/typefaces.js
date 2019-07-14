@@ -1,5 +1,5 @@
 import tryParseJSON from "helpers/tryParseJSON.js";
-import TypeFaceLibrary from "datatypes/typeface-library";
+import TypefaceLibrary from "datatypes/typeface-library";
 import fontRepository from "repositories/fonts.js";
 
 const LOCALSTORAGE_TYPEFACES_KEY = "typefaces";
@@ -16,7 +16,7 @@ const loadFromLocalStorage = () => {
 
 /**
  * 
- * @param {TypeFaceLibrary} data 
+ * @param {TypefaceLibrary} data 
  */
 const saveToLocalStorage = (data) => {
   console.log(`${file}: %cSaving Typeface data`, logColor);
@@ -38,12 +38,12 @@ async function loadTypefaces() {
   if (typefaces === null) {
     const fonts = await fontRepository.load();
     console.log(`${file}: %cTypefaces loaded from font data`, logColor);
-    library = TypeFaceLibrary.parseFonts(fonts);
+    library = TypefaceLibrary.parseFonts(fonts);
   }
   else {
     console.log(`${file}: %cSkipping font service`, logColor);
     console.log(`${file}: %cTypefaces loaded from local storage`, logColor);
-    library = new TypeFaceLibrary(typefaces);
+    library = new TypefaceLibrary(typefaces);
   }
 
   console.log(`${file}: %cTypefaces Loaded ✔`, logColor);

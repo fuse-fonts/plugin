@@ -31,7 +31,7 @@ class FontManager {
     this.cs = csInterface;
 
     // typefaces is the family-grouping of fonts
-    this.typefaces = new TypeFaceLibrary();
+    this.typefaces = new TypefaceLibrary();
     this.customGroups = [];
 
     const fontPanel = new FontsPanel(that);

@@ -1,10 +1,10 @@
-import TypeFaceLibrary from "datatypes/typeface-library.js";
+import TypefaceLibrary from "datatypes/typeface-library.js";
 
 export default class CustomGroup {
 
   constructor(name, permanent = false) {
     this.name = name;
-    this.typefaces = new TypeFaceLibrary();
+    this.typefaces = new TypefaceLibrary();
     this.isActive = false;
     this.permanent = permanent;
   }

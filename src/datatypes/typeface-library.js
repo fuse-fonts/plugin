@@ -4,7 +4,7 @@ import TypeFace from "datatypes/typeface.js";
  * Helper for handling typefaces
  *  
  */
-export default class TypeFaceLibrary {
+export default class TypefaceLibrary {
 
   constructor(data) {
     if (data) {
@@ -17,7 +17,7 @@ export default class TypeFaceLibrary {
 
   static parseFonts(fontsJSON) {
     
-    const typefaces = new TypeFaceLibrary();
+    const typefaces = new TypefaceLibrary();
 
     if (fontsJSON !== null) {
       fontsJSON.forEach((font) => typefaces.fromFont(font));
@@ -67,7 +67,7 @@ export default class TypeFaceLibrary {
   }
 
   get(family) {
-    this.data[family];
+    return this.data[family];
   }
 
   /**
@@ -84,5 +84,9 @@ export default class TypeFaceLibrary {
 
   toString() {
     return JSON.stringify(this.data);
+  }
+
+  clear() {
+    this.data = {};
   }
 }

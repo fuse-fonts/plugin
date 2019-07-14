@@ -1,5 +1,5 @@
 
-<section on:dragstart={dragStart} on:dragover={dragOver} on:dragend={dragEnd} on:drop={drop}>
+<section on:dragstart={dragStart} on:dragover={dragOver} on:dragend={dragEnd} on:drop={dragEnd}>
   <slot></slot>
 </section>
 
@@ -94,14 +94,9 @@ function dragOver(e) {
 }
 
 function dragEnd(e) {
-  console.log("no longer dragging")
   dragging = false;
   mouseX = 0;
   mouseY = 0;
-}
-
-function drop(e) {
-
 }
 
 </script>
