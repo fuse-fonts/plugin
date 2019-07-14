@@ -16,7 +16,7 @@
 
   {#if expanded}
     <section class="typeface-variants" transition:slide={{duration: 500}}>
-      <FontList fonts={typeface.variants} selected={selectedVariants} on:click={selectFont} />
+      <FontList fonts={typeface.variants} selected={selectedVariants} on:click={selectFont} on:dragstart={childDragStart}/>
     </section>
   {/if}
 </article>
@@ -135,10 +135,11 @@
   }
 
   const selectFont = (e) => {
-    const variant = e.data;
+    const variant = e.data.font;
     selectionStore.toggleVariant(typeface, variant);
   }
 
+  // handler for dragging the typeface
   function dragStart(e) {
     if (!selected) clickTypeface(e);
     // if we do this on the immediate frame, it will disappear 
@@ -146,6 +147,16 @@
     requestAnimationFrame(() => {
       // el.style.opacity = "0.25";
     });
+  }
+
+  // handler for dragging a font face
+  function childDragStart(e) {
+    const { font, selected: fontSelected } = e.data;
+
+    // dragging a single font that is not selected will select only the single font
+    if (!fontSelected) {
+      selectFont(e);
+    }
   }
 
   function dragEnd() {

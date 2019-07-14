@@ -13,7 +13,7 @@ function selectionStore(initialValue = new TypefaceLibrary()) {
   const store = writable({});
   const { subscribe, set, update } = store;
 
-  subscribe( store => console.log("selection changed:", store));
+  // subscribe( store => console.log("selection changed:", store));
 
   const byVariantName = variant => variant.name;
   

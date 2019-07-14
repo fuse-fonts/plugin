@@ -4,7 +4,7 @@
   <ol class="typefaces">
     {#each typefaces as typeface, i (typeface.family)}
       <li>
-        <TypeFace {typeface} selected={typeof $selectedFonts[typeface.family] !== "undefined"} />
+        <TypeFace {typeface} expanded={false} selected={typeof $selectedFonts[typeface.family] !== "undefined"} />
       </li>
     {:else}
       <div class="empty">
@@ -68,8 +68,5 @@
 
   let typefaces = [];
   $: typefaces = hasGroupSelected ? $selectedGroup.typefaces.toList() : [];
-
-  // selectedGroup.subscribe(data => console.log(`selected group changed`, data))
-  // selectedFonts.subscribe( data => console.log(`Selection changed`, data))
 
 </script>

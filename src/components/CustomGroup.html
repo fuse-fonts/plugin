@@ -1,6 +1,6 @@
 <li class="group" 
   class:selected class:drophover
-  on:click={setEventData} 
+  on:click={clickHandler} 
   on:click 
   on:dragover={dragOver} 
   on:dragleave={dragEnd}
@@ -76,9 +76,8 @@
 
   let drophover = false;
 
-  function setEventData(event) {
-    event.data = selected ? null : group;
-    console.log("event data set to based on selection: selected=" + selected);
+  function clickHandler(e) {
+    e.data = selected ? null : group;
   }
   
   function dragOver(e) {

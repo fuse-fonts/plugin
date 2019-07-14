@@ -1,4 +1,11 @@
-<div class="font" class:selected on:click={clickHandler} on:click on:drag draggable={true}>
+<div class="font" 
+  class:selected 
+  draggable={true}
+  on:click={clickHandler} 
+  on:dragstart={dragStart}
+  on:click
+  on:dragstart
+>
   <h1 class="name">{name}</h1>
 </div>
 
@@ -62,10 +69,10 @@
 
 
   function clickHandler(e) {
-    e.data = font;
+    e.data = { font, selected };
   }
 
-  function dragHandler(e) {
-    e.data = font;
+  function dragStart(e) {
+    e.data = { font, selected };
   }
 </script>

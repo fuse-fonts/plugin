@@ -62,13 +62,12 @@
   import { selected as selectedFonts } from "stores/font-selection.js";
 
   function selectGroup(e) {
-    console.log("selectGroup:", e.data)
+    console.log("selected", e.data)
     selected.set(e.data);
   }
 
   function addSelectionToGroup(e) {
     const groupName = e.detail;
-    console.log("CustomGroupList.html: dropped fonts into", groupName)
     const group = $customGroups.find(group => group.name === groupName);
     
     if (group) {
