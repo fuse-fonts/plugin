@@ -7,7 +7,6 @@ import fontStyleHelper from "helpers/font-style-parser.js";
 export default class TypeFace {
 
   constructor(family) {
-
     this.family = family;
     this.variants = [];
     this.defaultVariant = null;
@@ -79,7 +78,7 @@ export default class TypeFace {
       }
 
     }
-    
+
     return clone;
   }
 }

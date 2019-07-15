@@ -36,7 +36,7 @@
 
     const createGroup = (e) => {
       customGroups.update(values => {
-        let group = new CustomGroup(CustomGroup.getDefaultName(values), false);
+        let group = new CustomGroup(CustomGroup.getDefaultName(values), null, false);
         return [...values, group]
       });
     }

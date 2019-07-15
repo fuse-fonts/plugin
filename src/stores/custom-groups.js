@@ -16,7 +16,7 @@ export const selected = writable(null);
 /**
  *
  */
-const allFonts = new CustomGroup("All Fonts", true);
+const allFonts = new CustomGroup("All Fonts", null, true);
 export const allFontsGroup = writable(allFonts);
 
 /**

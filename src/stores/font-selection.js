@@ -131,20 +131,7 @@ function selectionStore(initialValue = new TypefaceLibrary()) {
       const $typefaces = get(typefaces);
       const $store = get(store);
 
-      console.warn("get() not implemented fully");
-      
-      const library = new TypefaceLibrary();
-      for (let family in $store) {
-
-        const variants = $store[family];
-        const typeface = TypeFace.clone($typefaces.get(family), variants);
-
-        if (typeface !== null) {
-          library.add(typeface);
-        }
-      }
-
-      return library;
+      return TypefaceLibrary.populateFromModel($typefaces, $store);
     }
     
   }

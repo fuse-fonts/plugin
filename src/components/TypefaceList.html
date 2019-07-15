@@ -2,7 +2,7 @@
 {#if hasGroupSelected}
   <h2 class="group-name">{$selectedGroup.name} <span class="count">{typefaces.length}</span></h2>
   <ol class="typefaces">
-    {#each typefaces as typeface, i (typeface.family)}
+    {#each typefaces as typeface, i (typeface)}
       <li>
         <TypeFace {typeface} expanded={false} selected={typeof $selectedFonts[typeface.family] !== "undefined"} />
       </li>

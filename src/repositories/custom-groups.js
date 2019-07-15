@@ -1,5 +1,6 @@
 import tryParseJSON from "helpers/tryParseJSON.js";
 import CustomGroup from "datatypes/custom-group.js";
+import TypefaceLibrary from "../datatypes/typeface-library";
 
 
 const LOCALSTORAGE_GROUPS = "custom-groups";
@@ -16,10 +17,12 @@ const loadFromLocalStorage = () => tryParseJSON(localStorage.getItem(LOCALSTORAG
  *
  */
 const saveToLocalStorage = (result) => {
-  const data = result.map(g => {
-    const { name } = g;
-    const typefaces = g.typefaces.toList().map(t => t.family);
-    return { name, typefaces };
+  const data = result.map(group => {
+
+    const { name, ID } = group;
+    const typefaces = TypefaceLibrary.toModel(group.typefaces);
+
+    return { name, ID, typefaces };
   });
 
   const jsonData = JSON.stringify(data);
@@ -42,16 +45,11 @@ export default {
     const data = loadFromLocalStorage();
     
     if (data === null) return data;
-
+    
     const customGroups = data.map(groupData => {
-      let group = new CustomGroup(groupData.name);
+      let group = new CustomGroup(groupData.name, groupData.ID, false);
 
-      // groupdata.typefaces is only the names of typeface family, not an actual representation.
-      groupData.typefaces.forEach(name => {
-        if (typefaces.includes(name)) {
-          group.typefaces.add(typefaces.get(name));
-        }
-      });
+      group.typefaces = TypefaceLibrary.populateFromModel(typefaces, groupData.typefaces);
 
       return group;
     });

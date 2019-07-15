@@ -1,8 +1,10 @@
 import TypefaceLibrary from "datatypes/typeface-library.js";
+import uuid from "helpers/uuid.js";
 
 export default class CustomGroup {
 
-  constructor(name, permanent = false) {
+  constructor(ID, name, permanent = false) {
+    this.ID = ID || uuid();
     this.name = name;
     this.typefaces = new TypefaceLibrary();
     this.isActive = false;

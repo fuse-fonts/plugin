@@ -118,4 +118,44 @@ export default class TypefaceLibrary {
       }
     }
   }
+
+  /**
+   * 
+   * @param {TypefaceLibrary} instance 
+   */
+  static toModel(instance) {
+    if (instance) {
+      const model = {};
+      for (let family in instance.data) {
+        const typeface = instance.data[family];
+        model[family] = typeface.variants.map(v => v.name);
+      }
+
+      return model;
+    }
+    else {
+      return null;
+    }
+  }
+
+  /**
+   * 
+   * @param {TypefaceStore} $typefaces the typeface store of all typefaces, from stores/typefaces.js
+   * @param {*} model a shallow copy of a typeface library. to `TypefaceLibrary::toModel`
+   */
+  static populateFromModel($typefaces, model) {
+
+    const library = new TypefaceLibrary();
+    for (let family in model) {
+
+      const variants = model[family];
+      const typeface = TypeFace.clone($typefaces.get(family), variants);
+
+      if (typeface !== null) {
+        library.add(typeface);
+      }
+    }
+
+    return library;
+  }
 }
