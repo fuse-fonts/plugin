@@ -3,7 +3,7 @@ import uuid from "helpers/uuid.js";
 
 export default class CustomGroup {
 
-  constructor(ID, name, permanent = false) {
+  constructor(name, ID, permanent = false) {
     this.ID = ID || uuid();
     this.name = name;
     this.typefaces = new TypefaceLibrary();

@@ -6,7 +6,7 @@
       <IconButton icon="view_module" disabled={listView} on:click={toggleView} />
     </span>
     <IconButton icon="folder" title="Create new group" on:click={createGroup} />
-    <IconButton icon="delete" title="Delete selected group" />
+    <IconButton disabled={isDeleteDisabled} icon="delete" title="Delete selected group" on:click={deleteGroup} />
   </div>
 
 </section>
@@ -22,23 +22,38 @@
 
   <script>
     
-    export let listView = true;
-
     import IconButton from "components/IconButton.html";
-
-    import { customGroups } from "stores/custom-groups.js";
-
+    import { customGroups, selected } from "stores/custom-groups.js";
     import CustomGroup from "datatypes/custom-group.js";
+
+
+    export let listView = true;
+    
+    let isDeleteDisabled = false;
+
+    selected.subscribe( group => {
+      // don't allow deleting permanent or empty groups
+      isDeleteDisabled = group === null || group.permanent;
+    })
+
+
+
 
     const toggleView = () => {
       listView = !listView;
     }
 
-    const createGroup = (e) => {
+    function createGroup(e) {
       customGroups.update(values => {
         let group = new CustomGroup(CustomGroup.getDefaultName(values), null, false);
         return [...values, group]
       });
+    }
+
+    function deleteGroup(e) {
+      const deletedGroup = $selected;
+      selected.set(null);
+      customGroups.update( groups => groups.filter(group => group.ID !== deletedGroup.ID));
     }
 
   </script>

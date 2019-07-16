@@ -1,11 +1,11 @@
 <div class="custom-groups">
-  <ul class="custom-groups-list">
+  <ul class:custom-groups-list={listView} class:custom-groups-tiles={!listView}>
     <li>
       <CustomGroup group={$allFontsGroup} selected={$selected===$allFontsGroup} on:click={selectGroup} />
     </li>
     
-    {#each $customGroups as group, i (group.name)}
-      <li in:fly={{ y: 50, duration: 400, delay: (i * 40) }}>
+    {#each $customGroups as group, i (group.ID)}
+      <li>
         <CustomGroup {group} selected={$selected === group} on:click={selectGroup} on:dropped={addSelectionToGroup} />
       </li>
     {:else}
@@ -16,7 +16,7 @@
   </ul>
 
   <div class="custom-groups-actions">
-    <ActionsPanel  />
+    <ActionsPanel bind:listView={listView} />
   </div>
 </div>
 
@@ -38,6 +38,7 @@
 
   .custom-groups-list li {
     display: block;
+    border-bottom: var(--panel-border);
   }
 
   .custom-groups-actions {
@@ -48,6 +49,30 @@
     padding: 1rem 1rem;
     text-align: center;
     color: var(--muted-color);
+  }
+
+  .custom-groups-tiles {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    padding: 0.5rem 0rem 0.5rem 0rem;
+    height: calc(100% - 2.5rem);
+
+    display: flex;
+    width: 100%;
+    flex: 0 1 auto;
+    border-radius: 3px;
+    flex-direction: row;
+    list-style: none;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-content: flex-start;
+  }
+
+  .custom-groups-tiles li {
+    width: 25%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 </style>
 
@@ -61,14 +86,16 @@
   import { selected, customGroups, allFontsGroup } from "stores/custom-groups.js";
   import { selected as selectedFonts } from "stores/font-selection.js";
 
+  let listView = true;
+
   function selectGroup(e) {
     console.log("selected", e.data)
     selected.set(e.data);
   }
 
   function addSelectionToGroup(e) {
-    const groupName = e.detail;
-    const group = $customGroups.find(group => group.name === groupName);
+    const groupID = e.detail;
+    const group = $customGroups.find(group => group.ID === groupID);
     
     if (group) {
       customGroups.update(groups => {

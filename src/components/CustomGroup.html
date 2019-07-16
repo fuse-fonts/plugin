@@ -8,7 +8,7 @@
 >
 
   <Icon color={drophover ? "var(--selected-color)" : "var(--muted-color)"} icon={group.permanent ? "view_headline" : "folder" } />
-  <h1 class="group-name">{group.name}</h1>
+  <h1 class="group-name" title="{group.ID}">{group.name}</h1>
 
 </li>
 
@@ -30,7 +30,6 @@
     flex: 0 1 auto;
     justify-content: space-between;
     border: 1px solid transparent;
-    border-bottom: var(--panel-border);
     align-items: center;
   }
 
@@ -97,7 +96,7 @@
 
   function drop(e) {
     dragEnd();
-    dispatch(DROPPED_EVENT, group.name);
+    dispatch(DROPPED_EVENT, group.ID);
   }
 
 </script>
