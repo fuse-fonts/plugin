@@ -15,7 +15,7 @@
   </main>
 
   {#if expanded}
-    <section class="typeface-variants" transition:slide={{duration: 500}}>
+    <section class="typeface-variants" in:slide|local={{duration: 500}} out:slide|local={{duration: 200}}>
       <FontList fonts={typeface.variants} selected={selectedVariants} on:click={selectFont} on:dragstart={childDragStart}/>
     </section>
   {/if}
@@ -114,24 +114,6 @@
 
   const clickTypeface = (e) => {
     selectionStore.toggleTypeface(typeface, !selected);
-  }
-
-  const selectVariants = (variants) => {
-    const key = typeface.family;
-    const nextSelection = { ...$selectedFonts, [key]: variants };
-
-    if (variants.length > 0 && selected) {
-      selectedVariants = variants;
-    }
-    else {
-      // unselect all variants
-      selectedVariants = [];
-      // remove from the next selection
-      delete nextSelection[key];
-    }
-
-    selectedFonts.set(nextSelection);
-    
   }
 
   const selectFont = (e) => {
