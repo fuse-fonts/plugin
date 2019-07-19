@@ -1,0 +1,74 @@
+<div class="typeface-filter" >
+  <input type="text" bind:value={value} placeholder="Filter" class:has-value={hasValue} bind:this={input} />
+
+  {#if hasValue}
+    <div class="icon-overlay">
+      <Icon icon="close" color="var(--muted-color)" hover="var(--foreground-color)" on:click={clearFilter} />
+    </div>
+  {/if}
+</div>
+
+<script>
+import Icon from "components/Icon.html";
+
+  export let value = "";
+  let input;
+
+  $: hasValue = value.length > 0;
+  function clearFilter(e) {
+    value = "";
+    input.focus()
+  }
+</script>
+
+
+<style>
+  .typeface-filter {
+    padding: 0.5rem 0.5rem;
+    position: relative;
+  }
+
+
+  .icon-overlay {
+    position: absolute;
+    right: 1rem;
+    top: 0.85rem;
+    cursor: pointer;
+  }
+
+  input {
+    font-size: 1rem;
+    display: inline-block;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: 0.5rem 0.5rem;
+    color: var(--foreground-color);
+    font-weight: 600;
+    font-family: "Tahoma", sans-serif;
+    border-radius: 3px;
+  }
+
+  .has-value {
+    background-color: var(--error-color);
+  }
+
+  input::placeholder {
+    font-weight: 400;
+    color: var(--muted-color);
+    text-align: right;
+  }
+
+  
+  input:focus {
+    box-shadow: none;
+    outline: none;
+    background-color: var(--error-color);
+    color: var(--foreground-color);
+  }
+
+  input::selection {
+    background-color:var(--accent-color);
+    color: var(--foreground-color);
+  }
+
+</style>

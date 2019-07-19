@@ -1,6 +1,13 @@
 
 {#if hasGroupSelected}
-  <h2 class="group-name">{$selectedGroup.name} <span class="count">{typefaces.length}</span></h2>
+
+  <header class="group-header">
+    <h2 class="group-name">{$selectedGroup.name} <span class="count">{typefaces.length}</span></h2>
+    <section class="filter">
+      <TypefaceFilter />
+    </section>
+  </header>
+
   <ol class="typefaces">
     {#each typefaces as typeface, i (typeface)}
       <li>
@@ -26,13 +33,20 @@
     color: var(--muted-color);
   }
 
+  .group-header {
+    display: flex;
+    flex: 0 1 50%;
+    border-bottom: var(--panel-border);
+    background-color: var(--panel-layer-1);
+    justify-content: space-between;
+  }
 
   .group-name {
     font-size: 1rem;
-    font-weight: 400;
+    font-weight: 600;
     padding: 1rem 0.5rem;
     margin: 0 0;
-    border-bottom: var(--panel-border);
+
   }
 
   .typefaces {
@@ -59,6 +73,7 @@
 <script>
 
   import TypeFace from "components/TypeFace.html";
+  import TypefaceFilter from "components/TypefaceFilter.html";
 
   import { selected as selectedGroup } from "stores/custom-groups.js";
   import { selected as selectedFonts } from "stores/font-selection.js";
