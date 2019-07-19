@@ -2,9 +2,17 @@
 {#if hasGroupSelected}
 
   <header class="group-header">
-    <h2 class="group-name">{$selectedGroup.name} <span class="count">{typefaces.length}</span></h2>
+    <h2 class="group-name">
+      {$selectedGroup.name}
+      <span class="count">
+        {typefaces.length}
+        {#if isFiltering}
+        of {list.length}
+        {/if}
+      </span>
+    </h2>
     <section class="filter">
-      <TypefaceFilter />
+      <TypefaceFilter on:filter={(e) => filter(e.detail)} />
     </section>
   </header>
 
@@ -15,7 +23,13 @@
       </li>
     {:else}
       <div class="empty">
-        <p>{$selectedGroup.name} is empty</p>
+        {#if isFiltering}
+          <Icon color="var(--muted-color)" icon="search" size="2" />
+          <h4 class="filter-text">{filterText}</h4>
+          <p>...was not found within <b>{$selectedGroup.name}</b>.</p>
+        {:else}
+          <p><b>{$selectedGroup.name}</b> is empty</p>
+        {/if}
       </div>
     {/each}
   </ol>
@@ -28,14 +42,27 @@
 <style>
 
   .empty {
-    padding: 1rem 1rem;
+    padding: 2rem 1rem;
     text-align: center;
     color: var(--muted-color);
   }
 
+  .filter-text {
+    font-size: 2rem;
+    color: var(--error-color);
+    font-weight: 800;
+    width: 100%;
+    padding: 0 2rem;
+    line-height: 3rem;
+    margin: 1rem 0 0 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   .group-header {
     display: flex;
-    flex: 0 1 50%;
+    flex: 1 0 auto;
     border-bottom: var(--panel-border);
     background-color: var(--panel-layer-1);
     justify-content: space-between;
@@ -74,6 +101,7 @@
 
   import TypeFace from "components/TypeFace.html";
   import TypefaceFilter from "components/TypefaceFilter.html";
+  import Icon from "components/Icon.html";
 
   import { selected as selectedGroup } from "stores/custom-groups.js";
   import { selected as selectedFonts } from "stores/font-selection.js";
@@ -81,7 +109,42 @@
   let hasGroupSelected = false;
   $: hasGroupSelected = $selectedGroup !== null;
 
+  let hasFilter = false;
+  let isFiltering = false;
+  let filterText = null;
+
   let typefaces = [];
-  $: typefaces = hasGroupSelected ? $selectedGroup.typefaces.toList() : [];
+  let list = [];
+
+  selectedGroup.subscribe(value => {
+
+    if (value === null) {
+      list = [];
+      typefaces = [];
+      return;
+    }
+
+    list = value.typefaces.toList();
+    typefaces = list;
+
+    filter(filterText);
+
+  });
+
+  function filter(text) {
+    filterText = text;
+    isFiltering = filterText !== null;
+
+    if (isFiltering) {
+      
+      typefaces = Array
+        .from(list)
+        .filter(typeface => typeface.family.toLowerCase().includes(filterText.toLowerCase()));
+    }
+    else {
+      typefaces = list;
+      filterText = "";
+    }
+  }
 
 </script>

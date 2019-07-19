@@ -1,5 +1,5 @@
 <i class="material-icons"
-  style="color: {c}"
+  style="color: {c}; {fontSize}"
   class:disabled
   on:click
   on:mouseenter={() => hovering = true}
@@ -19,6 +19,8 @@
   export let hover = null;
   export let icon = "report";
   export let disabled = false;
+  export let size = null;
+  $: fontSize = size === null ? "" : `font-size: ${size};`;
   $: c = hover !== null && hovering ? hover : color;
   
 </script>

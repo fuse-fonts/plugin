@@ -1,5 +1,13 @@
 <div class="typeface-filter" >
-  <input type="text" bind:value={value} placeholder="Filter" class:has-value={hasValue} bind:this={input} />
+  <input 
+    {maxlength}
+    type="text" 
+    bind:value={value} 
+    placeholder="Filter" 
+    class:has-value={hasValue} 
+    bind:this={input} 
+    on:input={debouncedChange} 
+  />
 
   {#if hasValue}
     <div class="icon-overlay">
@@ -9,15 +17,36 @@
 </div>
 
 <script>
-import Icon from "components/Icon.html";
 
+  import { createEventDispatcher } from 'svelte';
+  import Icon from "components/Icon.html";
+  import { debounce } from "helpers/utils.js";
+
+  const dispatch = createEventDispatcher();
+
+  export let maxlength = 40;
   export let value = "";
   let input;
 
   $: hasValue = value.length > 0;
+
   function clearFilter(e) {
     value = "";
-    input.focus()
+    input.focus();
+    dispatch("filter", cleanResult(value));
+  }
+
+
+  const debounceTime = 120;
+  const debouncedChange = debounce(changed, debounceTime, false);
+
+  function changed(e) {
+    dispatch("filter", cleanResult(value));
+  }
+
+  function cleanResult(text) {
+    const trimmed = text.trim();
+    return trimmed.length === 0 ? null : trimmed;
   }
 </script>
 
