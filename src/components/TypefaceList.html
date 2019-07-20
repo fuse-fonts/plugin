@@ -24,10 +24,15 @@
     {:else}
       <div class="empty">
         {#if isFiltering}
-          <Icon disabled={true} color="var(--muted-color)" icon="not_listed_location" size="large" />
+          <div class="icon-section">
+            <Icon disabled={true} color="var(--muted-color)" icon="not_listed_location" size="large" />
+          </div>
           <h4 class="filter-text">{filterText}</h4>
-          <p>...was not found within <b>{$selectedGroup.name}</b>.</p>
+          <p>...was not found within <b>{$selectedGroup.name}</b></p>
         {:else}
+          <div class="icon-section">
+            <Icon disabled={true} color="var(--muted-color)" icon="folder_open" size="large" />
+          </div>
           <p><b>{$selectedGroup.name}</b> is empty</p>
         {/if}
       </div>
@@ -54,10 +59,14 @@
     width: 100%;
     padding: 0 2rem;
     line-height: 3rem;
-    margin: 2rem 0 0 0;
+    margin: 0 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  .icon-section {
+    margin-bottom: 2rem;
   }
 
   .group-header {
@@ -111,7 +120,7 @@
 
   let hasFilter = false;
   let isFiltering = false;
-  let filterText = null;
+  let filterText = "";
 
   let typefaces = [];
   let list = [];
@@ -128,12 +137,12 @@
     typefaces = list;
 
     filter(filterText);
-
   });
 
   function filter(text) {
+
     filterText = text;
-    isFiltering = filterText !== null;
+    isFiltering = filterText.length > 0;
 
     if (isFiltering) {
       
