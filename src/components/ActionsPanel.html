@@ -1,17 +1,27 @@
 <section class="actions-panel">
   
   <div class="panel-buttons">
+
+    <IconButton icon="folder" title="Create new group" on:click={createGroup} />
+
     <span class="button-group">
       <IconButton icon="view_list" disabled={!listView} on:click={toggleView} />
       <IconButton icon="view_module" disabled={listView} on:click={toggleView} />
     </span>
-    <IconButton icon="folder" title="Create new group" on:click={createGroup} />
+    
     <IconButton disabled={isDeleteDisabled} icon="delete" title="Delete selected group" on:click={deleteGroup} />
+    
   </div>
 
 </section>
 
 <style>
+
+  .panel-buttons {
+    display: flex;
+    flex: 0 1 auto;
+    justify-content: space-between;
+  }
 
   .actions-panel {
     padding: 0.5rem 0.5rem;
