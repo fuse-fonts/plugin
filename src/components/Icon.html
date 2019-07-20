@@ -1,6 +1,7 @@
 <i class="material-icons"
-  style="color: {c}; {fontSize}"
+  {style}
   class:disabled
+  class:large={size === "large"}
   on:click
   on:mouseenter={() => hovering = true}
   on:mouseleave={() => hovering = false}
@@ -11,6 +12,10 @@
     color: var(--panel-layer-0) !important;
     pointer-events: none;
   }
+
+  .large {
+    font-size: 36px;
+  }
 </style>
 
 <script>
@@ -20,7 +25,7 @@
   export let icon = "report";
   export let disabled = false;
   export let size = null;
-  $: fontSize = size === null ? "" : `font-size: ${size};`;
   $: c = hover !== null && hovering ? hover : color;
+  $: style = `color: ${c};`;
   
 </script>

@@ -24,7 +24,7 @@
     {:else}
       <div class="empty">
         {#if isFiltering}
-          <Icon color="var(--muted-color)" icon="search" size="2" />
+          <Icon disabled={true} color="var(--muted-color)" icon="not_listed_location" size="large" />
           <h4 class="filter-text">{filterText}</h4>
           <p>...was not found within <b>{$selectedGroup.name}</b>.</p>
         {:else}
@@ -42,7 +42,7 @@
 <style>
 
   .empty {
-    padding: 2rem 1rem;
+    padding: 6vh 1rem;
     text-align: center;
     color: var(--muted-color);
   }
@@ -54,7 +54,7 @@
     width: 100%;
     padding: 0 2rem;
     line-height: 3rem;
-    margin: 1rem 0 0 0;
+    margin: 2rem 0 0 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

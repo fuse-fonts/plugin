@@ -9,11 +9,9 @@
     on:input={debouncedChange} 
   />
 
-  {#if hasValue}
-    <div class="icon-overlay">
-      <Icon icon="close" color="var(--muted-color)" hover="var(--foreground-color)" on:click={clearFilter} />
-    </div>
-  {/if}
+  <div class="icon-overlay">
+    <Icon icon={hasValue ? "close" : "search"} color="var(--muted-color)" hover="var(--foreground-color)" on:click={clearFilter} />
+  </div>
 </div>
 
 <script>
@@ -85,6 +83,7 @@
     font-weight: 400;
     color: var(--muted-color);
     text-align: right;
+    padding-right: 2rem;
   }
 
   
