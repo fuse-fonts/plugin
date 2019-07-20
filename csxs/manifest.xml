@@ -35,11 +35,11 @@
             </Size>
             <MaxSize>
               <Height>9999</Height>
-              <Width>1000</Width>
+              <Width>2000</Width>
             </MaxSize>
             <MinSize>
               <Height>280</Height>
-              <Width>450</Width>
+              <Width>300</Width>
             </MinSize>
           </Geometry>
           <Icons />
