@@ -1,7 +1,7 @@
 <li class="group" 
   class:selected class:drophover
   on:click={clickHandler} 
-  on:click 
+  on:dblclick={dblclickHandler}
   on:dragover={dragOver} 
   on:dragleave={dragEnd}
   on:drop={drop}
@@ -76,7 +76,14 @@
   let drophover = false;
 
   function clickHandler(e) {
-    e.data = selected ? null : group;
+
+    if (!selected) {
+      dispatch("select", group);
+    }
+  }
+
+  function dblclickHandler(e) {
+    console.log("double click");
   }
   
   function dragOver(e) {

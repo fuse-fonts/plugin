@@ -1,12 +1,12 @@
 <div class="custom-groups">
   <ul class:custom-groups-list={listView} class:custom-groups-tiles={!listView}>
     <li>
-      <CustomGroup group={$allFontsGroup} selected={$selected===$allFontsGroup} on:click={selectGroup} />
+      <CustomGroup group={$allFontsGroup} selected={$selected===$allFontsGroup} on:select={selectGroup} />
     </li>
     
     {#each $customGroups as group, i (group.ID)}
       <li>
-        <CustomGroup {group} selected={$selected === group} on:click={selectGroup} on:dropped={addSelectionToGroup} />
+        <CustomGroup {group} selected={$selected === group} on:select={selectGroup} on:dropped={addSelectionToGroup} />
       </li>
     {:else}
       <div class="empty">
@@ -89,8 +89,8 @@
   let listView = true;
 
   function selectGroup(e) {
-    console.log("selected", e.data)
-    selected.set(e.data);
+    console.log("selected", e.detail)
+    selected.set(e.detail);
   }
 
   function addSelectionToGroup(e) {
