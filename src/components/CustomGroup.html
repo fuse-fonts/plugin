@@ -1,21 +1,29 @@
-<li class="group" 
-  class:selected class:drophover
+<article class="group" 
+  class:selected 
+  class:drophover 
+  class:editing
   on:click={clickHandler} 
-  on:dblclick={dblclickHandler}
+  on:dblclick={startEditing}
   on:dragover={dragOver} 
   on:dragleave={dragEnd}
   on:drop={drop}
 >
-
-  <Icon color={drophover ? "var(--selected-color)" : "var(--muted-color)"} icon={group.permanent ? "view_headline" : "folder" } />
+{#if editing}
+  <Icon color="var(--accent-color)" icon="edit" blink={true} />
+  <GroupNameInput 
+    group={group} 
+    value={group.name}
+    on:cancel={stopEditing}
+    on:change={stopEditing} />
+{:else}
+  <Icon 
+    color={drophover ? "var(--selected-color)" : "var(--muted-color)"} 
+    icon={group.permanent ? "view_headline" : "folder" } />
   <h1 class="group-name" title="{group.ID}">{group.name}</h1>
-
-</li>
+{/if}
+</article>
 
 <style>
-  li {
-    list-style: none;
-  }
 
   .group {
     padding: 0 0 0 0.5rem;
@@ -45,10 +53,21 @@
     z-index: 2;
   }
 
+  .group.editing {
+    /* padding: 0.5rem 1rem; */
+    background-color: var(--panel-layer-0);
+    color: var(--foreground-color);
+    transition: 0.2s ease-out all;
+    /* box-shadow: 0px 0px 8px var(--accent-color) inset; */
+    border: 1px solid var(--accent-color);
+  }
+
   .group-name {
     width: 100%;
     padding: 0.5rem 1rem;
     margin: 0 0;
+    font-size: 1rem;
+    line-height: 1.5rem;
   }
 
   .drophover {
@@ -63,6 +82,7 @@
 <script>
   
   import Icon from "components/Icon.html";
+  import GroupNameInput from "components/GroupNameInput.html";
 
   import { createEventDispatcher } from 'svelte';
 
@@ -70,6 +90,7 @@
 
   export let group = null;
   export let selected = false;
+  export let editing = false;
 
   export const DROPPED_EVENT = "dropped";
 
@@ -82,8 +103,12 @@
     }
   }
 
-  function dblclickHandler(e) {
-    console.log("double click");
+  function startEditing(e) {
+    editing = true;
+  }
+
+  function stopEditing(e) {
+    editing = false;
   }
   
   function dragOver(e) {

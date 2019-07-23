@@ -8,6 +8,21 @@ import CustomGroup from "../datatypes/custom-group";
  */
 export const customGroups = writable([]);
 
+export const renameGroup = (group, name) => {
+
+  customGroups.update( values => {
+    return values.map( g => {
+      if (g.ID === group.ID) {
+        g.name = name;
+      }
+
+      return g;
+    });
+  });
+
+  selected.set(group);
+}
+
 /**
  *
  */
