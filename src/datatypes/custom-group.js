@@ -7,7 +7,7 @@ export default class CustomGroup {
     this.ID = ID || uuid();
     this.name = name;
     this.typefaces = new TypefaceLibrary();
-    this.isActive = false;
+    this.isNew = false;
     this.permanent = permanent;
   }
 

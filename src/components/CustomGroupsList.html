@@ -6,7 +6,7 @@
     
     {#each $customGroups as group, i (group.ID)}
       <li>
-        <CustomGroup {group} selected={$selected === group} on:select={selectGroup} on:dropped={addSelectionToGroup} />
+        <CustomGroup {group} selected={$selected === group} editing={group.isNew} on:select={selectGroup} on:dropped={addSelectionToGroup} />
       </li>
     {:else}
       <div class="empty">

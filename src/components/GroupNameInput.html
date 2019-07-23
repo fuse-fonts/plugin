@@ -1,7 +1,7 @@
 <script>
   
   import { onMount, createEventDispatcher } from 'svelte';
-  import { renameGroup } from "stores/custom-groups.js";
+  import { renameGroup, expire } from "stores/custom-groups.js";
 
   const dispatch = createEventDispatcher();
 
@@ -15,7 +15,9 @@
   onMount(() => {
     input.addEventListener("blur", end);
     input.focus();
-    document.execCommand('selectAll', false, null)
+    document.execCommand('selectAll', false, null);
+
+    return () => input.removeEventListener("blur", end);
   });
 
 
@@ -38,7 +40,7 @@
   function isValid() {
     if (value === null) return false;
     if (value.length === 0 || value.length > maxlength) return false;
-    if (value === initialValue) return false;
+    if (!group.isNew && value === initialValue) return false;
     return true;
   }
 
@@ -49,8 +51,13 @@
       dispatch("change", value);
     }
     else {
+      if (group.isNew) {
+        expire(group);
+      }
       exit();
     }
+
+    
   }
 
   function exit() {
