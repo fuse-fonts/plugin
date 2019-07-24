@@ -16,10 +16,10 @@
   <ol class="typefaces">
     {#each typefaces as typeface, i (typeface)}
       <li>
-        <TypeFace {typeface} expanded={false} selected={typeof $selectedFonts[typeface.family] !== "undefined"} />
+        <TypeFace {typeface} expanded={false} selected={!!$selectedFonts[typeface.family]} />
       </li>
     {:else}
-      <div class="empty">
+      <li class="empty">
         {#if isFiltering}
           <div class="icon-section">
             <Icon disabled={true} color="var(--muted-color)" icon="not_listed_location" size="large" />
@@ -32,7 +32,7 @@
           </div>
           <p><b>{$selectedGroup.name}</b> is empty</p>
         {/if}
-      </div>
+      </li>
     {/each}
   </ol>
 {:else}
@@ -71,7 +71,7 @@
     display: block;
     text-align: center;
     border-bottom: var(--panel-border);
-    background-color: var(--panel-layer-1);
+    background-color: var(--panel-layer-2);
   }
 
   .filter {
