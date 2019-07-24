@@ -6,7 +6,7 @@
     
     {#each $customGroups as group, i (group.ID)}
       <li>
-        <CustomGroup {group} selected={$selected === group} editing={group.isNew} on:select={selectGroup} on:dropped={addSelectionToGroup} />
+        <CustomGroup tiled={!listView} {group} selected={$selected === group} editing={group.isNew} on:select={selectGroup} on:dropped={addSelectionToGroup} />
       </li>
     {:else}
       <div class="empty">
@@ -32,7 +32,7 @@
   .custom-groups-list {
     overflow-x: hidden;
     overflow-y: scroll;
-    padding: 0.5rem 0rem 0.5rem 0rem;
+    padding: 0rem 0rem 12rem 0rem;
     height: calc(100% - 2.5rem);
     background-color: var(--panel-layer-1);
   }
@@ -75,6 +75,8 @@
     overflow: hidden;
     white-space: nowrap;
     border-radius: 3px;
+    background-color: var(--panel-layer-1);
+    margin: 0.5rem 0.5rem;
   }
 
   .custom-groups-tiles li:first-of-type {

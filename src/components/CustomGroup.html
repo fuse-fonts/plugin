@@ -19,7 +19,7 @@
   <Icon 
     color={drophover ? "var(--selected-color)" : "var(--muted-color)"} 
     icon={group.permanent ? "view_headline" : "folder" } />
-  <h1 class="group-name" title="{group.ID}">{group.name}</h1>
+  <h1 class:tiled class="group-name">{group.name}</h1>
 {/if}
 </article>
 
@@ -42,7 +42,7 @@
   }
 
   .group:hover {
-    background-color: var(--panel-layer-1);
+    background-color: var(--panel-layer-2);
   }
 
   .group.selected {
@@ -70,6 +70,10 @@
     line-height: 1.5rem;
   }
 
+  .group-name.tiled {
+    font-size: 0.8rem;
+  }
+
   .drophover {
     border: 1px solid var(--accent-color);
     /* outline: 2px solid var(--accent-color); */
@@ -91,6 +95,7 @@
   export let group = null;
   export let selected = false;
   export let editing = false;
+  export let tiled = false;
 
   export const DROPPED_EVENT = "dropped";
 
