@@ -3,23 +3,24 @@
   <Loading text="Loading Fonts..." color="#fff" />
 {:else}
   
-  <DragRegion>
-    <ResizablePane split={20}>
+    <DragRegion>
+      <ResizablePane split={20}>
 
-      <div slot="top" class="full-height">
-        <Panel>
-          <CustomGroupsList />
-        </Panel>
-      </div>
-      
-      <div slot="bottom" class="full-height">
-        <Panel>
-          <TypefaceList />
-        </Panel>
-      </div>
-      
-    </ResizablePane>
-  </DragRegion>
+        <div slot="top" class="full-height">
+          <Panel>
+            <CustomGroupsList />
+          </Panel>
+        </div>
+        
+        <div slot="bottom" class="full-height">
+          <Panel>
+            <TypefaceList />
+          </Panel>
+        </div>
+        
+      </ResizablePane>
+    </DragRegion>
+  
 {/if}
   
 
