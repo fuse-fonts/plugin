@@ -2,11 +2,7 @@ html {
 
   --groups-panel-size: 18%;
   --actions-panel-size: 2.5rem;
-  --selection-panel-size: 2.5rem;
-  --editor-panel-size: 2.8rem;
-  --filters-panel-size: 2.5rem;
-  --bar-panels: calc(var(--editor-panel-size) + (var(--actions-panel-size) + var(--selection-panel-size)));
-  --other-panels: calc((var(--bar-panels) + var(--groups-panel-size)) + var(--filters-panel-size));
+  --other-panels: calc(7px + var(--groups-panel-size));
   --fonts-panel-size: calc(100% - var(--other-panels));
 
   --accent-color: #38c;

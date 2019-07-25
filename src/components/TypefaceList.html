@@ -35,6 +35,7 @@
       </li>
     {/each}
   </ol>
+  <SelectedCountBanner />
 {:else}
   <div class="empty">
     <p>No Group Selected</p>
@@ -94,6 +95,7 @@
     .typefaces {
       height: 100%;
       overflow-y: scroll;
+      padding-bottom: 10vh;
     }
 
     .typefaces li {
@@ -146,6 +148,7 @@
 
 <script>
 
+  import SelectedCountBanner from "components/SelectedCountBanner.html";
   import TypeFace from "components/TypeFace.html";
   import TypefaceFilter from "components/TypefaceFilter.html";
   import Icon from "components/Icon.html";
@@ -166,8 +169,11 @@
   let title = "";
   const maxTitleLength = 32;
   const ellipsis = "…";
+  const selectedCount = 0;
 
   selectedGroup.subscribe(value => {
+
+    selectedFonts.clear();
 
     // reset all vars on empty
     if (value === null) {

@@ -120,7 +120,8 @@
   }
 
   const clickTypeface = (e) => {
-    selectionStore.toggleTypeface(typeface, !selected);
+    console.log("ctrl:", e.ctrlKey);
+    selectionStore.toggleTypeface(typeface, !selected, !e.ctrlKey);
   }
 
   const selectFont = (e) => {

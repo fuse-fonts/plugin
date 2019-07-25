@@ -1,8 +1,12 @@
 <svelte:body on:mouseleave={resizeEnd} />
 
 {#if resizing}
-  <section class="overlay" style="top: {clampedValue / 2}%;">{topPaneHeight}px</section>
-  <section class="overlay" style="top: {clampedValue + ((100 - clampedValue) / 2)}%;">{bottomPaneHeight}px</section>
+  <section class="overlay" style="top: {clampedValue / 2}%;">
+    <b>{clampedValue}%</b> {topPaneHeight}px
+  </section>
+  <section class="overlay" style="top: {clampedValue + ((100 - clampedValue) / 2)}%;">
+    <b>{100 - clampedValue}%</b> {bottomPaneHeight}px
+  </section>
 {/if}
 
 <main bind:this={root} class:resizing style="--top-panel-height: {clampedValue}%">
@@ -25,8 +29,7 @@
 <style>
 
   main {
-    
-    --total-height: 100vh;
+    --total-height: 99vh;
     --top-panel-height: 25%;
     --seperator-height: 7px;
     --bottom-panel-height: calc(var(--total-height) - (var(--top-panel-height) + var(--seperator-height)));
@@ -43,15 +46,21 @@
     z-index: 10;
     position: fixed;
     top: 2.5%;
-    left: 0;
-    right: 0;
-    width: 6rem;
-    margin: 0 auto;
-    color: var(--selected-color);
+    left: 50%;
+    padding: 0.25rem 1rem;
+    transform: translateX(-50%);
+    color: var(--muted-color);
     background-color: var(--accent-color);
     border-radius: 0.5rem;
     text-align: center;
+    opacity: 0.8;
+  }
 
+  .overlay b {
+    color: var(--foreground-color);
+    font-weight: 600;
+    display: inline-block;
+    margin-right: 1rem;
   }
 
   .slot {
@@ -129,10 +138,11 @@
   export let split = 50;
   export let min = 12;
   export let max = 70;
+  export const seperatorHeight = 7;
   
   $: clampedValue = clamp(split, min, max);
   $: topPaneHeight = Math.round(window.innerHeight * (clampedValue / 100));
-  $: bottomPaneHeight = Math.round(window.innerHeight * (1 - (clampedValue / 100)));
+  $: bottomPaneHeight = Math.round(window.innerHeight * (1 - (clampedValue / 100) - seperatorHeight));
   
   // dom references
   let root;
@@ -162,6 +172,7 @@
   const resizeMove = (e) => {
     let percent = (e.clientY / window.innerHeight);
     split = Math.round(percent * 100);
+
     
   };
 

@@ -1,0 +1,28 @@
+<script>
+  import { fade } from "svelte/transition";
+  import { selected } from "stores/font-selection.js";
+  
+  $: count = Object.keys($selected).length;
+
+</script>
+
+{#if count > 0 }
+  <section class="selection-count" transition:fade|local={{ duration: 200 }}>
+    {count} selected
+  </section>
+{/if}
+
+<style>
+  .selection-count {
+    font-size: 1rem;
+    position: fixed;
+    bottom: 1rem;
+    border-radius: 6px;
+    width: auto;
+    padding: 0.25rem 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--accent-color); 
+  }
+
+</style>

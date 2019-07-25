@@ -21,7 +21,10 @@ function selectionStore(initialValue = new TypefaceLibrary()) {
   /** selectTypeface
    *  
    */
-  const selectTypeface = (typeface) => update(model => {
+  const selectTypeface = (typeface, clearOthers = true) => update(model => {
+    
+    if (clearOthers) model = {};
+    
     model[typeface.family] = typeface.variants.map(byVariantName);
     return model;
   });
@@ -38,12 +41,17 @@ function selectionStore(initialValue = new TypefaceLibrary()) {
   /** toggleTypeface
    *
    */
-  const toggleTypeface = (typeface, toggle) => toggle ? selectTypeface(typeface) : deselectTypeface(typeface);
+  const toggleTypeface = (typeface, toggle, clearOthers) => {
+    if (toggle) return selectTypeface(typeface, clearOthers) 
+    else if (clearOthers) return clear();
+    else return deselectTypeface(typeface);
+  }
 
   /** selectVariant
    * 
    */
   const selectVariant = (typeface, variant) => update(model => {
+
 
     if (!model[typeface.family]) {
       model[typeface.family] = [];
@@ -111,7 +119,7 @@ function selectionStore(initialValue = new TypefaceLibrary()) {
   /** clear
    *
    */
-  const clear = () => set({});
+  const clear = () => update( model => ({}));
 
   //
   // the store's API
