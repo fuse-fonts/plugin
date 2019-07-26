@@ -12,11 +12,11 @@
       <TypefaceFilter on:filter={(e) => filter(e.detail)} />
     </section>
   </header>
-
+  <SelectedBanner />
   <ol class="typefaces">
     {#each typefaces as typeface, i (typeface)}
       <li>
-        <TypeFace {typeface} expanded={false} selected={!!$selectedFonts[typeface.family]} />
+        <TypeFace {typeface} {isLocked} expanded={false} selected={!!$selectedFonts[typeface.family]} />
       </li>
     {:else}
       <li class="empty">
@@ -35,7 +35,7 @@
       </li>
     {/each}
   </ol>
-  <SelectedCountBanner />
+  
 {:else}
   <div class="empty">
     <p>No Group Selected</p>
@@ -148,7 +148,7 @@
 
 <script>
 
-  import SelectedCountBanner from "components/SelectedCountBanner.html";
+  import SelectedBanner from "components/SelectedBanner.html";
   import TypeFace from "components/TypeFace.html";
   import TypefaceFilter from "components/TypefaceFilter.html";
   import Icon from "components/Icon.html";
@@ -158,6 +158,7 @@
 
   let hasGroupSelected = false;
   $: hasGroupSelected = $selectedGroup !== null;
+  let isLocked = false; // if changes can happen to this group
 
   let hasFilter = false;
   let isFiltering = false;
@@ -180,6 +181,7 @@
       title = "";
       list = [];
       typefaces = [];
+      isModifiable = false;
       return;
     }
 
@@ -210,6 +212,9 @@
     else {
       title = value.name;
     }
+
+    // update locked state
+    isLocked = value.permanent;
 
     // update items
     list = value.typefaces.toList();

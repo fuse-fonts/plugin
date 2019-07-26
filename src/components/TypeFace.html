@@ -6,24 +6,37 @@
     draggable={true}
     on:dragstart={dragStart}
     on:dragend={dragEnd}
+    on:mouseenter="{() => hovering = true}"
+    on:mouseleave="{() => hovering = false}"
   >
-    
-    <div class="icon-section">
-      <ExpandableIcon {expanded} on:click={toggleFonts} disabled={!hasStyles} />
+    <div class="left-align">
+      <div class="icon-section">
+        <ExpandableIcon {expanded} on:click={toggleFonts} disabled={!hasStyles} />
+      </div>
+  
+      {#if hasStyles}
+        <h1 class="name">{typeface.family}</h1>
+        <h3 class="styles-count" on:click={toggleFonts}>{styleCountMessage}</h3>
+      {:else}
+        <h1 class="name">{typeface.family}</h1>
+        <h3 class="styles-count">{typeface.variants[0].description}</h3>
+      {/if}
+    </div>
+    <div class="right-align" title="Remove {typeface.family}">
+      {#if !selected && hovering && !isLocked}
+        <Icon 
+          icon="remove" 
+          color="var(--muted-color)" 
+          hover="var(--foreground-color)" 
+          on:click={(e) => console.log("removed", e)} />
+      {/if}
     </div>
 
-    {#if hasStyles}
-      <h1 class="name">{typeface.family}</h1>
-      <h3 class="styles-count" on:click={toggleFonts}>{styleCountMessage}</h3>
-    {:else}
-      <h1 class="name">{typeface.family}</h1>
-      <h3 class="styles-count">{typeface.variants[0].description}</h3>
-    {/if}
   </main>
 
   {#if expanded}
     <section class="typeface-variants" in:slide|local={{duration: 500}} out:slide|local={{duration: 200}}>
-      <FontList fonts={typeface.variants} selected={selectedVariants} on:click={selectFont} on:dragstart={childDragStart}/>
+      <FontList {isLocked} fonts={typeface.variants} selected={selectedVariants} on:click={selectFont} on:dragstart={childDragStart}/>
     </section>
   {/if}
 </article>
@@ -37,8 +50,14 @@
     border-bottom-width: 2px;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
+    flex: 0 1 auto;
+  }
+
+  .left-align,
+  .right-align {
+    display: flex;
     flex: 0 1 auto;
   }
 
@@ -69,13 +88,21 @@
   }
 
   .styles-count {
-    text-transform: uppercase;
-    font-size: 0.8rem;
-    font-weight: 400;
-    letter-spacing: 0.5px;
-    margin: 0 1rem;
-    color: var(--muted-color);
-    user-select: none;
+    display: none;
+  }
+
+  @media (min-width: 20rem) {
+
+    .styles-count {
+      display: block;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: 0.5px;
+      margin: 0 1rem;
+      color: var(--muted-color);
+      user-select: none;
+    }
   }
 
   .styles-count:hover {
@@ -87,6 +114,7 @@
 <script>
 
   import ExpandableIcon from "components/ExpandableIcon.html";
+  import Icon from "components/Icon.html"
   import FontList from "components/FontList.html";
   import { selected as selectionStore } from "stores/font-selection.js";
 
@@ -97,6 +125,8 @@
   export let expanded = false; // whether the fonts of this typeface are displayed
   export let selected = false; // whether this typeface is selected
   export let selectedVariants = []; // list of the font names `font.name
+  export let isLocked = false;
+  let hovering = false;
 
   // keep our selected variants in sync
   selectionStore.subscribe(store => {

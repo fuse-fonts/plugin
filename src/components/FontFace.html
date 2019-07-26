@@ -5,8 +5,18 @@
   on:dragstart={dragStart}
   on:click
   on:dragstart
+  on:mouseenter="{() => hovering = true}"
+  on:mouseleave="{() => hovering = false}"
 >
   <h1 class="name">{name}</h1>
+  <div class="actions">
+    {#if hovering && !isLocked}
+      <Icon icon="close" 
+        color="var(--muted-color)" 
+        hover="var(--foreground-color)" 
+        on:click={(e)=> console.log("removed", e)} />
+    {/if}
+  </div>
 </div>
 
 <style>
@@ -18,7 +28,7 @@
     border-bottom-width: 2px;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     flex: 0 1 auto;
   }
@@ -60,9 +70,12 @@
 
 <script>
 
-  // import { selected as selectedFonts } from "stores/font-selection.js";
+  import Icon from "components/Icon.html";
 
+  let hovering = false;
+  export let removable = true;
   export let font = null;
+  export let isLocked = false;
   $: name = font.description;
 
   export let selected = false;

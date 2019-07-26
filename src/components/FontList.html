@@ -1,7 +1,7 @@
 <ol>
   {#each fonts as font}
     <li>
-      <FontFace {font} selected={selected.includes(font.name)} on:click on:dragstart />
+      <FontFace isLocked={true} {font} selected={selected.includes(font.name)} on:click on:dragstart />
     </li>
   {/each}
 </ol>
@@ -20,5 +20,6 @@
 
   export let fonts = null;
   export let selected = [];
+  export let isLocked = false;
 
 </script>
