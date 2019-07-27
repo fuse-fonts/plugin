@@ -1,6 +1,8 @@
 
 {#if $loading}
   <Loading text="Loading Fonts..." color="#fff" />
+{:else if $settingsOpened}
+  <h1>settings opened</h1>
 {:else}
   
     <DragRegion>
@@ -45,6 +47,7 @@
 
   // stores
   import { loading } from "stores/typefaces.js";
+  import { settingsOpened } from "stores/user-settings.js";
 
   const appTitle = "Fuse Fonts";
 

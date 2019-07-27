@@ -1,13 +1,15 @@
 <section class="actions-panel">
   
   <div class="panel-buttons">
+    <section>
+      <IconButton icon="folder" title="Create new group" on:click={createGroup} />
+      <IconButton icon="settings" title="Open Settings" on:click={openSettings} />
+    </section>
 
-    <IconButton icon="folder" title="Create new group" on:click={createGroup} />
-
-    <span class="button-group">
+    <section class="button-group">
       <IconButton icon="view_list" disabled={!listView} on:click={toggleView} />
       <IconButton icon="view_module" disabled={listView} on:click={toggleView} />
-    </span>
+    </section>
     
     <IconButton disabled={isDeleteDisabled} icon="delete" title="Delete selected group" on:click={deleteSelectedGroup} />
     
@@ -34,6 +36,7 @@
     
     import IconButton from "components/IconButton.html";
     import { selected, createGroup, deleteSelectedGroup } from "stores/custom-groups.js";
+    import { settingsOpened } from "stores/user-settings.js";
     import CustomGroup from "datatypes/custom-group.js";
     import { createEventDispatcher } from 'svelte';
 
@@ -48,10 +51,11 @@
       isDeleteDisabled = group === null || group.permanent;
     })
 
+    function openSettings() {
+      settingsOpened.set(true);
+    }
 
-
-
-    const toggleView = () => {
+    function toggleView() {
       listView = !listView;
     }
 
