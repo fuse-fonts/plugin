@@ -28,7 +28,7 @@
           icon="remove" 
           color="var(--muted-color)" 
           hover="var(--foreground-color)" 
-          on:click={(e) => console.log("removed", e)} />
+          on:click={removeTypeface} />
       {/if}
     </div>
 
@@ -116,9 +116,10 @@
   import ExpandableIcon from "components/ExpandableIcon.html";
   import Icon from "components/Icon.html"
   import FontList from "components/FontList.html";
+
   import { selected as selectionStore } from "stores/font-selection.js";
 
-
+  import { createEventDispatcher } from "svelte";
   import { slide } from 'svelte/transition';
 
   export let typeface = null;
@@ -126,6 +127,7 @@
   export let selected = false; // whether this typeface is selected
   export let selectedVariants = []; // list of the font names `font.name
   export let isLocked = false;
+  const dispatch = createEventDispatcher();
   let hovering = false;
 
   // keep our selected variants in sync
@@ -144,29 +146,27 @@
   $: hasStyles = styleCount > 1;
 
 
-  const toggleFonts = (e) => {
+  function toggleFonts(e) {
     e.stopPropagation();
     expanded = !expanded;
   }
 
-  const clickTypeface = (e) => {
-    console.log("ctrl:", e.ctrlKey);
+  function clickTypeface(e) {
     selectionStore.toggleTypeface(typeface, !selected, !e.ctrlKey);
   }
 
-  const selectFont = (e) => {
+  function selectFont(e) {
     const variant = e.data.font;
     selectionStore.toggleVariant(typeface, variant);
+  }
+
+  function removeTypeface(e) {
+    dispatch("remove", typeface);
   }
 
   // handler for dragging the typeface
   function dragStart(e) {
     if (!selected) clickTypeface(e);
-    // if we do this on the immediate frame, it will disappear 
-    // and lose dragging state
-    requestAnimationFrame(() => {
-      // el.style.opacity = "0.25";
-    });
   }
 
   // handler for dragging a font face

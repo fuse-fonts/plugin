@@ -1,25 +1,26 @@
 <script>
   
-  import { fly } from "svelte/transition";
+  import { fly, fade } from "svelte/transition";
   import { selected } from "stores/font-selection.js";
   
   let count = 0;
-  let display = false;
+
   selected.subscribe( value => {
     count = value ? Object.keys(value).length : 0;
-    display = count > 0;
+
+
   });
 
 </script>
 
-{#if display }
-  <section class="selection" transition:fly={{ y: 100, duration: 100 }}>
-    <span class="count">{count} selected</span>
+{#if count > 0 }
+  <section class="popover" transition:fly={{ y: 100, duration: 100 }}>
+    <div class="count">{count} selected</div>
   </section>
 {/if}
 
 <style>
-  .selection {
+  .popover {
     font-size: 1rem;
     position: fixed;
     bottom: 1rem;
@@ -29,6 +30,7 @@
     left: 50%;
     transform: translateX(-50%);
     background-color: var(--accent-color);
+    text-align: center;
   }
 
 </style>

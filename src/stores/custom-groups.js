@@ -31,6 +31,19 @@ export const deleteSelectedGroup = () => {
   customGroups.update(groups => groups.filter(g => g.ID !== group.ID));
 }
 
+export const removeTypefaceFromGroup = (group, typeface) => {
+  customGroups.update( groups => {
+    return groups.map(g => {
+      
+      if (g.ID === group.ID) {
+        g.typefaces.remove(typeface);
+      }
+
+      return g;
+    })
+  });
+}
+
 export const renameGroup = (group, name) => {
 
   customGroups.update( values => {
