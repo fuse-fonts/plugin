@@ -29,8 +29,9 @@
     <div class="apply-typeface">
       <button on:click={changeApplyTypeface}>
         <Icon 
-          icon={$settings.applyTypeface ? "check_box" : "check_box_outline_blank"}
-          color={$settings.applyTypeface ? "var(--success-color)" : "var(--muted-color)"}
+          icon={$settings.applyTypeface ? "check" : "check_box_outline_blank"}
+          color="var(--muted-color)"
+          hover="var(--foreground-color)"
           /> 
         Auto-Apply to Text Layer
       </button>
