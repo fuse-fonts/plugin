@@ -1,46 +1,49 @@
 
 {#if hasGroupSelected}
-
-  <header class="group-header">
-    <h2 class="group-name" title={title.length}>
-      <span class="name">{title}</span>
-      <div class="group-count">
-        {typefaces.length} {isFiltering ? `of ${list.length}` : ""}
-      </div>
-    </h2>
-    <section class="filter">
-      <TypefaceFilter on:filter={(e) => filter(e.detail)} />
-    </section>
-  </header>
-  <SelectedBanner />
-  <ol class="typefaces">
-    {#each typefaces as typeface, i (typeface)}
+  <section class="selected-group">
+    <header class="group-header">
+      <h2 class="group-name" title={title.length}>
+        <span class="name">{title}</span>
+        <div class="group-count">
+          {typefaces.length} {isFiltering ? `of ${list.length}` : ""}
+        </div>
+      </h2>
+      <section class="filter">
+        <TypefaceFilter on:filter={(e) => filter(e.detail)} />
+      </section>
+    </header>
+    
+    <ol class="typefaces">
+      {#each typefaces as typeface, i (typeface)}
       <li>
-        <TypeFace 
-          {typeface} 
-          {isLocked} 
-          expanded={false} 
-          selected={!!$selectedFonts[typeface.family]} 
-          on:remove={removeTypeface} />
-      </li>
-    {:else}
-      <li class="empty">
-        {#if isFiltering}
-          <div class="icon-section">
-            <Icon disabled={true} color="var(--muted-color)" icon="not_listed_location" size="large" />
-          </div>
-          <h4 class="filter-text">{filterText}</h4>
-          <p>...was not found within <b>{$selectedGroup.name}</b></p>
-        {:else}
-          <div class="icon-section">
-            <Icon disabled={true} color="var(--muted-color)" icon="folder_open" size="large" />
-          </div>
-          <p><b>{$selectedGroup.name}</b> is empty</p>
-        {/if}
-      </li>
-    {/each}
-  </ol>
-  
+          <TypeFace 
+            {typeface} 
+            {isLocked} 
+            expanded={false} 
+            selected={!!$selectedFonts[typeface.family]} 
+            on:remove={removeTypeface} />
+        </li>
+      {:else}
+        <li class="empty">
+          {#if isFiltering}
+            <div class="icon-section">
+              <Icon disabled={true} color="var(--muted-color)" icon="not_listed_location" size="large" />
+            </div>
+            <h4 class="filter-text">{filterText}</h4>
+            <p>...was not found within <b>{$selectedGroup.name}</b></p>
+          {:else}
+            <div class="icon-section">
+              <Icon disabled={true} color="var(--muted-color)" icon="folder_open" size="large" />
+            </div>
+            <p><b>{$selectedGroup.name}</b> is empty</p>
+          {/if}
+        </li>
+      {/each}
+    </ol>
+    <div class="banner">
+      <SelectedBanner />
+    </div>
+  </section>
 {:else}
   <div class="empty">
     <p>No Group Selected</p>
@@ -48,6 +51,12 @@
 {/if}
 
 <style>
+
+  .selected-group {
+    display: flex;
+    flex-flow: column nowrap;
+    height: 100%;
+  }
 
   .empty {
     padding: 6vh 1rem;

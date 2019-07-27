@@ -1,21 +1,40 @@
 <script>
   
+  import Icon from "components/Icon.html";
   import { fly, fade } from "svelte/transition";
   import { selected } from "stores/font-selection.js";
+  import { settings } from "stores/user-settings.js";
   
   let count = 0;
 
   selected.subscribe( value => {
     count = value ? Object.keys(value).length : 0;
-
-
   });
+
+  function changeApplyTypeface() {
+    console.log("oy")
+    settings.update( values => {
+      return {
+        ...values,
+        applyTypeface: !values.applyTypeface,
+      }
+    })
+  }
 
 </script>
 
 {#if count > 0 }
   <section class="popover" transition:fly={{ y: 100, duration: 100 }}>
     <div class="count">{count} selected</div>
+    <div class="apply-typeface">
+      <button on:click={changeApplyTypeface}>
+        <Icon 
+          icon={$settings.applyTypeface ? "check_box" : "check_box_outline_blank"}
+          color={$settings.applyTypeface ? "var(--success-color)" : "var(--muted-color)"}
+          /> 
+        Auto-Apply to Text Layer
+      </button>
+    </div>
   </section>
 {/if}
 
@@ -23,14 +42,24 @@
   .popover {
     font-size: 1rem;
     position: fixed;
-    bottom: 1rem;
-    width: auto;
-    padding: 0.25rem 1rem;
-    border-radius: 3px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: var(--accent-color);
-    text-align: center;
+    bottom: 0rem;
+    left: 1rem;
+    right: 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: 2px;
+    background-color: var(--notifications-panel);
+    display: flex;
+    flex: 0 1 auto;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .count {
+    font-weight: 600;
+  }
+
+  button {
+    border: 1px solid var(--panel-layer-0);
   }
 
 </style>

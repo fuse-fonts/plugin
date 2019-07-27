@@ -118,6 +118,8 @@
   import FontList from "components/FontList.html";
 
   import { selected as selectionStore } from "stores/font-selection.js";
+  import { settings } from "stores/user-settings.js";
+  import { applyTypeface } from "helpers/font-tool.js";
 
   import { createEventDispatcher } from "svelte";
   import { slide } from 'svelte/transition';
@@ -145,7 +147,6 @@
   $: styleCountMessage = `${styleCount} ${styleCount === 1 ? "style" : "styles" }`;
   $: hasStyles = styleCount > 1;
 
-
   function toggleFonts(e) {
     e.stopPropagation();
     expanded = !expanded;
@@ -153,11 +154,17 @@
 
   function clickTypeface(e) {
     selectionStore.toggleTypeface(typeface, !selected, !e.ctrlKey);
+    if ($settings.applyTypeface) {
+      applyTypeface(typeface);
+    }
   }
 
   function selectFont(e) {
     const variant = e.data.font;
     selectionStore.toggleVariant(typeface, variant);
+    if ($settings.applyTypeface) {
+      applyTypeface(typeface, variant);
+    }
   }
 
   function removeTypeface(e) {

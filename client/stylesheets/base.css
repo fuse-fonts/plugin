@@ -16,6 +16,7 @@ html {
   --body-color: #f0f0f0;
   --foreground-color: #fff;
 
+  --notifications-panel: #111;
   --panel-layer-0: #222;
   --panel-layer-1: #3a3a3a;
   --panel-layer-2: #444;
