@@ -1,6 +1,6 @@
 <script>
   
-  import Icon from "components/Icon.html";
+  import SettingButton from "components/SettingButton.html";
   import { fly, fade } from "svelte/transition";
   import { selected } from "stores/font-selection.js";
   import { settings } from "stores/user-settings.js";
@@ -11,30 +11,18 @@
     count = value ? Object.keys(value).length : 0;
   });
 
-  function changeApplyTypeface() {
-    console.log("oy")
-    settings.update( values => {
-      return {
-        ...values,
-        applyTypeface: !values.applyTypeface,
-      }
-    })
-  }
-
 </script>
 
 {#if count > 0 }
   <section class="popover" transition:fly={{ y: 100, duration: 100 }}>
     <div class="count">{count} selected</div>
     <div class="apply-typeface">
-      <button on:click={changeApplyTypeface}>
-        <Icon 
-          icon={$settings.applyTypeface ? "check" : "check_box_outline_blank"}
-          color="var(--muted-color)"
-          hover="var(--foreground-color)"
-          /> 
+      <SettingButton 
+        toggles={true}
+        enabled={$settings.applyTypeface}
+        on:click={() => settings.toggleSetting("applyTypeface")}>
         Auto-Apply to Text Layer
-      </button>
+        </SettingButton>
     </div>
   </section>
 {/if}
@@ -59,8 +47,6 @@
     font-weight: 600;
   }
 
-  button {
-    border: 1px solid var(--panel-layer-0);
-  }
+
 
 </style>

@@ -2,7 +2,7 @@
 {#if $loading}
   <Loading text="Loading Fonts..." color="#fff" />
 {:else if $settingsOpened}
-  <h1>settings opened</h1>
+  <Settings {appTitle} />
 {:else}
   
     <DragRegion>
@@ -38,12 +38,13 @@
 <script>
 
   // sub components
+  import Loading from "components/Loading.html"
+  import Settings from "components/Settings.html";
   import ResizablePane from "components/ResizablePane.html";
   import DragRegion from "components/DragRegion.html";
   import CustomGroupsList from "components/CustomGroupsList.html";
   import TypefaceList from "components/TypefaceList.html";
   import Panel from "components/Panel.html";
-  import Loading from "components/Loading.html"
 
   // stores
   import { loading } from "stores/typefaces.js";

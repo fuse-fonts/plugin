@@ -23,6 +23,10 @@ const saveToLocalStorage = (data) => {
   localStorage.setItem(LOCALSTORAGE_TYPEFACES_KEY, JSON.stringify(data));
 };
 
+const clearLocalStorage = () => {
+  localStorage.removeItem(LOCALSTORAGE_TYPEFACES_KEY);
+}
+
 
 /**
  * 
@@ -62,5 +66,7 @@ export default {
 
   save: (typefacelibrary) => saveToLocalStorage(typefacelibrary.data),
   
-
+  clear: () => {
+    clearLocalStorage();
+  }
 }

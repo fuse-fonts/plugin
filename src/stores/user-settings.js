@@ -1,8 +1,10 @@
 import { writable } from "svelte/store";
 
+const initialSettingsOpen = false;
 export const defaultSettings = {
   applyTypeface: true,
   panelSplit: 20,
+  listView: true,
 };
 
 function resetableSettingsStore() {
@@ -14,10 +16,18 @@ function resetableSettingsStore() {
     subscribe,
     set,
     update,
-    reset: () => set(defautlSettings),
+    reset: () => set(defaultSettings),
+    toggleSetting: (key) => {
+      update(values => {
+        return {
+          ...values,
+          [key]: !values[key],
+        }
+      })
+    }
   };
 }
 
 export const settings = resetableSettingsStore();
 
-export const settingsOpened = writable(false);
+export const settingsOpened = writable(initialSettingsOpen);

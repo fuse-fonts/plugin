@@ -33,7 +33,7 @@ const saveToLocalStorage = (result) => {
 /**
  *
  */
-const purgeFromLocalStorage = () => localStorage.removeItem(LOCALSTORAGE_GROUPS);
+const removeFromLocalStorage = () => localStorage.removeItem(LOCALSTORAGE_GROUPS);
 
 
 /** Custom Group Repository
@@ -59,5 +59,5 @@ export default {
 
   save: (data) => saveToLocalStorage(data),
 
-
+  clear: () => removeFromLocalStorage(),
 }

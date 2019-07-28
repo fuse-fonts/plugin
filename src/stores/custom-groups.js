@@ -100,3 +100,10 @@ export const loadCustomGroups = (typefaces) => {
     });
   });
 }
+
+export const clearCustomGroups = () => {
+  customGroups.set([]);
+  selected.set(null);
+  customGroupRepository.clear();
+  customGroups.set([]);
+}
