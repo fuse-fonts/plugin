@@ -1,4 +1,5 @@
 import { writable } from "svelte/store";
+import userSettingsRepository from "repositories/user-settings.js";
 
 const initialSettingsOpen = false;
 export const defaultSettings = {
@@ -8,9 +9,14 @@ export const defaultSettings = {
 };
 
 function resetableSettingsStore() {
+  
+  const cachedSettings = userSettingsRepository.load();
 
-  const store = writable(defaultSettings);
+  const store = writable(cachedSettings || defaultSettings);
   const { subscribe, set, update } = store;
+
+
+  subscribe(data => userSettingsRepository.save(data));
 
   return {
     subscribe,

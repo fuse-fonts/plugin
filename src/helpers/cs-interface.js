@@ -7,6 +7,7 @@ let csInterface = null;
 
 if (window.CSInterface) {
   csInterface = new CSInterface();
+  window.csInterface = csInterface;
 }
 
 

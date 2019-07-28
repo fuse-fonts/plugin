@@ -16,7 +16,7 @@ let unsubscribe;
 //
 export const loadData = () => typefaceRepository.load().then( async data => {
   
-  console.log("typeface data:", data);
+  // console.log("typeface data:", data);
 
   await loadCustomGroups(data);
 

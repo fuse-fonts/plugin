@@ -9,6 +9,7 @@
   import { settings, settingsOpened } from "stores/user-settings.js";
   import { clearData as clearTypefaceCache } from "stores/typefaces.js";
   import { customGroups, clearCustomGroups } from "stores/custom-groups.js";
+  import fileSystemRepository from "repositories/file-system.js";
   import csInterface from "helpers/cs-interface.js";
   export let appTitle = "this plugin";
   let dangerZoneActive = false;
@@ -68,7 +69,22 @@
       <p class="note">This won't delete anything important.</p>
     </section>
 
-    <h3 class="toggle-region" on:click="{() => dangerZoneActive = !dangerZoneActive}"> <Icon icon={dangerZoneActive ? "keyboard_arrow_down" : "keyboard_arrow_right"} /> Danger Zone</h3>
+    
+    <section class="setting">
+      <h2>Last Backup</h2>
+      <p class="note">{fileSystemRepository.lastBackup()}</p>
+    </section>
+    
+    <section class="setting">
+      <h2>Device Information</h2>
+      <p class="note">{appName} Version: {env.appVersion}</p>
+      <p class="note">CEP Version: {cepVersion}</p>
+      <p class="note">OS: {csInterface.getOSInformation()}</p>
+      <p class="note">Extension ID: {csInterface.getExtensionID()}</p>
+      <p class="note">UI Display Scale: {csInterface.getScaleFactor()}</p>
+    </section>
+
+    <h2 class="toggle-region" on:click="{() => dangerZoneActive = !dangerZoneActive}"> <Icon icon={dangerZoneActive ? "keyboard_arrow_down" : "keyboard_arrow_right"} /> Danger Zone</h2>
     {#if dangerZoneActive}
       <section class="danger-zone" in:slide|local={{ duration: 400, delay: 100 }}>
         <div class="row">
@@ -87,7 +103,7 @@
             {#if $customGroups.length === 0}
               <p class="note">You have no custom groups.</p>
             {:else}
-              <p class="warning">Clicking this will delete {$customGroups.length} custom groups.</p>
+              <p class="warning">Clicking this will delete {$customGroups.length} custom groups, <u>including backups</u>.</p>
             {/if}
             
           </section>
@@ -96,15 +112,6 @@
 
       </section>
     {/if}
-
-    <section class="setting">
-      <h2>Device Information</h2>
-      <p class="note">{appName} Version: {env.appVersion}</p>
-      <p class="note">CEP Version: {cepVersion}</p>
-      <p class="note">OS: {csInterface.getOSInformation()}</p>
-      <p class="note">Extension ID: {csInterface.getExtensionID()}</p>
-      <p class="note">UI Display Scale: {csInterface.getScaleFactor()}</p>
-    </section>
   </main>
 </div>
 
