@@ -38,6 +38,7 @@
 <script>
 
   // sub components
+  import csInterface from "helpers/cs-interface.js";
   import Loading from "components/Loading.html"
   import Settings from "components/Settings.html";
   import ResizablePane from "components/ResizablePane.html";
@@ -51,5 +52,7 @@
   import { settings, settingsOpened } from "stores/user-settings.js";
 
   const appTitle = "Fuse Fonts";
+
+  csInterface.setWindowTitle(appTitle);
 
 </script>

@@ -96,7 +96,6 @@
   import { selected, customGroups, allFontsGroup } from "stores/custom-groups.js";
   import { selected as selectedFonts } from "stores/font-selection.js";
 
-  
   let listView = true;
 
   settings.subscribe(values => {
@@ -104,7 +103,6 @@
     })
 
   function selectGroup(e) {
-    console.log("selected", e.detail)
     selected.set(e.detail);
   }
 

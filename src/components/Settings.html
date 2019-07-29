@@ -34,6 +34,10 @@
     alert(`Dump file created at\n${path}`);
   }
 
+  function openBackupFile() {
+    csInterface.openURLInDefaultBrowser(`file:///${fileSystemRepository.backupFilePath}`);
+  }
+
 </script>
 
 <div class="backdrop">
@@ -72,7 +76,12 @@
     
     <section class="setting">
       <h2>Last Backup</h2>
-      <p class="note">{fileSystemRepository.lastBackup()}</p>
+      <p class="note">
+        {fileSystemRepository.lastBackup()}
+        <button on:click={openBackupFile}>View</button>
+      </p>
+      <p style="word-break: break-all;">Saved to:<br /> <code>{fileSystemRepository.backupFilePath}</code></p>
+      
     </section>
     
     <section class="setting">
