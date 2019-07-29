@@ -1,5 +1,6 @@
 
 import { detectTheme, addListener } from "helpers/theme.js";
+import { initializeMenu, initializeContextMenu, } from "helpers/menus.js";
 
 detectTheme();
 addListener();
@@ -10,3 +11,5 @@ const appLoader = new App({
   target: document.querySelector("main#app"),
 });
 
+initializeMenu();
+initializeContextMenu();
