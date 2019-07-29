@@ -92,10 +92,16 @@
   import ActionsPanel from "components/ActionsPanel.html";
   import CustomGroup from "components/CustomGroup.html";
 
+  import { settings } from "stores/user-settings.js";
   import { selected, customGroups, allFontsGroup } from "stores/custom-groups.js";
   import { selected as selectedFonts } from "stores/font-selection.js";
 
+  
   let listView = true;
+
+  settings.subscribe(values => {
+      listView = values.listView;
+    })
 
   function selectGroup(e) {
     console.log("selected", e.detail)

@@ -7,8 +7,8 @@
     </section>
 
     <section class="button-group">
-      <IconButton icon="view_list" disabled={!listView} on:click={toggleView} />
-      <IconButton icon="view_module" disabled={listView} on:click={toggleView} />
+      <IconButton icon="view_list" disabled={listView} on:click={toggleView} />
+      <IconButton icon="view_module" disabled={!listView} on:click={toggleView} />
     </section>
     
     <IconButton disabled={isDeleteDisabled} icon="delete" title="Delete selected group" on:click={deleteSelectedGroup} />
@@ -36,10 +36,10 @@
     
     import IconButton from "components/IconButton.html";
     import { selected, createGroup, deleteSelectedGroup } from "stores/custom-groups.js";
-    import { settingsOpened } from "stores/user-settings.js";
+    import { settings, settingsOpened } from "stores/user-settings.js";
     import CustomGroup from "datatypes/custom-group.js";
     import { createEventDispatcher } from 'svelte';
-
+    
     const dispatch = createEventDispatcher();
 
     export let listView = true;
@@ -57,6 +57,7 @@
 
     function toggleView() {
       listView = !listView;
+      settings.toggleSetting("listView");
     }
 
   </script>

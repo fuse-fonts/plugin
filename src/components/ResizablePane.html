@@ -1,15 +1,15 @@
 <svelte:body on:mouseleave={resizeEnd} />
 
 {#if resizing}
-  <section class="overlay" style="top: {clampedValue / 2}%;">
-    <b>{clampedValue}%</b> {topPaneHeight}px
+  <section class="overlay" style="top: {split / 2}%;">
+    <b>{split}%</b> {topPaneHeight}px
   </section>
-  <section class="overlay" style="top: {clampedValue + ((100 - clampedValue) / 2)}%;">
-    <b>{100 - clampedValue}%</b> {bottomPaneHeight}px
+  <section class="overlay" style="top: {split + ((100 - split) / 2)}%;">
+    <b>{100 - split}%</b> {bottomPaneHeight}px
   </section>
 {/if}
 
-<main bind:this={root} class:resizing style="--top-panel-height: {clampedValue}%">
+<main bind:this={root} class:resizing style="--top-panel-height: {split}%">
 
 
   <section class="panel top-panel">
@@ -132,7 +132,7 @@
 <script>
 
   import { onMount, } from "svelte";
-
+  import { settings } from "stores/user-settings.js";
   // exports
   export let height = "auto";
   export let split = 50;
@@ -140,9 +140,8 @@
   export let max = 70;
   export const seperatorHeight = 7;
   
-  $: clampedValue = clamp(split, min, max);
-  $: topPaneHeight = Math.round(window.innerHeight * (clampedValue / 100));
-  $: bottomPaneHeight = Math.round(window.innerHeight * (1 - (clampedValue / 100) - seperatorHeight));
+  $: topPaneHeight = Math.round(window.innerHeight * (split / 100));
+  $: bottomPaneHeight = Math.round(window.innerHeight * (1 - (split / 100) - seperatorHeight));
   
   // dom references
   let root;
@@ -171,8 +170,9 @@
 
   const resizeMove = (e) => {
     let percent = (e.clientY / window.innerHeight);
-    split = Math.round(percent * 100);
-
+    const _split = Math.round(percent * 100);
+    split = clamp(_split, min, max);
+    settings.setSplit(split);
     
   };
 

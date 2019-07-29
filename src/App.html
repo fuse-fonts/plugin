@@ -6,7 +6,7 @@
 {:else}
   
     <DragRegion>
-      <ResizablePane split={20}>
+      <ResizablePane split={$settings.panelSplit}>
 
         <div slot="top" class="full-height">
           <Panel>
@@ -48,7 +48,7 @@
 
   // stores
   import { loading } from "stores/typefaces.js";
-  import { settingsOpened } from "stores/user-settings.js";
+  import { settings, settingsOpened } from "stores/user-settings.js";
 
   const appTitle = "Fuse Fonts";
 

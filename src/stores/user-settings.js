@@ -23,6 +23,12 @@ function resetableSettingsStore() {
     set,
     update,
     reset: () => set(defaultSettings),
+
+    setSplit: (value) => update( values => ({
+      ...values,
+      panelSplit: value,
+    })),
+
     toggleSetting: (key) => {
       update(values => {
         return {
