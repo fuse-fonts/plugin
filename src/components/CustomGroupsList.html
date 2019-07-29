@@ -9,11 +9,17 @@
         <CustomGroup tiled={!listView} {group} selected={$selected === group} editing={group.isNew} on:select={selectGroup} on:dropped={addSelectionToGroup} />
       </li>
     {:else}
-      <div class="empty">
+      <li class="empty">
         <p>No Custom Groups</p>
-      </div>
+        <p>
+          <button class="create-group" on:click={createGroup}>
+            <i><Icon icon="folder" /></i> Create a new group
+          </button>
+        </p>
+      </li>
     {/each}
   </ul>
+  
 
   <div class="custom-groups-actions">
     <ActionsPanel bind:listView={listView} />
@@ -47,10 +53,16 @@
     background-color: var(--panel-layer-2);
   }
 
-  .empty {
+  .custom-groups-list .empty {
     padding: 1rem 1rem;
     text-align: center;
     color: var(--muted-color);
+    border-bottom: none;
+  }
+
+  button i {
+    display: inline-block;
+    margin-right: 0.5rem;
   }
 
   .custom-groups-tiles {
@@ -89,11 +101,12 @@
 
   import { fly } from 'svelte/transition';
 
+  import Icon from "components/Icon.html";
   import ActionsPanel from "components/ActionsPanel.html";
   import CustomGroup from "components/CustomGroup.html";
 
   import { settings } from "stores/user-settings.js";
-  import { selected, customGroups, allFontsGroup } from "stores/custom-groups.js";
+  import { selected, customGroups, allFontsGroup, createGroup } from "stores/custom-groups.js";
   import { selected as selectedFonts } from "stores/font-selection.js";
 
   let listView = true;
