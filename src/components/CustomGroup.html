@@ -81,9 +81,6 @@
 
   .drophover {
     border: 1px solid var(--accent-color);
-    /* outline: 2px solid var(--accent-color); */
-    /* box-shadow: 0px -0.5rem 2rem var(--panel-layer-0) inset; */
-    /* box-shadow: 0 0 2rem var(--accent-color); */
   }
 
 </style>
@@ -114,6 +111,7 @@
   }
 
   function startEditing(e) {
+    if (group.permanent) return;
     editing = true;
   }
 
