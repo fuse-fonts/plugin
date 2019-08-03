@@ -4,12 +4,12 @@ import TypeFace from "datatypes/typeface.js";
 
 export const applyTypeface = async (typeface, variant = null) => {
 
-  const postScriptName = TypeFace.getPostScriptName(typeface, variant);
-  console.log(`Applying "${postScriptName}"`);
+  const { postScriptName, style } = TypeFace.getPostScriptName(typeface, variant);
+  console.log(`Applying "${postScriptName} with ${style} style"`);
 
   const result = await new Promise((resolve, reject) => {
 
-    csInterface.evalScript(`applyTypefaceByPostScriptName("${postScriptName}")`, (result) => {
+    csInterface.evalScript(`applyTypefaceByPostScriptName("${postScriptName}, ${style}")`, (result) => {
       let response = tryParseJSON(result);
       resolve(response);
     });

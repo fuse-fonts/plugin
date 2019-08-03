@@ -4,10 +4,9 @@
 {:else if $settingsOpened}
   <Settings {appTitle} />
 {:else}
-  
+    
     <DragRegion>
       <ResizablePane split={$settings.panelSplit}>
-
         <div slot="top" class="full-height">
           <Panel>
             <CustomGroupsList />
@@ -49,7 +48,7 @@
   import csInterface from "helpers/cs-interface.js";
 
   // stores
-  import { loading } from "stores/typefaces.js";
+  import { loading } from "stores/app-settings.js";
   import { settings, settingsOpened } from "stores/user-settings.js";
 
   const appTitle = "Fuse Fonts";

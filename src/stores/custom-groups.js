@@ -1,6 +1,6 @@
 import { writable, derived } from "svelte/store";
 import customGroupRepository from "repositories/custom-groups.js";
-import CustomGroup from "../datatypes/custom-group";
+import CustomGroup from "datatypes/custom-group";
 
 
 /**

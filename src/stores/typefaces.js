@@ -1,16 +1,12 @@
 import { writable } from "svelte/store";
 import typefaceRepository from "repositories/typefaces.js";
 import { loadCustomGroups } from "stores/custom-groups.js"
+import { loading } from "stores/app-settings.js";
 
 /**
  * 
  */
 export const typefaces = writable({});
-
-/**
- * 
- */
-export const loading = writable(true);
 
 let unsubscribe;
 //

@@ -17,6 +17,7 @@ https://forums.adobe.com/thread/1941250
 
 */
 
+
 function prop(input) {
   return '"' + input + '"';
 }
@@ -55,13 +56,19 @@ function getFontList() {
 // testing:
 // getFontList();
 
+// function getNotSelectedFont(selectedFont) {
+//   for (var i = 0, ii = 3; i < ii; i++) {
+//     var font = app.fonts[i];
+    
+//   }
+// }
 
 
 /**
  * Sets the currently selected layer's font to be the argument postScriptName
  * @param {string} postScriptName 
  */
-function applyTypefaceByPostScriptName(postScriptName) {
+function applyTypefaceByPostScriptName(postScriptName, style) {
   
   var response = {
     result: false,
@@ -69,13 +76,15 @@ function applyTypefaceByPostScriptName(postScriptName) {
   };
 
   if (app.documents.length) {
-
+    
     var activeLayer = app.activeDocument.activeLayer;
     response.message = "Current Layer is not a Text Layer."
     
     if (activeLayer.kind === LayerKind.TEXT) {
       try {
+        
         activeLayer.textItem.font = postScriptName;
+        activeLayer.textItem.style = style;
         response.result = true;
         response.message = "All Good.";
       }

@@ -17,15 +17,15 @@ export default class TypeFace {
 
   addVariant(font) {
     const name = TypeFace.toID(font.postScriptName);
-    const style = TypeFace.mapFontToCSS(font);
-    const { postScriptName } = font;
+    const { postScriptName, style } = font;
+    const cssProperties = TypeFace.mapFontToCSS(font);
     const variant = { 
       name, 
       style, 
+      cssProperties,
       description: font.style,
       postScriptName,
-      font, 
-      // parent: this,
+      font,
     };
     
     // we try to determine which variant is the regular or base font, but if we can't we just use the first added.
@@ -40,8 +40,8 @@ export default class TypeFace {
   static getPostScriptName(typeface, variant = null) {
     const name = variant === null ? typeface.defaultVariant : variant.name;
     const _variant = typeface.variants.find(v => v.name === name);
-
-    return _variant.postScriptName;
+    
+    return _variant;
   }
 
   /**

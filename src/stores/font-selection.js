@@ -1,7 +1,6 @@
 import { writable, get } from "svelte/store";
 import TypefaceLibrary from "datatypes/typeface-library.js";
 import { typefaces } from "stores/typefaces";
-import TypeFace from "datatypes/typeface";
 
 
 
@@ -147,3 +146,5 @@ function selectionStore(initialValue = new TypefaceLibrary()) {
 
 
 export const selected = selectionStore();
+
+selected.subscribe(values => console.log(selected.get()));
