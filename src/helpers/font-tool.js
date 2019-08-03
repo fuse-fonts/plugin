@@ -5,6 +5,7 @@ import TypeFace from "datatypes/typeface.js";
 export const applyTypeface = async (typeface, variant = null) => {
 
   const postScriptName = TypeFace.getPostScriptName(typeface, variant);
+  console.log(`Applying "${postScriptName}"`);
 
   const result = await new Promise((resolve, reject) => {
 

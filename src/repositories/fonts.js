@@ -39,6 +39,9 @@ async function loadFonts() {
     console.log(`${file}: %cLoading fonts from file system`, logColor)
     fonts = await loadFromFileSystem();
     console.log(`${file}: %cFonts loaded from file system`, logColor);
+    console.group("font data")
+    console.log(fonts)
+    console.groupEnd("font data")
   }
   else {
     console.log(`${file}:%cFonts loaded from local storage`, logColor);
