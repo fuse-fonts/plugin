@@ -1,4 +1,5 @@
-﻿// if (BridgeTalk.appName === "photoshop") {
+﻿
+// if (BridgeTalk.appName === "photoshop") {
 //   // do things
 // }
 
