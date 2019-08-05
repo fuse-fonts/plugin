@@ -96,7 +96,7 @@ function applyTypefaceByPostScriptName(postScriptName, style) {
       }
     }
   }
-  return '{ "result":' + response.result.toString() + ', "message": "' + response.message + '" }';
+  return response; 
 }
 
 
@@ -110,39 +110,47 @@ function applyTypefaceByPostScriptName(postScriptName, style) {
 function setFont(family, postScriptName, fontStyle) {
 
 
-  var message = applyTypefaceByPostScriptName(postScriptName);
+  var response = applyTypefaceByPostScriptName(postScriptName);
 
-  /* ========================================== */
-  var idsetd = charIDToTypeID("setd");
-  var desc4750 = new ActionDescriptor();
-  var idnull = charIDToTypeID("null");
-  var ref241 = new ActionReference();
-  var idPrpr = charIDToTypeID("Prpr");
-  var idTxtS = charIDToTypeID("TxtS");
-  ref241.putProperty(idPrpr, idTxtS);
-  var idTxLr = charIDToTypeID("TxLr");
-  var idOrdn = charIDToTypeID("Ordn");
-  var idTrgt = charIDToTypeID("Trgt");
-  ref241.putEnumerated(idTxLr, idOrdn, idTrgt);
-  desc4750.putReference(idnull, ref241);
-  var idT = charIDToTypeID("T   ");
-  var desc4751 = new ActionDescriptor();
-  var idtextOverrideFeatureName = stringIDToTypeID("textOverrideFeatureName");
-  desc4751.putInteger(idtextOverrideFeatureName, 808465457);
-  var idtypeStyleOperationType = stringIDToTypeID("typeStyleOperationType");
-  desc4751.putInteger(idtypeStyleOperationType, 3);
-  var idfontPostScriptName = stringIDToTypeID("fontPostScriptName");
-  // desc4751.putString( idfontPostScriptName, """Bahnschrift-SemiLightCondensed""" );
-  desc4751.putString(idfontPostScriptName, postScriptName);
-  var idFntN = charIDToTypeID("FntN");
-  //desc4751.putString( idFntN, """Bahnschrift""" );
-  desc4751.putString(idFntN, family);
-  var idFntS = charIDToTypeID("FntS");
-  desc4751.putString(idFntS, fontStyle);
+  if (response.result) {
+    /* ========================================== */
+    var idsetd = charIDToTypeID("setd");
+    var desc4750 = new ActionDescriptor();
+    var idnull = charIDToTypeID("null");
+    var ref241 = new ActionReference();
+    var idPrpr = charIDToTypeID("Prpr");
+    var idTxtS = charIDToTypeID("TxtS");
+    ref241.putProperty(idPrpr, idTxtS);
+    var idTxLr = charIDToTypeID("TxLr");
+    var idOrdn = charIDToTypeID("Ordn");
+    var idTrgt = charIDToTypeID("Trgt");
+    ref241.putEnumerated(idTxLr, idOrdn, idTrgt);
+    desc4750.putReference(idnull, ref241);
+    var idT = charIDToTypeID("T   ");
+    var desc4751 = new ActionDescriptor();
+    var idtextOverrideFeatureName = stringIDToTypeID("textOverrideFeatureName");
+    desc4751.putInteger(idtextOverrideFeatureName, 808465457);
+    var idtypeStyleOperationType = stringIDToTypeID("typeStyleOperationType");
+    desc4751.putInteger(idtypeStyleOperationType, 3);
+    var idfontPostScriptName = stringIDToTypeID("fontPostScriptName");
+    // desc4751.putString( idfontPostScriptName, """Bahnschrift-SemiLightCondensed""" );
+    desc4751.putString(idfontPostScriptName, postScriptName);
+    var idFntN = charIDToTypeID("FntN");
+    //desc4751.putString( idFntN, """Bahnschrift""" );
+    desc4751.putString(idFntN, family);
+    var idFntS = charIDToTypeID("FntS");
+    desc4751.putString(idFntS, fontStyle);
+  
+    var idTxtS = charIDToTypeID("TxtS");
+    desc4750.putObject(idT, idTxtS, desc4751);
 
-  var idTxtS = charIDToTypeID("TxtS");
-  desc4750.putObject(idT, idTxtS, desc4751);
-  executeAction(idsetd, desc4750, DialogModes.NO);
+    try {
+      executeAction(idsetd, desc4750, DialogModes.NO);
+    }
+    catch (e) {
+      response.message = e;
+    }
+  }
 
-  return message;
+  return '{ "result":' + response.result.toString() + ', "message": "' + response.message + '" }';;
 }
