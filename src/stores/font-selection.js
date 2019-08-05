@@ -146,5 +146,3 @@ function selectionStore(initialValue = new TypefaceLibrary()) {
 
 
 export const selected = selectionStore();
-
-selected.subscribe(values => console.log(selected.get()));

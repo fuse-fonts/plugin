@@ -23,7 +23,7 @@ export default class TypeFace {
       name, 
       style, 
       cssProperties,
-      description: font.style,
+      description: font.style, // this is redundant
       postScriptName,
       font,
     };

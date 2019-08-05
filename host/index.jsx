@@ -18,6 +18,10 @@ https://forums.adobe.com/thread/1941250
 
 */
 
+function refreshPhotoshopFonts() {
+  app.refreshFonts();
+  return '{ "result": true, "message": null }';
+}
 
 function prop(input) {
   return '"' + input + '"';
@@ -57,12 +61,6 @@ function getFontList() {
 // testing:
 // getFontList();
 
-// function getNotSelectedFont(selectedFont) {
-//   for (var i = 0, ii = 3; i < ii; i++) {
-//     var font = app.fonts[i];
-    
-//   }
-// }
 
 
 /**
@@ -82,12 +80,16 @@ function applyTypefaceByPostScriptName(postScriptName, style) {
     response.message = "Current Layer is not a Text Layer."
     
     if (activeLayer.kind === LayerKind.TEXT) {
+
+
+
       try {
-        
+
         activeLayer.textItem.font = postScriptName;
-        activeLayer.textItem.style = style;
+
         response.result = true;
         response.message = "All Good.";
+
       }
       catch(e) {
         response.message = e;
@@ -95,4 +97,52 @@ function applyTypefaceByPostScriptName(postScriptName, style) {
     }
   }
   return '{ "result":' + response.result.toString() + ', "message": "' + response.message + '" }';
+}
+
+
+/** setFont
+ *  Change the current font based on the family, postscriptname, and style
+ * Note: this code was generated from ScriptListener, and tweaked to allow parameters. it's not easy to read.
+ * @param {string} family The human=readable font family, like "Birch Std"
+ * @param {string} postScriptName the on-file name of the font, like "Birch-Std"
+ * @param {string} fontStyle the style of the font, liek "Regular" or "SemiBold"
+ */
+function setFont(family, postScriptName, fontStyle) {
+
+
+  var message = applyTypefaceByPostScriptName(postScriptName);
+
+  /* ========================================== */
+  var idsetd = charIDToTypeID("setd");
+  var desc4750 = new ActionDescriptor();
+  var idnull = charIDToTypeID("null");
+  var ref241 = new ActionReference();
+  var idPrpr = charIDToTypeID("Prpr");
+  var idTxtS = charIDToTypeID("TxtS");
+  ref241.putProperty(idPrpr, idTxtS);
+  var idTxLr = charIDToTypeID("TxLr");
+  var idOrdn = charIDToTypeID("Ordn");
+  var idTrgt = charIDToTypeID("Trgt");
+  ref241.putEnumerated(idTxLr, idOrdn, idTrgt);
+  desc4750.putReference(idnull, ref241);
+  var idT = charIDToTypeID("T   ");
+  var desc4751 = new ActionDescriptor();
+  var idtextOverrideFeatureName = stringIDToTypeID("textOverrideFeatureName");
+  desc4751.putInteger(idtextOverrideFeatureName, 808465457);
+  var idtypeStyleOperationType = stringIDToTypeID("typeStyleOperationType");
+  desc4751.putInteger(idtypeStyleOperationType, 3);
+  var idfontPostScriptName = stringIDToTypeID("fontPostScriptName");
+  // desc4751.putString( idfontPostScriptName, """Bahnschrift-SemiLightCondensed""" );
+  desc4751.putString(idfontPostScriptName, postScriptName);
+  var idFntN = charIDToTypeID("FntN");
+  //desc4751.putString( idFntN, """Bahnschrift""" );
+  desc4751.putString(idFntN, family);
+  var idFntS = charIDToTypeID("FntS");
+  desc4751.putString(idFntS, fontStyle);
+
+  var idTxtS = charIDToTypeID("TxtS");
+  desc4750.putObject(idT, idTxtS, desc4751);
+  executeAction(idsetd, desc4750, DialogModes.NO);
+
+  return message;
 }
