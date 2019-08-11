@@ -14,7 +14,7 @@ export const applyTypeface = async (typeface, variant = null) => {
 
 
   const result = await new Promise((resolve, reject) => {
-    // console.log(`setFont("${typeface.family}", "${postScriptName}", "${style}")`);
+    console.log(`setFont("${typeface.family}", "${postScriptName}", "${style}")`);
     // previously called applyTypefaceByPostScriptName
     csInterface.evalScript(`setFont("${typeface.family}", "${postScriptName}", "${style}")`, (result) => {
       let response = tryParseJSON(result);

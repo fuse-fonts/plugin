@@ -141,7 +141,7 @@
   export const seperatorHeight = 7;
   
   $: topPaneHeight = Math.round(window.innerHeight * (split / 100));
-  $: bottomPaneHeight = Math.round(window.innerHeight * (1 - (split / 100) - seperatorHeight));
+  $: bottomPaneHeight = Math.round((window.innerHeight * (1 - (split / 100)) - seperatorHeight));
   
   // dom references
   let root;
