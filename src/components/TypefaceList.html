@@ -9,7 +9,7 @@
         </div>
       </h2>
       <section class="filter">
-        <TypefaceFilter on:filter={(e) => filter(e.detail)} />
+        <TypefaceFilter on:filter={(e) => filter(e.detail)} bind:value={filterText} />
       </section>
     </header>
     
@@ -31,6 +31,7 @@
             </div>
             <h4 class="filter-text">{filterText}</h4>
             <p>...was not found within <b>{$selectedGroup.name}</b></p>
+            <button on:click={clearFilter}>Clear</button>
           {:else}
             <div class="icon-section">
               <Icon disabled={true} color="var(--muted-color)" icon="folder_open" size="large" />
@@ -261,5 +262,9 @@
       removeTypefaceFromGroup($selectedGroup, typeface);
       return value;
     })
+  }
+
+  function clearFilter() {
+    return filter("");
   }
 </script>
