@@ -51,6 +51,9 @@
 
 <style>
   .typeface-filter {
+    
+    --filter-color: var(--panel-layer-3);
+
     padding: 0.5rem 0.5rem;
     position: relative;
     width: 100%;
@@ -81,7 +84,7 @@
   }
 
   .has-value {
-    background-color: var(--error-color);
+    background-color: var(--filter-color);
   }
 
   input::placeholder {
@@ -95,7 +98,7 @@
   input:focus {
     box-shadow: none;
     outline: none;
-    background-color: var(--error-color);
+    background-color: var(--filter-color);
     color: var(--foreground-color);
   }
 
