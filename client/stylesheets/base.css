@@ -73,7 +73,7 @@ body.theme--medium {
 body.theme--light {
   --accent-color: #6bb;
   --muted-accent-color: #6faaaa;
-  --error-color: #600;
+  --error-color: #822;
   --muted-color: rgba(0,0,0,0.5);
   
 
@@ -81,14 +81,14 @@ body.theme--light {
   --body-color: #464646;
   --foreground-color: #222;
 
-  --panel-layer-0: #b0b0b0;
-  --panel-layer-1: #ccc;
-  --panel-layer-2: #ddd;
-  --panel-layer-3: #f0f0f0;
+  --panel-layer-0: #a3a3a3;
+  --panel-layer-1: #b8b8b8;
+  --panel-layer-2: #c6c6c6;
+  --panel-layer-3: #d4d4d4;
   --panel-border: 1px solid transparent;
 
-  --panel-item: var(--panel-layer-1);
-  --panel-item-hover: var(--panel-layer-2);
+  --panel-item: var(--panel-layer-2);
+  --panel-item-hover: var(--panel-layer-3);
 
   --selected-background: var(--accent-color);
   --selected-color: #000;
@@ -97,10 +97,10 @@ body.theme--light {
   --input-border: 3px solid #777;
   --input-border-active: 3px solid var(--accent-color);
 
-  --scrollbar-track: #b0b0b0;
-  --scrollbar-thumb: #ccc;
+  --scrollbar-track: #a3a3a3;
+  --scrollbar-thumb: #bdbdbd;
 
-  --notifications-panel: #333;
+  --notifications-panel: #d4d4d4;
 }
 
 body.theme--bright {
