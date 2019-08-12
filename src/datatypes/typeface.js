@@ -38,6 +38,7 @@ export default class TypeFace {
   }
 
   static getPostScriptName(typeface, variant = null) {
+    
     const name = variant === null ? typeface.defaultVariant : variant.name;
     const _variant = typeface.variants.find(v => v.name === name);
     
@@ -83,7 +84,7 @@ export default class TypeFace {
 
       // need to set the default variant for this subset
       if (!variants.includes("regular")) {
-        clone.defaultVariant = clone.variants[0];
+        clone.defaultVariant = clone.variants[0].name;
       }
 
     }
