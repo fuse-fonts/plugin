@@ -1,22 +1,31 @@
 import tryParseJSON from "helpers/tryParseJSON.js";
+import { info, warning } from "helpers/logger.js";
 
 const LOCALSTORAGE_SETTINGS = "user-settings";
+const serviceName = "user settings";
 
 
 /**
  *
  */
-const loadFromLocalStorage = () => tryParseJSON(localStorage.getItem(LOCALSTORAGE_SETTINGS));
+const loadFromLocalStorage = () => {
+  info("Loading", null, serviceName);
+  return tryParseJSON(localStorage.getItem(LOCALSTORAGE_SETTINGS));
+}
 
 
 /**
  *
  */
 const saveToLocalStorage = (data) => {
+  info("Changed", data, serviceName);
   localStorage.setItem(LOCALSTORAGE_SETTINGS, data);
 };
 
-const removeLocalStorage = () => localStorage.removeItem(LOCALSTORAGE_SETTINGS);
+const removeLocalStorage = () => {
+  warning("Clearing", null, serviceName);
+  return localStorage.removeItem(LOCALSTORAGE_SETTINGS);
+}
 
 export default {
 

@@ -1,5 +1,6 @@
 import tryParseJSON from "helpers/tryParseJSON.js";
 import csInterface from "helpers/cs-interface.js";
+import { info, warning, error } from "helpers/logger.js";
 
 const GET_FONT_LIST_JSX = "getFontList()";
 const LOCALSTORAGE_FONTS = "fonts";
@@ -16,7 +17,7 @@ const purgeFromLocalStorage = () => localStorage.removeItem(LOCALSTORAGE_FONTS);
 const loadFromFileSystem = () => {
   return new Promise((resolve, reject) => csInterface.evalScript(GET_FONT_LIST_JSX, (result) => {
     const fonts = tryParseJSON(result);
-    if (fonts === null) return reject();
+    if (fonts === null ) return reject();
 
     // cache for future lookups
     // saveToLocalStorage(result);
@@ -25,29 +26,28 @@ const loadFromFileSystem = () => {
   }));
 }
 
-const file = "fonts service";
-const logColor = "color: #bb0;";
+const serviceName = "fonts service";
 
 /** Try to Load fonts from local storage, then from the file system
  * @returns {[Typeface]|null} Returns data, or null if there was a problem
  */
 async function loadFonts() {
-  console.log(`${file}: %cLoading fonts...`, logColor)
+  info("Loading", null, serviceName);
+  
   let fonts = loadFromLocalStorage();
 
   if (fonts === null) {
-    console.log(`${file}: %cLoading fonts from file system`, logColor)
+    warning("Fonts not in local storage", null, serviceName);
+    info("Loading fonts from file system", null, serviceName);
     fonts = await loadFromFileSystem();
-    console.log(`${file}: %cFonts loaded from file system`, logColor);
-    console.group("font data")
-    console.log(fonts)
-    console.groupEnd("font data")
+    info("fonts loaded from file system", fonts, serviceName);
   }
   else {
-    console.log(`${file}:%cFonts loaded from local storage`, logColor);
+    info("fonts loaded from local storage", fonts, serviceName);
   }
 
-  console.log(`${file}: %cFonts loaded.`, logColor)
+  info("Loaded.", fonts, serviceName);
+
   return fonts;
 };
 

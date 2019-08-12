@@ -36,8 +36,3 @@ export const clearData = () => {
   loadData();
   window.setTimeout(() => loading.set(false), 2000);
 }
-
-
-console.log("loading");
-loadData();
-loading.set(false);

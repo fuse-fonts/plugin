@@ -1,16 +1,18 @@
 import tryParseJSON from "helpers/tryParseJSON.js";
 import TypefaceLibrary from "datatypes/typeface-library";
 import fontRepository from "repositories/fonts.js";
+import { info, warning } from "helpers/logger.js";
 
 const LOCALSTORAGE_TYPEFACES_KEY = "typefaces";
 
-const file = "typeface service";
-const logColor = "color: #69b";
+const serviceName = "typeface service";
+
 
 /**
  * @returns {object}
  */
 const loadFromLocalStorage = () => {
+  info("Loading from local storage", null, serviceName);
   return tryParseJSON(localStorage.getItem(LOCALSTORAGE_TYPEFACES_KEY));
 };
 
@@ -19,11 +21,12 @@ const loadFromLocalStorage = () => {
  * @param {TypefaceLibrary} data 
  */
 const saveToLocalStorage = (data) => {
-  console.log(`${file}: %cSaving Typeface data`, logColor);
+  info("Saving to local storage", data, serviceName);
   localStorage.setItem(LOCALSTORAGE_TYPEFACES_KEY, JSON.stringify(data));
 };
 
 const clearLocalStorage = () => {
+  info("Clearing Local Storage", null, serviceName);
   localStorage.removeItem(LOCALSTORAGE_TYPEFACES_KEY);
 }
 
@@ -33,25 +36,24 @@ const clearLocalStorage = () => {
  */
 async function loadTypefaces() {
 
-  console.log(`${file}: %cLoading typefaces...`, logColor);
+  info("Loading...", null, serviceName);
 
   const typefaces = loadFromLocalStorage();
   let library = null;
 
   // if there was no data in local storage we fetch from the JSX
   if (typefaces === null) {
+    warning("Typefaces not in local storage", null, serviceName);
     const fonts = await fontRepository.load();
-    console.log(`${file}: %cTypefaces loaded from font data`, logColor);
+    info("Loaded from font data", fonts, serviceName);
     library = TypefaceLibrary.parseFonts(fonts);
   }
   else {
-    console.log(`${file}: %cSkipping font service`, logColor);
-    console.log(`${file}: %cTypefaces loaded from local storage`, logColor);
+    info("Loaded typefaces from local storage", typefaces, serviceName);
     library = new TypefaceLibrary(typefaces);
   }
 
-  console.log(`${file}: %cTypefaces Loaded ✔`, logColor);
-
+  info("Loaded.", null, serviceName);
   return library;
 };
 

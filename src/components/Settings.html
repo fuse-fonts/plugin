@@ -6,9 +6,10 @@
   import { fly, fade, slide } from "svelte/transition";
   import  { onMount } from "svelte";
 
-  import { settings, settingsOpened } from "stores/user-settings.js";
+  import { settings, settingsOpened, displayLog } from "stores/user-settings.js";
   import { clearData as clearTypefaceCache } from "stores/typefaces.js";
   import { customGroups, clearCustomGroups } from "stores/custom-groups.js";
+  import { clearLogs } from "helpers/logger.js";
   import fileSystemRepository from "repositories/file-system.js";
   import csInterface from "helpers/cs-interface.js";
   export let appTitle = "this plugin";
@@ -91,6 +92,8 @@
       <p class="note">OS: {csInterface.getOSInformation()}</p>
       <p class="note">Extension ID: {csInterface.getExtensionID()}</p>
       <p class="note">UI Display Scale: {csInterface.getScaleFactor()}</p>
+      <p class="note">Log: <button on:click="{() => displayLog.set(!$displayLog)}">{$displayLog ? "Hide" : "Display"} Log</button> <button on:click="{() => clearLogs()}">Clear Log</button></p>
+      
     </section>
 
     <h2 class="toggle-region" on:click="{() => dangerZoneActive = !dangerZoneActive}"> <Icon icon={dangerZoneActive ? "keyboard_arrow_down" : "keyboard_arrow_right"} /> Danger Zone</h2>

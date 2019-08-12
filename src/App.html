@@ -21,7 +21,11 @@
         
       </ResizablePane>
     </DragRegion>
-  
+
+{/if}
+
+{#if $displayLog}
+  <Log />
 {/if}
   
 
@@ -38,6 +42,7 @@
 
   // sub components
   import Loading from "components/Loading.html"
+  import Log from "components/Log.html"
   import Settings from "components/Settings.html";
   import ResizablePane from "components/ResizablePane.html";
   import DragRegion from "components/DragRegion.html";
@@ -49,7 +54,7 @@
 
   // stores
   import { loading } from "stores/app-settings.js";
-  import { settings, settingsOpened } from "stores/user-settings.js";
+  import { settings, settingsOpened, displayLog } from "stores/user-settings.js";
 
   const appTitle = "Fuse Fonts";
 

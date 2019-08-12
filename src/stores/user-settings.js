@@ -43,3 +43,5 @@ function resetableSettingsStore() {
 export const settings = resetableSettingsStore();
 
 export const settingsOpened = writable(initialSettingsOpen);
+
+export const displayLog = writable(true);

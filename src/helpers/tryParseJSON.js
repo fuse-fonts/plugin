@@ -1,5 +1,5 @@
 
-window.resultsLog = {};
+import { info as logInfo, error as logError } from "helpers/logger.js";
 
 /**
  * Helper for attempting to parse a JSON response from the host
@@ -9,16 +9,24 @@ window.resultsLog = {};
 export default (json) => {
 
   // we also log results
-  const logTimeKey = new Date().toLocaleString();
-  resultsLog[logTimeKey] = json;
-
+  const time = new Date().toLocaleString();
+  
+  let result = null;
+  
   try {
-    return JSON.parse(json);
+    result = JSON.parse(json);
   }
   catch (e) {
-    let message = "Could not parse JSON";
+    let message = "Failed to parse JSON";
     console.warn(message);
     console.error(e);
-    return null;
+    logError(message, { json, error: e });
   }
+  
+  // an error was never thrown
+  if (result !== null) {
+    logInfo("JSON parsed", result);
+  }
+
+  return result;
 }

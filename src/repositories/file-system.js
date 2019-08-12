@@ -1,28 +1,25 @@
 const fs = window.cep.fs;
 import csInterface from "helpers/cs-interface.js";
 import tryParseJSON from "helpers/tryParseJSON.js";
+import { info, error } from "helpers/logger.js";
 
 
 const backupDirectory = `${csInterface.getSystemPath(SystemPath.USER_DATA)}/${csInterface.getExtensionID()}`;
 const backupFileName = `backup.json`;
 const backupFilePath = `${backupDirectory}/${backupFileName}`;
 
-const fileName = "backup service";
-const color = "color: #b60;";
-const log = (message) => {
-  console.log(`${fileName}: %c${message}`, color);
-}
+const serviceName = "backup service"; // for logging
 
 const createFolderIfNotExists = () => {
   
   if (fs.readdir(backupDirectory).err !== fs.NO_ERROR) {
-    log("Creating Directory for backups...");
+    info("Creating Directory for backups...", backupDirectory, serviceName);
     const result = fs.makedir(backupDirectory);
     if (result.err === fs.NO_ERROR) {
-      log(`Created at "${backupDirectory}"`);
+      info(`Created at "${backupDirectory}"`, backupDirectory, serviceName);
     }
     else {
-      log(`Could not create directory. Error: ${result.err}`);
+      error(`Could not create directory. Error: ${result.err}`, result, serviceName);
     }
   }
 
@@ -31,14 +28,14 @@ const createFolderIfNotExists = () => {
 const saveJSON = (data) => {
   
   createFolderIfNotExists();
-  log("Saving backup...");
+  info("Saving...", backupFilePath, serviceName);
   const result = fs.writeFile(backupFilePath, data);
 
   if (result.err === fs.NO_ERROR) {
-    log(`Saved to "${backupFilePath}"`);
+    info(`Saved.`, backupFilePath, serviceName);
   }
   else {
-    log(`Could not save backup file. Error: ${result.err}`);
+    error(`Could not save backup file. Error: ${result.err}`, result, serviceName);
   }
 };
 

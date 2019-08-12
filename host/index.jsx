@@ -92,7 +92,7 @@ function applyTypefaceByPostScriptName(postScriptName, style) {
 
       }
       catch(e) {
-        response.message = e;
+        response.message = e.message;
       }
     }
   }
@@ -108,7 +108,6 @@ function applyTypefaceByPostScriptName(postScriptName, style) {
  * @param {string} fontStyle the style of the font, liek "Regular" or "SemiBold"
  */
 function setFont(family, postScriptName, fontStyle) {
-
 
   var response = applyTypefaceByPostScriptName(postScriptName);
 
@@ -148,8 +147,16 @@ function setFont(family, postScriptName, fontStyle) {
       executeAction(idsetd, desc4750, DialogModes.NO);
     }
     catch (e) {
-      response.message = e;
+      response.message = e.message;
     }
+  }
+
+  response.message = response.message.replace("\n", "");
+
+  var notATextLayerError = "Could not complete the command because a text layer is not selected.";
+
+  if (response.message.indexOf(notATextLayerError) >= 0) {
+    response.message = notATextLayerError;
   }
 
   return '{ "result":' + response.result.toString() + ', "message": "' + response.message + '" }';;
