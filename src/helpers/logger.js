@@ -31,7 +31,7 @@ export function log(level, message, details, service) {
 
   if (logToConsole) {
     const title = !entry.service ? `${entry.message}%c` : `${entry.service}: %c${entry.message}`;
-    const color = "color: #0a5";
+    const color = "color: #0a5; font-weight: 400;";
     console.groupCollapsed(title, color)
     console.log(entry);
     console.groupEnd(title, color)
