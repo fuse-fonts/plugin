@@ -26,7 +26,7 @@
 </div>
 
 <script>
-  let list;
+  let list = null;
   let expanded = false;
 
   import Icon from "components/Icon.html";
@@ -35,12 +35,15 @@
 
 
   logStore.subscribe( values => {
-    window.setTimeout(() => {
-      list.scroll({
-        top: list.scrollHeight,
-        behavior: 'smooth'
-      });
-    })
+
+    if (list) {
+      window.setTimeout(() => {
+        list.scroll({
+          top: list.scrollHeight,
+          behavior: 'smooth'
+        });
+      })
+    }
 
   });
 </script>
