@@ -52,10 +52,10 @@ body.theme--medium {
   --body-color: #f0f0f0;
   --foreground-color: #fff;
 
-  --panel-layer-0: #282828;
-  --panel-layer-1: #6b6b6b;
-  --panel-layer-2: #777;
-  --panel-layer-3: #8a8a8a;
+  --panel-layer-0: #454545;
+  --panel-layer-1: #5a5a5a;
+  --panel-layer-2: #666;
+  --panel-layer-3: #6b6b6b;
 
   --panel-border: 1px solid rgba(0,0,0,0.2);
   --panel-item-hover: rgba(255,255,255,0.1);
@@ -64,9 +64,10 @@ body.theme--medium {
   --input-border: 3px solid #888;
   --input-border-active: 3px solid var(--accent-color);
 
-  --scrollbar-track: #444;
+  --scrollbar-track: #454545;
   --scrollbar-thumb: #666;
 
+  --notifications-panel: #333;
 }
 
 body.theme--light {
@@ -98,6 +99,8 @@ body.theme--light {
 
   --scrollbar-track: #b0b0b0;
   --scrollbar-thumb: #ccc;
+
+  --notifications-panel: #333;
 }
 
 body.theme--bright {
