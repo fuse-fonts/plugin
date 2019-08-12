@@ -1,6 +1,6 @@
 const fs = window.cep.fs;
 import csInterface from "helpers/cs-interface.js";
-import tryParseJSON from "helpers/tryParseJSON.js";
+import tryParseJSON from "helpers/try-parse-json.js";
 import { info, error } from "helpers/logger.js";
 
 

@@ -1,4 +1,4 @@
-import tryParseJSON from "helpers/tryParseJSON.js";
+import tryParseJSON from "helpers/try-parse-json.js";
 import TypefaceLibrary from "datatypes/typeface-library";
 import fontRepository from "repositories/fonts.js";
 import { info, warning } from "helpers/logger.js";

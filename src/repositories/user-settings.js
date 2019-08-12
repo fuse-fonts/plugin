@@ -1,4 +1,4 @@
-import tryParseJSON from "helpers/tryParseJSON.js";
+import tryParseJSON from "helpers/try-parse-json.js";
 import { info, warning } from "helpers/logger.js";
 
 const LOCALSTORAGE_SETTINGS = "user-settings";

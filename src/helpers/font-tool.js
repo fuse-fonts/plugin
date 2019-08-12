@@ -1,4 +1,4 @@
-import tryParseJSON from "helpers/tryParseJSON.js";
+import tryParseJSON from "helpers/try-parse-json.js";
 import csInterface from "helpers/cs-interface.js";
 import TypeFace from "datatypes/typeface.js";
 import { info } from "helpers/logger.js";

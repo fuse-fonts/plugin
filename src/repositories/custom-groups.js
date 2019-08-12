@@ -1,4 +1,4 @@
-import tryParseJSON from "helpers/tryParseJSON.js";
+import tryParseJSON from "helpers/try-parse-json.js";
 import CustomGroup from "datatypes/custom-group.js";
 import TypefaceLibrary from "datatypes/typeface-library";
 import fileSystemRepository from "repositories/file-system.js";
