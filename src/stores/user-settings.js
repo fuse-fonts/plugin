@@ -44,4 +44,4 @@ export const settings = resetableSettingsStore();
 
 export const settingsOpened = writable(initialSettingsOpen);
 
-export const displayLog = writable(true);
+export const displayLog = writable(false);
