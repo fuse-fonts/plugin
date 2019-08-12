@@ -132,6 +132,7 @@ body.theme--bright {
 
   --scrollbar-track: #e8e8e8;
   --scrollbar-thumb: #f6f6f6;
+  --notifications-panel: var(--accent-color);
 }
 
 
