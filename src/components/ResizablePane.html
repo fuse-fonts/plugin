@@ -1,4 +1,5 @@
-<svelte:body on:mouseleave={resizeEnd} />
+<svelte:body on:mouseleave={resizeEnd}/>
+<svelte:window on:resize={throttle(containerResize, 50, true)} />
 
 {#if resizing}
   <section class="overlay" style="top: {split / 2}%;">
@@ -10,7 +11,6 @@
 {/if}
 
 <main bind:this={root} class:resizing style="--top-panel-height: {split}%">
-
 
   <section class="panel top-panel">
     <slot name="top" class="slot"></slot>
@@ -133,15 +133,22 @@
 
   import { onMount, } from "svelte";
   import { settings } from "stores/user-settings.js";
+  import { throttle } from "helpers/utils.js";
+
   // exports
   export let height = "auto";
   export let split = 50;
-  export let min = 14;
-  export let max = 70;
   export const seperatorHeight = 7;
   
-  $: topPaneHeight = Math.round(window.innerHeight * (split / 100));
-  $: bottomPaneHeight = Math.round((window.innerHeight * (1 - (split / 100)) - seperatorHeight));
+  let windowHeight = window.innerHeight;
+  const minPanelSize = 170;
+
+  $: min = minPanelSize / windowHeight;
+  $: max = 1 - (minPanelSize / windowHeight);
+  $: topPaneHeight = calcTopPanel(split);
+  $: bottomPaneHeight = calcBottomPanel(split);
+
+
   
   // dom references
   let root;
@@ -152,7 +159,6 @@
   
   // reactive and stateful vars
   let resizing = false;
-  let pointerID = null;
   
 
   const resizeStart = (e) => {
@@ -169,9 +175,10 @@
   }
 
   const resizeMove = (e) => {
-    let percent = (e.clientY / window.innerHeight);
-    const _split = Math.round(percent * 100);
-    split = clamp(_split, min, max);
+    let percent = (e.clientY / windowHeight);
+    
+    split = Math.round(clamp(percent, min, max) * 100);
+
     settings.setSplit(split);
     
   };
@@ -181,5 +188,20 @@
     root.style.setProperty("--top-panel-height", `${clampedValue}%`)
     
   };
+
+  function calcTopPanel(value) {
+    return Math.round(windowHeight * (value / 100));
+  }
+
+  function calcBottomPanel(value) {
+    return Math.round((windowHeight * (1 - (value / 100)) - seperatorHeight));
+  }
+
+  function containerResize(e) {
+    windowHeight = window.innerHeight;
+    const percent = split / 100;
+    split = Math.round(clamp(percent, min, max) * 100);
+    settings.setSplit(split);
+  }
 
 </script>
