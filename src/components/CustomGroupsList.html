@@ -8,18 +8,18 @@
       <li>
         <CustomGroup tiled={!listView} {group} selected={$selected === group} editing={group.isNew} on:select={selectGroup} on:dropped={addSelectionToGroup} />
       </li>
-    {:else}
-      <li class="empty">
-        <p>No Custom Groups</p>
-        <p>
-          <button class="create-group" on:click={createGroup}>
-            <i><Icon icon="folder" /></i> Create a new group
-          </button>
-        </p>
-      </li>
-    {/each}
-  </ul>
-  
+      {/each}
+    </ul>
+    {#if $customGroups.length === 0}
+    <section class="empty">
+      <p>No Custom Groups</p>
+      <p>
+        <button class="create-group" on:click={createGroup}>
+          <i><Icon icon="folder" /></i> Create a new group
+        </button>
+      </p>
+    </section>
+    {/if}
 
   <div class="custom-groups-actions">
     <ActionsPanel bind:listView={listView} />
@@ -39,9 +39,6 @@
     overflow-x: hidden;
     overflow-y: scroll;
     padding: 0rem 0rem 2rem 0rem;
-    height: calc(100% - 2.5rem);
-    background-color: var(--panel-layer-0);
-    background-color: var(--panel-layer-1);
   }
 
   .custom-groups-list li {
@@ -53,7 +50,7 @@
     background-color: var(--panel-layer-2);
   }
 
-  .custom-groups-list .empty {
+  .custom-groups .empty {
     padding: 1rem 1rem;
     text-align: center;
     color: var(--muted-color);
@@ -69,8 +66,6 @@
     overflow-x: hidden;
     overflow-y: scroll;
     padding: 0.5rem 0rem 0.5rem 0rem;
-    height: calc(100% - 2.5rem);
-
     display: flex;
     width: 100%;
     flex: 0 1 auto;
@@ -79,6 +74,7 @@
     flex-wrap: wrap;
     justify-content: flex-start;
     align-content: flex-start;
+    align-items: flex-start;
   }
 
   .custom-groups-tiles li {
@@ -90,6 +86,7 @@
     border-radius: 3px;
     background-color: var(--panel-layer-1);
     margin: 0.5rem 0.5rem;
+    
   }
 
   .custom-groups-tiles li:first-of-type {
