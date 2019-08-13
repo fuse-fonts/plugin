@@ -15,7 +15,7 @@
       <p>No Custom Groups</p>
       <p>
         <button class="create-group" on:click={createGroup}>
-          <i><Icon icon="folder" /></i> Create a new group
+          <i><Icon icon="folder" /></i> Create Group
         </button>
       </p>
     </section>
@@ -91,6 +91,11 @@
 
   .custom-groups-tiles li:first-of-type {
     width: 100%;
+  }
+
+  button.create-group {
+    padding: 0.75rem 1rem;
+    background-color: var(--panel-layer-2);
   }
 </style>
 
