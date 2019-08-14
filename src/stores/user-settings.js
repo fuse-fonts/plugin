@@ -1,22 +1,31 @@
 import { writable } from "svelte/store";
 import userSettingsRepository from "repositories/user-settings.js";
+import csInterface from "helpers/cs-interface.js";
 
-const initialSettingsOpen = false;
 export const defaultSettings = {
   applyTypeface: true,
   panelSplit: 20,
   listView: true,
+  fontSize: csInterface.getHostEnvironment().appSkinInfo.baseFontSize || 10,
 };
 
 function resetableSettingsStore() {
   
   const cachedSettings = userSettingsRepository.load();
-
+  
   const store = writable(cachedSettings || defaultSettings);
   const { subscribe, set, update } = store;
-
-
-  subscribe(data => userSettingsRepository.save(data));
+  
+  // break out of svelte to modify our base font size
+  const html = document.querySelector("html");
+  
+  subscribe(data => {
+    const fontSize = (data.fontSize ? data.fontSize : defaultSettings.fontSize);
+    
+    html.style.fontSize = `${fontSize}px`;
+    
+    userSettingsRepository.save(data);
+  });
 
   return {
     subscribe,
@@ -28,6 +37,14 @@ function resetableSettingsStore() {
       ...values,
       panelSplit: value,
     })),
+
+    setFontSize: (value) => {
+      console.log("setFontSize:", value)
+      return update(values => ({
+      ...values,
+      fontSize: value,
+    }))
+  },
 
     toggleSetting: (key) => {
       update(values => {
@@ -42,6 +59,6 @@ function resetableSettingsStore() {
 
 export const settings = resetableSettingsStore();
 
-export const settingsOpened = writable(initialSettingsOpen);
+export const settingsOpened = writable(true);
 
 export const displayLog = writable(false);

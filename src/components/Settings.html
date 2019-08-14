@@ -6,7 +6,8 @@
   import { fly, fade, slide } from "svelte/transition";
   import  { onMount } from "svelte";
 
-  import { settings, settingsOpened, displayLog } from "stores/user-settings.js";
+  import { loading, } from "stores/app-settings.js";
+  import { settings, settingsOpened, displayLog, defaultSettings } from "stores/user-settings.js";
   import { clearData as clearTypefaceCache } from "stores/typefaces.js";
   import { customGroups, clearCustomGroups } from "stores/custom-groups.js";
   import { clearLogs } from "helpers/logger.js";
@@ -38,6 +39,10 @@
   function openBackupFile() {
     csInterface.openURLInDefaultBrowser(`file:///${fileSystemRepository.backupFilePath}`);
   }
+
+  const smallFontSize = () => settings.setFontSize(9);
+  const mediumFontSize = () => settings.setFontSize(defaultSettings.fontSize);
+  const largeFontSize = () => settings.setFontSize(12);
 
 </script>
 
@@ -72,6 +77,18 @@
       </SettingButton>
       <p class="description">Resets all settings on this page to the defaults.</p>
       <p class="note">This won't delete anything important.</p>
+    </section>
+
+    <section class="setting">
+      <h2>Font Size</h2>
+      <p class="note">
+        Displaying at {$settings.fontSize}px.
+      </p>
+      <p class="note">
+        <button disabled={$settings.fontSize === 9} on:click={smallFontSize}>small</button>
+        <button disabled={$settings.fontSize === 10} on:click={mediumFontSize}>medium</button>
+        <button disabled={$settings.fontSize === 12} on:click={largeFontSize}>large</button>
+      </p>
     </section>
 
     
