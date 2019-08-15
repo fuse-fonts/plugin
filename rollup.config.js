@@ -3,7 +3,7 @@ import json from 'rollup-plugin-json';
 import commonjs from 'rollup-plugin-commonjs';
 import svelte from 'rollup-plugin-svelte';
 import includePaths from 'rollup-plugin-includepaths';
-
+import buble from "rollup-plugin-buble";
 // `npm run build` -> `production` is true
 // `npm run dev` -> `production` is false
 const production = !process.env.ROLLUP_WATCH;
@@ -52,13 +52,13 @@ export default {
         // as the second argument if you don't want the sourcemap
         css.write('client/stylesheets/main.css');
 
-      }
+      },
     }),
     
     // when ready for a production build:
     // transpile ES2015+ to ES5
-		// buble({
-		// 	exclude: ['node_modules/**']
-		// })
+    buble({
+    	exclude: ['node_modules/**']
+    })
   ]
 }
