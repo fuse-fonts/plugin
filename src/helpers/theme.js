@@ -18,9 +18,9 @@ export function detectTheme() {
     LIGHT: "theme--light",
     BRIGHT: "theme--bright",
   };
-
+  
   // clear theme from before
-  document.body.classList.remove(...Object.values(theme));
+  document.body.classList.remove(...Object.keys(theme).map(k => theme[k]));
 
   if (red <= 50) document.body.classList.add(theme.DARK);
   else if (red <= 83) document.body.classList.add(theme.MEDIUM);

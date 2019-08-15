@@ -33,27 +33,11 @@ function resetableSettingsStore() {
     update,
     reset: () => set(defaultSettings),
 
-    setSplit: (value) => update( values => ({
-      ...values,
-      panelSplit: value,
-    })),
+    setSplit: (panelSplit) => update( values => Object.assign({}, values, { panelSplit, })),
 
-    setFontSize: (value) => {
-      console.log("setFontSize:", value)
-      return update(values => ({
-      ...values,
-      fontSize: value,
-    }))
-  },
+    setFontSize: (fontSize) => update(values => Object.assign({}, values, { fontSize, })),
 
-    toggleSetting: (key) => {
-      update(values => {
-        return {
-          ...values,
-          [key]: !values[key],
-        }
-      })
-    }
+    toggleSetting: (key) => update(values => Object.assign({}, values, { [key]: !values[key], })),
   };
 }
 

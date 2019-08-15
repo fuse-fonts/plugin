@@ -10,22 +10,22 @@ export const typefaces = writable({});
 
 let unsubscribe;
 //
-export const loadData = () => typefaceRepository.load().then( async data => {
+export const loadData = () => typefaceRepository.load().then( data => {
   
   // console.log("typeface data:", data);
+  loadCustomGroups(data)
+    .then(() => {
 
-  await loadCustomGroups(data);
+      typefaces.set(data);
 
-  typefaces.set(data);
-  
-
-  // for testing
-  // window.setTimeout(() => {
-  //   console.log("loaded")
-  //   loading.set(false);
-  // }, 5000);
-  // after the real data is laoded — any changes we then save to local storage
-  unsubscribe = typefaces.subscribe(data => typefaceRepository.save(data));
+      // for testing
+      // window.setTimeout(() => {
+      //   console.log("loaded")
+      //   loading.set(false);
+      // }, 5000);
+      // after the real data is laoded — any changes we then save to local storage
+      unsubscribe = typefaces.subscribe(data => typefaceRepository.save(data));
+    })
 });
 
 

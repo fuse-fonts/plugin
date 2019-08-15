@@ -31,24 +31,28 @@ const serviceName = "fonts service";
 /** Try to Load fonts from local storage, then from the file system
  * @returns {[Typeface]|null} Returns data, or null if there was a problem
  */
-async function loadFonts() {
-  info("Loading", null, serviceName);
+function loadFonts() {
+
+  return new Promise((resolve, reject) => {
+
+    info("Loading", null, serviceName);
+    
+    let fonts = loadFromLocalStorage();
   
-  let fonts = loadFromLocalStorage();
-
-  if (fonts === null) {
-    warning("Fonts not in local storage", null, serviceName);
-    info("Loading fonts from file system", null, serviceName);
-    fonts = await loadFromFileSystem();
-    info("fonts loaded from file system", fonts, serviceName);
-  }
-  else {
-    info("fonts loaded from local storage", fonts, serviceName);
-  }
-
-  info("Loaded.", fonts, serviceName);
-
-  return fonts;
+    if (fonts === null) {
+      warning("Fonts not in local storage", null, serviceName);
+      info("Loading fonts from file system", null, serviceName);
+      return loadFromFileSystem().then((fonts) => {
+        info("fonts loaded from file system", fonts, serviceName);
+        info("Loaded.", fonts, serviceName);
+        resolve(fonts);
+      });
+    }
+    else {
+      info("fonts loaded from local storage", fonts, serviceName);
+      resolve(fonts);
+    }
+  });
 };
 
 

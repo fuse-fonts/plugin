@@ -44,25 +44,26 @@ const convertModelToJSON = (result) => {
  */
 export default {
 
-  load: async (typefaces) => {
-    
-    // if we can't laod from local storage, try our file system backup
-    const data = loadFromLocalStorage() || fileSystemRepository.load();
-
-    // if the result is still null, we have no data
-    if (data === null) {
-      return null;
-    }
-    
-    const customGroups = data.map(groupData => {
-      let group = new CustomGroup(groupData.name, groupData.ID, false);
-
-      group.typefaces = TypefaceLibrary.populateFromModel(typefaces, groupData.typefaces);
-
-      return group;
-    });
-
-    return customGroups
+  load: (typefaces) => {
+    return new Promise((resolve, reject) => {
+      // if we can't laod from local storage, try our file system backup
+      const data = loadFromLocalStorage() || fileSystemRepository.load();
+  
+      // if the result is still null, we have no data
+      if (data === null) {
+        return resolve(null);
+      }
+      
+      const customGroups = data.map(groupData => {
+        let group = new CustomGroup(groupData.name, groupData.ID, false);
+  
+        group.typefaces = TypefaceLibrary.populateFromModel(typefaces, groupData.typefaces);
+  
+        return group;
+      });
+  
+      resolve(customGroups);
+    })
   },
 
   save: (data) => {

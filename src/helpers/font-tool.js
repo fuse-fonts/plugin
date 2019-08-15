@@ -9,37 +9,31 @@ import { info } from "helpers/logger.js";
  * @param {TypeFace} typeface 
  * @param {Typeface.variant} variant 
  */
-export const applyTypeface = async (typeface, variant = null) => {
+export const applyTypeface = (typeface, variant = null) => {
 
   const { postScriptName, style } = TypeFace.getPostScriptName(typeface, variant);
 
 
-  const result = await new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     info(` applying ("${typeface.family}", "${postScriptName}", "${style}")`, typeface, "font-tool");
     // previously called applyTypefaceByPostScriptName
     csInterface.evalScript(`setFont("${typeface.family}", "${postScriptName}", "${style}")`, (result) => {
       let response = tryParseJSON(result);
       resolve(response);
     });
-
   });
-  
-  return result;
-}
+};
 
 /**
  * 
  */
-export const refreshPhotoshopFonts = async () => {
+export const refreshPhotoshopFonts = () => {
   
-  const result = await new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
 
     csInterface.evalScript(`refreshPhotoshopFonts()`, (result) => {
       let response = tryParseJSON(result);
       resolve(response);
     });
-
   });
-
-  return result;
-}
+};

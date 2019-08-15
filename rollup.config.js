@@ -33,7 +33,7 @@ export default {
 
     //trasnform svelte web components into their scripts
     svelte({
-
+      legacy: true,
       // You can restrict which files are compiled
       // using `include` and `exclude`
       include: 'src/**/*.html',
@@ -58,7 +58,10 @@ export default {
     // when ready for a production build:
     // transpile ES2015+ to ES5
     buble({
-    	exclude: ['node_modules/**']
+      // exclude: ['node_modules/**'],
+      transforms: {
+        arrow: true,
+      }
     })
   ]
 }

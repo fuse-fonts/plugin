@@ -34,27 +34,31 @@ const clearLocalStorage = () => {
 /**
  * 
  */
-async function loadTypefaces() {
-
-  info("Loading...", null, serviceName);
-
-  const typefaces = loadFromLocalStorage();
-  let library = null;
-
-  // if there was no data in local storage we fetch from the JSX
-  if (typefaces === null) {
-    warning("Typefaces not in local storage", null, serviceName);
-    const fonts = await fontRepository.load();
-    info("Loaded from font data", fonts, serviceName);
-    library = TypefaceLibrary.parseFonts(fonts);
-  }
-  else {
-    info("Loaded typefaces from local storage", typefaces, serviceName);
-    library = new TypefaceLibrary(typefaces);
-  }
-
-  info("Loaded.", null, serviceName);
-  return library;
+ function loadTypefaces() {
+  return new Promise((resolve, reject) => {
+    info("Loading...", null, serviceName);
+  
+    const typefaces = loadFromLocalStorage();
+    let library = null;
+  
+    // if there was no data in local storage we fetch from the JSX
+    if (typefaces === null) {
+      warning("Typefaces not in local storage", null, serviceName);
+      fontRepository.load()
+        .then(fonts => {
+          console.log(typeof fonts);
+          info("Loaded from font data", fonts, serviceName);
+          library = TypefaceLibrary.parseFonts(fonts);
+          resolve(library);
+        });
+    }
+    else {
+      info("Loaded typefaces from local storage", typefaces, serviceName);
+      library = new TypefaceLibrary(typefaces);
+      info("Loaded.", null, serviceName);
+      resolve(library);
+    }
+  })
 };
 
 
