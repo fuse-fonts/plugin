@@ -1,0 +1,52 @@
+<script>
+  
+  import SettingButton from "components/SettingButton.html";
+  import { fly, fade } from "svelte/transition";
+  import { selected } from "stores/font-selection.js";
+  import { settings } from "stores/user-settings.js";
+  
+  let count = 0;
+
+  selected.subscribe( value => {
+    count = value ? Object.keys(value).length : 0;
+  });
+
+</script>
+
+{#if count > 0 }
+  <section class="popover" transition:fly={{ y: 100, duration: 100 }}>
+    <div class="count">{count} selected</div>
+    <div class="apply-typeface">
+      <SettingButton 
+        toggles={true}
+        enabled={$settings.applyTypeface}
+        on:click={() => settings.toggleSetting("applyTypeface")}>
+        Auto-Apply to Text Layer
+        </SettingButton>
+    </div>
+  </section>
+{/if}
+
+<style>
+  .popover {
+    font-size: 1rem;
+    position: fixed;
+    bottom: 0rem;
+    left: 1rem;
+    right: 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: 2px;
+    background-color: var(--notifications-panel);
+    display: flex;
+    flex: 0 1 auto;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .count {
+    font-weight: 600;
+  }
+
+
+
+</style>

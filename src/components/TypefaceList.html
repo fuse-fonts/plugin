@@ -1,0 +1,273 @@
+
+{#if hasGroupSelected}
+  <section class="selected-group">
+    <header class="group-header">
+      <h2 class="group-name" title={title.length}>
+        <span class="name">{title}</span>
+        <div class="group-count">
+          {typefaces.length} {isFiltering ? `of ${list.length}` : ""}
+        </div>
+      </h2>
+      <section class="filter">
+        <TypefaceFilter on:filter={(e) => filter(e.detail)} bind:value={filterText} />
+      </section>
+    </header>
+    
+    <ol class="typefaces">
+      {#each typefaces as typeface, i (typeface)}
+      <li>
+          <TypeFace 
+            {typeface} 
+            {isLocked} 
+            expanded={false} 
+            selected={!!$selectedFonts[typeface.family]} 
+            on:remove={removeTypeface} />
+        </li>
+      {:else}
+        <li class="empty">
+          {#if isFiltering}
+            <div class="icon-section">
+              <Icon disabled={true} color="var(--muted-color)" icon="not_listed_location" size="large" />
+            </div>
+            <h4 class="filter-text">{filterText}</h4>
+            <p>...was not found within <b>{$selectedGroup.name}</b></p>
+            <button on:click={clearFilter}>Clear</button>
+          {:else}
+            <div class="icon-section">
+              <Icon disabled={true} color="var(--muted-color)" icon="folder_open" size="large" />
+            </div>
+            <p><b>{$selectedGroup.name}</b> is empty</p>
+          {/if}
+        </li>
+      {/each}
+    </ol>
+    <div class="banner">
+      <SelectedBanner />
+    </div>
+  </section>
+{:else}
+  <div class="empty">
+    <div class="icon-section">
+      <Icon disabled={true} color="var(--muted-color)" icon="not_interested" size="large" />
+    </div>
+    <p>No group is selected.</p>
+  </div>
+{/if}
+
+<style>
+
+  .selected-group {
+    display: flex;
+    flex-flow: column nowrap;
+    height: 100%;
+  }
+
+  .empty {
+    padding: 6vh 1rem;
+    text-align: center;
+    color: var(--muted-color);
+  }
+
+  .filter-text {
+    font-size: 2rem;
+    color: var(--error-color);
+    font-weight: 800;
+    width: 100%;
+    padding: 0 2rem;
+    line-height: 3rem;
+    margin: 0 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .icon-section {
+    margin-bottom: 2rem;
+  }
+
+  .group-header {
+    width: 100%;
+    display: block;
+    text-align: center;
+    border-bottom: var(--panel-border);
+    background-color: var(--panel-layer-2);
+  }
+
+  .filter {
+      display: block;
+      width: 100%;
+  }
+
+  .group-count {
+    display: block;
+  }
+  
+  .group-name {
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 1rem 0.5rem;
+      margin: 0 0;
+
+    }
+
+    .typefaces {
+      height: 100%;
+      overflow-y: scroll;
+      padding-bottom: 10vh;
+    }
+
+    .typefaces li {
+      display: block;
+    }
+
+    .group-count {
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: 0.5px;
+      margin: 0 1rem;
+      color: var(--muted-color);
+      user-select: none;
+    }
+
+  @media (min-width: 20rem) {
+
+    .group-header {
+      display: flex;
+      flex-flow: row nowrap;
+      flex: 1 0 auto;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .group-count {
+      display: inline;
+    }
+
+    .filter {
+      justify-self: flex-end;
+      display: block;
+      max-width: 16rem;
+    }
+
+    .group-name {
+    }
+
+    .name {
+      max-width: 12rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+  }
+
+
+</style>
+
+<script>
+
+  import SelectedBanner from "components/SelectedBanner.html";
+  import TypeFace from "components/TypeFace.html";
+  import TypefaceFilter from "components/TypefaceFilter.html";
+  import Icon from "components/Icon.html";
+
+  import { removeTypefaceFromGroup, selected as selectedGroup } from "stores/custom-groups.js";
+  import { selected as selectedFonts } from "stores/font-selection.js";
+
+  let hasGroupSelected = false;
+  $: hasGroupSelected = $selectedGroup !== null;
+  let isLocked = false; // if changes can happen to this group
+
+  let hasFilter = false;
+  let isFiltering = false;
+  let filterText = "";
+
+  // based on currently selected group
+  let typefaces = [];
+  let list = [];
+  let title = "";
+  const maxTitleLength = 32;
+  const ellipsis = "…";
+  const selectedCount = 0;
+
+  selectedGroup.subscribe(value => {
+
+    selectedFonts.clear();
+
+    // reset all vars on empty
+    if (value === null) {
+      title = "";
+      list = [];
+      typefaces = [];
+      isLocked = false;
+      return;
+    }
+
+    // update title
+    if (value.name.length > maxTitleLength) {
+      
+      let t = value.name
+        .split(" ")
+        .reduce((p, c) => {
+          if (p.done) return p;
+          if (1 + p.text.length + c.length < maxTitleLength - 1) {
+            p.text = `${p.text} ${c}`;
+          }
+          else {
+            p.done = true;
+          }
+          return p;
+        }, { text: "", done: false, })
+        .text;
+
+      if (t.length === 0) {
+        t = value.name.substring(0, maxTitleLength - 1);
+      }
+      
+      title = `${t}${ellipsis}`;
+        
+    }
+    else {
+      title = value.name;
+    }
+
+    // update locked state
+    isLocked = value.permanent;
+
+    // update items
+    list = value.typefaces.toList();
+    typefaces = list;
+
+    // re-apply filter
+    filter(filterText);
+  });
+
+  function filter(text) {
+
+    filterText = text;
+    isFiltering = filterText.length > 0;
+
+    if (isFiltering) {
+      
+      typefaces = Array
+        .from(list)
+        .filter(typeface => typeface.family.toLowerCase().includes(filterText.toLowerCase()));
+    }
+    else {
+      typefaces = list;
+      filterText = "";
+    }
+  }
+
+  function removeTypeface(e) {
+    const typeface = e.detail;
+    selectedGroup.update( value => {
+      removeTypefaceFromGroup($selectedGroup, typeface);
+      return value;
+    })
+  }
+
+  function clearFilter() {
+    return filter("");
+  }
+</script>

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ExtensionManifest ExtensionBundleId="com.fusefonts.extension" ExtensionBundleVersion="1.0.0" Version="7.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<ExtensionManifest ExtensionBundleId="com.fusefonts.extension" ExtensionBundleName="Fuse Fonts Debugging" ExtensionBundleVersion="1.0.0" Version="7.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <ExtensionList>
     <Extension Id="com.fusefonts" Version="1.0.0" />
   </ExtensionList>
   <ExecutionEnvironment>
     <HostList>
-      <Host Name="PHSP" Version="[14.0,21]"/>
-      <Host Name="PHXS" Version="[14.0,21]"/>
+      <Host Name="PHSP" Version="[19.0,999]"/>
+      <Host Name="PHXS" Version="[19.0,999]"/>
     </HostList>
     <LocaleList>
       <Locale Code="All" />
     </LocaleList>
     <RequiredRuntimeList>
-      <RequiredRuntime Name="CSXS" Version="9.0" />
+      <RequiredRuntime Name="CSXS" Version="8.0" />
     </RequiredRuntimeList>
   </ExecutionEnvironment>
   <DispatchInfoList>
@@ -35,11 +35,11 @@
             </Size>
             <MaxSize>
               <Height>9999</Height>
-              <Width>1000</Width>
+              <Width>2000</Width>
             </MaxSize>
             <MinSize>
-              <Height>280</Height>
-              <Width>450</Width>
+              <Height>420</Height>
+              <Width>300</Width>
             </MinSize>
           </Geometry>
           <Icons />

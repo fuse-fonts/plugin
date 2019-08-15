@@ -1,0 +1,91 @@
+<div class="font" 
+  class:selected 
+  draggable={true}
+  on:click={clickHandler} 
+  on:dragstart={dragStart}
+  on:click
+  on:dragstart
+  on:mouseenter="{() => hovering = true}"
+  on:mouseleave="{() => hovering = false}"
+>
+  <h1 class="name">{name}</h1>
+  <div class="actions">
+    {#if hovering && !isLocked}
+      <Icon icon="close" 
+        color="var(--muted-color)" 
+        hover="var(--foreground-color)" 
+        on:click />
+    {/if}
+  </div>
+</div>
+
+<style>
+  .font {
+    padding: 0.5rem 1rem 0.5rem 2rem;
+    
+    background-color: var(--panel-item);
+    border-bottom: var(--panel-border);
+    border-bottom-width: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    align-items: center;
+    flex: 0 1 auto;
+  }
+
+  .font:hover {
+    background-color: var(--panel-item-hover);
+    cursor: default;
+    user-select: none;
+  }
+
+  .font.selected {
+    background-color: var(--muted-accent-color);
+    color: var(--selected-color);
+    transition: 0.1s ease-out background-color;
+  }
+
+  .font.selected:hover {
+    background-color: var(--selected-background);
+  }
+
+
+  .name {
+    font-size: 1.2rem;
+    margin: 0 0 0 0.5rem;
+    font-weight: 400;
+  }
+
+  .subtext {
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    margin: 0 1rem;
+    color: var(--muted-color);
+    user-select: none;
+  }
+
+</style>
+
+<script>
+
+  import Icon from "components/Icon.html";
+
+  let hovering = false;
+  export let removable = true;
+  export let font = null;
+  export let isLocked = false;
+  $: name = font.description;
+
+  export let selected = false;
+
+
+  function clickHandler(e) {
+    e.data = { font, selected };
+  }
+
+  function dragStart(e) {
+    e.data = { font, selected };
+  }
+</script>

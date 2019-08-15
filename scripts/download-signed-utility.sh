@@ -15,6 +15,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   echo -e "Downloading ZXPSignCMD for OSX\n"
   # Mac OSX
   curl -O -L "https://github.com/Adobe-CEP/CEP-Resources/raw/master/ZXPSignCMD/4.0.7/osx10/ZXPSignCmd.dmg"
+  echo "You've downoaded a .dmg. Mount it, then copy ZXPSignCmd into the bin folder."
 elif [[ "$OSTYPE" == "cygwin" ]]; then
   # POSIX compatibility layer and Linux environment emulation for Windows
   echo -e "Downloading ZXPSignCMD for Windows\n"
