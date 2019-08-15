@@ -140,8 +140,8 @@
   export let split = 50;
   export const seperatorHeight = 7;
   
-  let windowHeight = window.innerHeight;
-  const minPanelSize = 170;
+  let windowHeight = window.innerHeight || 500;
+  const minPanelSize = 180;
 
   $: min = minPanelSize / windowHeight;
   $: max = 1 - (minPanelSize / windowHeight);
@@ -198,10 +198,12 @@
   }
 
   function containerResize(e) {
-    windowHeight = window.innerHeight;
-    const percent = split / 100;
-    split = Math.round(clamp(percent, min, max) * 100);
-    settings.setSplit(split);
+    if (window.innerHeight >= 0) {
+      windowHeight = window.innerHeight;
+      const percent = split / 100;
+      split = Math.round(clamp(percent, min, max) * 100);
+      settings.setSplit(split);
+    }
   }
 
 </script>
