@@ -9,7 +9,7 @@ import includePaths from 'rollup-plugin-includepaths';
 const production = !process.env.ROLLUP_WATCH;
 
 export default {
-  input: 'src/main.js',
+  input: 'src/plugin/main.js',
   output: {
     file: 'client/scripts/bundle.js',
     format: 'iife'
@@ -24,7 +24,7 @@ export default {
     resolve(),
 
     //set an include path so we can do simpler imports without needed to traverse up trees
-    includePaths({ paths: ["src"], }),
+    includePaths({ paths: ["src/plugin"], }),
 
     // auto convert commonjs / modejs modues to es6 modules.
     commonjs({
