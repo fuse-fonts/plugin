@@ -6,8 +6,10 @@
   "scripts": {
     "postinstall": "sh scripts/download-signed-utility.sh",
     "test": "npm run package && npm run verify",
-    "dev": "rollup -c -w",
-    "build:app": "rollup -c",
+    "dev:plugin": "rollup -w --config rollup.config.plugin.js",
+    "dev:webapp": "rollup -w --config rollup.config.webapp.js",
+    "build:app": "rollup --config rollup.config.plugin.js",
+    "build:webapp": "rollup --config rollup.config.webapp.js",
     "build:structures": "node build.js",
     "build": "npm run build:app && npm run build:structures",
     "self-sign": "sh scripts/create-certificate.sh",

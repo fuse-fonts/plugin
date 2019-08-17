@@ -4,10 +4,6 @@ import commonjs from 'rollup-plugin-commonjs';
 import svelte from 'rollup-plugin-svelte';
 import includePaths from 'rollup-plugin-includepaths';
 
-// `npm run build` -> `production` is true
-// `npm run dev` -> `production` is false
-const production = !process.env.ROLLUP_WATCH;
-
 export default {
   input: 'src/plugin/main.js',
   output: {
