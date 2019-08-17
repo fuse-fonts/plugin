@@ -42,7 +42,12 @@
               <Width>300</Width>
             </MinSize>
           </Geometry>
-          <Icons />
+          <Icons>
+            <Icon Type="Normal">./icons/normal.png</Icon>
+            <Icon Type="RollOver">./icons/rollover.png</Icon>
+            <Icon Type="DarkNormal">./icons/normal.png</Icon>
+            <Icon Type="DarkRollOver">./icons/rollover.png</Icon>
+          </Icons>
         </UI>
       </DispatchInfo>
     </Extension>
