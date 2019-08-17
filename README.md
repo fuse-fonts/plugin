@@ -4,29 +4,39 @@
 
 1. Clone repository into your `/c/Users/<USER>/AppData/Roaming/Adobe/CEP/extensions/` directory (Create if doesn't exist).
 2. Restart photoshop.
+3. run `npm run dev` to start the rollup bundler/transforms
+
 
 ### Debugging
 1. Follow instructions in [CEP Resources guide to setup dev debugging](https://github.com/Adobe-CEP/CEP-Resources/blob/master/CEP_9.x/Documentation/CEP%209.0%20HTML%20Extension%20Cookbook.md#remote-debugging) (create registry edit etc)
-2. If you can't connect to the port, you need to check logs `C:\Users\<USER>\AppData\Local\Temp`
+2. If you can't connect to the port, you may need to check logs for the error `C:\Users\<USER>\AppData\Local\Temp`
   1.  `CEPHtmlEngine9-PHXS-20.0.4-com.fusefonts.log` should say
     > DevTools listening on 127.0.0.1:8888
 
 
-## Building
+## Building the plugin
 
+### First time setup:
 1.  `npm install`
   Adds all dependencies and downloads the ZXPSignCmd for your platform 
+2.  Add your `.env`.
+    Refer to `.env.example` for necessary fields.
 2.  `npm run self-sign`
-  Creates a `certificate.p12` to sign the packaged `.zxp`
-3.  `npm run package`
+  Creates a `certificate.p12` to sign the packaged `.zxp`.
+
+### After initial setup
+
+After performing the steps in first time setup, you can simple run the below command whenever you need to generate the zxp.
+
+1.  `npm run package`
   Builds and signs zxp, and places into `/dist`
 
-## Installer
+## Plugin Installer
 1. https://github.com/fuse-fonts/installer
 
-## Firebase Functions
 
-1. Not added yet.
+*Todo: add integration or git submodule.*
+
 
 ## Resources
 
@@ -40,15 +50,3 @@
 6. [Extension Installer](https://github.com/Hennamann/CEP-Extension-Installer)
 7. https://www.ps-scripts.com/
 
-## Last Straw
-https://gumroad.com/l/rAAKQ
-
-## Text Selection and Formatting issue
-
-lead? http://blogs.adobe.com/cssdk/2011/01/formatting-text-ranges-in-photoshop.html
-
-## Timestamping authority
-- https://stackoverflow.com/questions/43585380/is-http-timestamp-geotrust-com-tsa-not-longer-available-for-signtool
-
-## Distribution
-- https://github.com/Hennamann/CEP-Extension-Installer

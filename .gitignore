@@ -18,4 +18,6 @@ build/csxs
 client/scripts/bundle.js
 client/stylesheets/main.css
 client/stylesheets/main.css.map
+installer/
 installer/**/*
+.env
