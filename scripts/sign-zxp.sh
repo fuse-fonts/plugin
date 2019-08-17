@@ -14,6 +14,8 @@ p12="certificate.p12"
 p12password="bravecoffee"
 
 # timestampserver="http://sha1timestamp.ws.symantec.com/sha1/timestamp"
+# more info: 
+# https://stackoverflow.com/questions/43585380/is-http-timestamp-geotrust-com-tsa-not-longer-available-for-signtool
 timestampserver="http://timestamp.digicert.com"
 
 echo "Signing and packaging '$inputdir' -> '$outputdir'"
