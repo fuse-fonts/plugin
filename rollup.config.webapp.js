@@ -20,7 +20,7 @@ export default {
     resolve(),
 
     //set an include path so we can do simpler imports without needed to traverse up trees
-    includePaths({ paths: ["src/webapp"], }),
+    includePaths({ paths: ["src/webapp", "src/plugin"], }),
 
     // auto convert commonjs / modejs modues to es6 modules.
     commonjs({
