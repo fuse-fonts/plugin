@@ -24,3 +24,6 @@ public/stylesheets/main.css.map
 installer/
 installer/**/*
 .env
+
+# firebase files
+firebase-debug.log
