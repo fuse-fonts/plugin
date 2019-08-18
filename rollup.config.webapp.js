@@ -7,7 +7,7 @@ import includePaths from 'rollup-plugin-includepaths';
 export default {
   input: 'src/webapp/main.js',
   output: {
-    file: 'client/scripts/bundle.js',
+    file: 'public/scripts/bundle.js',
     format: 'iife'
   },
 
@@ -20,7 +20,7 @@ export default {
     resolve(),
 
     //set an include path so we can do simpler imports without needed to traverse up trees
-    includePaths({ paths: ["src/plugin"], }),
+    includePaths({ paths: ["src/webapp"], }),
 
     // auto convert commonjs / modejs modues to es6 modules.
     commonjs({
@@ -46,7 +46,7 @@ export default {
 
         // creates `main.css` and `main.css.map` — pass `false`
         // as the second argument if you don't want the sourcemap
-        css.write('client/stylesheets/main.css');
+        css.write('public/stylesheets/main.css');
 
       }
     }),
