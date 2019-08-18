@@ -1,6 +1,78 @@
 // this file let's us use adobe's CS-interface without having to worry
 
 
+/**
+ * the host environment we will use internally.
+ * this is obtained by calling the following line in the console of an actual running plugin
+ * 
+ *    JSON.stringify(new CSInterface().hostEnvironment, null, 2)
+ * 
+ //
+ // 
+ // 
+ */
+// 
+const _hostEnvironment = {
+
+  appVersion: "20.0.6",
+  appLocale: "en_US",
+  isAppOnline: true,
+  appUILocale: "en_US",
+  appName: "PHXS",
+  appId: "PHXS",
+
+  appSkinInfo: {
+    baseFontSize: 10,
+    baseFontFamily: "Tahoma",
+    systemHighlightColor: {
+        alpha: 255,
+        green: 120,
+        blue: 215,
+        red: 0
+    },
+    appBarBackgroundColorSRGB: {
+      antialiasLevel: 0,
+      type: 1,
+      color: {
+        alpha: 255,
+        green: 50,
+        blue: 50,
+        red: 50
+      }
+    },
+    appBarBackgroundColor: {
+      antialiasLevel: 0,
+      type: 1,
+      color: {
+        alpha: 255,
+        green: 50,
+        blue: 50,
+        red: 50
+      }
+    },
+    panelBackgroundColor: {
+      antialiasLevel: 0,
+      type: 1,
+      color: {
+        alpha: 255,
+        green: 50,
+        blue: 50,
+        red: 50
+      }
+    },
+    panelBackgroundColorSRGB: {
+      antialiasLevel: 0,
+      type: 1,
+      color: {
+        alpha: 255,
+        green: 50,
+        blue: 50,
+        red: 50
+      }
+    },
+  }
+};
+
 const interface = "__adobe_cep__";
 
 if (!window.__adobe_cep__) {
@@ -40,7 +112,8 @@ if (!window.__adobe_cep__) {
       console.log("__adobe_cep__.getHostCapabilities called")
     },
     getHostEnvironment: function(){
-      console.log("__adobe_cep__.getHostEnvironment called")
+      console.log("__adobe_cep__.getHostEnvironment called");
+      return JSON.stringify(_hostEnvironment);
     },
     getMonitorScaleFactor: function(){
       console.log("__adobe_cep__.getMonitorScaleFactor called")
@@ -99,5 +172,5 @@ if (!window.__adobe_cep__) {
     showAAM: function(){
       console.log("__adobe_cep__.showAAM called")
     },
-  }
+  };
 }
