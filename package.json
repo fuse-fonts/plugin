@@ -6,6 +6,7 @@
   "scripts": {
     "postinstall": "sh scripts/download-signed-utility.sh",
     "test": "npm run package && npm run verify",
+    "dev": "npm run dev:plugin",
     "dev:plugin": "rollup -w --config rollup.config.plugin.js",
     "dev:webapp": "rollup -w --config rollup.config.webapp.js",
     "build:app": "rollup --config rollup.config.plugin.js",
