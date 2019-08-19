@@ -75,6 +75,10 @@ const _hostEnvironment = {
   }
 };
 
+const _extension = {
+  id: "com.fusefonts",
+}
+
 const interface = "__adobe_cep__";
 
 if (!window.__adobe_cep__) {
@@ -99,13 +103,14 @@ if (!window.__adobe_cep__) {
       console.log("__adobe_cep__.evalScript called")
     },
     getCurrentApiVersion: function(){
+      return JSON.stringify({ minor: 2, micro: 1, major: 9 });
       console.log("__adobe_cep__.getCurrentApiVersion called")
     },
     getCurrentImsUserId: function(){
       console.log("__adobe_cep__.getCurrentImsUserId called")
     },
     getExtensionId: function(){
-      console.log("__adobe_cep__.getExtensionId called")
+      return _extension.id;
     },
     getExtensions: function(){
       console.log("__adobe_cep__.getExtensions called")
@@ -124,10 +129,11 @@ if (!window.__adobe_cep__) {
       console.log("__adobe_cep__.getNetworkPreferences called")
     },
     getScaleFactor: function(){
-      console.log("__adobe_cep__.getScaleFactor called")
+      return 1;
     },
     getSystemPath: function(){
-      console.log("__adobe_cep__.getSystemPath called")
+      console.log("__adobe_cep__.getSystemPath called");
+      return "Your Hard Drive/"
     },
     imsConnect: function(){
       console.log("__adobe_cep__.imsConnect called")
