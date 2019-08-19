@@ -18,31 +18,45 @@
 </script>
 
 <header class="bar">
-  <div class="icon">
-    <PhotoshopIcon />
-  </div>
-  <nav>
+  <nav class="menu-container">
+    <div class="icon">
+      <PhotoshopIcon />
+    </div>
     <ol class="menu">
       {#each menuItems as item}
         <li>{item}</li>
       {/each}
     </ol>
   </nav>
-
+  <h3>
+    Not really photoshop
+  </h3>
 </header>
 
 <style>
-
-  .bar {
+  
+  .bar,
+  .menu-container {
     display: flex;
     flex: 0 1 auto;
-    padding: 0.25rem 0.5rem;
     align-items: center;
     border-bottom: var(--panel-border);
   }
 
+  .bar {
+    width: 100%;
+    justify-content: space-between;
+  }
+
   .icon {
     margin: 0.75rem 1.5rem 0.25rem 0.5rem;
+  }
+
+  h3 {
+      font-size: 1rem;
+      font-weight: 400;
+      padding: 0rem 1rem;
+      opacity: 0.5;
   }
 
   .menu {
