@@ -1,19 +1,43 @@
-
 <script>
   import PhotoshopMenus from "components/PhotoshopMenus.html";
-</script>
+  import PhotoshopWorkspace from "components/PhotoshopWorkspace.html";
+  
+  let threshold = 750;
+  let width = window.innerWidth;
+  $: canDisplay = width >= threshold;
+  </script>
 
+<svelte:window bind:innerWidth={width} />
+{#if canDisplay}
 <main class="photoshop">
   <PhotoshopMenus />
-  <h1>Emulated Photoshop Environment</h1>
+  <PhotoshopWorkspace />
 </main>
+{:else}
+  <div class="small-screens">
+    <h1>Demo unavailable for small screens</h1>
+    <p >Your device's screen is to small to view this demo. Try again on a device with a width greater than {threshold}px.</p>
+  </div>
+{/if}
 
 <style>
 
+  .small-screens {
+    font-size: 5vw;
+    line-height: 2em;
+    padding: 5vh 10vw;
+  }
 
   h1 {
-    font-size: 1rem;
     font-weight: 400;
+    color: var(--accent-color);
+  }
+
+  .photoshop {
+    display: block;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
   }
   
 </style>

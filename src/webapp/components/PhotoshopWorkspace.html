@@ -1,0 +1,123 @@
+<script>
+  import Icon from "components/Icon.html";
+
+</script>
+
+
+<section class="workspace">
+  <div class="workspace-tools">
+    tools
+  </div>
+  <div class="workspace-background">
+
+    <nav class="document-tabs">
+      <ol>
+        <li>
+          <span>
+            document_final.psd (Background, RGB/8#)
+          </span>
+          <span class="icon">
+            <Icon icon="close" />
+          </span>
+        </li>
+      </ol>
+    </nav>
+
+    <div class="workspace-canvas">
+
+    </div>
+  </div>
+  <aside class="workspace-panels">
+    
+  </aside>
+</section>
+
+
+<style>
+  .workspace {
+    display: flex;
+    flex: 1 0 auto;
+    height: 100%;
+    width: 100%;
+    --plugins-size: 400px;
+  }
+
+  .workspace-background {
+    position: relative;
+    background-color: #191919;
+    width: calc(100vw - var(--plugins-size));
+  }
+
+  .workspace-canvas {
+    width: 250px;
+    height: 250px;
+    background-color: #fff;
+    border: var(--panel-border);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+  }
+
+  .workspace-panels {
+    width: var(--plugins-size);
+    height: 100%;
+    /* background-color: var(--panel-layer-0); */
+  }
+
+  .workspace-tools {
+    width: 4rem;
+    text-align: center;
+    /* border-top: 1rem solid var(--panel-layer-0); */
+    border-right: 1px solid var(--panel-layer-0);
+    border-radius: 2px;
+    /* padding-top: 1rem; */
+  }
+
+  .workspace-tools:before {
+    text-align: left;
+    padding: 0 0.5rem;
+    background-color: var(--panel-layer-0);
+    content: "▶▶";
+    font-size: 0.5rem;
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--muted-color);
+  }
+
+  .document-tabs {
+    background-color:  var(--panel-layer-0);
+  }
+
+  .icon {
+    transform: scale(0.75);
+    opacity: 0.7;
+    display: inline-block;
+    position: relative;
+    right: -1rem;
+  }
+
+  .icon:hover {
+    opacity: 1;
+  }
+  
+  .document-tabs ol {
+    list-style: none;
+    margin: 0 0;
+    padding: 0 0;
+    display: flex;
+  }
+  
+  .document-tabs li {
+    background-color:  var(--body-background-color);
+    padding: 0.25rem 1.5rem 0.25rem 1rem;
+    font-weight: 600;
+    border: 2px solid var(--panel-layer-0);
+  }
+
+  .document-tabs li:hover {
+    background-color: var(--panel-layer-1);
+  }
+
+</style>
