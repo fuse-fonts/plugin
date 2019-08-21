@@ -25,5 +25,6 @@ installer/
 installer/**/*
 .env
 
-# firebase files
+# firebase files and dirs
 firebase-debug.log
+.firebase
