@@ -27,5 +27,3 @@ export const appSize = derived([appWidth, appHeight], ([width, height]) => {
 });
 
 export const isPhotoshop = writable(true);
-
-appSize.subscribe(v => console.log("App size changed: ", v));
