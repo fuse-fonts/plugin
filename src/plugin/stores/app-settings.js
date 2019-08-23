@@ -1,4 +1,4 @@
-import { writable } from "svelte/store";
+import { writable, derived } from "svelte/store";
 import csInterface from "helpers/cs-interface.js";
 
 /**
@@ -17,4 +17,15 @@ export function setPersistance(value) {
   
   event.extensionId = csInterface.getExtensionID();
   csInterface.dispatchEvent(event);
- }
+}
+
+export const appHeight = writable(window.innerHeight);
+export const appWidth = writable(window.innerWidth);
+
+export const appSize = derived([appWidth, appHeight], ([width, height]) => {
+  return { width, height }
+});
+
+export const isPhotoshop = writable(true);
+
+appSize.subscribe(v => console.log("App size changed: ", v));

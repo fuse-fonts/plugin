@@ -6,7 +6,7 @@
   import { fly, fade, slide } from "svelte/transition";
   import  { onMount } from "svelte";
 
-  import { loading, } from "stores/app-settings.js";
+  import { loading, isPhotoshop } from "stores/app-settings.js";
   import { settings, settingsOpened, displayLog, defaultSettings } from "stores/user-settings.js";
   import { clearData as clearTypefaceCache } from "stores/typefaces.js";
   import { customGroups, clearCustomGroups } from "stores/custom-groups.js";
@@ -14,6 +14,8 @@
   import fileSystemRepository from "repositories/file-system.js";
   import csInterface from "helpers/cs-interface.js";
   export let appTitle = "this plugin";
+  export let height = 100;
+  $: settingsHeight = `${height}px`;
   let dangerZoneActive = false;
 
   const apiVersion = csInterface.getCurrentApiVersion();
@@ -46,7 +48,7 @@
 
 </script>
 
-<div class="backdrop">
+<div class="backdrop" style="height: {settingsHeight};">
   <main class="settings" in:fly={{ y: 400, duration: 300, }}>
     <header class="header row">
       <h1>Settings</h1>
@@ -55,105 +57,110 @@
       </button>
     </header>
 
-    <section class="setting">
-      <SettingButton toggles={true} settings={true} on:click={() => settings.toggleSetting("applyTypeface")} enabled={$settings.applyTypeface}>
-        Auto-Apply selection to Text Layer
-      </SettingButton>
-      <p class="description">Applies selected items to the current text layer. </p>
-      <p class="note">Will have no effect if the current layer is not a Text Layer, or if photoshop is in "Text Edit Mode".</p>
-    </section>
-
-    <section class="setting">
-      <SettingButton settings={true} toggles={false} on:click={clearTypefaceCache}>
-        Refresh Font List
-      </SettingButton>
-      <p class="description">Empties the typeface cache, forcing {appTitle} to reload all typefaces. </p>
-      <p class="note">Use if you've loaded new fonts on your computer and don't see the new fonts within {appTitle}.</p>
-    </section>
-
-    <section class="setting">
-      <SettingButton settings={true} toggles={false} on:click="{() => settings.reset()}">
-        Reset User Settings
-      </SettingButton>
-      <p class="description">Resets all settings on this page to the defaults.</p>
-      <p class="note">This won't delete anything important.</p>
-    </section>
-
-    <section class="setting">
-      <h2>Font Size</h2>
-      <p class="note">
-        Displaying at {$settings.fontSize}px.
-      </p>
-      <p class="note">
-        <button disabled={$settings.fontSize === 9} on:click={smallFontSize}>small</button>
-        <button disabled={$settings.fontSize === 10} on:click={mediumFontSize}>medium</button>
-        <button disabled={$settings.fontSize === 12} on:click={largeFontSize}>large</button>
-      </p>
-    </section>
-
     
-    <section class="setting">
-      <h2>Last Backup</h2>
-      <p class="description">Backups are used in case of an application update.</p>
-      <p class="note">
-        {fileSystemRepository.lastBackup()}
-        <button on:click={openBackupFile}>View</button>
-      </p>
-      <p style="word-break: break-all;">Saved to:<br /> <code>{fileSystemRepository.backupFilePath}</code></p>
-      
-    </section>
+
+      <section class="setting">
+        <SettingButton toggles={true} settings={true} on:click={() => settings.toggleSetting("applyTypeface")} enabled={$settings.applyTypeface}>
+          Auto-Apply selection to Text Layer
+        </SettingButton>
+        <p class="description">Applies selected items to the current text layer. </p>
+        <p class="note">Will have no effect if the current layer is not a Text Layer, or if photoshop is in "Text Edit Mode".</p>
+      </section>
+  
+      <section class="setting">
+        <SettingButton settings={true} toggles={false} on:click={clearTypefaceCache}>
+          Refresh Font List
+        </SettingButton>
+        <p class="description">Empties the typeface cache, forcing {appTitle} to reload all typefaces. </p>
+        <p class="note">Use if you've loaded new fonts on your computer and don't see the new fonts within {appTitle}.</p>
+      </section>
+  
+      <section class="setting">
+        <SettingButton settings={true} toggles={false} on:click="{() => settings.reset()}">
+          Reset User Settings
+        </SettingButton>
+        <p class="description">Resets all settings on this page to the defaults.</p>
+        <p class="note">This won't delete anything important.</p>
+      </section>
+      {#if $isPhotoshop}
+        <section class="setting">
+          <h2>Font Size</h2>
+          <p class="note">
+            Displaying at {$settings.fontSize}px.
+          </p>
+          <p class="note">
+            <button disabled={$settings.fontSize === 9} on:click={smallFontSize}>small</button>
+            <button disabled={$settings.fontSize === 10} on:click={mediumFontSize}>medium</button>
+            <button disabled={$settings.fontSize === 12} on:click={largeFontSize}>large</button>
+          </p>
+        </section>
     
-    <section class="setting">
-      <h2>Device Information</h2>
-      <p class="note">{appName} Version: {env.appVersion}</p>
-      <p class="note">CEP Version: {cepVersion}</p>
-      <p class="note">OS: {csInterface.getOSInformation()}</p>
-      <p class="note">Extension ID: {csInterface.getExtensionID()}</p>
-      <p class="note">UI Display Scale: {csInterface.getScaleFactor()}</p>
-      <p class="note">Log: <button on:click="{() => displayLog.set(!$displayLog)}">{$displayLog ? "Hide" : "Display"} Log</button> <button on:click="{() => clearLogs()}">Clear Log</button></p>
-      
-    </section>
-
-    <h2 class="toggle-region" on:click="{() => dangerZoneActive = !dangerZoneActive}"> <Icon icon={dangerZoneActive ? "keyboard_arrow_down" : "keyboard_arrow_right"} /> Danger Zone</h2>
-    {#if dangerZoneActive}
-      <section class="danger-zone" in:slide|local={{ duration: 400, delay: 100 }}>
-        <div class="row">
-          <Icon color="var(--error-color)" icon="warning" size="large" />
-          <div>
-            <p class="warning">Changes made in this section are irreversible.</p>
-            <p class="warning"><b>Proceed with caution.</b></p>
-          </div>
-        </div>
-
-        <div>
+        
+        <section class="setting">
+          <h2>Last Backup</h2>
+          <p class="description">Backups are used in case of an application update.</p>
+          <p class="note">
+            {fileSystemRepository.lastBackup()}
+            <button on:click={openBackupFile}>View</button>
+          </p>
+          <p style="word-break: break-all;">Saved to:<br /> <code>{fileSystemRepository.backupFilePath}</code></p>
           
-          <section class="setting">
-            <button disabled={$customGroups.length === 0} on:click={clearCustomGroups}>Delete All Custom Groups</button>
-            <p class="description">Deletes all custom groups that you have created.</p>
-            {#if $customGroups.length === 0}
-              <p class="note">You have no custom groups.</p>
-            {:else}
-              <p class="warning">Clicking this will delete {$customGroups.length} custom groups, <u>including backups</u>.</p>
-            {/if}
-            
+        </section>
+        
+        <section class="setting">
+          <h2>Device Information</h2>
+          <p class="note">{appName} Version: {env.appVersion}</p>
+          <p class="note">CEP Version: {cepVersion}</p>
+          <p class="note">OS: {csInterface.getOSInformation()}</p>
+          <p class="note">Extension ID: {csInterface.getExtensionID()}</p>
+          <p class="note">UI Display Scale: {csInterface.getScaleFactor()}</p>
+          <p class="note">Log: <button on:click="{() => displayLog.set(!$displayLog)}">{$displayLog ? "Hide" : "Display"} Log</button> <button on:click="{() => clearLogs()}">Clear Log</button></p>
+          
+        </section>
+    
+        <h2 class="toggle-region" on:click="{() => dangerZoneActive = !dangerZoneActive}"> <Icon icon={dangerZoneActive ? "keyboard_arrow_down" : "keyboard_arrow_right"} /> Danger Zone</h2>
+        {#if dangerZoneActive}
+          <section class="danger-zone" in:slide|local={{ duration: 400, delay: 100 }}>
+            <div class="row">
+              <Icon color="var(--error-color)" icon="warning" size="large" />
+              <div>
+                <p class="warning">Changes made in this section are irreversible.</p>
+                <p class="warning"><b>Proceed with caution.</b></p>
+              </div>
+            </div>
+    
+            <div>
+              
+              <section class="setting">
+                <button disabled={$customGroups.length === 0} on:click={clearCustomGroups}>Delete All Custom Groups</button>
+                <p class="description">Deletes all custom groups that you have created.</p>
+                {#if $customGroups.length === 0}
+                  <p class="note">You have no custom groups.</p>
+                {:else}
+                  <p class="warning">Clicking this will delete {$customGroups.length} custom groups, <u>including backups</u>.</p>
+                {/if}
+                
+              </section>
+    
+            </div>
           </section>
 
-        </div>
-
-      </section>
-    {/if}
+        {/if}
+      {:else}
+        <section class="setting">
+          <p class="description">...and more settings when running within photoshop.</p>
+        </section>
+      {/if}
+      
   </main>
 </div>
 
 <style>
 
   .backdrop {
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
     background-color: var(--panel-layer-1);
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 
   .groups-list {
@@ -167,14 +174,11 @@
   }
   
   .settings {
-    padding: 0rem 1rem;
-    height: 100%;
-    overflow-y: auto;
-    padding-bottom: 5vh;
+    padding: 0rem 1rem 20vh 1rem;
   }
 
   .setting {
-    margin: 2rem auto;
+    margin: 1rem auto;
     padding: 1rem 1rem;
   }
 
@@ -189,9 +193,10 @@
   .header {
     border-bottom: 2px solid var(--panel-border-color);
     background-color: var(--panel-layer-1);
-    margin: 0rem -1rem 1rem -1rem;
     padding: 0 1rem;
     position: sticky;
+    left: 0;
+    right: 0;
     top: 0;
   }
 
@@ -232,10 +237,12 @@
     color: var(--error-color);
   }
 
+  .danger-zone .row {
+    justify-content: space-around;
+  }
+
   .danger-zone button {
     background-color: var(--panel-layer-1);
-    /* color: var(--error-color); */
-    /* border: 1px solid var(--error-color); */
     padding: 0.5rem 1rem;
   }
 

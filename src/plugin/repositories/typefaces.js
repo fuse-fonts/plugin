@@ -34,7 +34,7 @@ const clearLocalStorage = () => {
 /**
  * 
  */
-async function loadTypefaces() {
+async function loadTypefaces(useLocalstorage = true) {
 
   info("Loading...", null, serviceName);
 
@@ -42,8 +42,8 @@ async function loadTypefaces() {
   let library = null;
 
   // if there was no data in local storage we fetch from the JSX
-  if (typefaces === null) {
-    warning("Typefaces not in local storage", null, serviceName);
+  if (!useLocalstorage || typefaces === null) {
+    warning("Typefaces not loaded from local storage", null, serviceName);
     const fonts = await fontRepository.load();
     info("Loaded from font data", fonts, serviceName);
     library = TypefaceLibrary.parseFonts(fonts);
@@ -64,7 +64,7 @@ async function loadTypefaces() {
  */
 export default {
   
-  load: () => loadTypefaces(),
+  load: (useLocalstorage) => loadTypefaces(useLocalstorage),
 
   save: (typefacelibrary) => saveToLocalStorage(typefacelibrary.data),
   

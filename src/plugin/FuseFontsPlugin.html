@@ -1,33 +1,34 @@
+<div bind:offsetWidth={width} bind:offsetHeight={height}>
 
-{#if $loading}
-  <Loading text="Loading Fonts..." color="#fff" />
-{:else if $settingsOpened}
-  <Settings {appTitle} />
-{:else}
-    
-    <DragRegion>
-      <ResizablePane split={$settings.panelSplit}>
-        <div slot="top" class="full-height">
-          <Panel>
-            <CustomGroupsList />
-          </Panel>
-        </div>
-        
-        <div slot="bottom" class="full-height">
-          <Panel>
-            <TypefaceList />
-          </Panel>
-        </div>
-        
-      </ResizablePane>
-    </DragRegion>
+  {#if $loading}
+    <Loading text="Loading Fonts..." color="#fff" />
+  {:else if $settingsOpened}
+    <Settings {appTitle} {height} />
+  {:else}
+      
+      <DragRegion>
+        <ResizablePane split={$settings.panelSplit} {height} >
+          <div slot="top" class="full-height">
+            <Panel>
+              <CustomGroupsList />
+            </Panel>
+          </div>
+          
+          <div slot="bottom" class="full-height">
+            <Panel>
+              <TypefaceList />
+            </Panel>
+          </div>
+          
+        </ResizablePane>
+      </DragRegion>
 
-{/if}
+  {/if}
 
-{#if $displayLog}
-  <Log />
-{/if}
-  
+  {#if $displayLog}
+    <Log />
+  {/if}
+</div>
 
 <style>
 
@@ -39,6 +40,10 @@
 </style>
 
 <script>
+  let width;
+  let height;
+  $: appWidth.update(v => width ? width : v);
+  $: appHeight.update(v => height ? height : v);
 
   // sub components
   import Loading from "components/Loading.html"
@@ -53,7 +58,7 @@
   import csInterface from "helpers/cs-interface.js";
 
   // stores
-  import { loading } from "stores/app-settings.js";
+  import { loading, appWidth, appHeight } from "stores/app-settings.js";
   import { settings, settingsOpened, displayLog } from "stores/user-settings.js";
 
   const appTitle = "Fuse Fonts";

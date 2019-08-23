@@ -99,8 +99,20 @@ if (!window.__adobe_cep__) {
     dumpInstallationInfo: function(){
       console.log("__adobe_cep__.dumpInstallationInfo called")
     },
-    evalScript: function(){
-      console.log("__adobe_cep__.evalScript called")
+    evalScript: function (script, callback){
+      // super unsafe, but it's only a web demo without any user inputs.
+      const functionName = script.split("(")[0];
+      console.log("__adobe_cep__.evalScript called with", functionName);
+      if (functionName in window) {
+        eval(script)
+          .then(result => {
+            callback(result);
+          })
+        
+      }
+      else {
+        console.warn(`evalScript "${functionName}" doesn't exist in this context.`);
+      }
     },
     getCurrentApiVersion: function(){
       return JSON.stringify({ minor: 2, micro: 1, major: 9 });
@@ -226,3 +238,4 @@ if (!window.cep) {
 
   window.cep = { encoding, fs, process, util, };
 }
+
