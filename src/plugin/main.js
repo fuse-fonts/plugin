@@ -1,5 +1,5 @@
 
-import App from "App.html";
+import FuseFontsPlugin from "FuseFontsPlugin.html";
 import { detectTheme, addListener } from "helpers/theme.js";
 import { initializeMenu, initializeContextMenu, } from "helpers/menus.js";
 
@@ -10,7 +10,7 @@ detectTheme();
 addListener();
 
 
-const appLoader = new App({
+new FuseFontsPlugin({
   target: document.querySelector("main#app"),
 });
 

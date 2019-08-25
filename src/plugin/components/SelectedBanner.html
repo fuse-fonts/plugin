@@ -4,6 +4,7 @@
   import { fly, fade } from "svelte/transition";
   import { selected } from "stores/font-selection.js";
   import { settings } from "stores/user-settings.js";
+  import { appWidth } from "stores/app-settings.js";
   
   let count = 0;
 
@@ -14,7 +15,7 @@
 </script>
 
 {#if count > 0 }
-  <section class="popover" transition:fly={{ y: 100, duration: 100 }}>
+  <section class="popover" transition:fly={{ y: 100, duration: 100 }} style="width: {$appWidth}px;">
     <div class="count">{count} selected</div>
     <div class="apply-typeface">
       <SettingButton 
@@ -31,8 +32,7 @@
   .popover {
     font-size: 1rem;
     position: fixed;
-    bottom: 0rem;
-    left: 1rem;
+    bottom: 0;
     right: 1rem;
     padding: 0.75rem 1rem;
     border-radius: 2px;

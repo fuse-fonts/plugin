@@ -10,7 +10,7 @@ export const typefaces = writable({});
 
 let unsubscribe;
 //
-export const loadData = () => typefaceRepository.load().then( async data => {
+export const loadData = (useLocalstorage) => typefaceRepository.load(useLocalstorage).then( async data => {
   
   // console.log("typeface data:", data);
 

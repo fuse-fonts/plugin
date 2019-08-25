@@ -1,4 +1,4 @@
-<button title={title} {disabled} on:click>
+<button title={title} {disabled} on:click class:active >
   <Icon {icon} {disabled} />
 </button>
 
@@ -19,6 +19,10 @@
   button[disabled] i {
     color: var(--panel-layer-0);
   }
+
+  button.active {
+    background-color: var(--panel-layer-0);
+  }
 </style>
 
 <script>
@@ -28,4 +32,5 @@
   export let icon = "report";
   export let title = "";
   export let disabled = false;
+  export let active = false;
 </script>

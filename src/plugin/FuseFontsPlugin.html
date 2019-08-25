@@ -1,0 +1,68 @@
+<div bind:offsetWidth={width} bind:offsetHeight={height}>
+
+  {#if $loading}
+    <Loading text="Loading Fonts..." color="#fff" />
+  {:else if $settingsOpened}
+    <Settings {appTitle} {height} />
+  {:else}
+      
+      <DragRegion>
+        <ResizablePane split={$settings.panelSplit} {height} >
+          <div slot="top" class="full-height">
+            <Panel>
+              <CustomGroupsList />
+            </Panel>
+          </div>
+          
+          <div slot="bottom" class="full-height">
+            <Panel>
+              <TypefaceList />
+            </Panel>
+          </div>
+          
+        </ResizablePane>
+      </DragRegion>
+
+  {/if}
+
+  {#if $displayLog}
+    <Log />
+  {/if}
+</div>
+
+<style>
+
+  .full-height {
+    height: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+  }
+</style>
+
+<script>
+  let width;
+  let height;
+  $: appWidth.update(v => width ? width : v);
+  $: appHeight.update(v => height ? height : v);
+
+  // sub components
+  import Loading from "components/Loading.html"
+  import Log from "components/Log.html"
+  import Settings from "components/Settings.html";
+  import ResizablePane from "components/ResizablePane.html";
+  import DragRegion from "components/DragRegion.html";
+  import CustomGroupsList from "components/CustomGroupsList.html";
+  import TypefaceList from "components/TypefaceList.html";
+  import Panel from "components/Panel.html";
+
+  import csInterface from "helpers/cs-interface.js";
+
+  // stores
+  import { loading, appWidth, appHeight } from "stores/app-settings.js";
+  import { settings, settingsOpened, displayLog } from "stores/user-settings.js";
+
+  const appTitle = "Fuse Fonts";
+
+  csInterface.setWindowTitle(appTitle);
+
+</script>

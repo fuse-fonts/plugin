@@ -1,16 +1,19 @@
 <svelte:body on:mouseleave={resizeEnd}/>
-<svelte:window on:resize={throttle(containerResize, 50, true)} />
+<!-- <svelte:window on:resize={throttle(containerResize, 50, true)} /> -->
 
-{#if resizing}
-  <section class="overlay" style="top: {split / 2}%;">
-    <b>{split}%</b> {topPaneHeight}px
-  </section>
-  <section class="overlay" style="top: {split + ((100 - split) / 2)}%;">
-    <b>{100 - split}%</b> {bottomPaneHeight}px
-  </section>
-{/if}
 
-<main bind:this={root} class:resizing style="--top-panel-height: {split}%">
+<main bind:this={root} class:resizing style="--top-panel-height: {split}%; --total-height: {height}px;">
+    
+    {#if resizing}
+    
+      <section class="overlay" style="top: {split / 2}%;">
+        <b>{split}%</b> {topPaneHeight}px
+      </section>
+      <section class="overlay" style="top: {split + ((100 - split) / 2)}%;">
+        <b>{100 - split}%</b> {bottomPaneHeight}px
+      </section>
+    
+    {/if}
 
   <section class="panel top-panel">
     <slot name="top" class="slot"></slot>
@@ -32,25 +35,26 @@
     --total-height: 100vh;
     --top-panel-height: 25%;
     --seperator-height: 7px;
-    --bottom-panel-height: calc(var(--total-height) - (var(--top-panel-height) + var(--seperator-height)));
-
+    --bottom-panel-height: calc((100% - var(--top-panel-height)) - var(--seperator-height));
+    position: relative;
     display: flex;
     flex-direction: column;
     overflow: hidden;
     height: var(--total-height);
+    /* max-height: var(--total-height); */
   }
 
   .overlay {
     font-size: 1rem;
     pointer-events: none;
     z-index: 10;
-    position: fixed;
+    position: absolute;
     top: 2.5%;
-    left: 50%;
+    right: 50%;
     padding: 0.25rem 1rem;
-    transform: translateX(-50%);
+    transform: translateX(50%);
     color: var(--muted-color);
-    background-color: var(--accent-color);
+    background-color: var(--panel-layer-0);
     border-radius: 0.5rem;
     text-align: center;
     opacity: 0.8;
@@ -132,22 +136,23 @@
 <script>
 
   import { onMount, } from "svelte";
+  import { isPhotoshop } from "stores/app-settings.js";
   import { settings } from "stores/user-settings.js";
   import { throttle } from "helpers/utils.js";
 
   // exports
-  export let height = "auto";
+  export let height = window.innerHeight;
   export let split = 50;
   export const seperatorHeight = 7;
-  
-  let windowHeight = window.innerHeight || 500;
+    
   const minPanelSize = 180;
-
-  $: min = minPanelSize / windowHeight;
-  $: max = 1 - (minPanelSize / windowHeight);
+  $: min = minPanelSize / height;
+  $: max = 1 - (minPanelSize / height);
   $: topPaneHeight = calcTopPanel(split);
   $: bottomPaneHeight = calcBottomPanel(split);
-
+  
+  // if height changes, we update split and everything else
+  $: updateSplit(height);
 
   
   // dom references
@@ -162,7 +167,7 @@
   
 
   const resizeStart = (e) => {
-
+    if (!$isPhotoshop) return;
     root.addEventListener("mousemove", resizeMove);
     root.addEventListener("mouseup", resizeEnd);
     resizing = true;
@@ -175,8 +180,8 @@
   }
 
   const resizeMove = (e) => {
-    let percent = (e.clientY / windowHeight);
-    
+    let percent = (e.clientY / height);
+    console.log(e.clientY);
     split = Math.round(clamp(percent, min, max) * 100);
 
     settings.setSplit(split);
@@ -190,20 +195,18 @@
   };
 
   function calcTopPanel(value) {
-    return Math.round(windowHeight * (value / 100));
+    return Math.round(height * (value / 100));
   }
 
   function calcBottomPanel(value) {
-    return Math.round((windowHeight * (1 - (value / 100)) - seperatorHeight));
+    return Math.round((height * (1 - (value / 100)) - seperatorHeight));
   }
 
-  function containerResize(e) {
-    if (window.innerHeight >= 0) {
-      windowHeight = window.innerHeight;
-      const percent = split / 100;
-      split = Math.round(clamp(percent, min, max) * 100);
-      settings.setSplit(split);
-    }
+  function updateSplit(h) {
+    
+    const percent = split / 100;
+    split = Math.round(clamp(percent, min, max) * 100);
+    settings.setSplit(split);
   }
 
 </script>

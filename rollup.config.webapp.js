@@ -4,14 +4,10 @@ import commonjs from 'rollup-plugin-commonjs';
 import svelte from 'rollup-plugin-svelte';
 import includePaths from 'rollup-plugin-includepaths';
 
-// `npm run build` -> `production` is true
-// `npm run dev` -> `production` is false
-const production = !process.env.ROLLUP_WATCH;
-
 export default {
-  input: 'src/plugin/main.js',
+  input: 'src/webapp/main.js',
   output: {
-    file: 'client/scripts/bundle.js',
+    file: 'public/scripts/bundle.js',
     format: 'iife'
   },
 
@@ -24,7 +20,7 @@ export default {
     resolve(),
 
     //set an include path so we can do simpler imports without needed to traverse up trees
-    includePaths({ paths: ["src/plugin"], }),
+    includePaths({ paths: ["src/webapp", "src/plugin"], }),
 
     // auto convert commonjs / modejs modues to es6 modules.
     commonjs({
@@ -50,7 +46,7 @@ export default {
 
         // creates `main.css` and `main.css.map` — pass `false`
         // as the second argument if you don't want the sourcemap
-        css.write('client/stylesheets/main.css');
+        css.write('public/stylesheets/main.css');
 
       }
     }),

@@ -1,0 +1,171 @@
+<script>
+  import Icon from "components/Icon.html";
+  import FuseFontsPlugin from "FuseFontsPlugin.html";
+  import PhotoshopCanvas from "components/PhotoshopCanvas.html";
+  import PhotoshopTools from "components/PhotoshopTools.html";
+
+</script>
+
+
+<section class="workspace">
+  <div class="workspace-tools">
+    <PhotoshopTools />
+  </div>
+  <div class="workspace-background">
+
+    <nav class="document-tabs">
+      <ol>
+        <li>
+          <span>
+            document_final.psd (Background, RGB/8#)
+          </span>
+          <span class="icon">
+            <Icon icon="close" />
+          </span>
+        </li>
+      </ol>
+    </nav>
+
+    <div class="workspace-canvas-container">
+      <PhotoshopCanvas />
+    </div>
+  </div>
+  <aside class="workspace-panels">
+    <div class="panel-title">Fuse Fonts</div>
+    <div class="panel">
+      <FuseFontsPlugin />
+    </div>
+  </aside>
+</section>
+
+
+<style>
+  .workspace {
+    display: flex;
+    flex: 1 0 auto;
+    height: 100%;
+    width: 100%;
+    --plugins-size: 400px;
+  }
+
+  .workspace-background {
+    position: relative;
+    background-color: #191919;
+    width: calc(100vw - var(--plugins-size));
+  }
+
+  .workspace-canvas-container {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .workspace-panels {
+    width: var(--plugins-size);
+    height: 100%;
+  }
+
+  .workspace-tools {
+    width: 4rem;
+    text-align: center;
+    /* border-top: 1rem solid var(--panel-layer-0); */
+    border-right: 1px solid var(--panel-layer-0);
+    border-radius: 2px;
+    /* padding-top: 1rem; */
+  }
+
+  .workspace-tools:before {
+    text-align: left;
+    padding: 0 0.5rem;
+    background-color: var(--panel-layer-0);
+    content: "▶▶";
+    font-size: 0.5rem;
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--muted-color);
+  }
+
+  .document-tabs {
+    background-color:  var(--panel-layer-0);
+  }
+
+  .icon {
+    transform: scale(0.75);
+    opacity: 0.7;
+    display: inline-block;
+    position: relative;
+    right: -1rem;
+  }
+
+  .icon:hover {
+    opacity: 1;
+  }
+  
+  .document-tabs ol {
+    list-style: none;
+    margin: 0 0;
+    padding: 0 0;
+    display: flex;
+  }
+  
+  .document-tabs li {
+    background-color:  var(--body-background-color);
+    padding: 0.5rem 1.5rem 0.25rem 1rem;
+    font-weight: 600;
+    border: 1px solid #191919;
+    border-bottom: none;
+  }
+
+  .document-tabs li:hover {
+    background-color: var(--panel-layer-1);
+  }
+
+    .workspace-panels {
+      background-color: var(--panel-layer-0);
+      padding: 1rem 1rem;
+
+    }
+
+    .panel {
+      background-color: var(--body-background-color);
+      --c: var(--accent-color);
+      padding-top: 0.5rem;
+      border: 1px solid #191919;
+
+      /* animation: 3s linear highlight alternate-reverse infinite; */
+    }
+
+    .panel-title {
+      background-color: var(--body-background-color);
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      font-weight: 600;
+      display: inline-block;
+      border: 1px solid #191919;
+      border-bottom: none;
+      position: relative;
+      top: 1px;
+      
+    }
+
+    .panel-title:hover {
+      background-color: var(--panel-layer-1);
+    }
+
+
+    @keyframes highlight {
+  
+      from {
+        outline: 2px solid transparent;
+        box-shadow: 0px 0px 10px transparent;
+      }
+
+      to {
+        
+        outline: 2px solid var(--c);
+        box-shadow: 0px 0px 20px var(--c);
+      }
+    }
+</style>
