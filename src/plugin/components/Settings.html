@@ -63,7 +63,7 @@
         <SettingButton toggles={true} settings={true} on:click={() => settings.toggleSetting("applyTypeface")} enabled={$settings.applyTypeface}>
           Auto-Apply selection to Text Layer
         </SettingButton>
-        <p class="description">Applies selected items to the current text layer. </p>
+        <p class="description">Changes the current text layer when selecting fonts. </p>
         <p class="note">Will have no effect if the current layer is not a Text Layer, or if photoshop is in "Text Edit Mode".</p>
       </section>
   
@@ -72,7 +72,7 @@
           Refresh Font List
         </SettingButton>
         <p class="description">Empties the typeface cache, forcing {appTitle} to reload all typefaces. </p>
-        <p class="note">Use if you've loaded new fonts on your computer and don't see the new fonts within {appTitle}.</p>
+        <p class="note">Useful when you've loaded new fonts on your computer and don't see the new fonts within {appTitle}.</p>
       </section>
   
       <section class="setting">

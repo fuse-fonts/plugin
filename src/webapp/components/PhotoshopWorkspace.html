@@ -1,13 +1,15 @@
 <script>
   import Icon from "components/Icon.html";
   import FuseFontsPlugin from "FuseFontsPlugin.html";
+  import PhotoshopCanvas from "components/PhotoshopCanvas.html";
+  import PhotoshopTools from "components/PhotoshopTools.html";
 
 </script>
 
 
 <section class="workspace">
   <div class="workspace-tools">
-    tools
+    <PhotoshopTools />
   </div>
   <div class="workspace-background">
 
@@ -25,11 +27,7 @@
     </nav>
 
     <div class="workspace-canvas-container">
-      <div class="workspace-canvas">
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </p>
-      </div>
+      <PhotoshopCanvas />
     </div>
   </div>
   <aside class="workspace-panels">
@@ -55,6 +53,7 @@
     background-color: #191919;
     width: calc(100vw - var(--plugins-size));
   }
+
   .workspace-canvas-container {
     display: flex;
     height: 100%;
@@ -62,19 +61,10 @@
     align-items: center;
     justify-content: center;
   }
-  .workspace-canvas {
-    width: 250px;
-    height: 250px;
-    background-color: #fff;
-    padding: 10px;
-    border: var(--panel-border);
-    color: #000;
-  }
 
   .workspace-panels {
     width: var(--plugins-size);
     height: 100%;
-    /* background-color: var(--panel-layer-0); */
   }
 
   .workspace-tools {

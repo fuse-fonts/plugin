@@ -1,0 +1,51 @@
+<script>
+
+  const styles = ["sans-serif", "cursive", "monospace", "serif", "fantasy"];
+  let index = 0;
+  import { onMount } from "svelte";
+
+  function nextStyle(event) {
+    
+    let next = index + 1;
+    if (next >= styles.length - 1) {
+      index = 0;
+    }
+    else {
+      index = next;
+    }
+  }
+
+  onMount(() => {
+    const callback = event => nextStyle(event);
+    document.body.addEventListener("app-font-change", callback);
+
+    return () => document.body.removeEventListener("app-font-change", callback);
+  })
+
+  </script>
+<div class="canvas" style="font-family: {styles[index]};">
+    <h1>Fuse Fonts Demo</h1>
+    <p>
+      You can get the feel of how Fuse Fonts will help you by playing around with it. <br /><br /> Currently displaying as a <strong>{styles[index]}</strong>.
+    </p>
+
+</div>
+
+<style>
+  .canvas {
+    width: 250px;
+    height: 250px;
+    background-color: #fff;
+    padding: 10px;
+    border: var(--panel-border);
+    color: #000;
+    font-size: 1.4rem;
+    overflow: hidden;
+    line-height: 1.816em;
+  }
+
+  h1 {
+    margin: 0 0 1rem 0;
+  }
+
+</style>

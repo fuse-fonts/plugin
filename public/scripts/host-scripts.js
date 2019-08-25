@@ -30,7 +30,15 @@ window.getFontList = function() {
  * @returns {Promise} resolves to an object containing a "result" bool
  */
 window.setFont = function(family, postScriptName, fontStyle) {
+
   return new Promise((resolve, reject) => {
+    
+    if (typeof window.CustomEvent === "function") {
+      const detail = { family, postScriptName, fontStyle }
+      var event = new CustomEvent("app-font-change", { detail });
+      document.body.dispatchEvent(event);
+    }
+    
     resolve(JSON.stringify({
       result: true,
       message: "All Good."
