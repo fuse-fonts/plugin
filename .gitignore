@@ -28,3 +28,4 @@ installer/**/*
 # firebase files and dirs
 firebase-debug.log
 .firebase
+.firebaserc
