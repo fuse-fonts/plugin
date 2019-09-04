@@ -14,8 +14,6 @@
   import fileSystemRepository from "repositories/file-system.js";
   import csInterface from "helpers/cs-interface.js";
   export let appTitle = "this plugin";
-  export let height = 100;
-  $: settingsHeight = `${height}px`;
   let dangerZoneActive = false;
 
   const apiVersion = csInterface.getCurrentApiVersion();
@@ -48,7 +46,7 @@
 
 </script>
 
-<div class="backdrop" style="height: {settingsHeight};">
+<div class="backdrop">
   <main class="settings" in:fly={{ y: 400, duration: 300, }}>
     <header class="header row">
       <h1>Settings</h1>
@@ -158,6 +156,7 @@
 <style>
 
   .backdrop {
+    height: 100vh;
     background-color: var(--panel-layer-1);
     overflow-y: auto;
     overflow-x: hidden;
