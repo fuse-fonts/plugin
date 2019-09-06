@@ -13,6 +13,9 @@
   1.  `CEPHtmlEngine9-PHXS-20.0.4-com.fusefonts.log` should say
     > DevTools listening on 127.0.0.1:8888
 
+### Alternative Development
+
+Fuse fonts is setup so that it can be ran from the browser with—perhaps—less fuss than the above debugging. 
 
 ## Building the plugin
 
@@ -26,13 +29,14 @@
 
 ### After initial setup
 
-After performing the steps in first time setup, you can simple run the below command whenever you need to generate the zxp.
+After performing the steps in first time setup, you can run the below command whenever you need to generate the zxp.
 
 1.  `npm run package`
   Builds and signs zxp, and places into `/dist`
 
 ## Plugin Installer
 1. https://github.com/fuse-fonts/installer
+
 
 
 *Todo: add integration or git submodule.*
