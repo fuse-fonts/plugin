@@ -11,7 +11,9 @@ inputdir="build/"
 outputdir="dist/fuse-fonts.zxp"
 
 p12="certificate.p12"
-p12password="bravecoffee"
+
+# get the value of the certpassword .env
+p12password=$(cat .env | grep certpassword= | sed -e 's/certpassword=//')
 
 # timestampserver="http://sha1timestamp.ws.symantec.com/sha1/timestamp"
 # more info: 
