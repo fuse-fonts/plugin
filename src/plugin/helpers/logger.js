@@ -1,9 +1,12 @@
 import { writable } from "svelte/store";
+import { outputLogToConsole } from "stores/app-settings.js";
 
 export let entries = [];
 export const logStore = writable(entries);
 
-export const logToConsole = true;
+export let logToConsole = true;
+outputLogToConsole.subscribe(v => logToConsole = v);
+
 
 window.appLog = entries;
 const key = "LOG_LEVEL_"

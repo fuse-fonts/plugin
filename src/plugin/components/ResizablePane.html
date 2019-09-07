@@ -181,7 +181,6 @@
 
   const resizeMove = (e) => {
     let percent = (e.clientY / height);
-    console.log(e.clientY);
     split = Math.round(clamp(percent, min, max) * 100);
 
     settings.setSplit(split);

@@ -1,4 +1,4 @@
-<div bind:offsetWidth={width} bind:offsetHeight={height}>
+<div>
 
   {#if $loading}
     <Loading text="Loading Fonts..." color="#fff" />
@@ -40,10 +40,6 @@
 </style>
 
 <script>
-  let width;
-  let height;
-  $: appWidth.update(v => width ? width : v);
-  $: appHeight.update(v => height ? height : v);
 
   // sub components
   import Loading from "components/Loading.html"
@@ -58,7 +54,7 @@
   import csInterface from "helpers/cs-interface.js";
 
   // stores
-  import { loading, appWidth, appHeight } from "stores/app-settings.js";
+  import { loading, } from "stores/app-settings.js";
   import { settings, settingsOpened, displayLog } from "stores/user-settings.js";
 
   const appTitle = "Fuse Fonts";

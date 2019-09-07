@@ -19,11 +19,6 @@ export function setPersistance(value) {
   csInterface.dispatchEvent(event);
 }
 
-export const appHeight = writable(window.innerHeight);
-export const appWidth = writable(window.innerWidth);
-
-export const appSize = derived([appWidth, appHeight], ([width, height]) => {
-  return { width, height }
-});
-
 export const isPhotoshop = writable(true);
+
+export const outputLogToConsole = writable(true);
