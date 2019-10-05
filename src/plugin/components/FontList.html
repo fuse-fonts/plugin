@@ -1,7 +1,7 @@
 <ol>
   {#each fonts as font}
     <li>
-      <FontFace isLocked={true} {font} selected={selected.includes(font.name)} on:click on:dragstart />
+      <FontFace {isLocked} {font} selected={selected.includes(font.name)} on:click on:dragstart />
     </li>
   {/each}
 </ol>

@@ -10,8 +10,8 @@
 >
   <h1 class="name">{name}</h1>
   <div class="actions">
-    {#if hovering && !isLocked}
-      <Icon icon="close" 
+    {#if !isLocked}
+      <Icon icon="remove" 
         color="var(--muted-color)" 
         hover="var(--foreground-color)" 
         on:click />

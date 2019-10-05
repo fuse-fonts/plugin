@@ -23,11 +23,11 @@
       {/if}
     </div>
     <div class="right-align" title="Remove {typeface.family}">
-      {#if !selected && hovering && !isLocked}
+      {#if !isLocked}
         <Icon 
-          icon="remove" 
+          icon={expanded ? "clear_all" : "remove"} 
           color="var(--muted-color)" 
-          hover="var(--foreground-color)" 
+          hover="var(--error-color)" 
           on:click={removeTypeface} />
       {/if}
     </div>
