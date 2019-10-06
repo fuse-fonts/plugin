@@ -36,7 +36,8 @@
             <div class="icon-section">
               <Icon disabled={true} color="var(--muted-color)" icon="folder_open" size="large" />
             </div>
-            <p><b>{$selectedGroup.name}</b> is empty</p>
+            <p class="empty-title icon-section"><b>{$selectedGroup.name}</b> is empty</p>
+            <p>Drag and Drop fonts from another group to add them here.</p>
           {/if}
         </li>
       {/each}
@@ -66,6 +67,10 @@
     padding: 6vh 1rem;
     text-align: center;
     color: var(--muted-color);
+  }
+
+  .empty-title {
+    color: var(--foreground-color);
   }
 
   .filter-text {
@@ -171,11 +176,14 @@
   import TypefaceFilter from "components/TypefaceFilter.html";
   import Icon from "components/Icon.html";
 
+  import { setContext } from "svelte";
   import { removeTypefaceFromGroup, selected as selectedGroup } from "stores/custom-groups.js";
   import { selected as selectedFonts } from "stores/font-selection.js";
 
   let hasGroupSelected = false;
   $: hasGroupSelected = $selectedGroup !== null;
+  $: setContext("selectedGroup", selectedGroup);
+
   let isLocked = false; // if changes can happen to this group
 
   let hasFilter = false;

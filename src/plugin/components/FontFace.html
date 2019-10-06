@@ -5,16 +5,16 @@
   on:dragstart={dragStart}
   on:click
   on:dragstart
-  on:mouseenter="{() => hovering = true}"
-  on:mouseleave="{() => hovering = false}"
 >
   <h1 class="name">{name}</h1>
   <div class="actions">
     {#if !isLocked}
-      <Icon icon="remove" 
-        color="var(--muted-color)" 
-        hover="var(--foreground-color)" 
-        on:click />
+      <div title="Remove {font.font.name}">
+        <Icon icon="remove"
+          color="var(--muted-color)" 
+          hover="var(--foreground-color)" 
+          on:click={removeFontFace} />
+      </div>
     {/if}
   </div>
 </div>
@@ -71,15 +71,15 @@
 <script>
 
   import Icon from "components/Icon.html";
+  import { getContext } from "svelte";
 
-  let hovering = false;
-  export let removable = true;
+  const selectedGroup = getContext("selectedGroup");
+
   export let font = null;
   export let isLocked = false;
   $: name = font.description;
 
   export let selected = false;
-
 
   function clickHandler(e) {
     e.data = { font, selected };
@@ -87,5 +87,16 @@
 
   function dragStart(e) {
     e.data = { font, selected };
+  }
+
+  function removeFontFace(e) {
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    selectedGroup.update( group => {
+      group.typefaces.removeVariant(font.font.family, font.name);
+      return group;
+    })
   }
 </script>

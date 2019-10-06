@@ -62,6 +62,23 @@ export default class TypefaceLibrary {
     }
   }
 
+  /**
+   * Removes the variant within the TypeFace of this library
+   * @param {TypeFace} typeface 
+   * @param {string} variantName
+   */
+  removeVariant(familyName, variantName) {
+
+    if (this.includes(familyName)) {
+      const family = this.get(familyName);
+      const isEmpty = family.removeVariant(variantName);
+
+      if (isEmpty) {
+        this.remove(family);
+      }
+    }
+  }
+
   includes(family) {
     return !!this.data[family];
   }

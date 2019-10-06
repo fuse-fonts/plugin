@@ -27,16 +27,22 @@
         <Icon 
           icon={expanded ? "clear_all" : "remove"} 
           color="var(--muted-color)" 
-          hover="var(--error-color)" 
+          hover="var(--foreground-color)" 
           on:click={removeTypeface} />
-      {/if}
+      {/if} 
     </div>
 
   </main>
 
   {#if expanded}
     <section class="typeface-variants" in:slide|local={{duration: 500}} out:slide|local={{duration: 200}}>
-      <FontList {isLocked} fonts={typeface.variants} selected={selectedVariants} on:click={selectFont} on:dragstart={childDragStart}/>
+      <FontList 
+        {isLocked} 
+        fonts={typeface.variants} 
+        selected={selectedVariants} 
+        on:click={selectFont} 
+        on:dragstart={childDragStart}
+      />
     </section>
   {/if}
 </article>
@@ -122,9 +128,11 @@
   import { applyTypeface } from "helpers/font-tool.js";
 
   import { createEventDispatcher } from "svelte";
+  
   import { slide } from 'svelte/transition';
 
   export let typeface = null;
+  
   export let expanded = false; // whether the fonts of this typeface are displayed
   export let selected = false; // whether this typeface is selected
   export let selectedVariants = []; // list of the font names `font.name
