@@ -182,7 +182,6 @@
 
   let hasGroupSelected = false;
   $: hasGroupSelected = $selectedGroup !== null;
-  $: setContext("selectedGroup", selectedGroup);
 
   let isLocked = false; // if changes can happen to this group
 
@@ -198,8 +197,10 @@
   const ellipsis = "…";
   const selectedCount = 0;
 
-  selectedGroup.subscribe(value => {
+  $: setContext("selectedGroup", $selectedGroup);
 
+  selectedGroup.subscribe(value => {
+    
     selectedFonts.clear();
 
     // reset all vars on empty
@@ -207,7 +208,7 @@
       title = "";
       list = [];
       typefaces = [];
-      isLocked = false;
+      isLocked = false;  
       return;
     }
 

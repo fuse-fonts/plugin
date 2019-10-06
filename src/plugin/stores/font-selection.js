@@ -63,7 +63,7 @@ function selectionStore(initialValue = new TypefaceLibrary()) {
       variants.push(variant.name);
     }
 
-    return  model;
+    return model;
   });
 
 

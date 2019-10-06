@@ -72,14 +72,14 @@
 
   import Icon from "components/Icon.html";
   import { getContext } from "svelte";
-
-  const selectedGroup = getContext("selectedGroup");
+  import { removeFontFace as removeFontFromGroup } from "stores/custom-groups.js";
 
   export let font = null;
   export let isLocked = false;
   $: name = font.description;
-
   export let selected = false;
+
+  const selectedGroup = getContext("selectedGroup");
 
   function clickHandler(e) {
     e.data = { font, selected };
@@ -90,13 +90,8 @@
   }
 
   function removeFontFace(e) {
-
     e.preventDefault();
     e.stopPropagation();
-
-    selectedGroup.update( group => {
-      group.typefaces.removeVariant(font.font.family, font.name);
-      return group;
-    })
+    removeFontFromGroup(selectedGroup.ID, font.font.family, font.name);
   }
 </script>
