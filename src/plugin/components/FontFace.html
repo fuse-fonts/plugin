@@ -1,31 +1,43 @@
 <div class="font" 
   class:selected 
   draggable={true}
-  on:click={clickHandler} 
-  on:dragstart={dragStart}
+  on:click={setEventData} 
+  on:dragstart={setEventData}
+  on:mouseenter|once={getInitialMouse}
+  on:mouseenter="{() => hovering = true}"
+  on:mouseleave="{() => hovering = false}"
   on:click
   on:dragstart
 >
-  <h1 class="name">{name}</h1>
-  <div class="actions">
-    {#if !isLocked}
-      <div title="Remove {font.font.name}">
-        <Icon icon="remove"
-          color="var(--muted-color)" 
-          hover="var(--foreground-color)" 
-          on:click={removeFontFace} />
-      </div>
-    {/if}
-  </div>
+  {#if showPreview && hovering}
+    <TypefacePreview {font} floating={true} top={hoverDirectionTop} />
+  {/if}
+
+  <header class="font-row">
+    <h1 class="name">{name}</h1>
+    <div class="actions">
+      {#if !isLocked}
+        <div title="Remove {font.font.name}">
+          <Icon icon="remove"
+            color="var(--muted-color)" 
+            hover="var(--foreground-color)" 
+            on:click={removeFontFace} />
+        </div>
+      {/if}
+    </div>
+  </header>
 </div>
 
 <style>
   .font {
     padding: 0.5rem 1rem 0.5rem 2rem;
-    
+    position: relative;
     background-color: var(--panel-item);
     border-bottom: var(--panel-border);
     border-bottom-width: 2px;
+  }
+
+  .font header {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -71,6 +83,9 @@
 <script>
 
   import Icon from "components/Icon.html";
+  import TypefacePreview from "components/TypefacePreview.html";
+  import { settings } from "stores/user-settings.js";
+
   import { getContext } from "svelte";
   import { removeFontFace as removeFontFromGroup } from "stores/custom-groups.js";
 
@@ -78,14 +93,14 @@
   export let isLocked = false;
   $: name = font.description;
   export let selected = false;
+  export let showPreview = false;
+  let hovering = false;
+  let hoverDirectionTop = false;
 
   const selectedGroup = getContext("selectedGroup");
+  const offsetFromParent = getContext("offsetFromParent");
 
-  function clickHandler(e) {
-    e.data = { font, selected };
-  }
-
-  function dragStart(e) {
+  function setEventData(e) {
     e.data = { font, selected };
   }
 
@@ -93,5 +108,15 @@
     e.preventDefault();
     e.stopPropagation();
     removeFontFromGroup(selectedGroup.ID, font.font.family, font.name);
+  }
+
+  // Calculates and sets hoverDirectionTop based on the offset from the parent <ol>
+  function getInitialMouse(e) {
+    
+    const fontSize = $settings.fontSize || 10;
+    const previewMultiplier = 5; // 1 more for extra space    
+    const { offsetTop } = e.currentTarget;
+    let fromTop = offsetFromParent(offsetTop);
+    hoverDirectionTop = (fontSize * previewMultiplier) <= fromTop;
   }
 </script>

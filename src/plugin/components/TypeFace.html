@@ -1,4 +1,13 @@
-<article class="typeface-container" bind:this={el}>
+<article 
+  class="typeface-container" 
+  bind:this={el} 
+  on:mouseenter|once={getInitialMouse}
+>
+
+  {#if $settings.previewFont && hovering}
+    <TypefacePreview font={previewFont} floating={true} top={hoverDirectionTop} />
+  {/if}
+
   <main 
     class="typeface" 
     class:selected 
@@ -8,6 +17,7 @@
     on:dragend={dragEnd}
     on:mouseenter="{() => hovering = true}"
     on:mouseleave="{() => hovering = false}"
+
   >
     <div class="left-align">
       <div class="icon-section">
@@ -42,13 +52,24 @@
         selected={selectedVariants} 
         on:click={selectFont} 
         on:dragstart={childDragStart}
-      />
+         />
     </section>
   {/if}
 </article>
 
 
 <style>
+  .typeface-container {
+    position: relative;
+  }
+
+  .typeface-preview {
+    pointer-events: none;
+    position: absolute;
+    top: -5rem;
+    width: 100%;
+  }
+
   .typeface {
     padding: 0.5rem 1rem 0.5rem 0.5rem;
     background-color: var(--panel-item);
@@ -114,6 +135,7 @@
   .styles-count:hover {
     color: var(--foreground-color);
   }
+  
 
 </style>
 
@@ -122,13 +144,13 @@
   import ExpandableIcon from "components/ExpandableIcon.html";
   import Icon from "components/Icon.html"
   import FontList from "components/FontList.html";
+  import TypefacePreview from "components/TypefacePreview.html";
 
   import { selected as selectionStore } from "stores/font-selection.js";
   import { settings } from "stores/user-settings.js";
   import { applyTypeface } from "helpers/font-tool.js";
 
-  import { createEventDispatcher } from "svelte";
-  
+  import { createEventDispatcher, getContext } from "svelte";
   import { slide } from 'svelte/transition';
 
   export let typeface = null;
@@ -137,8 +159,8 @@
   export let selected = false; // whether this typeface is selected
   export let selectedVariants = []; // list of the font names `font.name
   export let isLocked = false;
+
   const dispatch = createEventDispatcher();
-  let hovering = false;
 
   // keep our selected variants in sync
   selectionStore.subscribe(store => {
@@ -154,6 +176,26 @@
   let styleCount = typeface.variants.length;
   $: styleCountMessage = `${styleCount} ${styleCount === 1 ? "style" : "styles" }`;
   $: hasStyles = styleCount > 1;
+
+  const previewFont = typeface.variants[0];
+  let hovering = false;
+  let hoverDirectionTop = false;
+
+  const offsetFromParent = getContext("offsetFromParent");
+
+  
+  // Calculates and sets hoverDirectionTop based on the offset from the parent <ol>
+  function getInitialMouse(e) {
+    const fontSize = $settings.fontSize || 10;
+    const { offsetTop } = e.currentTarget;
+    const previewMultiplier = 5; // 1 more for extra space    
+    let fromTop = offsetFromParent(offsetTop);
+
+    // if we're taller than a certain point, we can display on the top
+    hoverDirectionTop = (fontSize * previewMultiplier) <= fromTop;
+    // console.log(`hoverDirectionTop=`, hoverDirectionTop);
+    
+  }
 
   function toggleFonts(e) {
     e.stopPropagation();
@@ -193,6 +235,16 @@
       selectFont(e);
     }
   }
+
+  function fontListHandler(e) {
+    setPreviewFont(e.data.font)
+  }
+
+  function setPreviewFont(variant) {
+    // console.log("setting store to", variant.name)
+    previewFont.set(variant);
+  }
+
 
   function dragEnd() {
     // el.style.opacity = null;

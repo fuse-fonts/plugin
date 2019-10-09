@@ -1,4 +1,4 @@
-<ol>
+<ol bind:this={fontListElement}>
   {#each fonts as font}
     <li>
       <FontFace 
@@ -7,6 +7,7 @@
         selected={selected.includes(font.name)} 
         on:click 
         on:dragstart
+        showPreview={$settings.previewFont}
       />
     </li>
   {/each}
@@ -23,9 +24,20 @@
 <script>
 
   import FontFace from "components/FontFace.html";
+  import { settings } from "stores/user-settings.js";
+  import { setContext } from "svelte";
 
+  let fontListElement = null;
   export let fonts = null;
   export let selected = [];
   export let isLocked = false;
+
+  setContext("offsetFromParent", (offset) => {
+    if (fontListElement === null) {
+      return 0;
+    }
+
+    return Math.abs(offset - fontListElement.offsetTop);
+  });
 
 </script>

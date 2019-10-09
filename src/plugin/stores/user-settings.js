@@ -7,6 +7,7 @@ export const defaultSettings = {
   panelSplit: 20,
   listView: true,
   fontSize: csInterface.getHostEnvironment().appSkinInfo.baseFontSize || 10,
+  previewFont: true,
 };
 
 function resetableSettingsStore() {

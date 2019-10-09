@@ -1,0 +1,138 @@
+<script context="module">
+  const text = "The quick brown fox jumped over the lazy log.";
+  let contrastClass = ""; // options: "high-contrast" "mid-contrast"
+</script>
+
+<script>
+  import { fly, slide, scale } from "svelte/transition";
+
+  export let font;
+  export let floating = true;
+  export let top = false;
+  $: direction = top ? "top" : "bottom";
+
+  let family = font.font.family;
+  let cssProperties = font.cssProperties || "";
+  let style = `font-family: ${family}; ${cssProperties}`;
+
+</script>
+
+<div class="preview-container" 
+  class:floating-top={floating && direction === "top"} 
+  class:floating-bottom={floating && direction === "bottom"}
+  in:fly={{ delay: 220, duration: 100, y: 10 }}>
+  {#if floating && direction === "bottom"}
+    <div class="arrow-up"></div>
+  {/if}
+  <div class="typeface-preview {contrastClass}" {style}>{text}</div>
+  {#if floating && direction === "top"}
+    <div class="arrow-down"></div>
+  {/if}
+</div>
+
+
+<style>
+
+  .preview-container {
+    --fg-color: var(--foreground-color);
+    --bg-color: var(--panel-layer-0);
+    --preview-size: 4rem;
+    --arrow-size: 0.75rem;
+    --padding: 1rem;
+    --padding-size: calc(var(--padding) + 1px);
+    --padding-y: calc(var(--padding-size) * 2);
+  }
+
+  .typeface-preview {
+    line-height: 1em;
+    font-size: var(--preview-size);
+    background-color: var(--bg-color);
+    color: var(--fg-color);
+    padding: 1rem var(--padding-size);
+    margin: 0rem 0rem;
+    margin-top: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    font-weight: auto;
+    
+    font-variant-ligatures: normal;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+  }
+
+  .high-contrast {
+    --fg-color: var(--panel-layer-0);
+    --bg-color: var(--foreground-color);
+  }
+
+  .mid-contrast {
+    --fg-color: var(--panel-layer-0);
+    --bg-color: var(--foreground-color);
+  }
+
+  .floating-top {
+
+    left: 0;
+    pointer-events: none;
+    z-index: 1;
+    position: absolute;
+    top: calc((var(--padding-size) + var(--preview-size) + var(--arrow-size) + 0rem + 2px) * -1);
+    width: 100%;
+  }
+
+  .floating-bottom {
+    --font-list-size: 3rem;
+    z-index: 1;
+    left: 0;
+    position: absolute;
+    top: calc(var(--font-list-size) - var(--arrow-size));
+    pointer-events: none;
+    width: 100%;
+  }
+
+  /* .floating::after {
+    display: block;
+    content: " ";
+    font-size: 0;
+    margin-left: calc(50% - var(--arrow-size));
+    position: relative;
+    top: calc((var(--arrow-size)) - 0.5rem - 2px);
+    width: 0; 
+    height: 0; 
+    border-left: var(--arrow-size) solid transparent;
+    border-right: var(--arrow-size) solid transparent;
+    border-top: var(--arrow-size) solid var(--bg-color);
+  } */
+
+  .floating .typeface-preview {
+    
+  }
+
+
+  .arrow-down {
+    display: block;
+    font-size: 0;
+    margin-left: calc(50% - var(--arrow-size));
+    position: relative;
+    top: calc((var(--arrow-size)) - 0.5rem - 2px);
+    width: 0; 
+    height: 0; 
+    border-left: var(--arrow-size) solid transparent;
+    border-right: var(--arrow-size) solid transparent;
+    border-top: var(--arrow-size) solid var(--bg-color);
+  }
+
+  .arrow-up {
+    display: block;
+    font-size: 0;
+    left: calc(50% - var(--arrow-size));
+    position: relative;
+    /* bottom: calc((var(--arrow-size)) - 0.5rem - 2px); */
+    width: 0; 
+    height: 0; 
+    border-left: var(--arrow-size) solid transparent;
+    border-right: var(--arrow-size) solid transparent;
+    border-bottom: var(--arrow-size) solid var(--bg-color);
+    z-index: 10;
+  }
+</style>
