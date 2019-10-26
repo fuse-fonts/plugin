@@ -19,8 +19,13 @@ client/scripts/bundle.js
 client/stylesheets/main.css
 client/stylesheets/main.css.map
 public/scripts/bundle.js
+public/scripts/*.bundle.js
 public/stylesheets/main.css
 public/stylesheets/main.css.map
+public/stylesheets/plugin.css
+public/stylesheets/plugin.css.map
+public/stylesheets/index.css
+public/stylesheets/index.css.map
 installer/
 installer/**/*
 .env

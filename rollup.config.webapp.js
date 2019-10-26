@@ -4,57 +4,78 @@ import commonjs from 'rollup-plugin-commonjs';
 import svelte from 'rollup-plugin-svelte';
 import includePaths from 'rollup-plugin-includepaths';
 
-export default {
-  input: 'src/webapp/main.js',
-  output: {
-    file: 'public/scripts/bundle.js',
-    format: 'iife'
+export default [
+  // photoshop container bundle
+  {
+    input: 'src/webapp/index.js',
+    output: {
+      file: "public/scripts/index.bundle.js",
+      format: 'iife'
+    },
+
+
+    plugins: [
+      json({
+        compact: true,
+      }),
+      //resolve node.js modules from node_modules
+      resolve(),
+
+      //set an include path so we can do simpler imports without needed to traverse up trees
+      includePaths({ paths: ["src/webapp", "src/plugin"], }),
+
+      // auto convert commonjs / modejs modues to es6 modules.
+      commonjs({
+        sourceMap: true, // default: true
+      }),
+
+      //trasnform svelte web components into their scripts
+      svelte({
+        include: 'src/**/*.html',
+        css: function (css) {
+          css.write('public/stylesheets/index.css');
+        }
+      }),
+    ],
+    watch: {
+      clearScreen: true
+    }
   },
 
+  // plugin bundle
+  {
+    input: 'src/webapp/plugin.js',
+    output: {
+      file: "public/scripts/plugin.bundle.js",
+      format: 'iife'
+    },
 
-  plugins: [
-    json({
-      compact: true,
-    }),
-    //resolve node.js modules from node_modules
-    resolve(),
 
-    //set an include path so we can do simpler imports without needed to traverse up trees
-    includePaths({ paths: ["src/webapp", "src/plugin"], }),
+    plugins: [
+      json({
+        compact: true,
+      }),
+      //resolve node.js modules from node_modules
+      resolve(),
 
-    // auto convert commonjs / modejs modues to es6 modules.
-    commonjs({
-      sourceMap: true, // default: true
-    }),
+      //set an include path so we can do simpler imports without needed to traverse up trees
+      includePaths({ paths: ["src/webapp", "src/plugin"], }),
 
-    //trasnform svelte web components into their scripts
-    svelte({
+      // auto convert commonjs / modejs modues to es6 modules.
+      commonjs({
+        sourceMap: true, // default: true
+      }),
 
-      // You can restrict which files are compiled
-      // using `include` and `exclude`
-      include: 'src/**/*.html',
-
-      // By default, the client-side compiler is used. You
-      // can also use the server-side rendering compiler
-      // generate: 'ssr',
-
-      // Extract CSS into a separate file (recommended).
-      // See note below
-      css: function (css) {
-        // console.log(css.code); // the concatenated CSS
-        // console.log(css.map); // a sourcemap
-
-        // creates `main.css` and `main.css.map` — pass `false`
-        // as the second argument if you don't want the sourcemap
-        css.write('public/stylesheets/main.css');
-
-      }
-    }),
-    
-    // when ready for a production build:
-    // transpile ES2015+ to ES5
-		// buble({
-		// 	exclude: ['node_modules/**']
-		// })
-  ]
-}
+      //trasnform svelte web components into their scripts
+      svelte({
+        include: 'src/**/*.html',
+        css: function (css) {
+          css.write('public/stylesheets/plugin.css');
+        }
+      }),
+    ],
+    watch: {
+      clearScreen: true
+    }
+  }
+]
