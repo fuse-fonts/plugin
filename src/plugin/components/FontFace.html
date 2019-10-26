@@ -3,18 +3,15 @@
   draggable={true}
   on:click={setEventData} 
   on:dragstart={setEventData}
-  on:mouseenter|once={getInitialMouse}
-  on:mouseenter="{() => hovering = true}"
-  on:mouseleave="{() => hovering = false}"
   on:click
   on:dragstart
 >
-  {#if showPreview && hovering}
-    <TypefacePreview {font} floating={true} top={hoverDirectionTop} />
-  {/if}
 
-  <header class="font-row">
-    <h1 class="name">{name}</h1>
+<header class="font-row">
+  <h1 class="name">{name}</h1>
+  {#if showPreview}
+    <TypefacePreview {font} />
+  {/if}
     <div class="actions">
       {#if !isLocked}
         <div title="Remove {font.font.name}">
@@ -94,11 +91,8 @@
   $: name = font.description;
   export let selected = false;
   export let showPreview = false;
-  let hovering = false;
-  let hoverDirectionTop = false;
 
   const selectedGroup = getContext("selectedGroup");
-  const offsetFromParent = getContext("offsetFromParent");
 
   function setEventData(e) {
     e.data = { font, selected };
@@ -110,13 +104,4 @@
     removeFontFromGroup(selectedGroup.ID, font.font.family, font.name);
   }
 
-  // Calculates and sets hoverDirectionTop based on the offset from the parent <ol>
-  function getInitialMouse(e) {
-    
-    const fontSize = $settings.fontSize || 10;
-    const previewMultiplier = 5; // 1 more for extra space    
-    const { offsetTop } = e.currentTarget;
-    let fromTop = offsetFromParent(offsetTop);
-    hoverDirectionTop = (fontSize * previewMultiplier) <= fromTop;
-  }
 </script>

@@ -1,4 +1,4 @@
-<ol bind:this={fontListElement}>
+<ol>
   {#each fonts as font}
     <li>
       <FontFace 
@@ -27,17 +27,8 @@
   import { settings } from "stores/user-settings.js";
   import { setContext } from "svelte";
 
-  let fontListElement = null;
   export let fonts = null;
   export let selected = [];
   export let isLocked = false;
-
-  setContext("offsetFromParent", (offset) => {
-    if (fontListElement === null) {
-      return 0;
-    }
-
-    return Math.abs(offset - fontListElement.offsetTop);
-  });
 
 </script>

@@ -1,12 +1,7 @@
 <article 
   class="typeface-container" 
-  bind:this={el} 
-  on:mouseenter|once={getInitialMouse}
+  bind:this={el}
 >
-
-  {#if $settings.previewFont && hovering}
-    <TypefacePreview font={previewFont} floating={true} top={hoverDirectionTop} />
-  {/if}
 
   <main 
     class="typeface" 
@@ -15,8 +10,6 @@
     draggable={true}
     on:dragstart={dragStart}
     on:dragend={dragEnd}
-    on:mouseenter="{() => hovering = true}"
-    on:mouseleave="{() => hovering = false}"
 
   >
     <div class="left-align">
@@ -31,8 +24,12 @@
         <h1 class="name">{typeface.family}</h1>
         <h3 class="styles-count">{typeface.variants[0].description}</h3>
       {/if}
+
     </div>
     <div class="right-align" title="Remove {typeface.family}">
+      {#if $settings.previewFont}
+        <TypefacePreview font={previewFont} />
+      {/if}
       {#if !isLocked}
         <Icon 
           icon={expanded ? "clear_all" : "remove"} 
@@ -178,24 +175,6 @@
   $: hasStyles = styleCount > 1;
 
   const previewFont = typeface.variants[0];
-  let hovering = false;
-  let hoverDirectionTop = false;
-
-  const offsetFromParent = getContext("offsetFromParent");
-
-  
-  // Calculates and sets hoverDirectionTop based on the offset from the parent <ol>
-  function getInitialMouse(e) {
-    const fontSize = $settings.fontSize || 10;
-    const { offsetTop } = e.currentTarget;
-    const previewMultiplier = 5; // 1 more for extra space    
-    let fromTop = offsetFromParent(offsetTop);
-
-    // if we're taller than a certain point, we can display on the top
-    hoverDirectionTop = (fontSize * previewMultiplier) <= fromTop;
-    // console.log(`hoverDirectionTop=`, hoverDirectionTop);
-    
-  }
 
   function toggleFonts(e) {
     e.stopPropagation();

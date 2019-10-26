@@ -13,7 +13,7 @@
       </section>
     </header>
     
-    <ol class="typefaces" bind:this={typefaceListElement}>
+    <ol class="typefaces">
       {#each typefaces as typeface, i (typeface)}
       <li>
           <TypeFace 
@@ -182,7 +182,6 @@
   import { removeTypefaceFromGroup, selected as selectedGroup } from "stores/custom-groups.js";
   import { selected as selectedFonts } from "stores/font-selection.js";
 
-  let typefaceListElement = null;
   let hasGroupSelected = false;
   $: hasGroupSelected = $selectedGroup !== null;
 
@@ -201,13 +200,6 @@
   const selectedCount = 0;
 
   $: setContext("selectedGroup", $selectedGroup);
-  setContext("offsetFromParent", (offset) => {
-    if (typefaceListElement === null) {
-      return 0;
-    }
-    
-    return Math.abs(offset - typefaceListElement.offsetTop);
-  });
 
   selectedGroup.subscribe(value => {
     
