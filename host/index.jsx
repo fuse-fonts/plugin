@@ -18,13 +18,19 @@ https://forums.adobe.com/thread/1941250
 
 */
 
+if (!String.prototype.trim) {
+  String.prototype.trim = function () {
+    return this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
+  };
+}
+
 function refreshPhotoshopFonts() {
   app.refreshFonts();
   return '{ "result": true, "message": null }';
 }
 
 function prop(input) {
-  return '"' + input + '"';
+  return ('"' + input).trim() + '"';
 }
 
 function fontsToJSON(fonts) {
@@ -35,7 +41,7 @@ function fontsToJSON(fonts) {
     var font = fonts[i];
     var properties = [];
     for (var key in font) {
-      var value = font[key];
+      var value = (font[key] + "").trim();
       properties.push(prop(key) + ":" + prop(value.toString()));
     }
 
