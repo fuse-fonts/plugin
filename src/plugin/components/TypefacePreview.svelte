@@ -27,7 +27,7 @@
     --fg-color: var(--foreground-color);
     --bg-color: var(--panel-layer-0);
     --bg-color: transparent;
-    --preview-size: 2rem;
+    --preview-size: 3vw;
     --arrow-size: 0.75rem;
     --padding: 1rem;
     --padding-size: calc(var(--padding) + 1px);
@@ -61,13 +61,6 @@
   .mid-contrast {
     --fg-color: var(--panel-layer-0);
     --bg-color: var(--foreground-color);
-  }
-
-  @media (min-width: 42rem) {
-
-    .typeface-preview-container {
-      /* --preview-size: 5vw; */
-    }
   }
 
 
