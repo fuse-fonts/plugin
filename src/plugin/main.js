@@ -1,13 +1,13 @@
 
 import FuseFontsPlugin from "FuseFontsPlugin.svelte";
-import { detectTheme, addListener } from "helpers/theme.js";
+import { detectTheme, addThemeChangeListener } from "helpers/theme.js";
 import { initializeMenu, initializeContextMenu, } from "helpers/menus.js";
 
 import { loadData } from "stores/typefaces.js";
 import { loading } from "stores/app-settings.js";
 
 detectTheme();
-addListener();
+addThemeChangeListener();
 
 
 new FuseFontsPlugin({
