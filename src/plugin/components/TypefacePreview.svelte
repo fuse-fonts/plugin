@@ -33,7 +33,6 @@
     --padding-size: calc(var(--padding) + 1px);
     --padding-y: calc(var(--padding-size) * 2);
     max-width: 60vw;
-    position: relative;
   }
 
   .typeface-preview {
@@ -51,7 +50,6 @@
     font-variant-ligatures: normal;
     font-synthesis: none;
     text-rendering: optimizeLegibility;
-    
   }
 
 
