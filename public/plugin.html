@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Fuse Fonts Web Demo</title>
+  <title>Fuse Fonts Plugin</title>
   <style>
     html {
       box-sizing: border-box;
@@ -38,13 +38,17 @@
   <link href="stylesheets/base.css" rel="stylesheet" />
 
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-  <link href="stylesheets/index.css" rel="stylesheet" />
+  <link href="stylesheets/plugin.css" rel="stylesheet" />
 
 </head>
 
 <body>
-  <main id="photoshop-emulation"></main>
-  <script type="text/javascript" src="scripts/index.bundle.js"></script>
+  <main id="plugin"></main>
+  
+  <script type="text/javascript" src="scripts/browser-cep-interface.js"></script>
+  <script type="text/javascript" src="scripts/host-scripts.js"></script>
+  <script type="text/javascript" src="scripts/CSInterface.js"></script>
+  <script type="text/javascript" src="scripts/plugin.bundle.js"></script>
 </body>
 
 </html>

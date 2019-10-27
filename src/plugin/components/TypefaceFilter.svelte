@@ -17,7 +17,7 @@
 <script>
 
   import { createEventDispatcher } from 'svelte';
-  import Icon from "components/Icon.html";
+  import Icon from "components/Icon.svelte";
   import { debounce } from "helpers/utils.js";
 
   const dispatch = createEventDispatcher();
@@ -61,6 +61,11 @@
     margin: 0 auto;
   }
 
+  @media (min-width: 20rem) {
+    .typeface-filter {
+      margin-right: 0;
+    }
+  }
 
   .icon-overlay {
     position: absolute;

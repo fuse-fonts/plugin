@@ -1,8 +1,27 @@
 <script>
-  import Icon from "components/Icon.html";
-  import FuseFontsPlugin from "FuseFontsPlugin.html";
-  import PhotoshopCanvas from "components/PhotoshopCanvas.html";
-  import PhotoshopTools from "components/PhotoshopTools.html";
+  import Icon from "components/Icon.svelte";
+  import PhotoshopCanvas from "components/PhotoshopCanvas.svelte";
+  import PhotoshopTools from "components/PhotoshopTools.svelte";
+  import { onMount } from "svelte";
+
+  // calculate the height of the iframe when mounted
+  let pluginWidth = 370;
+  let pluginHeight = 800;
+  let renderIframe = false;
+  let container = null;
+
+  onMount(() => {
+    
+    if (container !== null) {
+      pluginHeight = container.offsetHeight;
+      renderIframe = true;
+    }
+    
+    return () => {
+      renderIframe = false;
+      container = null;
+    }
+  });
 
 </script>
 
@@ -32,14 +51,21 @@
   </div>
   <aside class="workspace-panels">
     <div class="panel-title">Fuse Fonts</div>
-    <div class="panel">
-      <FuseFontsPlugin />
+    <div class="panel" bind:this={container}>
+      {#if renderIframe}
+        <iframe src="/plugin.html" title="Fuse Fonts Plugin" width={pluginWidth} height={pluginHeight}></iframe>
+      {/if}
     </div>
   </aside>
 </section>
 
 
 <style>
+
+  iframe {
+    border: none;
+  }
+
   .workspace {
     display: flex;
     flex: 1 0 auto;
@@ -133,7 +159,7 @@
       --c: var(--accent-color);
       padding-top: 0.5rem;
       border: 1px solid #191919;
-
+      height: 90%;
       /* animation: 3s linear highlight alternate-reverse infinite; */
     }
 

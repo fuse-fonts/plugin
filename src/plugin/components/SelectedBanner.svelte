@@ -1,6 +1,6 @@
 <script>
   
-  import SettingButton from "components/SettingButton.html";
+  import SettingButton from "components/SettingButton.svelte";
   import { fly, fade } from "svelte/transition";
   import { selected } from "stores/font-selection.js";
   import { settings } from "stores/user-settings.js";

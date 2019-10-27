@@ -69,6 +69,26 @@ export const expire = (group) => {
   });
 }
 
+export const removeFontFace = (groupID, family, name) => {
+  
+  let result = null; // we capture the modified group to then set it as selected again
+
+  customGroups.update( values => {
+    return values.map(group => {
+      
+      if (group.ID === groupID) {
+        result = group;
+        group.typefaces.removeVariant(family, name);
+      }
+
+      return group;
+    })
+  });
+  if (result !== null) {
+    selected.set(result);
+  }
+}
+
 /**
  *
  */

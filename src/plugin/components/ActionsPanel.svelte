@@ -6,9 +6,9 @@
       <IconButton icon="settings" title="Open Settings" on:click={openSettings} />
     </section>
 
-    <section class="button-group">
-      <IconButton icon="view_list" disabled={listView} on:click={toggleView} />
-      <IconButton icon="view_module" disabled={!listView} on:click={toggleView} />
+    <section class="button-group" on:click={toggleView} >
+      <IconButton icon="view_list" disabled={listView} title="Change folders to grid view" />
+      <IconButton icon="view_module" disabled={!listView} title="Change folders to list view" />
     </section>
     
     <IconButton disabled={isDeleteDisabled} icon="delete" title="Delete selected group" on:click={deleteSelectedGroup} />
@@ -34,7 +34,7 @@
 
   <script>
     
-    import IconButton from "components/IconButton.html";
+    import IconButton from "components/IconButton.svelte";
     import { selected, createGroup, deleteSelectedGroup } from "stores/custom-groups.js";
     import { settings, settingsOpened } from "stores/user-settings.js";
     import CustomGroup from "datatypes/custom-group.js";

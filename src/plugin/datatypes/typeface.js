@@ -32,9 +32,29 @@ export default class TypeFace {
     if (this.variants.length === 0 || variant.style.toLowerCase() === "regular") {
       this.defaultVariant = name;
     }
-
+    
     this.variants.push(variant);
+    
+  }
+  
+  /**
+   * 
+   * @param {string} fontName 
+   * @returns {bool} Whether or not this typeface has any variants / is empty
+   */
+  removeVariant(fontName) {
+    this.variants = this.variants.filter(v => v.name !== fontName);
 
+    if (this.variants.length === 0)  {
+      this.defaultVariant = null;
+      return true;
+    }
+    
+    if (fontName === this.defaultVariant) {
+      this.defaultVariant = this.variants[0];
+    }
+    
+    return false;
   }
 
   static getPostScriptName(typeface, variant = null) {

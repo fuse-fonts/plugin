@@ -1,4 +1,8 @@
-<article class="typeface-container" bind:this={el}>
+<article 
+  class="typeface-container" 
+  bind:this={el}
+>
+
   <main 
     class="typeface" 
     class:selected 
@@ -6,8 +10,7 @@
     draggable={true}
     on:dragstart={dragStart}
     on:dragend={dragEnd}
-    on:mouseenter="{() => hovering = true}"
-    on:mouseleave="{() => hovering = false}"
+
   >
     <div class="left-align">
       <div class="icon-section">
@@ -21,28 +24,49 @@
         <h1 class="name">{typeface.family}</h1>
         <h3 class="styles-count">{typeface.variants[0].description}</h3>
       {/if}
+
     </div>
     <div class="right-align" title="Remove {typeface.family}">
-      {#if !selected && hovering && !isLocked}
+      {#if $displayPreview}
+        <TypefacePreview font={previewFont} />
+      {/if}
+      {#if !isLocked}
         <Icon 
-          icon="remove" 
+          icon={expanded ? "clear_all" : "remove"} 
           color="var(--muted-color)" 
           hover="var(--foreground-color)" 
           on:click={removeTypeface} />
-      {/if}
+      {/if} 
     </div>
 
   </main>
 
   {#if expanded}
     <section class="typeface-variants" in:slide|local={{duration: 500}} out:slide|local={{duration: 200}}>
-      <FontList {isLocked} fonts={typeface.variants} selected={selectedVariants} on:click={selectFont} on:dragstart={childDragStart}/>
+      <FontList 
+        {isLocked} 
+        fonts={typeface.variants} 
+        selected={selectedVariants} 
+        on:click={selectFont} 
+        on:dragstart={childDragStart}
+         />
     </section>
   {/if}
 </article>
 
 
 <style>
+  .typeface-container {
+    position: relative;
+  }
+
+  .typeface-preview {
+    pointer-events: none;
+    position: absolute;
+    top: -5rem;
+    width: 100%;
+  }
+
   .typeface {
     padding: 0.5rem 1rem 0.5rem 0.5rem;
     background-color: var(--panel-item);
@@ -59,6 +83,7 @@
   .right-align {
     display: flex;
     flex: 0 1 auto;
+    align-items: center;
   }
 
    .typeface:hover {
@@ -108,29 +133,33 @@
   .styles-count:hover {
     color: var(--foreground-color);
   }
+  
 
 </style>
 
 <script>
 
-  import ExpandableIcon from "components/ExpandableIcon.html";
-  import Icon from "components/Icon.html"
-  import FontList from "components/FontList.html";
+  import ExpandableIcon from "components/ExpandableIcon.svelte";
+  import Icon from "components/Icon.svelte"
+  import FontList from "components/FontList.svelte";
+  import TypefacePreview from "components/TypefacePreview.svelte";
 
   import { selected as selectionStore } from "stores/font-selection.js";
   import { settings } from "stores/user-settings.js";
+  import { displayPreview } from "stores/preview-fonts.js";
   import { applyTypeface } from "helpers/font-tool.js";
 
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher, getContext } from "svelte";
   import { slide } from 'svelte/transition';
 
   export let typeface = null;
+  
   export let expanded = false; // whether the fonts of this typeface are displayed
   export let selected = false; // whether this typeface is selected
   export let selectedVariants = []; // list of the font names `font.name
   export let isLocked = false;
+
   const dispatch = createEventDispatcher();
-  let hovering = false;
 
   // keep our selected variants in sync
   selectionStore.subscribe(store => {
@@ -146,6 +175,8 @@
   let styleCount = typeface.variants.length;
   $: styleCountMessage = `${styleCount} ${styleCount === 1 ? "style" : "styles" }`;
   $: hasStyles = styleCount > 1;
+
+  const previewFont = typeface.variants[0];
 
   function toggleFonts(e) {
     e.stopPropagation();
@@ -185,6 +216,16 @@
       selectFont(e);
     }
   }
+
+  function fontListHandler(e) {
+    setPreviewFont(e.data.font)
+  }
+
+  function setPreviewFont(variant) {
+    // console.log("setting store to", variant.name)
+    previewFont.set(variant);
+  }
+
 
   function dragEnd() {
     // el.style.opacity = null;

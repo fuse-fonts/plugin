@@ -7,7 +7,7 @@
 />
 
 <script>
-  import Icon from "components/Icon.html";
+  import Icon from "components/Icon.svelte";
 
   export let disabled = false;
   export let expanded = false;

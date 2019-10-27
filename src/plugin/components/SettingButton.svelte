@@ -1,12 +1,12 @@
 <script>
-  import Icon from "components/Icon.html";
+  import Icon from "components/Icon.svelte";
   export let enabled;
   export let text = "";
   export let settings = false;
   export let toggles = false;
 </script>
 
-<button on:click class:settings class:enabled={!toggles || enabled}>
+<button on:click class:text={text.length > 0} class:settings class:enabled={!toggles || enabled}>
   {#if !toggles}
     <Icon icon="cached" color="var(--foreground-color)" hover="var(--foreground-color)" />
   {:else}
@@ -25,6 +25,12 @@
 
   .content {
     margin-left: 1rem;
+    white-space: nowrap;
+  }
+
+  button.text {
+    display: flex;
+    align-items: center;
   }
 
   button.settings {

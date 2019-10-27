@@ -87,8 +87,8 @@
 
 <script>
   
-  import Icon from "components/Icon.html";
-  import GroupNameInput from "components/GroupNameInput.html";
+  import Icon from "components/Icon.svelte";
+  import GroupNameInput from "components/GroupNameInput.svelte";
 
   import { createEventDispatcher } from 'svelte';
 

@@ -1,5 +1,5 @@
 <script>
-  import PhotoshopIcon from "components/PhotoshopIcon.html";
+  import PhotoshopIcon from "components/PhotoshopIcon.svelte";
 
   export let menuItems = [
     "File",

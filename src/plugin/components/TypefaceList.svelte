@@ -9,6 +9,15 @@
         </div>
       </h2>
       <section class="filter">
+        {#if $fontPreviewAvailable}
+          <SettingButton 
+            text="Preview Font"
+            toggles={true}
+            enabled={$settings.previewFont} 
+            on:click={toggleFontPreview} 
+            title={$fontPreviewAvailable ? "Show font previews" : "Show font previews. Not available for small screen widths." }
+          />
+        {/if}
         <TypefaceFilter on:filter={(e) => filter(e.detail)} bind:value={filterText} />
       </section>
     </header>
@@ -21,7 +30,8 @@
             {isLocked} 
             expanded={false} 
             selected={!!$selectedFonts[typeface.family]} 
-            on:remove={removeTypeface} />
+            on:remove={removeTypeface}
+          />
         </li>
       {:else}
         <li class="empty">
@@ -36,7 +46,8 @@
             <div class="icon-section">
               <Icon disabled={true} color="var(--muted-color)" icon="folder_open" size="large" />
             </div>
-            <p><b>{$selectedGroup.name}</b> is empty</p>
+            <p class="empty-title icon-section"><b>{$selectedGroup.name}</b> is empty</p>
+            <p>Drag and Drop fonts from another group to add them here.</p>
           {/if}
         </li>
       {/each}
@@ -66,6 +77,10 @@
     padding: 6vh 1rem;
     text-align: center;
     color: var(--muted-color);
+  }
+
+  .empty-title {
+    color: var(--foreground-color);
   }
 
   .filter-text {
@@ -113,6 +128,7 @@
     .typefaces {
       height: 100%;
       overflow-y: scroll;
+      overflow-x: hidden;
       padding-bottom: 10vh;
     }
 
@@ -146,11 +162,10 @@
 
     .filter {
       justify-self: flex-end;
-      display: block;
-      max-width: 16rem;
-    }
-
-    .group-name {
+      display: flex;
+      max-width: 50vw;
+      flex: 0 1 50%;
+      align-items: center;
     }
 
     .name {
@@ -166,16 +181,22 @@
 
 <script>
 
-  import SelectedBanner from "components/SelectedBanner.html";
-  import TypeFace from "components/TypeFace.html";
-  import TypefaceFilter from "components/TypefaceFilter.html";
-  import Icon from "components/Icon.html";
+  import SettingButton from "components/SettingButton.svelte";
+  import SelectedBanner from "components/SelectedBanner.svelte";
+  import TypeFace from "components/TypeFace.svelte";
+  import TypefaceFilter from "components/TypefaceFilter.svelte";
+  import Icon from "components/Icon.svelte";
 
+  import { setContext } from "svelte";
   import { removeTypefaceFromGroup, selected as selectedGroup } from "stores/custom-groups.js";
   import { selected as selectedFonts } from "stores/font-selection.js";
 
+  import { settings } from "stores/user-settings.js";
+  import { fontPreviewAvailable } from "stores/app-settings.js";
+
   let hasGroupSelected = false;
   $: hasGroupSelected = $selectedGroup !== null;
+
   let isLocked = false; // if changes can happen to this group
 
   let hasFilter = false;
@@ -190,8 +211,10 @@
   const ellipsis = "…";
   const selectedCount = 0;
 
-  selectedGroup.subscribe(value => {
+  $: setContext("selectedGroup", $selectedGroup);
 
+  selectedGroup.subscribe(value => {
+    
     selectedFonts.clear();
 
     // reset all vars on empty
@@ -199,7 +222,7 @@
       title = "";
       list = [];
       typefaces = [];
-      isLocked = false;
+      isLocked = false;  
       return;
     }
 
@@ -269,5 +292,9 @@
 
   function clearFilter() {
     return filter("");
+  }
+
+  function toggleFontPreview() {
+    settings.toggleSetting("previewFont");
   }
 </script>

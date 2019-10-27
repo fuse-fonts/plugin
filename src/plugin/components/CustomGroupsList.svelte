@@ -100,25 +100,8 @@
   button.create-group {
     padding: 0.5rem 1rem;
     background-color: var(--accent-color);
-    box-shadow: 0px 0px 40px var(--accent-color);
-    animation: 0.5s glow linear alternate-reverse infinite;
-    transition: 0.5s all ease-in;
-  }
-  
-  button.create-group:hover {
-    box-shadow: 0px 0px 0px var(--accent-color);
-
   }
 
-  @keyframes glow {
-    from {
-      box-shadow: 0px 0px 40px var(--accent-color);
-    }
-
-    to {
-      box-shadow: 0px 0px 80px var(--accent-color);
-    }
-  }
 
 </style>
 
@@ -126,9 +109,9 @@
 
   import { fly } from 'svelte/transition';
 
-  import Icon from "components/Icon.html";
-  import ActionsPanel from "components/ActionsPanel.html";
-  import CustomGroup from "components/CustomGroup.html";
+  import Icon from "components/Icon.svelte";
+  import ActionsPanel from "components/ActionsPanel.svelte";
+  import CustomGroup from "components/CustomGroup.svelte";
 
   import { settings } from "stores/user-settings.js";
   import { selected, customGroups, allFontsGroup, createGroup } from "stores/custom-groups.js";
@@ -137,8 +120,8 @@
   let listView = true;
 
   settings.subscribe(values => {
-      listView = values.listView;
-    })
+    listView = values.listView;
+  })
 
   function selectGroup(e) {
     selected.set(e.detail);

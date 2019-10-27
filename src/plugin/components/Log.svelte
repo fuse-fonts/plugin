@@ -29,7 +29,7 @@
   let list = null;
   let expanded = false;
 
-  import Icon from "components/Icon.html";
+  import Icon from "components/Icon.svelte";
   import { displayLog } from "stores/user-settings.js";
   import { logStore, levelName } from "helpers/logger.js";
 

@@ -1,5 +1,5 @@
 <script>
-  import IconButton from "components/IconButton.html";
+  import IconButton from "components/IconButton.svelte";
   const icons = [
     "open_with",
     "photo_size_select_small", 

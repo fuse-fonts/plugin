@@ -42,14 +42,14 @@
 <script>
 
   // sub components
-  import Loading from "components/Loading.html"
-  import Log from "components/Log.html"
-  import Settings from "components/Settings.html";
-  import ResizablePane from "components/ResizablePane.html";
-  import DragRegion from "components/DragRegion.html";
-  import CustomGroupsList from "components/CustomGroupsList.html";
-  import TypefaceList from "components/TypefaceList.html";
-  import Panel from "components/Panel.html";
+  import Loading from "components/Loading.svelte"
+  import Log from "components/Log.svelte"
+  import Settings from "components/Settings.svelte";
+  import ResizablePane from "components/ResizablePane.svelte";
+  import DragRegion from "components/DragRegion.svelte";
+  import CustomGroupsList from "components/CustomGroupsList.svelte";
+  import TypefaceList from "components/TypefaceList.svelte";
+  import Panel from "components/Panel.svelte";
 
   import csInterface from "helpers/cs-interface.js";
 
