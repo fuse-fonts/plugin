@@ -2,6 +2,8 @@
   import Icon from "components/Icon.svelte";
   import PhotoshopCanvas from "components/PhotoshopCanvas.svelte";
   import PhotoshopTools from "components/PhotoshopTools.svelte";
+  import ThemeSelect from "components/ThemeSelect.svelte";
+
   import { onMount } from "svelte";
 
   // calculate the height of the iframe when mounted
@@ -56,6 +58,9 @@
         <iframe src="/plugin.html" title="Fuse Fonts Plugin" width={pluginWidth} height={pluginHeight}></iframe>
       {/if}
     </div>
+    <div class="panel-footer">
+      <ThemeSelect />
+    </div>
   </aside>
 </section>
 
@@ -76,7 +81,7 @@
 
   .workspace-background {
     position: relative;
-    background-color: #191919;
+    background-color: rgba(0,0,0,0.5);
     width: calc(100vw - var(--plugins-size));
   }
 
@@ -140,7 +145,7 @@
     background-color:  var(--body-background-color);
     padding: 0.5rem 1.5rem 0.25rem 1rem;
     font-weight: 600;
-    border: 1px solid #191919;
+    border: 1px solid var(--photoshop-border);
     border-bottom: none;
   }
 
@@ -158,7 +163,7 @@
       background-color: var(--body-background-color);
       --c: var(--accent-color);
       padding-top: 0.5rem;
-      border: 1px solid #191919;
+      border: 1px solid var(--photoshop-border);
       height: 90%;
       /* animation: 3s linear highlight alternate-reverse infinite; */
     }
@@ -169,7 +174,7 @@
       font-size: 1rem;
       font-weight: 600;
       display: inline-block;
-      border: 1px solid #191919;
+      border: 1px solid var(--photoshop-border);
       border-bottom: none;
       position: relative;
       top: 1px;

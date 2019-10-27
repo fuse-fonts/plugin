@@ -14,6 +14,7 @@
   onMount(() => {
     
     const callback = event => {
+
       selectedFamily = event.data || null;
       
       if (selectedElement !== null) {
