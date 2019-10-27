@@ -1392,34 +1392,10 @@
     "parent": "[Application Adobe Photoshop]"
   },
   {
-    "name": "Farewell Angelina",
-    "postScriptName": "FarewellAngelina",
-    "family": "Farewell Angelina",
-    "style": "Regular",
-    "typename": "TextFont",
-    "parent": "[Application Adobe Photoshop]"
-  },
-  {
     "name": "Farewell Angelina Bold",
     "postScriptName": "FarewellAngelina-Bold",
     "family": "Farewell Angelina",
     "style": "Bold",
-    "typename": "TextFont",
-    "parent": "[Application Adobe Photoshop]"
-  },
-  {
-    "name": "Farewell Angelina Bold",
-    "postScriptName": "FarewellAngelina-Bold",
-    "family": "Farewell Angelina",
-    "style": "Bold",
-    "typename": "TextFont",
-    "parent": "[Application Adobe Photoshop]"
-  },
-  {
-    "name": "Farewell Angelina  Black",
-    "postScriptName": "FarewellAngelina-Black",
-    "family": "Farewell Angelina",
-    "style": "Black",
     "typename": "TextFont",
     "parent": "[Application Adobe Photoshop]"
   },

@@ -21,8 +21,30 @@ const loadFromFileSystem = () => {
 
     // cache for future lookups
     // saveToLocalStorage(result);
+    const initialFontsLength = fonts.length;
+    const set = new Set();
+    const dupes = [];
+    const uniqueFonts = fonts.filter( font => {
+      if (set.has(font.postScriptName)) {
+        dupes.push(font);
+        return false;
+      }
 
-    resolve(fonts);
+      set.add(font.postScriptName);
+      
+      return true;
+    });
+    
+    const dupesCount = initialFontsLength - uniqueFonts.length;
+
+    if (dupesCount > 0) {
+      console.warn(`Found ${dupesCount} duplicate fonts.`);
+      console.log(initialFontsLength,  uniqueFonts.length);
+      console.log(dupes);
+    }
+    
+
+    resolve(uniqueFonts);
   }));
 }
 
