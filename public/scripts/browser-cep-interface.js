@@ -115,8 +115,8 @@ if (!window.__adobe_cep__) {
       }
     },
     getCurrentApiVersion: function(){
-      return JSON.stringify({ minor: 2, micro: 1, major: 9 });
       console.log("__adobe_cep__.getCurrentApiVersion called")
+      return JSON.stringify({ minor: 2, micro: 1, major: 9 });
     },
     getCurrentImsUserId: function(){
       console.log("__adobe_cep__.getCurrentImsUserId called")
