@@ -34,9 +34,9 @@ window.setFont = function(family, postScriptName, fontStyle) {
   return new Promise((resolve, reject) => {
     
     if (window.parent && window.parent.postMessage) {
-      const data = { family, postScriptName, fontStyle }
+      const data = { family, postScriptName, fontStyle };
       
-      window.parent.postMessage(data, "*", )
+      window.parent.postMessage(data, "*");
     }
     
     resolve(JSON.stringify({
