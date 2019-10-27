@@ -1,7 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import { slide } from "svelte/transition";
-  import Icon from "components/Icon.html";
+  import Icon from "components/Icon.svelte";
 
   const styles = ["sans-serif", "cursive", "monospace", "serif", "fantasy"];
   let index = 0;

@@ -1,7 +1,7 @@
 <script>
-  import Icon from "components/Icon.html";
-  import PhotoshopCanvas from "components/PhotoshopCanvas.html";
-  import PhotoshopTools from "components/PhotoshopTools.html";
+  import Icon from "components/Icon.svelte";
+  import PhotoshopCanvas from "components/PhotoshopCanvas.svelte";
+  import PhotoshopTools from "components/PhotoshopTools.svelte";
   import { onMount } from "svelte";
 
   // calculate the height of the iframe when mounted
@@ -53,7 +53,7 @@
     <div class="panel-title">Fuse Fonts</div>
     <div class="panel" bind:this={container}>
       {#if renderIframe}
-        <iframe src="/plugin.html" width={pluginWidth} height={pluginHeight}></iframe>
+        <iframe src="/plugin.html" title="Fuse Fonts Plugin" width={pluginWidth} height={pluginHeight}></iframe>
       {/if}
     </div>
   </aside>

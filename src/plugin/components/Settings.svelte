@@ -1,8 +1,8 @@
 <script>
 
   // components
-  import Icon from "components/Icon.html";
-  import SettingButton from "components/SettingButton.html";
+  import Icon from "components/Icon.svelte";
+  import SettingButton from "components/SettingButton.svelte";
   import { fly, fade, slide } from "svelte/transition";
   import  { onMount } from "svelte";
 

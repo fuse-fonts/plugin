@@ -139,10 +139,10 @@
 
 <script>
 
-  import ExpandableIcon from "components/ExpandableIcon.html";
-  import Icon from "components/Icon.html"
-  import FontList from "components/FontList.html";
-  import TypefacePreview from "components/TypefacePreview.html";
+  import ExpandableIcon from "components/ExpandableIcon.svelte";
+  import Icon from "components/Icon.svelte"
+  import FontList from "components/FontList.svelte";
+  import TypefacePreview from "components/TypefacePreview.svelte";
 
   import { selected as selectionStore } from "stores/font-selection.js";
   import { settings } from "stores/user-settings.js";

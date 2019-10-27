@@ -1,4 +1,4 @@
-import FuseFontsPlugin from "FuseFontsPlugin.html";
+import FuseFontsPlugin from "FuseFontsPlugin.svelte";
 import { loadData } from "stores/typefaces.js";
 import { loading, isPhotoshop, outputLogToConsole } from "stores/app-settings.js";
 

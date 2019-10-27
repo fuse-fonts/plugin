@@ -17,7 +17,7 @@
 <script>
 
   import { createEventDispatcher } from 'svelte';
-  import Icon from "components/Icon.html";
+  import Icon from "components/Icon.svelte";
   import { debounce } from "helpers/utils.js";
 
   const dispatch = createEventDispatcher();

@@ -126,9 +126,9 @@
 
   import { fly } from 'svelte/transition';
 
-  import Icon from "components/Icon.html";
-  import ActionsPanel from "components/ActionsPanel.html";
-  import CustomGroup from "components/CustomGroup.html";
+  import Icon from "components/Icon.svelte";
+  import ActionsPanel from "components/ActionsPanel.svelte";
+  import CustomGroup from "components/CustomGroup.svelte";
 
   import { settings } from "stores/user-settings.js";
   import { selected, customGroups, allFontsGroup, createGroup } from "stores/custom-groups.js";

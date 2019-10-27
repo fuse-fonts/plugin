@@ -84,8 +84,8 @@
 
 <script>
 
-  import Icon from "components/Icon.html";
-  import TypefacePreview from "components/TypefacePreview.html";
+  import Icon from "components/Icon.svelte";
+  import TypefacePreview from "components/TypefacePreview.svelte";
   import { displayPreview } from "stores/preview-fonts.js";
 
   import { getContext } from "svelte";

@@ -1,6 +1,6 @@
 <script>
-  import PhotoshopMenus from "components/PhotoshopMenus.html";
-  import PhotoshopWorkspace from "components/PhotoshopWorkspace.html";
+  import PhotoshopMenus from "components/PhotoshopMenus.svelte";
+  import PhotoshopWorkspace from "components/PhotoshopWorkspace.svelte";
   
   let threshold = 750;
   let width = window.innerWidth;

@@ -37,7 +37,7 @@
 </style>
 
 <script>
-  import Icon from "components/Icon.html";
+  import Icon from "components/Icon.svelte";
   import { selected } from "stores/font-selection.js";
   import { onMount } from "svelte";
   import { scale } from 'svelte/transition';

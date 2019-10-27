@@ -181,11 +181,11 @@
 
 <script>
 
-  import SettingButton from "components/SettingButton.html";
-  import SelectedBanner from "components/SelectedBanner.html";
-  import TypeFace from "components/TypeFace.html";
-  import TypefaceFilter from "components/TypefaceFilter.html";
-  import Icon from "components/Icon.html";
+  import SettingButton from "components/SettingButton.svelte";
+  import SelectedBanner from "components/SelectedBanner.svelte";
+  import TypeFace from "components/TypeFace.svelte";
+  import TypefaceFilter from "components/TypefaceFilter.svelte";
+  import Icon from "components/Icon.svelte";
 
   import { setContext } from "svelte";
   import { removeTypefaceFromGroup, selected as selectedGroup } from "stores/custom-groups.js";

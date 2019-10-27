@@ -23,7 +23,7 @@
 
 <script>
 
-  import FontFace from "components/FontFace.html";
+  import FontFace from "components/FontFace.svelte";
   import { settings } from "stores/user-settings.js";
   import { setContext } from "svelte";
 

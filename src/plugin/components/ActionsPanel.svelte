@@ -34,7 +34,7 @@
 
   <script>
     
-    import IconButton from "components/IconButton.html";
+    import IconButton from "components/IconButton.svelte";
     import { selected, createGroup, deleteSelectedGroup } from "stores/custom-groups.js";
     import { settings, settingsOpened } from "stores/user-settings.js";
     import CustomGroup from "datatypes/custom-group.js";

@@ -32,7 +32,7 @@ export default {
 
       // You can restrict which files are compiled
       // using `include` and `exclude`
-      include: 'src/**/*.html',
+      include: 'src/**/*.svelte',
 
       // By default, the client-side compiler is used. You
       // can also use the server-side rendering compiler

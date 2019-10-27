@@ -31,7 +31,7 @@ export default [
 
       //trasnform svelte web components into their scripts
       svelte({
-        include: 'src/**/*.html',
+        include: 'src/**/*.svelte',
         css: function (css) {
           css.write('public/stylesheets/index.css');
         }
@@ -68,7 +68,7 @@ export default [
 
       //trasnform svelte web components into their scripts
       svelte({
-        include: 'src/**/*.html',
+        include: 'src/**/*.svelte',
         css: function (css) {
           css.write('public/stylesheets/plugin.css');
         }

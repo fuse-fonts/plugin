@@ -1,5 +1,5 @@
 
-import FuseFontsPlugin from "FuseFontsPlugin.html";
+import FuseFontsPlugin from "FuseFontsPlugin.svelte";
 import { detectTheme, addListener } from "helpers/theme.js";
 import { initializeMenu, initializeContextMenu, } from "helpers/menus.js";
 
