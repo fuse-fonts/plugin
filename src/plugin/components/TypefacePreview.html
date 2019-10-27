@@ -1,5 +1,5 @@
 <script context="module">
-  const text = "The quick brown fox jumped over the lazy log.";
+  // const text = "The quick brown fox";
   let contrastClass = ""; // options: "high-contrast" "mid-contrast"
 </script>
 
@@ -11,22 +11,32 @@
   let family = font.font.family;
   let cssProperties = font.cssProperties || "";
   let style = `font-family: ${family}; ${cssProperties}`;
+  const text = family;
 
 </script>
 
-<div class="typeface-preview {contrastClass}" {style}>{text}</div>
+<div class="typeface-preview-container"> 
+  <div class="typeface-preview {contrastClass}" {style}>{text}</div>
+</div>
 
 
 <style>
 
-  .typeface-preview {
+  .typeface-preview-container {
+    text-align: right;
     --fg-color: var(--foreground-color);
     --bg-color: var(--panel-layer-0);
-    --preview-size: 1.5rem;
+    --bg-color: transparent;
+    --preview-size: 2rem;
     --arrow-size: 0.75rem;
     --padding: 1rem;
     --padding-size: calc(var(--padding) + 1px);
     --padding-y: calc(var(--padding-size) * 2);
+    max-width: 60vw;
+    position: relative;
+  }
+
+  .typeface-preview {
     line-height: 1em;
     font-size: var(--preview-size);
     background-color: var(--bg-color);
@@ -41,7 +51,9 @@
     font-variant-ligatures: normal;
     font-synthesis: none;
     text-rendering: optimizeLegibility;
+    
   }
+
 
   .high-contrast {
     --fg-color: var(--panel-layer-0);
@@ -52,5 +64,13 @@
     --fg-color: var(--panel-layer-0);
     --bg-color: var(--foreground-color);
   }
+
+  @media (min-width: 42rem) {
+
+    .typeface-preview-container {
+      /* --preview-size: 5vw; */
+    }
+  }
+
 
 </style>

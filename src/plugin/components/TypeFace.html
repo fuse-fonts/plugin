@@ -27,7 +27,7 @@
 
     </div>
     <div class="right-align" title="Remove {typeface.family}">
-      {#if $settings.previewFont}
+      {#if $displayPreview}
         <TypefacePreview font={previewFont} />
       {/if}
       {#if !isLocked}
@@ -83,6 +83,7 @@
   .right-align {
     display: flex;
     flex: 0 1 auto;
+    align-items: center;
   }
 
    .typeface:hover {
@@ -145,6 +146,7 @@
 
   import { selected as selectionStore } from "stores/font-selection.js";
   import { settings } from "stores/user-settings.js";
+  import { displayPreview } from "stores/preview-fonts.js";
   import { applyTypeface } from "helpers/font-tool.js";
 
   import { createEventDispatcher, getContext } from "svelte";

@@ -9,10 +9,10 @@
 
 <header class="font-row">
   <h1 class="name">{name}</h1>
-  {#if showPreview}
-    <TypefacePreview {font} />
-  {/if}
-    <div class="actions">
+  <div class="actions">
+      {#if $displayPreview}
+        <TypefacePreview {font} />
+      {/if}
       {#if !isLocked}
         <div title="Remove {font.font.name}">
           <Icon icon="remove"
@@ -58,7 +58,6 @@
     background-color: var(--selected-background);
   }
 
-
   .name {
     font-size: 1.2rem;
     margin: 0 0 0 0.5rem;
@@ -75,13 +74,19 @@
     user-select: none;
   }
 
+  .actions {
+    display: flex;
+    flex: 0 1 auto;
+    align-items: center;
+  }
+
 </style>
 
 <script>
 
   import Icon from "components/Icon.html";
   import TypefacePreview from "components/TypefacePreview.html";
-  import { settings } from "stores/user-settings.js";
+  import { displayPreview } from "stores/preview-fonts.js";
 
   import { getContext } from "svelte";
   import { removeFontFace as removeFontFromGroup } from "stores/custom-groups.js";
