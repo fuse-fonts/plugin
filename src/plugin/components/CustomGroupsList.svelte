@@ -100,25 +100,8 @@
   button.create-group {
     padding: 0.5rem 1rem;
     background-color: var(--accent-color);
-    box-shadow: 0px 0px 40px var(--accent-color);
-    animation: 0.5s glow linear alternate-reverse infinite;
-    transition: 0.5s all ease-in;
-  }
-  
-  button.create-group:hover {
-    box-shadow: 0px 0px 0px var(--accent-color);
-
   }
 
-  @keyframes glow {
-    from {
-      box-shadow: 0px 0px 40px var(--accent-color);
-    }
-
-    to {
-      box-shadow: 0px 0px 80px var(--accent-color);
-    }
-  }
 
 </style>
 
