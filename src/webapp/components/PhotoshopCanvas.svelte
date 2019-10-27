@@ -1,41 +1,67 @@
 <script>
   import { onMount } from "svelte";
-  import { slide } from "svelte/transition";
+  import { fly, slide } from "svelte/transition";
   import Icon from "components/Icon.svelte";
+  import styleParser from "helpers/font-style-parser.js";
+  import TypeFace from "datatypes/typeface.js";
 
-  const styles = ["sans-serif", "cursive", "monospace", "serif", "fantasy"];
-  let index = 0;
   let selectedFamily = null;
   let disclaimerClicked = true;
+  
+  let selectedElement = null;
+
 
   onMount(() => {
-    const callback = event => selectedFamily = event.detail || null;
-    document.body.addEventListener("app-font-change", callback);
-    return () => document.body.removeEventListener("app-font-change", callback);
-  })
+    
+    const callback = event => {
+      selectedFamily = event.data || null;
+      
+      if (selectedElement !== null) {
+        const style = TypeFace.mapFontToCSS({ style: selectedFamily.fontStyle });
+        selectedElement.style = style;
+        selectedElement.style.fontFamily = selectedFamily.family;
+        selectedElement.style.outline = "2px dashed #b2b2b2";
+      }
+    };
+
+    window.addEventListener("message", callback, false);
+    return () => window.removeEventListener("message", callback);
+  });
+
+  function selectElement(event) {
+    clearSelection();
+
+    selectedElement = event.currentTarget;
+    selectedElement.style.outline = "2px dashed #b2b2b2";
+    event.stopPropagation();
+  }
+
+  function clearSelection() {
+      if (selectedElement !== null) {
+        selectedElement.style.outline = "";
+        selectedElement = null;
+      }
+  }
 
   </script>
-<div class="canvas" style="font-family: {styles[index]};">
-    <h1>Fuse Fonts Demo</h1>
-    <p>
-      You can get the feel of how Fuse Fonts will help you by playing around with it. 
-    </p>
-    <p>
-      {#if selectedFamily !== null}
-      
-        <strong>Last selected:</strong>
-        <br /> 
-        <span class="font" style="font-family: {selectedFamily.family};">{selectedFamily.family}</span>, {selectedFamily.fontStyle}.
-      {:else}
-        Select a font from the Fuse Fonts panel <Icon icon="arrow_forward" color="var(--accent-color)" size="large" />
-      {/if}
-    </p>
-
-</div>
+<article class="canvas" on:click={clearSelection}>
+    <header class="canvas-hero">
+      <h1 class="selectable" contenteditable="true" on:click={selectElement}>No more scrolling endlessly in the character panel seeking that font amongst thousands.</h1>
+    </header>
+    <section class="canvas-body">
+      <p class="selectable" contenteditable="true" on:click={selectElement}>
+        Fuse Fonts will streamline your productivity—making it easier than ever to organize your fonts into folders <strong>that you create</strong>.
+        Stop struggling and wasting time looking for the perfect font for your design project. Time is money and stress kills creativity. 
+      </p>
+      <p class="selectable" contenteditable="true" on:click={selectElement}>
+        Need a funny font? Open up the funny fonts folder. Looking for that perfect condensed font? You made a folder for that and they are all there. 
+      </p>
+    </section>
+</article>
 
 <div class="disclaimer" on:click="{ () => disclaimerClicked = !disclaimerClicked}" title={disclaimerClicked ? "Show" : "Hide"} >
   {#if !disclaimerClicked}
-  <div in:slide={{ duration: 200 }}>
+  <div in:fly={{ duration: 200 }}>
     <p>
       <span class="icon-container">
         <Icon icon="warning" />
@@ -55,13 +81,14 @@
 <style>
 
   .canvas {
-    width: 250px;
-    height: 250px;
-    background-color: #fff;
-    padding: 10px;
+    --sassy-color: #34b77b;
+    width: 480px;
+    height: 800px;
+    background-color: #fafafa;
+    
     border: var(--panel-border);
     color: #000;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     overflow: hidden;
     line-height: 1.816em;
   }
@@ -92,8 +119,41 @@
     margin-left: 1rem;
   }
 
-  h1 {
-    margin: 0 0 1rem 0;
+  .canvas-hero,
+  .canvas-body {
+    padding: 1rem 2rem;
   }
+
+  .canvas-hero {
+    background-color: #fff;
+    padding: 2rem 2rem 0rem 2rem;
+  }
+
+  .canvas-body {
+    
+  }
+
+  h1 {
+    color: var(--sassy-color);
+    margin: 0 0 1rem 0;
+    font-size: 4rem;
+    line-height: 1.15em;
+  }
+
+  p {
+    margin: 0 0 1rem 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  }
+
+  .selectable {
+    outline: 2px solid transparent;
+    outline-offset: 1px;
+  }
+
+  .selectable:hover {
+    outline: 2px dashed #f2f2f2;
+    cursor: text;
+  }
+
 
 </style>

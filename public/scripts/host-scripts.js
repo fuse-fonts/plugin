@@ -33,10 +33,10 @@ window.setFont = function(family, postScriptName, fontStyle) {
 
   return new Promise((resolve, reject) => {
     
-    if (typeof window.CustomEvent === "function") {
-      const detail = { family, postScriptName, fontStyle }
-      var event = new CustomEvent("app-font-change", { detail });
-      document.body.dispatchEvent(event);
+    if (window.parent && window.parent.postMessage) {
+      const data = { family, postScriptName, fontStyle }
+      
+      window.parent.postMessage(data, "*", )
     }
     
     resolve(JSON.stringify({
