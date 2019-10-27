@@ -9,6 +9,15 @@
         </div>
       </h2>
       <section class="filter">
+        {#if $fontPreviewAvailable}
+          <SettingButton 
+            text="Preview Font"
+            toggles={true}
+            enabled={$settings.previewFont} 
+            on:click={toggleFontPreview} 
+            title={$fontPreviewAvailable ? "Show font previews" : "Show font previews. Not available for small screen widths." }
+          />
+        {/if}
         <TypefaceFilter on:filter={(e) => filter(e.detail)} bind:value={filterText} />
       </section>
     </header>
@@ -153,11 +162,10 @@
 
     .filter {
       justify-self: flex-end;
-      display: block;
-      max-width: 16rem;
-    }
-
-    .group-name {
+      display: flex;
+      max-width: 50vw;
+      flex: 0 1 50%;
+      align-items: center;
     }
 
     .name {
@@ -173,6 +181,7 @@
 
 <script>
 
+  import SettingButton from "components/SettingButton.html";
   import SelectedBanner from "components/SelectedBanner.html";
   import TypeFace from "components/TypeFace.html";
   import TypefaceFilter from "components/TypefaceFilter.html";
@@ -181,6 +190,9 @@
   import { setContext } from "svelte";
   import { removeTypefaceFromGroup, selected as selectedGroup } from "stores/custom-groups.js";
   import { selected as selectedFonts } from "stores/font-selection.js";
+
+  import { settings } from "stores/user-settings.js";
+  import { fontPreviewAvailable } from "stores/app-settings.js";
 
   let hasGroupSelected = false;
   $: hasGroupSelected = $selectedGroup !== null;
@@ -280,5 +292,9 @@
 
   function clearFilter() {
     return filter("");
+  }
+
+  function toggleFontPreview() {
+    settings.toggleSetting("previewFont");
   }
 </script>
