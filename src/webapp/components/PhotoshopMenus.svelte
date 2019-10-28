@@ -70,7 +70,6 @@
    padding: 0rem 0.5rem; 
    margin: 0.25rem 0.25rem;
    font-size: 1.25rem;
-   text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
    border: 1px solid transparent;
    border-radius: 3px;
   }
