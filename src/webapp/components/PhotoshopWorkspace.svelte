@@ -190,8 +190,7 @@
       --c: var(--accent-color);
       padding-top: 0.5rem;
       border: 1px solid var(--photoshop-border);
-      height: 90%;
-      /* animation: 3s linear highlight alternate-reverse infinite; */
+      height: calc(100% - 14rem);
     }
 
     .panel-expander {
