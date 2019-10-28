@@ -1,3 +1,5 @@
+<svelte:window on:mousewheel|passive={zoomControl} on:message={postMessageCallback} />
+
 <script>
   import { onMount } from "svelte";
   import { fly, slide } from "svelte/transition";
@@ -6,34 +8,29 @@
   import TypeFace from "datatypes/typeface.js";
 
   let selectedFamily = null;
-  let disclaimerClicked = true;
-  
   let selectedElement = null;
+  let disclaimerClicked = true;
+  let scale = 1;
 
+  const outlineStyle = "1px dashed #999";
 
-  onMount(() => {
+  const postMessageCallback = event => {
+
+    selectedFamily = event.data || null;
     
-    const callback = event => {
-
-      selectedFamily = event.data || null;
-      
-      if (selectedElement !== null) {
-        const style = TypeFace.mapFontToCSS({ style: selectedFamily.fontStyle });
-        selectedElement.style = style;
-        selectedElement.style.fontFamily = selectedFamily.family;
-        selectedElement.style.outline = "2px dashed #b2b2b2";
-      }
-    };
-
-    window.addEventListener("message", callback, false);
-    return () => window.removeEventListener("message", callback);
-  });
+    if (selectedElement !== null) {
+      const style = TypeFace.mapFontToCSS({ style: selectedFamily.fontStyle });
+      selectedElement.style = style;
+      selectedElement.style.fontFamily = selectedFamily.family;
+      selectedElement.style.outline = outlineStyle;
+    }
+  };
 
   function selectElement(event) {
     clearSelection();
 
     selectedElement = event.currentTarget;
-    selectedElement.style.outline = "2px dashed #b2b2b2";
+    selectedElement.style.outline = outlineStyle;
     event.stopPropagation();
   }
 
@@ -43,18 +40,33 @@
         selectedElement = null;
       }
   }
+  
+  function zoomControl(event) {
+    const amount = 0.05;
+    let velocityBasis = Math.abs(event.wheelDeltaY);
+    if (velocityBasis <= 0) {
+      velocityBasis = 1;
+    }
+
+    const velocity = velocityBasis / 120;
+    
+    console.log(event.wheelDeltaY, velocity);
+    let direction = event.deltaY > 0 ? -1 : 1;
+    let nextScale = scale + (amount * direction * velocity * velocity);
+    scale = Math.min(Math.max(0.5, nextScale), 6)
+  }
 
   </script>
-<article class="canvas" on:click={clearSelection}>
+<article class="canvas" on:click={clearSelection} style={`transform: scale(${scale.toFixed(2)})`}>
     <header class="canvas-hero">
-      <h1 class="selectable" contenteditable="true" on:click={selectElement}>No more scrolling endlessly in the character panel seeking that font amongst thousands.</h1>
+      <h1 spellcheck="false" class="selectable" contenteditable="true" on:click={selectElement}>No more scrolling endlessly in the character panel seeking that font amongst thousands.</h1>
     </header>
     <section class="canvas-body">
-      <p class="selectable" contenteditable="true" on:click={selectElement}>
+      <p class="selectable" spellcheck="false" contenteditable="true" on:click={selectElement}>
         Fuse Fonts will streamline your productivity—making it easier than ever to organize your fonts into folders <strong>that you create</strong>.
         Stop struggling and wasting time looking for the perfect font for your design project. Time is money and stress kills creativity. 
       </p>
-      <p class="selectable" contenteditable="true" on:click={selectElement}>
+      <p class="selectable" spellcheck="false" contenteditable="true" on:click={selectElement}>
         Need a funny font? Open up the funny fonts folder. Looking for that perfect condensed font? You made a folder for that and they are all there. 
       </p>
     </section>
@@ -154,6 +166,7 @@
   .selectable:hover {
     outline: 2px dashed #f2f2f2;
     cursor: text;
+    text-decoration: underline;
   }
 
 

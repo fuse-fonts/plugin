@@ -1,22 +1,38 @@
 <script>
   import Icon from "components/Icon.svelte";
+  import IconButton from "components/IconButton.svelte";
   import PhotoshopCanvas from "components/PhotoshopCanvas.svelte";
   import PhotoshopTools from "components/PhotoshopTools.svelte";
   import ThemeSelect from "components/ThemeSelect.svelte";
 
   import { onMount } from "svelte";
 
-  // calculate the height of the iframe when mounted
-  let pluginWidth = 370;
+  const pluginSizes = [370, 600];
+
+  let pluginWidth = pluginSizes[0];
   let pluginHeight = 800;
   let renderIframe = false;
   let container = null;
+  let expanded = false;
+
+  function calculatePluginSize() {
+      pluginHeight = container.offsetHeight;
+  }
+
+  function togglePluginSize() {
+    if (expanded) {
+      pluginWidth = pluginSizes[0];
+    }
+    else {
+      pluginWidth = pluginSizes[1];
+    }
+    expanded = !expanded;
+  }
 
   onMount(() => {
-    
     if (container !== null) {
-      pluginHeight = container.offsetHeight;
       renderIframe = true;
+      calculatePluginSize();
     }
     
     return () => {
@@ -28,7 +44,7 @@
 </script>
 
 
-<section class="workspace">
+<section class="workspace" style={`--plugins-size: calc(${pluginWidth}px + 2rem);`}>
   <div class="workspace-tools">
     <PhotoshopTools />
   </div>
@@ -59,6 +75,11 @@
       {/if}
     </div>
     <div class="panel-footer">
+      
+        <button class="panel-expander" title={expanded ? "Show compact size" : "Show expanded size"} on:click={togglePluginSize}>
+          <Icon icon={expanded ? "arrow_right" : "arrow_left"} />
+        </button>
+      
       <ThemeSelect />
     </div>
   </aside>
@@ -76,13 +97,13 @@
     flex: 1 0 auto;
     height: 100%;
     width: 100%;
-    --plugins-size: 400px;
   }
 
   .workspace-background {
     position: relative;
     background-color: rgba(0,0,0,0.5);
     width: calc(100vw - var(--plugins-size));
+    transition: 0.5s ease-in width;
   }
 
   .workspace-canvas-container {
@@ -91,11 +112,15 @@
     width: 100%;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
+    transition: 0.5s ease-in width;
   }
 
   .workspace-panels {
     width: var(--plugins-size);
     height: 100%;
+    position: relative;
+    transition: 0.5s ease-in width;
   }
 
   .workspace-tools {
@@ -160,12 +185,22 @@
     }
 
     .panel {
+      align-items: center;
       background-color: var(--body-background-color);
       --c: var(--accent-color);
       padding-top: 0.5rem;
       border: 1px solid var(--photoshop-border);
       height: 90%;
       /* animation: 3s linear highlight alternate-reverse infinite; */
+    }
+
+    .panel-expander {
+      color: var(--muted-color);
+      position: absolute;
+      left: -0.5rem;
+      height: 5rem;
+      top: calc(50% - 2.5rem);
+      padding: 1rem 0rem;
     }
 
     .panel-title {
@@ -177,8 +212,7 @@
       border: 1px solid var(--photoshop-border);
       border-bottom: none;
       position: relative;
-      top: 1px;
-      
+      top: 1px; 
     }
 
     .panel-title:hover {
