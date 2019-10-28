@@ -1,3 +1,21 @@
+<script context="module">
+/** 
+ * Feature: Keep track of the amount the user has scrolled within specific groups and restore it when re-visiting.
+ * See Also: onAfterUpdate callback below
+ */
+  import { debounce } from "helpers/utils.js";
+
+  const scrollPositions = {};
+
+  const captureScrollPosition = debounce((event, group) => {
+    if (group) {
+      const { scrollTop } = event.target;
+      scrollPositions[group.ID] = scrollTop;
+    }
+  }, 60, false);
+
+  
+</script>
 
 {#if hasGroupSelected}
   <section class="selected-group">
@@ -22,7 +40,7 @@
       </section>
     </header>
     
-    <ol class="typefaces">
+    <ol class="typefaces" bind:this={typefaceList} on:scroll={(event) => captureScrollPosition(event, $selectedGroup)}>
       {#each typefaces as typeface, i (typeface)}
       <li>
           <TypeFace 
@@ -187,18 +205,34 @@
   import TypefaceFilter from "components/TypefaceFilter.svelte";
   import Icon from "components/Icon.svelte";
 
-  import { setContext } from "svelte";
+  import { setContext, afterUpdate } from "svelte";
   import { removeTypefaceFromGroup, selected as selectedGroup } from "stores/custom-groups.js";
   import { selected as selectedFonts } from "stores/font-selection.js";
 
   import { settings } from "stores/user-settings.js";
   import { fontPreviewAvailable } from "stores/app-settings.js";
 
+  /** Upon re-visiting a group already viewed, restore it's scroll positions
+   * 
+   */
+  afterUpdate(() => {
+
+    const group = $selectedGroup;
+    if (group !== null && typefaceList !== null) {
+      const { ID, name } = group;
+      const scrollAmount = scrollPositions[ID];
+      if (scrollAmount) {
+        typefaceList.scrollTo(0, scrollAmount);
+      }
+      
+    }
+  })
+
   let hasGroupSelected = false;
   $: hasGroupSelected = $selectedGroup !== null;
 
   let isLocked = false; // if changes can happen to this group
-
+  let typefaceList = null;
   let hasFilter = false;
   let isFiltering = false;
   let filterText = "";
