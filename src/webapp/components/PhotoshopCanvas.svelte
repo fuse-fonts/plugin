@@ -50,7 +50,6 @@
 
     const velocity = velocityBasis / 120;
     
-    console.log(event.wheelDeltaY, velocity);
     let direction = event.deltaY > 0 ? -1 : 1;
     let nextScale = scale + (amount * direction * velocity * velocity);
     scale = Math.min(Math.max(0.5, nextScale), 6)
@@ -63,11 +62,11 @@
     </header>
     <section class="canvas-body">
       <p class="selectable" spellcheck="false" contenteditable="true" on:click={selectElement}>
-        Fuse Fonts will streamline your productivity—making it easier than ever to organize your fonts into folders <strong>that you create</strong>.
+        Fuse Fonts will streamline your productivity—making it simple to organize your fonts into folders <strong>that you create</strong>.
         Stop struggling and wasting time looking for the perfect font for your design project. Time is money and stress kills creativity. 
       </p>
       <p class="selectable" spellcheck="false" contenteditable="true" on:click={selectElement}>
-        Need a funny font? Open up the funny fonts folder. Looking for that perfect condensed font? You made a folder for that and they are all there. 
+        Need a funny font? Open up the funny fonts folder. Looking for that perfect condensed font? You made a folder for that and they are all there.
       </p>
     </section>
 </article>
