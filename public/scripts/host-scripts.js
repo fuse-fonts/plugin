@@ -33,7 +33,7 @@ window.setFont = function(family, postScriptName, fontStyle) {
 
   return new Promise((resolve, reject) => {
     
-    if (window.parent && window.parent.postMessage) {
+    if (window.parent !== window && window.parent.postMessage) {
       const data = { family, postScriptName, fontStyle };
       
       window.parent.postMessage(data, "*");
