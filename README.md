@@ -1,4 +1,4 @@
-# adobe-plugin-project
+# Fuse Fonts Plugin
 
 ## Developing
 
