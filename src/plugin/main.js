@@ -15,9 +15,9 @@ new FuseFontsPlugin({
 });
 
 
-loadData();
+loadData()
+  .then(() => loading.set(false));
 
 initializeMenu();
 initializeContextMenu();
 
-loading.set(false);
