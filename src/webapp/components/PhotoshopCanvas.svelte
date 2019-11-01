@@ -103,6 +103,7 @@
     font-size: 1.6rem;
     overflow: hidden;
     line-height: 1.816em;
+    transition: 0.2s ease-out transition;
   }
 
   .disclaimer {
