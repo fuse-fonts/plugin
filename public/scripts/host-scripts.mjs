@@ -4,7 +4,17 @@
    all functions should return JSON.stringified objects
 */
 
-
+import getGoogleWebFonts from "/scripts/google-web-fonts-loader.mjs";
+/**
+ * The function to use if we want to use the pre-compiled list of fonts from a windows default installation.
+ */
+function getLocalFontList() {
+  return fetch('/scripts/fonts.json')
+    .then( response => {
+      if (response.status !== 200) return [];
+      return response.json();
+    });
+}
 
 /** getFontList
  * @returns {Promise} resolves to List of fonts
@@ -18,12 +28,11 @@
  *     typename: "TextFont",
 */
 window.getFontList = function() {
-  return fetch('/scripts/fonts.json')
-      .then(response => {
-        if (response.status !== 200) return [];
-        return response.json()
-      })
-    .then(json => JSON.stringify(json));
+
+  // const source = getLocalFontList()
+  const source = getGoogleWebFonts()
+
+  return source.then( json => JSON.stringify(json));
 }
 
 /** setFont
@@ -34,9 +43,10 @@ window.setFont = function(family, postScriptName, fontStyle) {
   return new Promise((resolve, reject) => {
     
     if (window.parent !== window && window.parent.postMessage) {
-      const data = { family, postScriptName, fontStyle };
+      const action = "setFont";
+      const font = { family, postScriptName, fontStyle };
       
-      window.parent.postMessage(data, "*");
+      window.parent.postMessage({ action, font }, window.location.origin);
     }
     
     resolve(JSON.stringify({

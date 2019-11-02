@@ -11,18 +11,34 @@
   let selectedElement = null;
   let disclaimerClicked = true;
   let scale = 1;
+  let fontsLoaded = false;
 
   const outlineStyle = "1px dashed #999";
 
   const postMessageCallback = event => {
 
-    selectedFamily = event.data || null;
+    if (event.origin !== window.location.origin) return;
     
-    if (selectedElement !== null) {
-      const style = TypeFace.mapFontToCSS({ style: selectedFamily.fontStyle });
-      selectedElement.style = style;
-      selectedElement.style.fontFamily = selectedFamily.family;
-      selectedElement.style.outline = outlineStyle;
+    const { action, font, googleWebFontsURL } = event.data;
+    if (action === "setFont") {
+      selectedFamily = font;
+      
+      if (selectedElement !== null) {
+        const style = TypeFace.mapFontToCSS({ style: selectedFamily.fontStyle });
+        selectedElement.style = style;
+        selectedElement.style.fontFamily = selectedFamily.family;
+        selectedElement.style.outline = outlineStyle;
+      }
+    }
+    else if (action === "loadWebFontsStyleSheet" && !fontsLoaded) {
+      fontsLoaded = true;
+      const link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = googleWebFontsURL;
+  
+      window.requestIdleCallback(() => {
+        document.head.append(link);
+      });
     }
   };
 
