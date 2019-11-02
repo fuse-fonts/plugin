@@ -4,7 +4,7 @@ class NotImplemented extends Error {
   constructor(methodname, ...params) {
     super(...params);
     this.message = `${methodname} is not implemented.`
-    this.fileName = "adobe-interface.js";
+    this.fileName = "browser-cep-interface.js";
   }
 }
 /**
