@@ -62,6 +62,7 @@
     font-size: 1.2rem;
     margin: 0 0 0 0.5rem;
     font-weight: 400;
+    text-transform: capitalize;
   }
 
   .subtext {
