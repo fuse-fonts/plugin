@@ -23,6 +23,7 @@
       <h3>About the Demo</h3>
       <p>For the best experience you should use this demo on a device that you would normally run Adobe Photoshop.</p>
       <p>This demo is primarily intended for <strong>laptop or desktop computers</strong>, with a screen <strong>wider than {threshold}px</strong>. </p>
+      <p>This demo uses modern browser features, thus requires a modern browser. Latest Google Chrome is suggested.</p>
     </div>
   </Modal>
 {/if}
