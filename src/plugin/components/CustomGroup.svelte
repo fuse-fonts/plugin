@@ -7,6 +7,8 @@
   on:dragover={dragOver} 
   on:dragleave={dragEnd}
   on:drop={drop}
+  bind:this={el}
+  
 >
 {#if editing}
   <Icon color="var(--accent-color)" icon="edit" blink={true} />
@@ -16,9 +18,11 @@
     on:cancel={stopEditing}
     on:change={stopEditing} />
 {:else}
+  
   <Icon 
     color={drophover ? "var(--selected-color)" : "var(--muted-color)"} 
-    icon={group.permanent ? "text_format" : "folder" } />
+    icon={group.permanent ? "text_format" : dropped ? "done" : "folder" } />
+
   <h1 class:tiled class="group-name">{group.name}</h1>
 {/if}
 </article>
@@ -89,15 +93,18 @@
   
   import Icon from "components/Icon.svelte";
   import GroupNameInput from "components/GroupNameInput.svelte";
+  import { highlight } from "helpers/animations.js";
 
   import { createEventDispatcher } from 'svelte';
 
   const dispatch = createEventDispatcher();
 
+  let el = null;
   export let group = null;
   export let selected = false;
   export let editing = false;
   export let tiled = false;
+  let dropped = false;
 
   export const DROPPED_EVENT = "dropped";
 
@@ -136,6 +143,9 @@
 
   function drop(e) {
     dragEnd();
+    dropped = true;
+    const options = { duration: 800, delay: 0, easing: 'ease-out', };
+    highlight(el, "var(--success-color)", options, () => dropped = false);
     dispatch(DROPPED_EVENT, group.ID);
   }
 

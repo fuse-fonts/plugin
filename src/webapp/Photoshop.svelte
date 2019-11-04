@@ -3,7 +3,7 @@
   import PhotoshopWorkspace from "components/PhotoshopWorkspace.svelte";
   import Modal from "components/Modal.svelte";
   
-  let displayModal = true;
+  let displayModal = window.location.hostname !== "localhost";
   let threshold = 750;
   let width = window.innerWidth;
   $: canDisplay = width >= threshold;
