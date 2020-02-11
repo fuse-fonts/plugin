@@ -40,7 +40,7 @@ export const outputLogToConsole = writable(true);
  * A store to control if we should allow font previews to be displayed
  * At smaller screen sizes it could look very broken
  */
-const mql = window.matchMedia('(min-width: 36rem)');
+const mql = window.matchMedia('(min-width: 380px)');
 export const fontPreviewAvailable = readable(mql.matches, set => {
 
   const update = event => set(event.matches);
