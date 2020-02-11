@@ -7,7 +7,7 @@
 
   import { onMount } from "svelte";
 
-  const pluginSizes = [370, 600];
+  const pluginSizes = [385, 600];
 
   let pluginWidth = pluginSizes[0];
   let pluginHeight = 800;
