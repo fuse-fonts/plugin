@@ -26,7 +26,7 @@
       {/if}
 
     </div>
-    <div class="right-align" title="Remove {typeface.family}">
+    <div class="right-align">
       {#if $displayPreview}
         <TypefacePreview font={previewFont} />
       {/if}
