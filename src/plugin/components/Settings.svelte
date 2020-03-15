@@ -6,7 +6,7 @@
   import { fly, fade, slide } from "svelte/transition";
   import  { onMount } from "svelte";
 
-  import { loading, isPhotoshop } from "stores/app-settings.js";
+  import { loading, isPhotoshop, panelTitle } from "stores/app-settings.js";
   import { settings, settingsOpened, displayLog, defaultSettings } from "stores/user-settings.js";
   import { clearData as clearTypefaceCache } from "stores/typefaces.js";
   import { customGroups, clearCustomGroups } from "stores/custom-groups.js";
@@ -22,10 +22,18 @@
   const appName = env.appName === "PHXS" ? "Photoshop" : "Other";
 
   onMount(() => {
+
+    // update the title to be "Fuse Fonts Settings" on mount
+    let initialTitle = "";
     csInterface.setWindowTitle(`${appTitle} Settings`);
 
+    panelTitle.update(title => {
+      initialTitle = title;
+      return `${title} Settings`;
+    });
+
     return () => {
-      csInterface.setWindowTitle(`${appTitle}`);
+      panelTitle.set(initialTitle);
     }
   });
 
@@ -54,8 +62,6 @@
         <Icon icon="close" />
       </button>
     </header>
-
-    
 
       <section class="setting">
         <SettingButton toggles={true} settings={true} on:click={() => settings.toggleSetting("applyTypeface")} enabled={$settings.applyTypeface}>
@@ -161,16 +167,12 @@
     background-color: var(--panel-layer-1);
     overflow-y: auto;
     overflow-x: hidden;
+    width: 100%;
   }
 
   .groups-list {
     padding: 0rem 1rem;
     margin: 0 0;
-  }
-
-
-  .groups-list li:last-child:after {
-    content: "";
   }
   
   .settings {

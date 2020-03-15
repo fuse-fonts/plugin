@@ -3,7 +3,7 @@
   {#if $loading}
     <Loading text="Loading Fonts..." color="#fff" />
   {:else if $settingsOpened}
-    <Settings {appTitle} />
+    <Settings />
   {:else}
       
       <DragRegion>
@@ -51,14 +51,12 @@
   import TypefaceList from "components/TypefaceList.svelte";
   import Panel from "components/Panel.svelte";
 
-  import csInterface from "helpers/cs-interface.js";
+  
 
   // stores
-  import { loading, } from "stores/app-settings.js";
+  import { loading, panelTitle } from "stores/app-settings.js";
   import { settings, settingsOpened, displayLog } from "stores/user-settings.js";
 
-  const appTitle = "Fuse Fonts";
-
-  csInterface.setWindowTitle(appTitle);
+  
 
 </script>
