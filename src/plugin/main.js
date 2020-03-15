@@ -24,8 +24,8 @@ window.addEventListener('load', (event) => {
       // set panel title via store
       panelTitle.subscribe(title => csInterface.setWindowTitle(title));
 
-      // persistant will give slight performance improvements in some situations
-      isPersistant.set(true);
+      // persistant is disabled until better understood
+      // isPersistant.set(true);
       
       // watch for panel visibility
       // this is important so that we don't end up up dividing screen height by zero
