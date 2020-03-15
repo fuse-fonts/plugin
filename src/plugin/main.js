@@ -4,7 +4,8 @@ import { detectTheme, addThemeChangeListener } from "helpers/theme.js";
 import { initializeMenu, initializeContextMenu, } from "helpers/menus.js";
 
 import { loadData } from "stores/typefaces.js";
-import { loading, isPanelVisible, isPersistant } from "stores/app-settings.js";
+import { loading, isPanelVisible, isPersistant, panelTitle } from "stores/app-settings.js";
+import csInterface from "helpers/cs-interface.js";
 
 detectTheme();
 addThemeChangeListener();
@@ -20,6 +21,10 @@ window.addEventListener('load', (event) => {
   loadData()
     .then(() => {
 
+      // set panel title via store
+      panelTitle.subscribe(title => csInterface.setWindowTitle(title));
+
+      // persistant will give slight performance improvements in some situations
       isPersistant.set(true);
       
       // watch for panel visibility

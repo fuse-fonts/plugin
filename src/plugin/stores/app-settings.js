@@ -10,6 +10,8 @@ import csInterface from "helpers/cs-interface.js";
   */
 export const loading = writable(true);
 
+export const panelTitle = writable("Fuse Fonts");
+
 /**
  * A store for controlling if the application is persistant or not. 
  */
