@@ -12,19 +12,18 @@ export const loading = writable(true);
 
 /**
  * A store for controlling if the application is persistant or not. 
- * 
  */
-export const persistant = writable(false);
+export const isPersistant = writable(false);
 
-// NOTE: persistance is DISABLED —  as it isn't always the best experience and introduces odd layout problems
-// persistant.subscribe( value => setPersistance(value));
+
+isPersistant.subscribe( value => setPersistance(value));
 
 /** setPersistance
  * Set persistance via firing a CSEVENT for photoshop 
  * @param {bool} value 
  */
 export function setPersistance(value) {
-  console.log("Setting Persistance:", value)
+
   let eventName = `"com.adobe.Photoshop${value ? "" : "Un"}Persistent"`
   const event = new CSEvent(eventName, "APPLICATION");
   
@@ -40,13 +39,29 @@ export const outputLogToConsole = writable(true);
  * A store to control if we should allow font previews to be displayed
  * At smaller screen sizes it could look very broken
  */
-const mql = window.matchMedia('(min-width: 380px)');
-export const fontPreviewAvailable = readable(mql.matches, set => {
+const isFontPreviewableMQ = window.matchMedia('(min-width: 380px)');
+export const fontPreviewAvailable = readable(isFontPreviewableMQ.matches, set => {
 
   const update = event => set(event.matches);
 
-  mql.addListener(update);
-  const unlisten = () => mql.removeListener(update);
+  isFontPreviewableMQ.addListener(update);
+  const unlisten = () => isFontPreviewableMQ.removeListener(update);
+
+  return unlisten;
+});
+
+
+/** isPanelVisible
+ * A store that is mainly for subscribing to — let's us know if the window is yet visible
+ * Seems to have better results than csInterface.isWindowVisible()
+ */
+const isVisibleMQ = window.matchMedia('(min-height: 1px) and (min-width: 1px)');
+export const isPanelVisible = readable(isVisibleMQ.matches, set => {
+
+  const update = event => set(event.matches);
+
+  isVisibleMQ.addListener(update);
+  const unlisten = () => isVisibleMQ.removeListener(update);
 
   return unlisten;
 });

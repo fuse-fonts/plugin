@@ -22,7 +22,7 @@ function resetableSettingsStore() {
   
   subscribe(data => {
     const fontSize = (data.fontSize ? data.fontSize : defaultSettings.fontSize);
-    
+    console.log(data);
     html.style.fontSize = `${fontSize}px`;
     
     userSettingsRepository.save(data);
