@@ -43,8 +43,16 @@ export const outputLogToConsole = writable(true);
  */
 const isFontPreviewableMQ = window.matchMedia('(min-width: 380px)');
 export const fontPreviewAvailable = readable(isFontPreviewableMQ.matches, set => {
-
+  
   const update = event => set(event.matches);
+
+  // perform a check shortly after everything settles down
+  if (window.requestIdleCallback) {
+    window.requestIdleCallback(() => set(isFontPreviewableMQ.matches));
+  }
+  else {
+    window.setTimeout(() => set(isFontPreviewableMQ.matches), 1000);
+  }
 
   isFontPreviewableMQ.addEventListener("change", update);
   const unlisten = () => isFontPreviewableMQ.removeEventListener("change", update);
@@ -61,6 +69,14 @@ const isVisibleMQ = window.matchMedia('(min-height: 1px) and (min-width: 1px)');
 export const isPanelVisible = readable(isVisibleMQ.matches, set => {
 
   const update = event => set(event.matches);
+
+  // perform a check shortly after everything settles down
+  if (window.requestIdleCallback) {
+    window.requestIdleCallback(() => set(isVisibleMQ.matches));
+  }
+  else {
+    window.setTimeout(() => set(isVisibleMQ.matches), 1000);
+  }
 
   isVisibleMQ.addEventListener("change", update);
   const unlisten = () => isVisibleMQ.removeEventListener("change", update);
