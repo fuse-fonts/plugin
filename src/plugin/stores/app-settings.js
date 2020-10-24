@@ -46,8 +46,8 @@ export const fontPreviewAvailable = readable(isFontPreviewableMQ.matches, set =>
 
   const update = event => set(event.matches);
 
-  isFontPreviewableMQ.addListener(update);
-  const unlisten = () => isFontPreviewableMQ.removeListener(update);
+  isFontPreviewableMQ.addEventListener("change", update);
+  const unlisten = () => isFontPreviewableMQ.removeEventListener("change", update);
 
   return unlisten;
 });
