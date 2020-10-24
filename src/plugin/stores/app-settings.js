@@ -62,8 +62,8 @@ export const isPanelVisible = readable(isVisibleMQ.matches, set => {
 
   const update = event => set(event.matches);
 
-  isVisibleMQ.addListener(update);
-  const unlisten = () => isVisibleMQ.removeListener(update);
+  isVisibleMQ.addEventListener("change", update);
+  const unlisten = () => isVisibleMQ.removeEventListener("change", update);
 
   return unlisten;
 });
