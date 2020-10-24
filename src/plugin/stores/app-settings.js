@@ -1,4 +1,4 @@
-import { writable, readable } from "svelte/store";
+import { writable, readable, derived } from "svelte/store";
 import csInterface from "helpers/cs-interface.js";
 
 /** app-settings
@@ -10,8 +10,30 @@ import csInterface from "helpers/cs-interface.js";
   */
 export const loading = writable(true);
 
-export const panelTitle = writable("Fuse Fonts");
+const extensionID = csInterface.getExtensionID();
+const extension = csInterface.getExtensions().find( ext => ext.id === extensionID);
 
+// a store with a reset function
+export const panelTitle = (() => {
+
+  const { subscribe, set, update } = writable(extension.name);
+  const reset = () => set(extension.name);
+
+  return {
+    subscribe,
+    set,
+    update,
+    reset,
+  };
+})();
+
+const windowTitle = derived([loading, panelTitle], ([$isLoading, $title]) => {
+  const title = $isLoading ? `Loading ${extension.name}` : $title;
+  return title;
+});
+
+windowTitle.subscribe(title => csInterface.setWindowTitle(title));
+window._loading = loading;
 /**
  * A store for controlling if the application is persistant or not. 
  */
