@@ -1,6 +1,6 @@
 {
   "name": "fuse-fonts-plugin",
-  "version": "1.0.3",
+  "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -17,9 +17,7 @@
     "clean": "rm -f \"dist/fuse-fonts.zxp\"",
     "generate": "npm run clean && sh scripts/sign-zxp.sh",
     "package": "npm run build && npm run generate",
-    "verify": "sh scripts/verify.sh",
-    "deploy:installer": "cp dist/fuse-fonts.zxp installer/src/bin/fuse-fonts.zxp",
-    "package:installer": "npm run package && npm run deploy:installer"
+    "verify": "sh scripts/verify.sh"
   },
   "repository": {
     "type": "git",
@@ -34,7 +32,7 @@
   "dependencies": {},
   "devDependencies": {
     "dotenv-safe": "^6.1.0",
-    "firebase-tools": "^8.13.1",
+    "firebase-tools": "^7.2.2",
     "rollup": "^1.15.6",
     "rollup-plugin-commonjs": "^10.0.0",
     "rollup-plugin-includepaths": "^0.2.3",
