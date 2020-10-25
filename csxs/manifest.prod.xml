@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ExtensionManifest ExtensionBundleId="com.fusefonts.extension" ExtensionBundleName="Fuse Fonts" ExtensionBundleVersion="1.0.2" Version="7.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<ExtensionManifest ExtensionBundleId="com.fusefonts.extension" ExtensionBundleName="Fuse Fonts" ExtensionBundleVersion="1.0.3" Version="7.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <ExtensionList>
-    <Extension Id="com.fusefonts" Version="1.0.0" />
+    <Extension Id="com.fusefonts" Version="1.0.3" />
   </ExtensionList>
   <ExecutionEnvironment>
     <HostList>

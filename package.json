@@ -1,6 +1,6 @@
 {
   "name": "fuse-fonts-plugin",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -18,7 +18,7 @@
     "generate": "npm run clean && sh scripts/sign-zxp.sh",
     "package": "npm run build && npm run generate",
     "verify": "sh scripts/verify.sh",
-    "deploy:installer": "mv dist/fuse-fonts.zxp installer/src/bin/fuse-fonts.zxp",
+    "deploy:installer": "cp dist/fuse-fonts.zxp installer/src/bin/fuse-fonts.zxp",
     "package:installer": "npm run package && npm run deploy:installer"
   },
   "repository": {
