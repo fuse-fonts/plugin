@@ -1,30 +1,38 @@
-console.log("Building...");
+const buildLog = (msg) => {
+  console.log(`[build] ${msg}`);
+};
+
+let indent = " —";
+
+buildLog("Starting build");
 const shell = require("shelljs");
 
 const manifest = {
   source: "csxs/manifest.prod.xml",
-  target: "manifest.xml"
+  target: "csxs/manifest.xml"
 };
 
 const outputDirectory ="build/";
 const inputDirectories = [
   "client",
   "host",
+  "csxs",
 ];
 
 // clean out previous build, if applicable
-console.log(`Removing ${outputDirectory}`)
+buildLog(`Cleaning ${outputDirectory}`)
 shell.rm("-R", outputDirectory);
 
-console.log(`Re-creating ${outputDirectory}`)
+buildLog(`Building...`)
 shell.mkdir(outputDirectory);
 
 inputDirectories.forEach(folder => {
-  console.log(`  — Copying '${folder}'`);
+  buildLog(`${indent} Copying '${folder}'`);
   shell.cp("-R", folder, `${outputDirectory}/${folder}`);
 });
 
-console.log(`Copying production manifest: ${manifest.source} -> ${outputDirectory}/${manifest.target}`);
-shell.cp(`${manifest.source}`, `${outputDirectory}/${manifest.target}`);
+buildLog(`Using Production manifest`);
+buildLog(`${indent} Rename: ${outputDirectory}${manifest.source} -> ${outputDirectory}${manifest.target}`);
+shell.mv(`${outputDirectory}${manifest.source}`, `${outputDirectory}${manifest.target}`);
 
-console.log(`Build complete -> ${outputDirectory}`);
+buildLog(`Build complete.`);
