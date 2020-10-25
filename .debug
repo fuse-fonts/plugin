@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?> 
 <ExtensionList>
-  <Extension Id="com.fusefonts.debug">
+  <Extension Id="com.fusefonts">
     <HostList>
       <Host Name="PHSP" Port="8889"/>
       <Host Name="PHXS" Port="8888"/>

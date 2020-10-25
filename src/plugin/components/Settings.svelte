@@ -13,7 +13,7 @@
   import { clearLogs } from "helpers/logger.js";
   import fileSystemRepository from "repositories/file-system.js";
   import csInterface from "helpers/cs-interface.js";
-
+  export let appTitle = "this plugin";
   let dangerZoneActive = false;
 
   const apiVersion = csInterface.getCurrentApiVersion();
@@ -23,11 +23,18 @@
 
   onMount(() => {
 
-    // append "Settings" to the current title
-    panelTitle.update(title => `${title} Settings`);
+    // update the title to be "Fuse Fonts Settings" on mount
+    let initialTitle = "";
+    csInterface.setWindowTitle(`${appTitle} Settings`);
 
-    // reset on unmount
-    return () => panelTitle.reset()
+    panelTitle.update(title => {
+      initialTitle = title;
+      return `${title} Settings`;
+    });
+
+    return () => {
+      panelTitle.set(initialTitle);
+    }
   });
 
 
@@ -68,8 +75,8 @@
         <SettingButton settings={true} toggles={false} on:click={clearTypefaceCache}>
           Refresh Font List
         </SettingButton>
-        <p class="description">Empties the typeface cache, forcing {$panelTitle} to reload all typefaces. </p>
-        <p class="note">Useful when you've loaded new fonts on your computer and don't see the new fonts within {$panelTitle}.</p>
+        <p class="description">Empties the typeface cache, forcing {appTitle} to reload all typefaces. </p>
+        <p class="note">Useful when you've loaded new fonts on your computer and don't see the new fonts within {appTitle}.</p>
       </section>
   
       <section class="setting">

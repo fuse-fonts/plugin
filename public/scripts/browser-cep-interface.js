@@ -192,9 +192,6 @@ if (!window.__adobe_cep__) {
     showAAM: function(){
       console.log("__adobe_cep__.showAAM called")
     },
-    setWindowTitle: function() {
-      console.log("__adobe_cep__.setWindowTitle called")
-    }
   };
 
 }
