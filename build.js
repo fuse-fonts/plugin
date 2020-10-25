@@ -25,6 +25,6 @@ inputDirectories.forEach(folder => {
 });
 
 console.log(`Copying production manifest: ${manifest.source} -> ${outputDirectory}/${manifest.target}`);
-shell.mv(`${manifest.source}`, `${outputDirectory}/${manifest.target}`);
+shell.cp(`${manifest.source}`, `${outputDirectory}/${manifest.target}`);
 
 console.log(`Build complete -> ${outputDirectory}`);
