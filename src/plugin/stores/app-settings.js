@@ -1,4 +1,4 @@
-import { writable, readable } from "svelte/store";
+import { writable, readable, derived } from "svelte/store";
 import csInterface from "helpers/cs-interface.js";
 
 /** app-settings
@@ -10,8 +10,30 @@ import csInterface from "helpers/cs-interface.js";
   */
 export const loading = writable(true);
 
-export const panelTitle = writable("Fuse Fonts");
+const extensionID = csInterface.getExtensionID();
+const extension = csInterface.getExtensions().find( ext => ext.id === extensionID);
 
+// a store with a reset function
+export const panelTitle = (() => {
+
+  const { subscribe, set, update } = writable(extension.name);
+  const reset = () => set(extension.name);
+
+  return {
+    subscribe,
+    set,
+    update,
+    reset,
+  };
+})();
+
+const windowTitle = derived([loading, panelTitle], ([$isLoading, $title]) => {
+  const title = $isLoading ? `Loading ${extension.name}` : $title;
+  return title;
+});
+
+windowTitle.subscribe(title => csInterface.setWindowTitle(title));
+window._loading = loading;
 /**
  * A store for controlling if the application is persistant or not. 
  */
@@ -43,11 +65,19 @@ export const outputLogToConsole = writable(true);
  */
 const isFontPreviewableMQ = window.matchMedia('(min-width: 380px)');
 export const fontPreviewAvailable = readable(isFontPreviewableMQ.matches, set => {
-
+  
   const update = event => set(event.matches);
 
-  isFontPreviewableMQ.addListener(update);
-  const unlisten = () => isFontPreviewableMQ.removeListener(update);
+  // perform a check shortly after everything settles down
+  if (window.requestIdleCallback) {
+    window.requestIdleCallback(() => set(isFontPreviewableMQ.matches));
+  }
+  else {
+    window.setTimeout(() => set(isFontPreviewableMQ.matches), 1000);
+  }
+
+  isFontPreviewableMQ.addEventListener("change", update);
+  const unlisten = () => isFontPreviewableMQ.removeEventListener("change", update);
 
   return unlisten;
 });
@@ -62,8 +92,16 @@ export const isPanelVisible = readable(isVisibleMQ.matches, set => {
 
   const update = event => set(event.matches);
 
-  isVisibleMQ.addListener(update);
-  const unlisten = () => isVisibleMQ.removeListener(update);
+  // perform a check shortly after everything settles down
+  if (window.requestIdleCallback) {
+    window.requestIdleCallback(() => set(isVisibleMQ.matches));
+  }
+  else {
+    window.setTimeout(() => set(isVisibleMQ.matches), 1000);
+  }
+
+  isVisibleMQ.addEventListener("change", update);
+  const unlisten = () => isVisibleMQ.removeEventListener("change", update);
 
   return unlisten;
 });
