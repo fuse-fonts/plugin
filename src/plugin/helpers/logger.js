@@ -43,7 +43,7 @@ export function log(level, message, details, service) {
   logStore.set( entries );
 }
 
-/** getLogelLevelName
+/** levelName
  *  Helper for get
  * @param {Symbol} level 
  */
