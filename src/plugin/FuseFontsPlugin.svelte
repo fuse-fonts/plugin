@@ -1,9 +1,10 @@
 <div>
-
-  {#if $loading}
-    <Loading text="Loading Fonts..." color="#fff" />
-  {:else if $settingsOpened}
+  {#if $settingsOpened}
     <Settings />
+  {:else if $hasRuntimeError}
+    <ErrorPanel />
+  {:else if $loading}
+    <Loading text="Loading Fonts..." color="#fff" />
   {:else}
       
       <DragRegion>
@@ -50,12 +51,13 @@
   import CustomGroupsList from "components/CustomGroupsList.svelte";
   import TypefaceList from "components/TypefaceList.svelte";
   import Panel from "components/Panel.svelte";
-
+  import ErrorPanel from "components/ErrorPanel.svelte";
   
 
   // stores
   import { loading, panelTitle } from "stores/app-settings.js";
   import { settings, settingsOpened, displayLog } from "stores/user-settings.js";
+  import { hasRuntimeError } from "stores/error-service.js";
 
   
 

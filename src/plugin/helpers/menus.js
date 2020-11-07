@@ -30,7 +30,7 @@ export const initializeContextMenu = () => {
 
 
 export function menuAction(menuID) {
-  console.log(`"${menuID}" clicked`);
+
   switch (menuID) {
     case "feedback":
       csInterface.openURLInDefaultBrowser(supportURL);
@@ -40,6 +40,9 @@ export function menuAction(menuID) {
       break;
     case "create-group":
       createGroup();
+      break;
+    case "reload-app":
+      window.location.reload();
       break;
   }
 

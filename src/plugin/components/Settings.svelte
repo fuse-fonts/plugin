@@ -8,7 +8,7 @@
 
   import { loading, isPhotoshop, panelTitle } from "stores/app-settings.js";
   import { settings, settingsOpened, displayLog, defaultSettings } from "stores/user-settings.js";
-  import { clearData as clearTypefaceCache } from "stores/typefaces.js";
+  import { clearData } from "stores/typefaces.js";
   import { customGroups, clearCustomGroups } from "stores/custom-groups.js";
   import { clearLogs } from "helpers/logger.js";
   import fileSystemRepository from "repositories/file-system.js";
@@ -30,7 +30,13 @@
     return () => panelTitle.reset()
   });
 
+  let isRefreshingFonts = false;
 
+  async function clearTypefaceCache() {
+    isRefreshingFonts = true;
+    await clearData();
+    isRefreshingFonts = false;
+  }
   // not used, currently
   function createDumpFile() {
     const path = csInterface.dumpInstallationInfo();
@@ -65,8 +71,8 @@
       </section>
   
       <section class="setting">
-        <SettingButton settings={true} toggles={false} on:click={clearTypefaceCache}>
-          Refresh Font List
+        <SettingButton settings={true} toggles={false} on:click={clearTypefaceCache} disabled={isRefreshingFonts}>
+          {isRefreshingFonts ? "Refreshing..." : "Refresh Font List"}
         </SettingButton>
         <p class="description">Empties the typeface cache, forcing {$panelTitle} to reload all typefaces. </p>
         <p class="note">Useful when you've loaded new fonts on your computer and don't see the new fonts within {$panelTitle}.</p>

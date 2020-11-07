@@ -30,7 +30,9 @@ window.addEventListener('load', (event) => {
       // watch for panel visibility
       // this is important so that we don't end up up dividing screen height by zero
       isPanelVisible.subscribe( isVisible => loading.set(!isVisible));
-    });
+    }).catch( reason => {
+      console.trace(reason);
+    })
 });
 
 initializeMenu();
