@@ -13,6 +13,8 @@ export const loading = writable(true);
 const extensionID = csInterface.getExtensionID();
 const extension = csInterface.getExtensions().find( ext => ext.id === extensionID);
 
+export const pluginName = extension.name;
+
 // a store with a reset function
 export const panelTitle = (() => {
 

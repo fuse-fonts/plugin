@@ -6,7 +6,7 @@
   import { fly, fade, slide } from "svelte/transition";
   import  { onMount } from "svelte";
 
-  import { loading, isPhotoshop, panelTitle } from "stores/app-settings.js";
+  import { pluginName, loading, isPhotoshop, panelTitle, loadFromLocalStorage } from "stores/app-settings.js";
   import { settings, settingsOpened, displayLog, defaultSettings } from "stores/user-settings.js";
   import { clearData } from "stores/typefaces.js";
   import { customGroups, clearCustomGroups } from "stores/custom-groups.js";
@@ -47,6 +47,13 @@
     csInterface.openURLInDefaultBrowser(`file:///${fileSystemRepository.backupFilePath}`);
   }
 
+  function freshReload() {
+    // clear all local storage
+    localStorage.clear()
+    // reload app
+    window.location.reload();
+  }
+
   const smallFontSize = () => settings.setFontSize(9);
   const mediumFontSize = () => settings.setFontSize(defaultSettings.fontSize);
   const largeFontSize = () => settings.setFontSize(12);
@@ -69,12 +76,28 @@
         <p class="description">Changes the current text layer when selecting fonts. </p>
         <p class="note">Will have no effect if the current layer is not a Text Layer, or if photoshop is in "Text Edit Mode".</p>
       </section>
+
+      <section class="setting">
+        <SettingButton toggles={true} settings={true} on:click={() => loadFromLocalStorage.update( v => !v)} enabled={$loadFromLocalStorage}>
+          Use Caches
+        </SettingButton>
+        <p class="description">Whether Typefaces are loaded from Local Storage or not. When enabled, should improve load times.</p>
+        <p class="note">You will need to Reload {pluginName} for this to take effect.</p>
+      </section>
+
+      <section class="setting">
+        <SettingButton toggles={false} settings={true} on:click={freshReload}>
+          Reload {pluginName}
+        </SettingButton>
+        <p class="description">Loads the plugin in a fresh state.</p>
+        <p class="note">The ol' turn it off and on again.</p>
+      </section>
   
       <section class="setting">
         <SettingButton settings={true} toggles={false} on:click={clearTypefaceCache} disabled={isRefreshingFonts}>
           {isRefreshingFonts ? "Refreshing..." : "Refresh Font List"}
         </SettingButton>
-        <p class="description">Empties the typeface cache, forcing {$panelTitle} to reload all typefaces. </p>
+        <p class="description">Empties the typeface cache, forcing {pluginName} to reload all typefaces. </p>
         <p class="note">Useful when you've loaded new fonts on your computer and don't see the new fonts within {$panelTitle}.</p>
       </section>
   
@@ -83,7 +106,7 @@
           Reset User Settings
         </SettingButton>
         <p class="description">Resets all settings on this page to the defaults.</p>
-        <p class="note">This won't delete anything important.</p>
+        <p class="note">This won't delete your custom groups.</p>
       </section>
       {#if $isPhotoshop}
         <section class="setting">

@@ -42,10 +42,10 @@ const loadFromFileSystem = async () => {
     error(`EvalScript Error from '${GET_FONT_LIST_JSX}'`, evalError, "fonts repo");
   });
 
-  let response = await loadFontDeferred;
+  let result = await loadFontDeferred;
 
-  if (isEvalScriptError(response)) {
-    response = null;
+  if (isEvalScriptError(result)) {
+    result = null;
   }
 
   const fonts = tryParseJSON(result);
