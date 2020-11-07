@@ -48,7 +48,7 @@ const loadFromFileSystem = async () => {
     result = null;
   }
 
-  const fonts = null; //tryParseJSON(result);
+  const fonts = tryParseJSON(result);
 
   if (fonts === null ) {
     throw new ErrorWithData(`Failed to fetch fonts from filesystem`, result);
