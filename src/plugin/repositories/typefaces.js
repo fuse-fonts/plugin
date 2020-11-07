@@ -38,13 +38,16 @@ async function loadTypefaces(useLocalstorage = true) {
 
   info("Loading...", null, serviceName);
 
-  const typefaces = loadFromLocalStorage();
+  let typefaces = null;
   let library = null;
 
-  // if there was no data in local storage we fetch from the JSX
-  if (!useLocalstorage || typefaces === null) {
+  if (useLocalstorage) {
+    typefaces = loadFromLocalStorage();
+  }
+
+  if (typefaces === null) {
     warning("Typefaces not loaded from local storage", null, serviceName);
-    const fonts = await fontRepository.load();
+    const fonts = await fontRepository.load(useLocalstorage);
     info("Loaded from font data", fonts, serviceName);
     library = TypefaceLibrary.parseFonts(fonts);
   }

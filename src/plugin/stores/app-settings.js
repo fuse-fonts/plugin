@@ -59,6 +59,20 @@ export const isPhotoshop = writable(true);
 
 export const outputLogToConsole = writable(true);
 
+ // this may be silly — but it's more about whether the other repos will load from local storage vs fetching directly from file system
+const LOAD_LOCAL_STORAGE = "use-local-storage";
+
+export const loadFromLocalStorage = (() => {
+  let initialValue = localStorage.getItem(LOAD_LOCAL_STORAGE) !== "false";
+
+  const store = writable(initialValue);
+
+  store.subscribe( value => localStorage.setItem(LOAD_LOCAL_STORAGE, value));
+
+  return store;
+})();
+
+
 /** fontPreviewAvailable
  * A store to control if we should allow font previews to be displayed
  * At smaller screen sizes it could look very broken
