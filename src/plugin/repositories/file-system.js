@@ -37,6 +37,8 @@ const saveJSON = (data) => {
   else {
     error(`Could not save backup file. Error: ${result.err}`, result, serviceName);
   }
+
+  return result.err === fs.NO_ERROR;
 };
 
 const loadJSON = () => {
@@ -84,6 +86,7 @@ const saveErrorFile = async (id, text) => {
 
 export default {
 
+  createFolderIfNotExists,
   backupDirectory,
   backupFileName,
   backupFilePath,

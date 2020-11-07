@@ -70,7 +70,7 @@ export default {
     // save for fast access
     saveToLocalStorage(json);
     // and also save to file system as a backup
-    fileSystemRepository.save(json);
+    return fileSystemRepository.save(json);
   },
 
   clear: () => removeFromLocalStorage(),
