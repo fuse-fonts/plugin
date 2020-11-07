@@ -1,6 +1,13 @@
 import { writable, readable, derived } from "svelte/store";
 import csInterface from "helpers/cs-interface.js";
 
+export const settingsOpened = writable(false);
+
+export const showTests = writable(false);
+
+export const displayLog = writable(false);
+
+
 /** app-settings
  *  App settings are runtime settings for controlling various top-level aspects of the experience.
  */

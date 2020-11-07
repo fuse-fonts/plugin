@@ -89,10 +89,12 @@ runTimeError.subscribe( $runTimeError => {
 });
 
 
+export const hideRuntimeError = writable(false);
+
 /**
  * Whether runTimeError is null
  */
-export const hasRuntimeError = derived(runTimeError, $runTimeError => $runTimeError !== null);
+export const hasRuntimeError = derived([runTimeError, hideRuntimeError], ([$runTimeError, $hideRuntimeError]) => $runTimeError !== null && !$hideRuntimeError);
 
 export class ErrorWithData extends Error {
   constructor(message, data) {

@@ -3,9 +3,9 @@
     import Collapsible from "components/Collapsible.svelte";
     import Icon from "components/Icon.svelte";
     import csInterface from "helpers/cs-interface.js";
-    import { hasRuntimeError, runTimeError, errorLogFiles, createErrorText } from "stores/error-service.js";
+    import { hasRuntimeError, runTimeError, hideRuntimeError, errorLogFiles, createErrorText } from "stores/error-service.js";
     import fileSystem from "repositories/file-system.js";
-    import { settingsOpened, displayLog } from "stores/user-settings.js";
+    import { settingsOpened, displayLog, showTests } from "stores/app-settings.js";
 
 
     function openLog(path) {
@@ -16,6 +16,7 @@
     }
 
     function openSettings() {
+        hideRuntimeError.set(true);
         settingsOpened.set(true);
     }
 
@@ -27,6 +28,15 @@
         window.location.reload();
     }
 
+    function openDiagnostics() {
+        hideRuntimeError.set(true);
+        showTests.set(true);
+    }
+
+    function hideError() {
+        hideRuntimeError.set(true);
+    }
+
 </script>
 
 <style>
@@ -35,11 +45,6 @@
         --color: var(--foreground-color);
         --background: var(--error-color);
 
-
-        padding: 2rem 2rem;
-        max-height: 100vh;
-        overflow-y: auto;
-        overflow-x: hidden;
     }
 
     header {
@@ -116,10 +121,9 @@
         <div class="error-icon">
             <Icon icon="report_problem" color="var(--error-color)" size="large" blink={true} />
         </div>
-        <h1>Fuse Fonts Unexpected Error</h1>
+        <p>Log files were generated from this error. <br /> If you repeatedly see this screen, you may need to contact support with these log files.</p>
     </header>
 
-    <p>Log files were generated from this error. <br /> If you repeatedly see this screen, you may need to contact support with these log files.</p>
 
     <h2>Caught Error</h2>
     <div class="error">
@@ -147,6 +151,7 @@
         <p>
             <button class="primary" on:click={reloadApp}>Reload Fuse Fonts</button>
             <button on:click={openSettings}>Open Settings</button>
+            <button on:click={openDiagnostics}>Open Diagnostics</button>
             <button on:click={toggleLog}>Toggle Logging</button>
         </p>
     </section>

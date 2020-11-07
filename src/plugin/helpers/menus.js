@@ -5,7 +5,7 @@ import csInterface from "helpers/cs-interface.js";
 
 // stores
 import { createGroup } from "stores/custom-groups.js";
-import { settingsOpened } from "stores/user-settings.js";
+import { settingsOpened } from "stores/app-settings.js";
 
 const supportURL = "https://github.com/fuse-fonts/issue-tracker/issues/new/choose";
 
