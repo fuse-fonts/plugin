@@ -35,7 +35,7 @@ export const test_LoadFontsCache = () => ({
 export const test_loadCustomGroups = () => ({
     label: "Load Custom Groups",
     group: GROUP.REPO,
-    run: async () => customGroupRepository.load().then(r => `Loaded ${r.length} custom groups`),
+    run: async () => customGroupRepository.load(get(typefaces)).then(r => `Loaded ${r.length} custom groups`),
 });
 
 
@@ -54,7 +54,7 @@ export const test_saveBackup = () => ({
 export const test_saveCustomGroups = () => ({
     label: "Save Custom Groups",
     group: GROUP.REPO,
-    run: async () => customGroupRepository.load()
+    run: async () => customGroupRepository.load(get(typefaces))
     .then(groups => {
         customGroupRepository.save(groups);
         return `Saved ${groups.length} groups`;

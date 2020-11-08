@@ -45,7 +45,6 @@ const convertModelToJSON = (result) => {
 export default {
 
   load: async (typefaces) => {
-    
     // if we can't laod from local storage, try our file system backup
     const data = loadFromLocalStorage() || fileSystemRepository.load();
 
