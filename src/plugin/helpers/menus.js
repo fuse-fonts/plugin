@@ -5,7 +5,7 @@ import csInterface from "helpers/cs-interface.js";
 
 // stores
 import { createGroup } from "stores/custom-groups.js";
-import { settingsOpened } from "stores/app-settings.js";
+import { settingsOpened, showTests } from "stores/app-settings.js";
 
 const supportURL = "https://github.com/fuse-fonts/issue-tracker/issues/new/choose";
 
@@ -43,6 +43,9 @@ export function menuAction(menuID) {
       break;
     case "reload-app":
       window.location.reload();
+      break;
+    case "diagnostics":
+      showTests.set(true);
       break;
   }
 
