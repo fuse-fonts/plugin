@@ -11,6 +11,9 @@ const target = document.getElementById("plugin");
 new FuseFontsPlugin({ target, });
 
 const loadFromLocalStorage = false;
-loadData(loadFromLocalStorage)
-  .then(() => loading.set(false));
+
+window.addEventListener("load", () => {
+  loadData(loadFromLocalStorage)
+    .then(() => loading.set(false));
+})
 

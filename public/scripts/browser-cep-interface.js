@@ -77,7 +77,8 @@ const _hostEnvironment = {
 
 const _extension = {
   id: "com.fusefonts",
-}
+  name: "Fuse Fonts"
+};
 
 const interface = "__adobe_cep__";
 
@@ -126,6 +127,7 @@ if (!window.__adobe_cep__) {
     },
     getExtensions: function(){
       console.log("__adobe_cep__.getExtensions called")
+      return JSON.stringify([_extension]);
     },
     getHostCapabilities: function(){
       console.log("__adobe_cep__.getHostCapabilities called")
