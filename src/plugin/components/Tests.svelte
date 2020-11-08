@@ -16,7 +16,6 @@
           results[test.label] = Promise.reject(err);
           return Promise.resolve();
         })
-        .finally(Promise.resolve());
 
       results[test.label] = nextSequence;
       return nextSequence;
