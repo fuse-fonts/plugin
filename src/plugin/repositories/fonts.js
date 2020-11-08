@@ -1,6 +1,8 @@
 import tryParseJSON from "helpers/try-parse-json.js";
 import csInterface from "helpers/cs-interface.js";
 import { info, warning, error } from "helpers/logger.js";
+import { runTimeError, ErrorWithData } from "stores/error-service.js";
+import { Deferred } from "helpers/utils.js";
 
 const GET_FONT_LIST_JSX = "getFontList()";
 const LOCALSTORAGE_FONTS = "fonts";
@@ -10,42 +12,69 @@ const loadFromLocalStorage = () => tryParseJSON(localStorage.getItem(LOCALSTORAG
 const saveToLocalStorage = (result) => localStorage.setItem(LOCALSTORAGE_FONTS, result);
 const purgeFromLocalStorage = () => localStorage.removeItem(LOCALSTORAGE_FONTS);
 
+const isEvalScriptError = (result) => (result || "").includes("EvalScript error");
+const loadScript = (scriptName) => {
+
+  const promise = new Deferred();
+
+  csInterface.evalScript(scriptName, result => {
+    if (isEvalScriptError(result)) {
+      promise.reject(result);
+      return;
+    }
+
+    promise.resolve(result);
+  });
+
+  return promise;
+}
+
+
 /** Loads the fonts using our host JSX function
  * @returns {Promise} Returns a promise that resolves to a Typefaces list, 
  *                    or rejects if it failed to retrieve data.
  */
-const loadFromFileSystem = () => {
-  return new Promise((resolve, reject) => csInterface.evalScript(GET_FONT_LIST_JSX, (result) => {
-    const fonts = tryParseJSON(result);
-    if (fonts === null ) return reject();
+const loadFromFileSystem = async () => {
 
-    // cache for future lookups
-    // saveToLocalStorage(result);
-    const initialFontsLength = fonts.length;
-    const set = new Set();
-    const dupes = [];
-    const uniqueFonts = fonts.filter( font => {
-      if (set.has(font.postScriptName)) {
-        dupes.push(font);
-        return false;
-      }
+  const loadFontDeferred = loadScript(GET_FONT_LIST_JSX).promise;
 
-      set.add(font.postScriptName);
-      
-      return true;
-    });
-    
-    const dupesCount = initialFontsLength - uniqueFonts.length;
+  loadFontDeferred.catch( evalError => {
+    error(`EvalScript Error from '${GET_FONT_LIST_JSX}'`, evalError, "fonts repo");
+  });
 
-    if (dupesCount > 0) {
-      console.warn(`Found ${dupesCount} duplicate fonts.`);
-      console.log(initialFontsLength,  uniqueFonts.length);
-      console.log(dupes);
+  let result = await loadFontDeferred;
+
+  if (isEvalScriptError(result)) {
+    result = null;
+  }
+
+  const fonts = tryParseJSON(result);
+
+  if (fonts === null ) {
+    throw new ErrorWithData(`Failed to fetch fonts from filesystem`, result);
+  }
+
+  const initialFontsLength = fonts.length;
+  const set = new Set();
+  const dupes = [];
+  const uniqueFonts = fonts.filter( font => {
+    if (set.has(font.postScriptName)) {
+      dupes.push(font);
+      return false;
     }
-    
 
-    resolve(uniqueFonts);
-  }));
+    set.add(font.postScriptName);
+    
+    return true;
+  });
+  
+  const dupesCount = initialFontsLength - uniqueFonts.length;
+
+  if (dupesCount > 0) {
+    warning(`Found ${dupesCount} duplicate fonts.`, dupes, "font repo");
+  }
+
+  return uniqueFonts;
 }
 
 const serviceName = "fonts service";
@@ -53,10 +82,14 @@ const serviceName = "fonts service";
 /** Try to Load fonts from local storage, then from the file system
  * @returns {[Typeface]|null} Returns data, or null if there was a problem
  */
-async function loadFonts() {
+async function loadFonts(useLocalstorage) {
   info("Loading", null, serviceName);
   
-  let fonts = loadFromLocalStorage();
+  let fonts = null;
+
+  if (useLocalstorage) {
+    fonts = loadFromLocalStorage();
+  }
 
   if (fonts === null) {
     warning("Fonts not in local storage", null, serviceName);
@@ -78,7 +111,9 @@ async function loadFonts() {
  * 
  */
 export default {
+  loadScript,
+  GET_FONT_LIST_JSX,
   save: (data) => saveToLocalStorage(data),
-  load: () => loadFonts(),
+  load: (useLocalstorage) => loadFonts(useLocalstorage),
   purge: () => purgeFromLocalStorage(),
 }

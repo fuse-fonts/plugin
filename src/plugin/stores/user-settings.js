@@ -57,7 +57,3 @@ function resetableSettingsStore() {
 }
 
 export const settings = resetableSettingsStore();
-
-export const settingsOpened = writable(false);
-
-export const displayLog = writable(false);

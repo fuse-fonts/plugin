@@ -37,6 +37,8 @@ const saveJSON = (data) => {
   else {
     error(`Could not save backup file. Error: ${result.err}`, result, serviceName);
   }
+
+  return result.err === fs.NO_ERROR;
 };
 
 const loadJSON = () => {
@@ -61,11 +63,35 @@ const lastBackup = () => {
   }
 }
 
+const saveErrorFile = async (id, text) => {
+  createFolderIfNotExists();
+  
+  const errorServiceName = "error log service";
+  const errorFileName = `fusefonts-error_${id}.txt`;
+  const errorFilePath = `${backupDirectory}/${errorFileName}`;
+
+  info("Saving...", errorFilePath, errorServiceName);
+
+  const result = fs.writeFile(errorFilePath, text);
+
+  if (result.err !== fs.NO_ERROR) {
+    error(`Could not save backup file. Error: ${result.err}`, result, errorServiceName);
+    throw new Error(`Could not save file. Error: ${result.err}`);
+  }
+
+  info(`Saved.`, errorFilePath, errorServiceName);
+
+  return errorFilePath;
+}
+
 export default {
 
+  createFolderIfNotExists,
   backupDirectory,
   backupFileName,
   backupFilePath,
+
+  saveErrorFile,
 
   lastBackup,
 

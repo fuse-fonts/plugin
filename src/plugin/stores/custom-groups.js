@@ -105,20 +105,20 @@ export const allFontsGroup = writable(allFonts);
  */
 export const loadCustomGroups = (typefaces) => {
 
-  // create our "all fonts" group using all the typfaces
+  // create our "all fonts" group using all the typefaces
   allFonts.updateTypeFaces(typefaces);
-  // allFontsGroup.set(allFonts)
   selected.set(allFonts);
 
-  return customGroupRepository.load(typefaces).then((data) => {
-    if (data !== null) {
-      customGroups.set(data);
-    }
+  return customGroupRepository.load(typefaces)
+    .then((data) => {
+      if (data !== null) {
+        customGroups.set(data);
+      }
 
-    customGroups.subscribe(data => {
-      customGroupRepository.save(data);
-    });
-  });
+      customGroups.subscribe(data => {
+        customGroupRepository.save(data);
+      });
+    })
 }
 
 export const clearCustomGroups = () => {

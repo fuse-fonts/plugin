@@ -36,7 +36,8 @@
     
     import IconButton from "components/IconButton.svelte";
     import { selected, createGroup, deleteSelectedGroup } from "stores/custom-groups.js";
-    import { settings, settingsOpened } from "stores/user-settings.js";
+    import { settings } from "stores/user-settings.js";
+    import { settingsOpened } from "stores/app-settings.js";
     import CustomGroup from "datatypes/custom-group.js";
     import { createEventDispatcher } from 'svelte';
     

@@ -19,7 +19,10 @@
   }
 
   .large {
+    line-height: 1em;
     font-size: 36px;
+    width: 1em;
+    margin: 0 auto;
   }
 
   .blink {

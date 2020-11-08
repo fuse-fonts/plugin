@@ -1,10 +1,11 @@
 
 import FuseFontsPlugin from "FuseFontsPlugin.svelte";
+import { get } from "svelte/store";
 import { detectTheme, addThemeChangeListener } from "helpers/theme.js";
 import { initializeMenu, initializeContextMenu, } from "helpers/menus.js";
 
 import { loadData } from "stores/typefaces.js";
-import { loading, isPanelVisible, isPersistant, panelTitle } from "stores/app-settings.js";
+import { loading, isPanelVisible, isPersistant, panelTitle, loadFromLocalStorage } from "stores/app-settings.js";
 import csInterface from "helpers/cs-interface.js";
 
 detectTheme();
@@ -18,7 +19,10 @@ new FuseFontsPlugin({
 
 window.addEventListener('load', (event) => {
   
-  loadData()
+  // if the user set themeselves to bypass local storage
+  const useLocalStorage = get(loadFromLocalStorage);
+
+  loadData(useLocalStorage)
     .then(() => {
 
       // set panel title via store
@@ -30,7 +34,9 @@ window.addEventListener('load', (event) => {
       // watch for panel visibility
       // this is important so that we don't end up up dividing screen height by zero
       isPanelVisible.subscribe( isVisible => loading.set(!isVisible));
-    });
+    }).catch( reason => {
+      console.trace(reason);
+    })
 });
 
 initializeMenu();
