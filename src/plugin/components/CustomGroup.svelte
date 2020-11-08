@@ -20,7 +20,7 @@
 {:else}
   
   <Icon 
-    color={drophover ? "var(--selected-color)" : "var(--muted-color)"} 
+    color={iconColor} 
     icon={group.permanent ? "text_format" : dropped ? "done" : "folder" } />
 
   <h1 class:tiled class="group-name">{group.name}</h1>
@@ -104,6 +104,9 @@
   export let selected = false;
   export let editing = false;
   export let tiled = false;
+
+  $: iconColor = drophover ? "var(--selected-color)" : group.color;
+
   let dropped = false;
 
   export const DROPPED_EVENT = "dropped";

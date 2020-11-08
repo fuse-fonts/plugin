@@ -1,6 +1,8 @@
 import TypefaceLibrary from "datatypes/typeface-library.js";
 import uuid from "helpers/uuid.js";
 
+const DEFAULT_COLOR = "var(--muted-color)";
+
 export default class CustomGroup {
 
   constructor(name, ID, permanent = false) {
@@ -9,10 +11,15 @@ export default class CustomGroup {
     this.typefaces = new TypefaceLibrary();
     this.isNew = false;
     this.permanent = permanent;
+    this.color = DEFAULT_COLOR;
   }
 
   updateTypeFaces(typefaces) {
     this.typefaces = typefaces;
+  }
+
+  setColor(color) {
+    this.color = color || DEFAULT_COLOR;
   }
 
   static getDefaultName(otherGroups) {
