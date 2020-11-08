@@ -7,7 +7,8 @@ import { runTimeError } from "stores/error-service.js";
 /**
  * 
  */
-export const typefaces = writable({});
+export const typefaces = writable(null);
+
 
 let unsubscribe = null;
 //
@@ -18,7 +19,6 @@ export const loadData = (useLocalstorage) => {
       typefaces.set(data);
       // after the real data is loaded — any changes we then save to local storage
       unsubscribe = typefaces.subscribe(data => typefaceRepository.save(data));
-
     })
     .catch((ex) => {
       runTimeError.set(ex.message, ex.data);

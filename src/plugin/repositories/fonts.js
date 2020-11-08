@@ -111,6 +111,8 @@ async function loadFonts(useLocalstorage) {
  * 
  */
 export default {
+  loadScript,
+  GET_FONT_LIST_JSX,
   save: (data) => saveToLocalStorage(data),
   load: (useLocalstorage) => loadFonts(useLocalstorage),
   purge: () => purgeFromLocalStorage(),

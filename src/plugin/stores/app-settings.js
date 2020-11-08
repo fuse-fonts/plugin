@@ -3,7 +3,7 @@ import csInterface from "helpers/cs-interface.js";
 
 export const settingsOpened = writable(false);
 
-export const showTests = writable(true);
+export const showTests = writable(false);
 
 export const displayLog = writable(false);
 

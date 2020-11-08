@@ -1,16 +1,36 @@
 <script>
   import { allTests } from "tests/tests.js";
   import { onMount } from "svelte";
+  import Icon from "components/Icon.svelte";
+  import { outputLogToConsole } from "stores/app-settings.js";
 
   async function run() {
     isRunning = true;
-    const completed = allTests.map(test => results[test.label] = test.run() || Promise.resolve());
+    outputLogToConsole.set(false);
+    console.group("Performing Tests");
+    const completed = allTests.reduce((chain, test) => {
 
-    await Promise.all(completed)
+      const nextSequence = chain
+        .then(() => test.run() || Promise.resolve())
+        .catch((err) => {
+          results[test.label] = Promise.reject(err);
+          return Promise.resolve();
+        })
+        .finally(Promise.resolve());
+
+      results[test.label] = nextSequence;
+      return nextSequence;
+
+    }, Promise.resolve());
+
+    await completed;
     isRunning = false;
+    console.groupEnd("Performing Tests");
+    outputLogToConsole.set(true);
   }
 
   let isRunning = false;
+
   const results = {};
 
   // group by the test
@@ -35,20 +55,27 @@
 
   const tests = [...groupedItems.values()];
 
+  let result = null;
+  const view = r => result = r;
+  const disabled = true;
+
   onMount(() => run());
+
 </script>
 
 <style>
-  button {
-    background: var(--accent-color);
-  }
+
 
   button[disabled] {
-    background: var(--panel-color-0);
+    background: var(--panel-layer-0);
+  }
+
+  h2 {
+    font-weight: 200;
   }
 
   table {
-    margin: 1rem 0;
+    margin-bottom: 2rem;
     font-size: 1.2em;
     width: 100%;
     border: var(--panel-border);
@@ -71,12 +98,12 @@
     border: var(--panel-border);
   }
 
-  tr > td {
+  tr td {
     width: 33%;
   }
 
   .running {
-    color: var(--accent-color);
+    color: var(--muted-color);
   }
 
   .passed {
@@ -94,6 +121,15 @@
   .suite h4 {
     margin-top: 2rem;
   }
+
+  .result-view {
+    padding: 0.5rem 1rem;
+    background: var(--panel-layer-0);
+    color: #fff;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
 </style>
 
 <button on:click={run} disabled={isRunning}>
@@ -101,7 +137,7 @@
 </button>
 
 {#each tests as testGroup}
-  <h3>{testGroup.label}</h3>
+  <h2>{testGroup.label}</h2>
   <table>
     <thead>
       <tr>
@@ -117,13 +153,19 @@
           {#if results[testRun.label]}
             {#await results[testRun.label]}
               <td class:running={true}>Running...</td>
-              <td>—</td>
+              <td> 
+                <button {disabled}>View</button>
+                </td>
             {:then result}
-              <td class:passed={true}>Passed</td>
-              <td>{result}</td>
+              <td class:passed={true}> <Icon icon="done" /> Passed</td>
+              <td> 
+                <button on:click={() => view(result)}>View</button>
+              </td>
             {:catch result}
-              <td class:failed={true}>Failed</td>
-              <td>{result}</td>
+              <td class:failed={true}><Icon icon="report_problem" />  Failed</td>
+              <td> 
+                <button on:click={() => view(result)}>View</button>
+              </td>
             {/await}
           {:else}
             <td>Ready</td>
@@ -134,3 +176,12 @@
     </tbody>
   </table>
 {/each}
+
+{#if result !== null}
+  <div class="result-view">
+      <code>{result}</code>
+      <button on:click={() => view(null)}>
+        <Icon icon="close" />
+      </button>
+  </div>
+{/if}
